@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg_10;
+package it.polimi.ingsw.cg10;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
