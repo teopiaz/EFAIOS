@@ -1,0 +1,10 @@
+/target/
+/.project
+/Layered.atxa
+/.classpath
+/.settings
+.DS_Store
+.*~
+.metadata
+._*
+
