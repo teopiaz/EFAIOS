@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg10;
+package it.polimi.ingsw.cg15;
 
 /**
  * Hello world!
@@ -18,10 +18,14 @@ public class App
 	
     public static void main( String[] args )
     {
-    	
+    	Field map = new Field(3,5);
+
+    	int d = map.getCell(20, 2).distance(map.getCell(3, 4));
+    	System.out.println(d);
+
+    	map.printMap();
     	
     	LOGGER.debug("Hello World");
     	
-       // System.out.println( "Hello World1!" );
     }
 }

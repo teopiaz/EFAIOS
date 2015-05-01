@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg10;
+package it.polimi.ingsw.cg15;
 
 
 import java.util.*;
@@ -29,9 +29,7 @@ public abstract class Player {
     /**
      * @return
      */
-    public void muovi() {
-
-    }
+    public abstract void muovi();
 
     /**
      * @return

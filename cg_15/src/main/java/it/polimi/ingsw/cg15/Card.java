@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg10;
+package it.polimi.ingsw.cg15;
 
 public class Card {
 

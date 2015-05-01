@@ -1,7 +1,4 @@
-package it.polimi.ingsw.cg10;
-
-
-import java.util.*;
+package it.polimi.ingsw.cg15;
 
 /**
  * 
@@ -28,4 +25,6 @@ public class Human extends Player {
 
     }
 
+        
+    
 }
