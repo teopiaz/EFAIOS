@@ -8,9 +8,22 @@ import org.junit.Test;
 public class AlienTest {
 
 	@Test
-	public void testProva() {
+	public void testMove() {
 		
 		Alien a = new Alien();
+		Field map = new Field(5, 5);
+		Cell cell = new Cell(1, 1, map);
+		a.position = cell;
+		Cell dest = new Cell(1,2,map);
+		a.move(dest);
+		assertEquals(a.position, dest);
+		
+		Cell dest2 = new Cell(5,5,map);
+		a.move(dest);
+		assertEquals(a.position, dest);
+		a.move(null);
+		assertEquals(a.position, dest);
+
 		
 	}
 

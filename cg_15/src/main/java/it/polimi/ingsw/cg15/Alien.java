@@ -14,7 +14,11 @@ public class Alien extends Player {
     /**
      * @return
      */
-    public void muovi() {
+	@Override
+    public void move(Cell dest) {
+    	if(this.position.distance(dest)<=2){
+    		this.position=dest;
+    	}
     }
 
     /**
@@ -22,5 +26,7 @@ public class Alien extends Player {
      */
     private void pesca() {
     }
+
+
 
 }

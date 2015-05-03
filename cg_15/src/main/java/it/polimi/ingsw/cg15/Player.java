@@ -12,7 +12,7 @@ public abstract class Player {
     /**
      * 
      */
-    private Cell position;
+    protected Cell position;
 
     /**
      * 
@@ -29,7 +29,7 @@ public abstract class Player {
     /**
      * @return
      */
-    public abstract void muovi();
+    public abstract void move(Cell dest);
 
     /**
      * @return

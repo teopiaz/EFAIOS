@@ -11,12 +11,6 @@ public class Human extends Player {
     public Human() {
     }
 
-    /**
-     * @return
-     */
-    public void muovi() {
-
-    }
 
     /**
      * @return
@@ -24,6 +18,13 @@ public class Human extends Player {
     private void pesca() {
 
     }
+
+
+	@Override
+	public void move(Cell dest) {
+		// TODO Auto-generated method stub
+		
+	}
 
         
     

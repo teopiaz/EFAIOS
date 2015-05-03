@@ -10,7 +10,7 @@ public class Cell {
 
 	private Colore color;
 	private Field map;
-	
+
 	private final int x,y,z;
 	private final String label;
 
@@ -19,7 +19,7 @@ public class Cell {
 		this.y = y;
 		this.z = z;
 		this.map = map;
-		
+
 		String tmp;
 		tmp = new String(""+((char)(x+64)));
 		if((z+1)<10)
@@ -31,8 +31,10 @@ public class Cell {
 		this(q,-q-r,r,map);
 	}
 
+	//TODO: handle null parameter
 	public int distance(Cell b){
 		return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z - b.getZ())) / 2;
+
 	}
 
 	public int getX() {
