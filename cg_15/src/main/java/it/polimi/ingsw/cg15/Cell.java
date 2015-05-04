@@ -33,6 +33,9 @@ public class Cell {
 
 	//TODO: handle null parameter
 	public int distance(Cell b){
+		if(b==null){
+			throw new IllegalArgumentException("destination parameter cannot be null");
+		}
 		return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z - b.getZ())) / 2;
 
 	}
