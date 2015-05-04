@@ -1,5 +1,12 @@
 package it.polimi.ingsw.cg15;
 
+import java.util.List;
+
+import it.polimi.ingsw.cg15.cards.DeckContainer;
+import it.polimi.ingsw.cg15.cards.ItemCard;
+import it.polimi.ingsw.cg15.cards.SectorCard;
+import it.polimi.ingsw.cg15.model.field.Field;
+
 /**
  * Hello world!
  *
@@ -20,8 +27,32 @@ public class App
     {
     	Field map = new Field(3,5);
 
-    	int d = map.getCell(20, 2).distance(map.getCell(3, 4));
-    	System.out.println(d);
+    	List<SectorCard> sec = DeckContainer.getSectorDeck();
+    	List<ItemCard> item = DeckContainer.getItemDeck();
+    	
+       	
+    	for (SectorCard sectorCard : sec) {
+		    System.out.println(sectorCard.hasItemIcon() +" "+ sectorCard.getClass().toString());
+			
+		}
+       	
+    	for (ItemCard itemCard : item) {
+		    System.out.println(itemCard.getClass().toString());
+
+		}
+    	
+    	while(DeckContainer.itemCounter()>1){
+    	DeckContainer.getItemCard();
+    	}
+    	ItemCard card = DeckContainer.getItemCard();
+    	System.out.println(card + " ultima");
+    	DeckContainer.discardItemCard(card);
+    	card = DeckContainer.getItemCard();
+    	System.out.println(card + " rimessa e ripescata");
+
+    	
+    	//int d = map.getCell(20, 2).distance(map.getCell(3, 4));
+    	//System.out.println(d);
 
     	map.printMap();
     	

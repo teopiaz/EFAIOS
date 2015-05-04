@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15;
+package it.polimi.ingsw.cg15.model.field;
 
 
 import com.google.common.collect.Table;
@@ -36,7 +36,7 @@ public class Field {
 		this.q=q;
 		for(int i=1;i<r+1;i++){
 			for(int j=1;j<q+1;j++){
-				map.put(i, j, new Cell(i,j,this));
+				map.put(i, j, new Cell(i,j,this,CellColor.WHITE));
 			}
 		}
 	}

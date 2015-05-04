@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg15;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg15.Alien;
 import it.polimi.ingsw.cg15.exception.InvalidAction;
+import it.polimi.ingsw.cg15.model.field.Cell;
+import it.polimi.ingsw.cg15.model.field.CellColor;
+import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.player.Alien;
 
 import org.junit.Test;
 
@@ -10,32 +13,29 @@ public class AlienTest {
 
 	@Test
 	public void testMove() {
-		
-		Alien a = new Alien();
 		Field map = new Field(5, 5);
-		Cell cell = new Cell(1, 1, map);
-		a.position = cell;
-		Cell dest = new Cell(1,2,map);
+		Cell cell = new Cell(1, 1, map,CellColor.WHITE);
+		Alien a = new Alien(cell);
+		Cell dest = new Cell(1,2,map,CellColor.WHITE);
 		a.move(dest);
-		assertEquals(a.position, dest);
-		
-		Cell dest2 = new Cell(5,5,map);
-		a.move(dest);
-		assertEquals(a.position, dest);
-	
+		assertEquals(a.getPosition(), dest);
+		Cell dest2 = new Cell(5,2,map,CellColor.WHITE);
+		a.move(dest2);
+		assertEquals(a.getPosition(), dest);
+
 	}
-	
+
 	@Test(expected=InvalidAction.class)
 	public void testMoveNull() {
-		Alien a = new Alien();
+		
 		Field map = new Field(5, 5);
-		Cell cell = new Cell(1, 1, map);
-		a.position = cell;
+		Cell cell = new Cell(1, 1, map,CellColor.WHITE);
+		Alien a = new Alien(cell);
 		a.move(null);
-		assertEquals(a.position, cell);
+		assertEquals(a.getPosition(), cell);
 
 	}
 
-	
+
 
 }

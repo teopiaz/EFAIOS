@@ -1,6 +1,7 @@
-package it.polimi.ingsw.cg15;
+package it.polimi.ingsw.cg15.model.player;
 
 import it.polimi.ingsw.cg15.exception.*;
+import it.polimi.ingsw.cg15.model.field.Cell;
 
 /**
  * 
@@ -10,7 +11,8 @@ public class Alien extends Player {
     /**
      * 
      */
-    public Alien() {
+    public Alien(Cell origin) {
+    	super(origin);
     }
 
     /**
@@ -27,11 +29,6 @@ public class Alien extends Player {
 		}
     }
 
-    /**
-     * @return
-     */
-    private void pesca() {
-    }
 
 
 

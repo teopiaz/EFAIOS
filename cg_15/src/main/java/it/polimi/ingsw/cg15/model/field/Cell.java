@@ -1,4 +1,10 @@
-package it.polimi.ingsw.cg15;
+package it.polimi.ingsw.cg15.model.field;
+
+import it.polimi.ingsw.cg15.exception.InvalidAction;
+import it.polimi.ingsw.cg15.model.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -6,19 +12,20 @@ package it.polimi.ingsw.cg15;
 public class Cell {
 
 
-	private String identifier;
 
-	private Colore color;
+	private CellColor color;
 	private Field map;
+	private List<Player> players = new ArrayList<Player>();
 
 	private final int x,y,z;
 	private final String label;
 
-	public Cell(int x, int y, int z,Field map) {
+	public Cell(int x, int y, int z,Field map,CellColor color) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.map = map;
+		this.color = color;
 
 		String tmp;
 		tmp = new String(""+((char)(x+64)));
@@ -27,8 +34,8 @@ public class Cell {
 		label = new String(tmp+(z));
 	}
 
-	public Cell(int r, int q, Field map){
-		this(q,-q-r,r,map);
+	public Cell(int r, int q, Field map,CellColor color){
+		this(q,-q-r,r,map,color);
 	}
 
 	//TODO: handle null parameter
@@ -54,7 +61,19 @@ public class Cell {
 	public String getLabel(){
 		return new String(this.label);
 	}
+	
+	public void addPlayer(Player player){
+		this.players.add(player);
+	}
 
+	public void removePlayer(Player player){
+		if(players.contains(player)){
+			players.remove(player);
+		}
+		else{
+			throw new InvalidAction("player non presente nella cella");
+		}
+	}
 
 
 
