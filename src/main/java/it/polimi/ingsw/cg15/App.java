@@ -1,16 +1,16 @@
 package it.polimi.ingsw.cg15;
 
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.util.List;
-
 import it.polimi.ingsw.cg15.cards.DeckContainer;
 import it.polimi.ingsw.cg15.cards.ItemCard;
 import it.polimi.ingsw.cg15.cards.SectorCard;
+import it.polimi.ingsw.cg15.cards.SectorGreen;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.CellColor;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Human;
 import it.polimi.ingsw.cg15.model.player.Player;
+
+import java.util.List;
 
 /**
  * Hello world!
@@ -34,13 +34,15 @@ public class App
 
     	List<SectorCard> sec = DeckContainer.getSectorDeck();
     	List<ItemCard> item = DeckContainer.getItemDeck();
-    	
+    	/*
     	Player umano = new Human(new Cell(1,1,map,CellColor.WHITE));
     	
     	umano.drawSectorCard();
     	
+    	*/
+    	SectorCard prova = new SectorGreen(true);
     	
-    	
+    	prova.action();
        /*	
     	for (SectorCard sectorCard : sec) {
 		    System.out.println(sectorCard.hasItemIcon() +" "+ sectorCard.getClass().toString());

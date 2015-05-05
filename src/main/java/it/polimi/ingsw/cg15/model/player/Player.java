@@ -34,9 +34,10 @@ public abstract class Player {
     	return this.position;
     }
     
-    public void drawSectorCard(){
+    public SectorCard drawSectorCard(){
     	SectorCard card = DeckContainer.getSectorCard();
     	card.action();
+    	return card;
     }
     
     /**
