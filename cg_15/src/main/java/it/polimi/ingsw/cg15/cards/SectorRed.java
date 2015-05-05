@@ -9,6 +9,7 @@ public class SectorRed extends SectorCard {
 	
 	@Override
 	public void action() {
+		System.out.println("pescata carta settore Rossa oggetto: "+this.itemIcon);
 
 	}
 

@@ -15,6 +15,10 @@ public class Human extends Player {
     	super(origin);
     }
 
+    public void drawSectorCard() {
+    	//super().drawSectorCard();
+    	
+    }
 
 
 

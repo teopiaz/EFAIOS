@@ -5,7 +5,7 @@
   <groupId>it.polimi.ingsw</groupId>
   <artifactId>cg_10</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>cg_10</name>
+  <name>cg_15</name>
   <url>http://maven.apache.org</url>
   <properties>
     <sonar.language>java</sonar.language>
@@ -20,8 +20,14 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.12</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <repositories>
@@ -48,22 +54,22 @@
     </pluginRepository>
   </pluginRepositories>
   <build>
-    <sourceDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/src/main/java</sourceDirectory>
-    <scriptSourceDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/src/main/scripts</scriptSourceDirectory>
-    <testSourceDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/src/test/java</testSourceDirectory>
-    <outputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/classes</outputDirectory>
-    <testOutputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/test-classes</testOutputDirectory>
+    <sourceDirectory>/Users/matteo/git/aliens/cg_15/src/main/java</sourceDirectory>
+    <scriptSourceDirectory>/Users/matteo/git/aliens/cg_15/src/main/scripts</scriptSourceDirectory>
+    <testSourceDirectory>/Users/matteo/git/aliens/cg_15/src/test/java</testSourceDirectory>
+    <outputDirectory>/Users/matteo/git/aliens/cg_15/target/classes</outputDirectory>
+    <testOutputDirectory>/Users/matteo/git/aliens/cg_15/target/test-classes</testOutputDirectory>
     <resources>
       <resource>
-        <directory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/src/main/resources</directory>
+        <directory>/Users/matteo/git/aliens/cg_15/src/main/resources</directory>
       </resource>
     </resources>
     <testResources>
       <testResource>
-        <directory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/src/test/resources</directory>
+        <directory>/Users/matteo/git/aliens/cg_15/src/test/resources</directory>
       </testResource>
     </testResources>
-    <directory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target</directory>
+    <directory>/Users/matteo/git/aliens/cg_15/target</directory>
     <finalName>cg_10-0.0.1-SNAPSHOT</finalName>
     <pluginManagement>
       <plugins>
@@ -203,7 +209,7 @@
               <goal>site</goal>
             </goals>
             <configuration>
-              <outputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/site</outputDirectory>
+              <outputDirectory>/Users/matteo/git/aliens/cg_15/target/site</outputDirectory>
               <reportPlugins>
                 <reportPlugin>
                   <groupId>org.apache.maven.plugins</groupId>
@@ -219,7 +225,7 @@
               <goal>deploy</goal>
             </goals>
             <configuration>
-              <outputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/site</outputDirectory>
+              <outputDirectory>/Users/matteo/git/aliens/cg_15/target/site</outputDirectory>
               <reportPlugins>
                 <reportPlugin>
                   <groupId>org.apache.maven.plugins</groupId>
@@ -230,7 +236,7 @@
           </execution>
         </executions>
         <configuration>
-          <outputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/site</outputDirectory>
+          <outputDirectory>/Users/matteo/git/aliens/cg_15/target/site</outputDirectory>
           <reportPlugins>
             <reportPlugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -242,6 +248,6 @@
     </plugins>
   </build>
   <reporting>
-    <outputDirectory>/Users/matteo/Documents/Università/EscapeFromAliens/aliens/cg_10/target/site</outputDirectory>
+    <outputDirectory>/Users/matteo/git/aliens/cg_15/target/site</outputDirectory>
   </reporting>
 </project>

@@ -4,6 +4,7 @@ public class SectorSilence extends SectorCard {
 
 	@Override
 	public void action() {
+		System.out.println("pescata carta settore Silenzio");
 
 	}
 

@@ -37,6 +37,10 @@ public class DeckContainer {
 		generateItemDeck();
 	}
 
+	
+	private DeckContainer(){
+		
+	}
 
 	private static void generateSectorDeck(){
 		for(int i=0;i<sectorItem;i++){
