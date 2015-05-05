@@ -1,0 +1,6 @@
+eclipse.preferences.version=1
+extraProperties=sonar.jdbc.username\=sonar\r\nsonar.jdbc.driver\=com.mysql.jdbc.Driver\r\nsonar.host.url\=http\://192.168.56.101\:9000/\r\nsonar.jdbc.password\=sonar\r\nsonar.jdbc.url\=jdbc\:mysql\://192.168.56.101\:3306/sonar\r\nsonar.language\=java
+lastAnalysisDate=1429310585217
+projectKey=it.polimi.ingsw\:cg_10
+serverUrl=http\://192.168.56.101\:9000
+version=2
