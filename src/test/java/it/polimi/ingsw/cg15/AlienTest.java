@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg15;
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.exception.InvalidAction;
 import it.polimi.ingsw.cg15.model.field.Cell;
-import it.polimi.ingsw.cg15.model.field.CellColor;
+import it.polimi.ingsw.cg15.model.field.Sector;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Alien;
 
@@ -14,13 +14,13 @@ public class AlienTest {
 	@Test
 	public void testMove() {
 		Field map = new Field(5, 5);
-		Cell cell = new Cell(1, 1, map,CellColor.WHITE);
+		Cell cell = new Cell(1, 1, map,Sector.WHITE);
 		Alien a = new Alien(cell);
-		Cell dest = new Cell(1,2,map,CellColor.WHITE);
-		a.move(dest);
+		Cell dest = new Cell(1,2,map,Sector.WHITE);
+		a.setPosition(dest);
 		assertEquals(a.getPosition(), dest);
-		Cell dest2 = new Cell(5,2,map,CellColor.WHITE);
-		a.move(dest2);
+		Cell dest2 = new Cell(5,2,map,Sector.WHITE);
+		a.setPosition(dest2);
 		assertEquals(a.getPosition(), dest);
 
 	}
@@ -29,9 +29,9 @@ public class AlienTest {
 	public void testMoveNull() {
 		
 		Field map = new Field(5, 5);
-		Cell cell = new Cell(1, 1, map,CellColor.WHITE);
+		Cell cell = new Cell(1, 1, map,Sector.WHITE);
 		Alien a = new Alien(cell);
-		a.move(null);
+		a.setPosition(null);
 		assertEquals(a.getPosition(), cell);
 
 	}

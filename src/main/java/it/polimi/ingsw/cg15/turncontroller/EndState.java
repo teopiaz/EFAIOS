@@ -13,4 +13,9 @@ public class EndState implements State {
     public EndState() {
     }
 
+	public void action() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

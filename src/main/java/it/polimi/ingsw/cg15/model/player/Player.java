@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg15.model.player;
 
 
-import it.polimi.ingsw.cg15.controller.cards.Card;
 import it.polimi.ingsw.cg15.controller.cards.strategy.CardStrategy;
 import it.polimi.ingsw.cg15.model.cards.DeckContainer;
+import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
 
 /**
@@ -20,7 +20,7 @@ public abstract class Player {
     /**
      * 
      */
-    public Card[] cards;
+    public ItemCard[] cards;
 
 
     /**
@@ -38,7 +38,7 @@ public abstract class Player {
     /**
      * @return
      */
-    public abstract void move(Cell dest);
+    public abstract void setPosition(Cell dest);
 
 
 

@@ -11,21 +11,19 @@ import java.util.List;
  */
 public class Cell {
 
-
-
-	private CellColor color;
+    private Sector sectorType;
 	private Field map;
 	private List<Player> players = new ArrayList<Player>();
 
 	private final int x,y,z;
 	private final String label;
 
-	public Cell(int x, int y, int z,Field map,CellColor color) {
+	public Cell(int x, int y, int z,Field map,Sector sectorType) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 		this.map = map;
-		this.color = color;
+		this.sectorType = sectorType;
 
 		String tmp;
 		tmp = new String(""+((char)(x+64)));
@@ -34,12 +32,12 @@ public class Cell {
 		label = new String(tmp+(z));
 	}
 
-	public Cell(int r, int q, Field map,CellColor color){
-		this(q,-q-r,r,map,color);
+	public Cell(int r, int q, Field map,Sector sectorType){
+		this(q,-q-r,r,map,sectorType);
 	}
 
 	//TODO: handle null parameter
-	public int distance(Cell b){
+	public int getDistance(Cell b){
 		if(b==null){
 			throw new IllegalArgumentException("destination parameter cannot be null");
 		}

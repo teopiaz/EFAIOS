@@ -1,8 +1,7 @@
 package it.polimi.ingsw.cg15.controller.cards.strategy;
 
-import it.polimi.ingsw.cg15.controller.cards.Card;
 
-public class ItemSpotlight implements Card{
+public class ItemSpotlight implements CardStrategy {
 
 	public void action() {
 		// TODO Auto-generated method stub

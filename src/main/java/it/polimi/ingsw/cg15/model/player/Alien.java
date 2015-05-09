@@ -19,14 +19,8 @@ public class Alien extends Player {
      * @return
      */
 	@Override
-    public void move(Cell dest) {
-		try{
-    	if(this.position.distance(dest)<=2){
-    		this.position=dest;
-    	}
-		}catch(IllegalArgumentException e){
-			throw new InvalidAction();
-		}
+    public void setPosition(Cell dest) {
+		this.position=dest;
     }
 
 

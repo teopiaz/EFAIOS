@@ -13,7 +13,7 @@ public class Human extends Player {
 	}
 
 	@Override
-	public void move(Cell dest) {
+	public void setPosition(Cell dest) {
 		// TODO Auto-generated method stub
 		
 	}

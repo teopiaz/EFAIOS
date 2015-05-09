@@ -12,4 +12,9 @@ public class ItemState implements State {
     public ItemState() {
     }
 
+	public void action() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

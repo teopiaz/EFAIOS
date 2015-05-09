@@ -13,4 +13,9 @@ public class AttackState implements State {
     public AttackState() {
     }
 
+	public void action() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
