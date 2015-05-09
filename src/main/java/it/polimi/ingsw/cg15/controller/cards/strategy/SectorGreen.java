@@ -1,17 +1,18 @@
 package it.polimi.ingsw.cg15.controller.cards.strategy;
 
-public class SectorGreen extends SectorCardStrategy {
-
+public class SectorGreen implements CardStrategy {
 	
+	private boolean itemicon=false;
 	
-	public SectorGreen(boolean item){
-		this.itemIcon=item;
+	public SectorGreen(boolean itemicon){
+		this.itemicon=itemicon;
 	}
 	
-	@Override
 	public void action() {
-	System.out.println("pescata carta settore Verde oggetto: "+this.itemIcon);
+		// TODO Auto-generated method stub
+		
 	}
+
 
 }
 

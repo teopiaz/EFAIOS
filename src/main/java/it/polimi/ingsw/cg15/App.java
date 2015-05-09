@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15;
 
-import it.polimi.ingsw.cg15.controller.cards.strategy.SectorCardStrategy;
+import it.polimi.ingsw.cg15.controller.cards.strategy.CardStrategy;
 import it.polimi.ingsw.cg15.controller.cards.strategy.SectorGreen;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.field.Field;
@@ -36,7 +36,7 @@ public class App
     	umano.drawSectorCard();
     	
     	*/
-    	SectorCardStrategy prova = new SectorGreen(true);
+    	CardStrategy prova = new SectorGreen(true);
     	
     	prova.action();
        /*	

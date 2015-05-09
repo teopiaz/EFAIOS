@@ -1,11 +1,12 @@
 package it.polimi.ingsw.cg15.controller.cards.strategy;
 
-public class SectorSilence extends SectorCardStrategy {
+public class SectorSilence implements CardStrategy {
 
-	@Override
 	public void action() {
-		System.out.println("pescata carta settore Silenzio");
-
+		// TODO Auto-generated method stub
+		
 	}
+
+	
 
 }
