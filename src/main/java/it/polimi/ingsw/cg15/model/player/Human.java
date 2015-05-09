@@ -1,22 +1,26 @@
 package it.polimi.ingsw.cg15.model.player;
 
-import it.polimi.ingsw.cg15.cards.DeckContainer;
-import it.polimi.ingsw.cg15.cards.ItemCard;
-import it.polimi.ingsw.cg15.cards.SectorCard;
-import it.polimi.ingsw.cg15.exception.InvalidAction;
 import it.polimi.ingsw.cg15.model.field.Cell;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
  */
 public class Human extends Player {
 
+	public Human(Cell origin) {
+		super(origin);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void move(Cell dest) {
+		// TODO Auto-generated method stub
+		
+	}
+
     /**
      * 
-     */
+     
 	
 	private List<ItemCard> cards = new ArrayList<ItemCard>();
 	
@@ -51,7 +55,7 @@ public class Human extends Player {
     	card.action();
     }
 
-
+*/
         
     
 }

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.cg15.cards;
+package it.polimi.ingsw.cg15.controller.cards.strategy;
 
-public abstract class SectorCard implements Card {
+import it.polimi.ingsw.cg15.controller.cards.Card;
+
+public abstract class SectorCardStrategy implements Card {
 
 	protected boolean itemIcon;
 

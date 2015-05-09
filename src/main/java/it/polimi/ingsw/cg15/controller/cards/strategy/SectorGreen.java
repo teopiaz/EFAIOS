@@ -1,6 +1,6 @@
-package it.polimi.ingsw.cg15.cards;
+package it.polimi.ingsw.cg15.controller.cards.strategy;
 
-public class SectorGreen extends SectorCard {
+public class SectorGreen extends SectorCardStrategy {
 
 	
 	

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15.cards;
+package it.polimi.ingsw.cg15.controller.cards;
 
 public interface Card {
 

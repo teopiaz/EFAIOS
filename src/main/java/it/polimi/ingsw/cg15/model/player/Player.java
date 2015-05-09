@@ -1,9 +1,9 @@
 package it.polimi.ingsw.cg15.model.player;
 
 
-import it.polimi.ingsw.cg15.cards.Card;
-import it.polimi.ingsw.cg15.cards.DeckContainer;
-import it.polimi.ingsw.cg15.cards.SectorCard;
+import it.polimi.ingsw.cg15.controller.cards.Card;
+import it.polimi.ingsw.cg15.controller.cards.strategy.SectorCardStrategy;
+import it.polimi.ingsw.cg15.model.cards.DeckContainer;
 import it.polimi.ingsw.cg15.model.field.Cell;
 
 /**
@@ -34,11 +34,6 @@ public abstract class Player {
     	return this.position;
     }
     
-    public SectorCard drawSectorCard(){
-    	SectorCard card = DeckContainer.getSectorCard();
-    	card.action();
-    	return card;
-    }
     
     /**
      * @return
