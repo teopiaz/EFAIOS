@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg15.model.field;
 
 import it.polimi.ingsw.cg15.exception.InvalidAction;
 import it.polimi.ingsw.cg15.model.player.Player;
-import it.polimi.ingsw.cg15.model.field.Direction;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,12 +9,13 @@ import java.util.List;
  * 
  */
 public class Cell {
-
-    private Sector sectorType;
-	private Field map;
+	
+	
+	private final Coordinate coords;
+    private final Sector sectorType;
+	private final Field map;
 	private List<Player> players = new ArrayList<Player>();
 
-	private final Coordinate coords;
 	
 
 	public Cell(Coordinate coords,Field map,Sector sectorType) {
@@ -47,6 +46,23 @@ public class Cell {
 	public Coordinate getCoordinate(){
 		return this.coords;
 	}
+
+
+	public Sector getSectorType() {
+		return sectorType;
+	}
+
+
+	public Field getMap() {
+		return map;
+	}
+
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+	
+	
 	
 
 

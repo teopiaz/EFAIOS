@@ -1,28 +1,54 @@
 package it.polimi.ingsw.cg15.model;
 
 import it.polimi.ingsw.cg15.model.cards.DeckContainer;
-import it.polimi.ingsw.cg15.model.player.*;
-import it.polimi.ingsw.cg15.turncontroller.State;
+import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.player.Player;
+
+import java.util.List;
+
 
 public class GameState {
 
-	DeckContainer deckContainer = new DeckContainer();
-	State currentState;
-	Player currentPlayer;
+	
+private	DeckContainer deckContainer;
+private	Field field;
+private	TurnState turnState;
+private	List<Player> players;
+
+
+
+public GameState(Field field, DeckContainer deckContainer,List<Player> players){
+	this.field=field;
+	this.deckContainer = deckContainer;
+	this.players = players;
+	turnState = new TurnState();
+}
 
 	public DeckContainer getDeckContainer() {
 		return deckContainer;
 	}
-
-	public void setCurrentState(State state) {
-		this.currentState = state;
+	
+	public List<Player> getPlayerList(){
+		return this.players;
 	}
-	public State getCurrentState() {
-		return this.currentState;
+	public Player getPlayerById(int id){
+		return this.players.get(id);
 	}
 	
-	public Player getCurrentPlayer() {
-		return this.currentPlayer;
+	public Field getField() {
+		return field;
 	}
+
+
+	public TurnState getTurnState() {
+		return turnState;
+	}
+	
+	public void setTurnState(TurnState state){
+		this.turnState = state;
+	}
+
+
+	
 	
 }

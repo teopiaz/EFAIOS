@@ -17,58 +17,17 @@ import javax.swing.JFrame;
 
 
 public class DeckContainer {
-	private  List<SectorCard> sectorDeck = new ArrayList<SectorCard>();
-	private  List<SectorCard> sectorDeckDiscarded = new ArrayList<SectorCard>();
-	private  List<ItemCard> itemDeck = new ArrayList<ItemCard>();
-	private  List<ItemCard> itemDeckDiscarded = new ArrayList<ItemCard>();
-	private  List<HatchCard> hatchDeck = new ArrayList<HatchCard>();
 
-	public static final int MAIN_DECK = 1;
-	public static final int DISCARTED_DECK =2;
+SectorDeck sectorDeck;
+ItemDeck itemDeck;
+HatchDeck hatcDeck;
 
 
-	public  List<SectorCard> getSectorDeck(){
-		return sectorDeck;
-	}
-	public  List<SectorCard> getSectorDeck(int selector){
-		if(selector==MAIN_DECK)
-			return getSectorDeck();
-		else if(selector==DISCARTED_DECK){
-			return  sectorDeckDiscarded;
-		}
-		return null;
-	}
-
-
-	public  List<ItemCard> getItemDeck(){
-		return itemDeck;
-	}
-
-	public  List<ItemCard> getItemDeck(int selector){
-		if(selector==MAIN_DECK)
-			return getItemDeck();
-		else if(selector==DISCARTED_DECK){
-			return  itemDeckDiscarded;
-		}
-		return null;
-	}
-
-	public  List<HatchCard> getHatchDeck() {
-		return hatchDeck;
-	}
-
-
-
-	public int itemCounter(){
-		return itemDeck.size();
-	}
-	public int sectorCounter(){
-		return sectorDeck.size();
-	}
-	public int hatchCounter(){
-		return hatchDeck.size();
-	}
-
+public DeckContainer(){
+	SectorDeck sectorDeck = new SectorDeck();
+	ItemDeck itemDeck = new ItemDeck();
+	HatchDeck hatcDeck = new HatchDeck();
+}
 
 
 }
