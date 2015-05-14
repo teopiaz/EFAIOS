@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class AlienTest {
 
-	@Test
+	/*@Test
 	public void testMove() {
 		Field map = new Field(5, 5);
 		Cell cell = new Cell(1, 1, map,Sector.WHITE);
@@ -36,6 +36,6 @@ public class AlienTest {
 
 	}
 
-
+*/
 
 }

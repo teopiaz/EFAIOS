@@ -3,7 +3,7 @@ package it.polimi.ingsw.cg15.model.cards;
 /**
  * 
  */
-public enum SectorCard {
+public enum SectorCard implements Card {
     SECTOR_SILENCE,
     SECTOR_RED,
     SECTOR_RED_ITEM,

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-public enum ItemCard {
+public enum ItemCard implements Card {
     ITEM_DEFENSE,
     ITEM_ATTACK,
     ITEM_TELEPORT,

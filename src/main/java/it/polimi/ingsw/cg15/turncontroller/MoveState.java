@@ -26,8 +26,7 @@ public class MoveState implements State {
 	public void attack() {
 		// TODO Auto-generated method stub
 		
-		//NON HO ANCORA ATTACCATO
-		 turnController.changeState(turnController.attackState);
+6		 turnController.changeState(turnController.attackState);
 		 turnController.getState().attack();
 		//if has attack non non mi sposto in attack state
 		//altrimenti mi sposto in attack state ed attacco

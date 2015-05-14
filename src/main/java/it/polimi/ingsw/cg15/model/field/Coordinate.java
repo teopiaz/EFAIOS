@@ -15,25 +15,10 @@ public class Coordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		
-		
-		if((x+y+z)!=0){
-			System.err.println("Errore coordinata!!!");
-		}
 	}
 	
 
-	//offset coordinate
-/*	# convert cube to even-r offset
-	col = x + (z + (z&1)) / 2
-	row = z
 
-	# convert even-r offset to cube
-	x = col - (row + (row&1)) / 2
-	z = row
-	y = -x-z
-	
-	*/
 	public Coordinate(int r, int c){
 		
 		this(
@@ -95,12 +80,12 @@ public class Coordinate {
 
 	@Override
 	public boolean equals(Object obj) {
-		/*if (this == obj)
+		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
-			return false;*/
+			return false;
 		Coordinate other = (Coordinate) obj;
 		if (x != other.x)
 			return false;

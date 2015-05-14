@@ -10,19 +10,12 @@ import java.util.*;
  */
 public class GameController implements Observer {
 
-	PlayerController playerController;
-    /**
-     * 
-     */
+	private PlayerController playerController;
+    private TurnController turnController ;
+
+
     public GameController() {
     }
-
-  
-    /**
-     * 
-     */
-    public TurnController turnController ;
-
 
 
     /**

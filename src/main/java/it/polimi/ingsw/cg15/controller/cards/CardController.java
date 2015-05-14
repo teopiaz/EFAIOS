@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg15.controller.cards;
 
 import it.polimi.ingsw.cg15.controller.cards.strategy.*;
 import it.polimi.ingsw.cg15.model.GameState;
+import it.polimi.ingsw.cg15.model.cards.Card;
 import it.polimi.ingsw.cg15.model.cards.HatchCard;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.cards.DeckContainer;
@@ -37,7 +38,7 @@ public class CardController  {
 	private GameState gs;
 	private DeckContainer deck;
 	
-	private Map<Enum,CardStrategy> strategyList = new HashMap<Enum, CardStrategy>();
+	private Map<Card,CardStrategy> strategyList = new HashMap<Card, CardStrategy>();
 	
 
 	

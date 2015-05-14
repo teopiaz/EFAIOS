@@ -3,7 +3,12 @@ package it.polimi.ingsw.cg15;
 import it.polimi.ingsw.cg15.controller.cards.strategy.CardStrategy;
 import it.polimi.ingsw.cg15.controller.cards.strategy.SectorGreen;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
+import it.polimi.ingsw.cg15.model.field.Cell;
+import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.field.Sector;
+import it.polimi.ingsw.cg15.model.player.Alien;
+import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +31,7 @@ public class App
 	
     public static void main( String[] args )
     {
-    	Field map = new Field(3,5);
+    	Field map = new Field(9,9);
 /*
     	List<SectorCard> sec = DeckContainer.getSectorDeck();
     	List<ItemCard> item = DeckContainer.getItemDeck();
@@ -63,8 +68,14 @@ public class App
     	//int d = map.getCell(20, 2).distance(map.getCell(3, 4));
     	//System.out.println(d);
 
-    //	map.printMap();
+    	map.printMap();
+    		
     	
+    	Cell CELLA1 = new Cell(new Coordinate(1, 1), map, Sector.HUMAN);
+        Cell CELLA2 = new Cell(new Coordinate(2, 2), map, Sector.HUMAN);
+        
+        System.out.println( CELLA1.getCoordinate().getDistance(CELLA2.getCoordinate())  );
+
     	 List<ItemCard> itemDeck = new ArrayList<ItemCard>();
     	 List<ItemCard> itemDeck2 = new ArrayList<ItemCard>();
 
