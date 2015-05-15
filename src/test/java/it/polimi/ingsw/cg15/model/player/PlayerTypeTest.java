@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15.model.player;
-
 import static org.junit.Assert.*;
+
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;

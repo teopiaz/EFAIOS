@@ -6,10 +6,10 @@ import java.util.List;
 
 public class HatchDeck {
 
+    
 	private  List<HatchCard> hatchDeck = new ArrayList<HatchCard>();
 
-
-
+	
 	public  List<HatchCard> getItemDeck(){
 		return hatchDeck;
 	}
@@ -25,17 +25,16 @@ public class HatchDeck {
 			return null;
 		}
 		return hatchDeck.remove(0);
-
 	}
+	
 	
 	public void shuffleDeck(){
 		Collections.shuffle(hatchDeck);
-
 	}
 
+	
 	public boolean insertCard(HatchCard card){
 		return hatchDeck.add(card);
-
 	}
 
 }

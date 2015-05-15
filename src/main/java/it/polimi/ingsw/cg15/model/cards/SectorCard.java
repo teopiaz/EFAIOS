@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-/**
+/*
  * 
  */
 public enum SectorCard implements Card {

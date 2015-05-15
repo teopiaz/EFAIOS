@@ -43,7 +43,5 @@ public class Player {
 
 
 	public void killPlayer(){
-		this.status=false;
+	    this.status=false;}
 	}
-
-}
