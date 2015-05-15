@@ -5,6 +5,8 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.*;
 import it.polimi.ingsw.cg15.model.player.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -24,25 +26,24 @@ public class PlayerController {
 
 
     /**
-     * @param player2 
+     * @return 
      * 
-     */
-    public static void movePlayer(Player player2, Cell dest) {
+      */
+    //TODO: testare se può essere mai chiamato (per design NON deve essere mai chiamato)
+    public boolean moveIsPossible(Coordinate dest) {
         // TODO implement here
-    /*	Player player = gameState.getCurrentPlayer();
-    	
-    	if(player instanceof Alien){
-    		AlienPlayerController.movePlayer( player, dest);
-    		
+    	System.out.println("playerController");
+    	return true;
 
-    	}*/
     }
 
-    /**
-     * 
-     */
-    public void moveIsPossible() {
-        // TODO implement here
+    public void movePlayer(Coordinate dest){
+    	Cell destination = gameState.getField().getCell(dest);
+    	gameState.getTurnState().getCurrentPlayer().setPosition(destination);
+
     }
+   
+    
+
 
 }

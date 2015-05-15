@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 
  */
-public abstract class Player {
+public class Player {
 	
 
 			
@@ -34,6 +34,10 @@ public abstract class Player {
     
     public Cell getPosition(){
     	return this.position;
+    }
+    
+    public PlayerType getType(){
+    	return this.type;
     }
     
    

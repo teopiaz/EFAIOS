@@ -22,5 +22,8 @@ public class TurnState {
 	public void setCurrentPlayer(Player currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
+	public Player getCurrentPlayer(){
+		return this.currentPlayer;
+	}
 	
 }
