@@ -9,8 +9,9 @@ public class Noise extends Action {
         // TODO Auto-generated constructor stub
     }
 
+
     @Override
-    public Object execute(SectorCard card) {
+    public Object execute() {
         // TODO Auto-generated method stub
         return null;
     }

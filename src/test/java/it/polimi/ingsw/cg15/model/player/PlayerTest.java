@@ -1,34 +1,51 @@
 package it.polimi.ingsw.cg15.model.player;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg15.model.field.Cell;
+import it.polimi.ingsw.cg15.model.field.Coordinate;
+import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.field.Sector;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PlayerTest {
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
+    private Player playerTest;
+    private Field fieldTest;
+    private Cell cell;
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
+    @Before
+    public void setUp() throws Exception {
+        fieldTest = new Field(3, 3);
+        playerTest = new Player(cell, PlayerType.ALIEN);
+        cell = new Cell(new Coordinate(1, 1), fieldTest, Sector.ALIEN);
+    }
 
-	@Before
-	public void setUp() throws Exception {
-	}
+    @Test
+    public void testGetPlayerType() {
+        assertEquals(PlayerType.ALIEN, playerTest.getPlayerType());
+    }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+    @Test
+    public void testGetPosition() {
+        Cell cell = new Cell(new Coordinate(1, 1), fieldTest, Sector.ALIEN);
+        playerTest.setPosition(cell);
+        assertEquals(cell, playerTest.getPosition());
+    }
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
+    @Test
+    public void testIsAlive() {
+        assertTrue(playerTest.isAlive());
+        playerTest.killPlayer();
+        assertFalse(playerTest.isAlive());
+    }
+
+    @Test
+    public void testSetPosition() {
+        Cell cell2 = new Cell(new Coordinate(2, 2), fieldTest, Sector.GREY);
+        playerTest.setPosition(cell2);
+        assertEquals(cell2, playerTest.getPosition());
+    }
 
 }

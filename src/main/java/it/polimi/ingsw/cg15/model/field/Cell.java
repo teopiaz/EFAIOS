@@ -9,61 +9,61 @@ import java.util.List;
  * 
  */
 public class Cell {
-	
-	
-	private final Coordinate coords;
+
+
+    private final Coordinate coords;
     private final Sector sectorType;
-	private final Field map;
-	private List<Player> players = new ArrayList<Player>();
-
-	
-
-	public Cell(Coordinate coords,Field map,Sector sectorType) {
-		this.coords = coords;
-		this.map = map;
-		this.sectorType = sectorType;
-	}
-
-	
-	public String getLabel(){
-		return coords.toString();
-	}
-	
-	public void addPlayer(Player player){
-		this.players.add(player);
-	}
-
-	public void removePlayer(Player player){
-		if(players.contains(player)){
-			players.remove(player);
-		}
-		else{
-			throw new InvalidAction("player non presente nella cella");
-		}
-	}
-	
-	
-	public Coordinate getCoordinate(){
-		return this.coords;
-	}
+    private final Field map;
+    private List<Player> players = new ArrayList<Player>();
 
 
-	public Sector getSectorType() {
-		return sectorType;
-	}
+
+    public Cell(Coordinate coords,Field map,Sector sectorType) {
+        this.coords = coords;
+        this.map = map;
+        this.sectorType = sectorType;
+    }
 
 
-	public Field getMap() {
-		return map;
-	}
+    public void addPlayer(Player player){
+        this.players.add(player);
+    }
+
+    public Coordinate getCoordinate(){
+        return this.coords;
+    }
+
+    public String getLabel(){
+        return coords.toString();
+    }
 
 
-	public List<Player> getPlayers() {
-		return players;
-	}
-	
-	
-	
+    public Field getMap() {
+        return map;
+    }
+
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+
+    public Sector getSectorType() {
+        return sectorType;
+    }
+
+
+    public void removePlayer(Player player){
+        if(players.contains(player)){
+            players.remove(player);
+        }
+        else{
+            throw new InvalidAction("player non presente nella cella");
+        }
+    }
+
+
+
 
 
 

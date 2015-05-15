@@ -14,33 +14,33 @@ public class AlienPlayerController extends PlayerController{
     /**
      * 
      */
-	private GameState gameState;
-	
-    public AlienPlayerController(GameState gameState) {
-    	super(gameState);
-    	this.gameState = gameState;
-    	System.out.println(gameState.getTurnState().getCurrentPlayer().toString()+" costruttore chiamato");
-    }
-    @Override
-    public boolean moveIsPossible(Coordinate coord) {
-        // TODO implement here
-    	System.out.println("AlienPlayerController");
-    	Field field = gameState.getField();
-    	Cell currentPosition = gameState.getTurnState().getCurrentPlayer().getPosition();
-    	Cell destination = field.getCell(coord);
-    	return field.isReachable(currentPosition, destination, 2);	 	
-    }
+    private GameState gameState;
 
+    public AlienPlayerController(GameState gameState) {
+        super(gameState);
+        this.gameState = gameState;
+        System.out.println(gameState.getTurnState().getCurrentPlayer().toString()+" costruttore chiamato");
+    }
     /**
      * 
      */
     public void attack() {
         // TODO implement here
     }
-    
+
     public void move(Cell dest){
 
 
-}
+    }
+
+    @Override
+    public boolean moveIsPossible(Coordinate coord) {
+        // TODO implement here
+        System.out.println("AlienPlayerController");
+        Field field = gameState.getField();
+        Cell currentPosition = gameState.getTurnState().getCurrentPlayer().getPosition();
+        Cell destination = field.getCell(coord);
+        return field.isReachable(currentPosition, destination, 2);	 	
+    }
 
 }

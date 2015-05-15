@@ -9,13 +9,13 @@ import org.junit.Test;
 
 public class CoordinateTest {
 
-	@Test
-	public void testGetNeighborsList() {
+    @Test
+    public void testGetNeighborsList() {
 
-		Coordinate coord = new Coordinate(1,1);
-		List<Coordinate> cordList = coord.getNeighborsList();
-		assertTrue(cordList.size()==6);
-	
-	}
+        Coordinate coord = new Coordinate(1, 1);
+        List<Coordinate> cordList = coord.getNeighborsList();
+        assertTrue(cordList.size() == 6);
+
+    }
 
 }

@@ -6,20 +6,20 @@ import it.polimi.ingsw.cg15.model.cards.ItemCard;
 
 public class Telport extends Action<Boolean> {
 
-	public Telport(GameController gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
-	}
+    public Telport(GameController gc) {
+        super(gc);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public Boolean execute() {
-		PlayerController pc = getCurrentPlayerController();
-		if(pc.hasCard(ItemCard.ITEM_TELEPORT)){
-			pc.removeCard(ItemCard.ITEM_TELEPORT);
-			pc.movePlayer(getGameController().getFieldController().getHumanStartingPosition());
-			return true;
-		}
-		return false;
+    @Override
+    public Boolean execute() {
+        PlayerController pc = getCurrentPlayerController();
+        if(pc.hasCard(ItemCard.ITEM_TELEPORT)){
+            pc.removeCard(ItemCard.ITEM_TELEPORT);
+            pc.movePlayer(getGameController().getFieldController().getHumanStartingPosition());
+            return true;
+        }
+        return false;
 
-	}
+    }
 }

@@ -23,50 +23,10 @@ public class GameController implements Observer {
 	}
 
 
-	/**
-	 * @return
-	 */
-	public void handleMessage() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void StartGame() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void NextPlayer() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void SaveGameState() {
-		// TODO implement here
-	}
-
-	/**
-	 * 
-	 */
-	public void LoadGameState() {
-		// TODO implement here
-	}
-
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
-	}
-
 	//return a new specification instance of PlayerController from an Enumeration Value
 	public PlayerController getCurrentPlayerInstance(){
 		Player currentPlayer = gameState.getTurnState().getCurrentPlayer();
-		String className = ((new PlayerController(gameState)).getClass().getPackage()+"."+currentPlayer.getType().toClassName()+"PlayerController").substring("package ".length());
+		String className = ((new PlayerController(gameState)).getClass().getPackage()+"."+currentPlayer.getPlayerType().toClassName()+"PlayerController").substring("package ".length());
 
 		Class<?> classe;
 
@@ -107,16 +67,56 @@ public class GameController implements Observer {
 
 	}
 
+	public FieldController getFieldController() {
+		return this.fieldController;
+	}
+
+	/**
+	 * @return
+	 */
+	public void handleMessage() {
+		// TODO implement here
+	}
+
+	/**
+	 * 
+	 */
+	public void LoadGameState() {
+		// TODO implement here
+	}
+
+	/**
+	 * 
+	 */
+	public void NextPlayer() {
+		// TODO implement here
+	}
 
 	private PlayerController objectToPlayerController(Object myObject) {
 		return (PlayerController)myObject;
 	}
 
+	/**
+	 * 
+	 */
+	public void SaveGameState() {
+		// TODO implement here
+	}
+
+
+	/**
+	 * 
+	 */
+	public void StartGame() {
+		// TODO implement here
+	}
 
 
 
-	public FieldController getFieldController() {
-		return this.fieldController;
+
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

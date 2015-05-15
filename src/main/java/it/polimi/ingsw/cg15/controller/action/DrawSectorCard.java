@@ -6,7 +6,7 @@ import it.polimi.ingsw.cg15.model.cards.SectorCard;
 
 public class DrawSectorCard extends Action<Boolean> {
 
-    
+
     public DrawSectorCard(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
@@ -39,9 +39,9 @@ public class DrawSectorCard extends Action<Boolean> {
             }
             noise.execute();
         }
-        
+
         return null;
     }
-    
+
 
 }
