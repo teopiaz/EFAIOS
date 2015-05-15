@@ -26,7 +26,31 @@ HatchDeck hatcDeck;
 public DeckContainer(){
 	SectorDeck sectorDeck = new SectorDeck();
 	ItemDeck itemDeck = new ItemDeck();
-	HatchDeck hatcDeck = new HatchDeck();
+	HatchDeck hatchDeck = new HatchDeck();
+}
+
+
+/**
+ * @return the sectorDeck
+ */
+public SectorDeck getSectorDeck() {
+	return sectorDeck;
+}
+
+
+/**
+ * @return the itemDeck
+ */
+public ItemDeck getItemDeck() {
+	return itemDeck;
+}
+
+
+/**
+ * @return the hatcDeck
+ */
+public HatchDeck getHatchDeck() {
+	return hatcDeck;
 }
 
 

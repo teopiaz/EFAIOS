@@ -31,15 +31,20 @@ public class SectorDeck {
 	}
 	
 	
-	private void shuffleDeck(){
+	private void swapDeck(){
 		
 		if(sectorDeck.isEmpty()){
 			sectorDeck = sectorDeckDiscarded;
 			sectorDeckDiscarded = new ArrayList<SectorCard>();
-			Collections.shuffle(sectorDeck);
+			shuffleDeck();
 		}
 		 
 		 
+	}
+	
+	public void shuffleDeck(){
+		Collections.shuffle(sectorDeck);
+
 	}
 	
 	public SectorCard drawCard(){

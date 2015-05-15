@@ -28,6 +28,11 @@ public class HatchDeck {
 		return hatchDeck.remove(0);
 
 	}
+	
+	public void shuffleDeck(){
+		Collections.shuffle(hatchDeck);
+
+	}
 
 	public boolean insertCard(HatchCard card){
 		return hatchDeck.add(card);

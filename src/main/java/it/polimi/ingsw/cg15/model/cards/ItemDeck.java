@@ -31,13 +31,17 @@ public class ItemDeck {
 	}
 
 
-	private void shuffleDeck(){
+	private void swapDeck(){
 
 		if(itemDeck.isEmpty()){
 			itemDeck = itemDeckDiscarded;
 			itemDeckDiscarded = new ArrayList<ItemCard>();
 			Collections.shuffle(itemDeck);
 		}
+
+	}
+	public void shuffleDeck(){
+		Collections.shuffle(itemDeck);
 
 	}
 
