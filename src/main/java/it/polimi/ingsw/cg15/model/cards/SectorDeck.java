@@ -59,7 +59,7 @@ public class SectorDeck {
 
     
     /*
-     * Ritorna una carta
+     * Ritorna una carta.
      */
     public SectorCard drawCard(){
         if(sectorDeck.isEmpty()){

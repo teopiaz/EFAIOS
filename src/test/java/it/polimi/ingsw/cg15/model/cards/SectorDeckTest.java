@@ -32,6 +32,14 @@ public class SectorDeckTest {
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
     }
 
+    /*
+     * TODO: Fare questo test.
+     */
+    @Test
+    public void swapDeck() {
+        
+    }
+    
     
     @Test
     public void testShuffleDeck() {
