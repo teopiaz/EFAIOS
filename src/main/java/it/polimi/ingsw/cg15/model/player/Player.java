@@ -52,6 +52,25 @@ public class Player {
     public void killPlayer(){
     	this.status=false;
     }
+    
+    public ItemCard getCardById(int id){
+    	return cards.get(id);
+    }
+    
+    public boolean isPersonalDeckEmpty(){
+    	return cards.isEmpty();
+    }
+    
+    public int getCardListSize(){
+    	return cards.size();
+    }
+
+	public boolean removeCard(ItemCard card) {
+		if(cards.remove(card)){
+			return true;
+		}
+		return false;
+	}
 
 
 

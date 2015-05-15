@@ -7,8 +7,6 @@ import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.field.Sector;
-import it.polimi.ingsw.cg15.model.player.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg15.controller;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.controller.player.AlienPlayerController;
-import it.polimi.ingsw.cg15.controller.player.HumanPlayerController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.DeckContainer;

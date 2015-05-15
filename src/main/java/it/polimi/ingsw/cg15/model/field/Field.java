@@ -19,6 +19,8 @@ public class Field {
 	private Map<Coordinate,Cell> map = new ConcurrentHashMap<Coordinate, Cell>();
 	private int r;
 	private int c;
+	
+	private Cell humanStartingPosition;
 
 	public Field(int row,int col){
 		this.r=row;
@@ -30,9 +32,22 @@ public class Field {
 			}
 		}
 	}
+	
 
 
-	public void addCell(Coordinate coord, Sector sector ){
+	public Cell getHumanStartingPosition() {
+        return humanStartingPosition;
+    }
+
+
+
+    public void setHumanStartingPosition(Cell humanStartingPosition) {
+        this.humanStartingPosition = humanStartingPosition;
+    }
+
+
+
+    public void addCell(Coordinate coord, Sector sector ){
 		map.put(coord, new Cell(coord, this, sector));
 	}
 

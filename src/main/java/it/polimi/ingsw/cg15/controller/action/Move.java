@@ -18,6 +18,8 @@ public class Move<T> extends Action<T> {
 		PlayerController pc = getCurrentPlayerController();
 		if(pc.moveIsPossible(dest)){
 			pc.movePlayer(dest);
+			Action draw = new DrawSectorCard(getGameController());
+			draw.execute();
 		}
 
 		return null;
