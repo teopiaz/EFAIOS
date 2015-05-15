@@ -64,7 +64,7 @@ public class GameController implements Observer {
     //return a new specification instance of PlayerController from an Enumeration Value
     public PlayerController getCurrentPlayerInstance(){
     	Player currentPlayer = gameState.getTurnState().getCurrentPlayer();
-		String className = ((new PlayerController(gameState)).getClass().getPackage()+"."+currentPlayer.getType().toClassName()+"PlayerController").substring("package ".length());
+		String className = ((new PlayerController(gameState)).getClass().getPackage()+"."+currentPlayer.getPlayerType().toClassName()+"PlayerController").substring("package ".length());
 		
     	Class<?> classe;
     	
