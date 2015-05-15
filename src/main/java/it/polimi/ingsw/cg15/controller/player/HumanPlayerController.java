@@ -5,9 +5,6 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
-import it.polimi.ingsw.cg15.model.player.Player;
-
-import java.util.*;
 
 /**
  * @author LMR - MMP
@@ -23,6 +20,7 @@ public class HumanPlayerController extends PlayerController  {
     	this.gameState = gameState;
     	System.out.println(gameState.getTurnState().getCurrentPlayer().toString()+" costruttore chiamato");
     }
+    @Override
     public boolean moveIsPossible(Coordinate coord) {
         // TODO implement here
     	System.out.println("HumanPlayerController");

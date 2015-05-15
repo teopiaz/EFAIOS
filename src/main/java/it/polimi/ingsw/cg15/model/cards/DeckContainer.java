@@ -1,12 +1,5 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-
 /*
  * SectorCard: 4 rosse con oggetto e 6 normali, 4 verdi con oggetto e 6 normali. 
  * 5 carte silenzio, tutte senza oggetti. il retro è un esagono.

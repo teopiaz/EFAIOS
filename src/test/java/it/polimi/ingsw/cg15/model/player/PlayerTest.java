@@ -7,7 +7,6 @@ import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.field.Sector;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PlayerTest {

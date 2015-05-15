@@ -8,43 +8,42 @@ import java.util.List;
 
 
 public class Player {
-		
-	
-    protected Cell position;
-    private List<ItemCard> cards;
-    private PlayerType type;
-    private boolean status = true;
-    
-    
-    public Player(Cell origin,PlayerType type) {
-    	this.position = origin;
-    	this.type = type;
-    	cards = new ArrayList<ItemCard>(3);
-    }
-    
-    
-    public Cell getPosition(){
-    	return this.position;
-    }
-    
-    
-    public PlayerType getPlayerType(){
-    	return this.type;
-    }
-    
-   
-    public void setPosition(Cell dest){
-    	this.position = dest;
-    }
-    
-    
-    public boolean isAlive(){
-    	return status;
-    }
-    
-    
-    public void killPlayer(){
-    	this.status=false;
-    }
-    
+
+	protected Cell position;
+	private List<ItemCard> cards;
+	private PlayerType type;
+	private boolean status = true;
+
+
+	public Player(Cell origin,PlayerType type) {
+		this.position = origin;
+		this.type = type;
+		cards = new ArrayList<ItemCard>(3);
+	}
+
+
+	public Cell getPosition(){
+		return this.position;
+	}
+
+
+	public PlayerType getPlayerType(){
+		return this.type;
+	}
+
+
+	public void setPosition(Cell dest){
+		this.position = dest;
+	}
+
+
+	public boolean isAlive(){
+		return status;
+	}
+
+
+	public void killPlayer(){
+		this.status=false;
+	}
+
 }
