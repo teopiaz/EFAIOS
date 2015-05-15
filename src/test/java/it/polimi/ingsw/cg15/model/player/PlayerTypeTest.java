@@ -24,7 +24,7 @@ public class PlayerTypeTest {
 
     @Test
     public void testToClassName() {
-        assertEquals("Alien", playerTest.getPlayerType() );
+        assertEquals("Alien", playerTest.getPlayerType().toClassName() );
     }
 
 }
