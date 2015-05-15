@@ -9,63 +9,48 @@ import java.util.List;
  * 
  */
 public class Cell {
-	
-	
-	private final Coordinate coords;
+
+    private final Coordinate coords;
     private final Sector sectorType;
-	private final Field map;
-	private List<Player> players = new ArrayList<Player>();
+    private final Field map;
+    private List<Player> players = new ArrayList<Player>();
 
-	
+    public Cell(Coordinate coords, Field map, Sector sectorType) {
+        this.coords = coords;
+        this.map = map;
+        this.sectorType = sectorType;
+    }
 
-	public Cell(Coordinate coords,Field map,Sector sectorType) {
-		this.coords = coords;
-		this.map = map;
-		this.sectorType = sectorType;
-	}
+    public String getLabel() {
+        return coords.toString();
+    }
 
-	
-	public String getLabel(){
-		return coords.toString();
-	}
-	
-	public void addPlayer(Player player){
-		this.players.add(player);
-	}
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
 
-	public void removePlayer(Player player){
-		if(players.contains(player)){
-			players.remove(player);
-		}
-		else{
-			throw new InvalidAction("player non presente nella cella");
-		}
-	}
-	
-	
-	public Coordinate getCoordinate(){
-		return this.coords;
-	}
+    public void removePlayer(Player player) {
+        if (players.contains(player)) {
+            players.remove(player);
+        } else {
+            throw new InvalidAction("player non presente nella cella");
+        }
+    }
 
+    public Coordinate getCoordinate() {
+        return this.coords;
+    }
 
-	public Sector getSectorType() {
-		return sectorType;
-	}
+    public Sector getSectorType() {
+        return sectorType;
+    }
 
+    public Field getMap() {
+        return map;
+    }
 
-	public Field getMap() {
-		return map;
-	}
-
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-	
-	
-	
-
-
-
+    public List<Player> getPlayers() {
+        return players;
+    }
 
 }

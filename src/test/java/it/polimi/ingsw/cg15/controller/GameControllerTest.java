@@ -20,36 +20,33 @@ import org.junit.Test;
 
 public class GameControllerTest {
 
-	@Before
-	public void setUp() throws Exception {
-	}
+    @Before
+    public void setUp() throws Exception {
+    }
 
-	
-	
-	@Test
-	public void testGetCurrentPlayerInstance() {
-		Field field = new Field(1,1);
+    @Test
+    public void testGetCurrentPlayerInstance() {
+        Field field = new Field(1, 1);
 
-		List<Player> players = new ArrayList<Player>();
-		players.add(
-				new Player( 
-						new Cell( new Coordinate(1, 1) ,field,Sector.WHITE), 
-						PlayerType.ALIEN  )
-				);
-		GameState gs = new GameState(field,new DeckContainer(),players);
-		gs.getTurnState().setCurrentPlayer(players.get(0));
+        List<Player> players = new ArrayList<Player>();
+        players.add(new Player(new Cell(new Coordinate(1, 1), field,
+                Sector.WHITE), PlayerType.ALIEN));
+        GameState gs = new GameState(field, new DeckContainer(), players);
+        gs.getTurnState().setCurrentPlayer(players.get(0));
 
-		GameController  gc = new GameController(gs);
-		assertTrue(gc.getCurrentPlayerInstance().getClass().equals(new AlienPlayerController(gs).getClass()));
-		PlayerController pc2 =	gc.getCurrentPlayerInstance();
-	
-		pc2.moveIsPossible(new Coordinate(1, 2));
-	
-		
-	}
-	public static PlayerController objectToPlayerController(Object myObject) {
-		// This will only work when the myObject currently holding value is string.
-		return (PlayerController)myObject;
-	}
+        GameController gc = new GameController(gs);
+        assertTrue(gc.getCurrentPlayerInstance().getClass()
+                .equals(new AlienPlayerController(gs).getClass()));
+        PlayerController pc2 = gc.getCurrentPlayerInstance();
+
+        pc2.moveIsPossible(new Coordinate(1, 2));
+
+    }
+
+    public static PlayerController objectToPlayerController(Object myObject) {
+        // This will only work when the myObject currently holding value is
+        // string.
+        return (PlayerController) myObject;
+    }
 
 }

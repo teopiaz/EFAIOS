@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.controller.player;
 
-
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.*;
 
@@ -9,36 +8,32 @@ import it.polimi.ingsw.cg15.model.field.*;
  */
 public class PlayerController {
 
-	
-	private GameState gameState;
+    private GameState gameState;
 
     /**
      * 
      */
     public PlayerController(GameState state) {
-    	this.gameState = state;
+        this.gameState = state;
     }
-
 
     /**
-     * @return 
+     * @return
      * 
-      */
-    //TODO: testare se può essere mai chiamato (per design NON deve essere mai chiamato)
+     */
+    // TODO: testare se può essere mai chiamato (per design NON deve essere mai
+    // chiamato)
     public boolean moveIsPossible(Coordinate dest) {
         // TODO implement here
-    	System.out.println("playerController");
-    	return true;
+        System.out.println("playerController");
+        return true;
 
     }
 
-    public void movePlayer(Coordinate dest){
-    	Cell destination = gameState.getField().getCell(dest);
-    	gameState.getTurnState().getCurrentPlayer().setPosition(destination);
+    public void movePlayer(Coordinate dest) {
+        Cell destination = gameState.getField().getCell(dest);
+        gameState.getTurnState().getCurrentPlayer().setPosition(destination);
 
     }
-   
-    
-
 
 }

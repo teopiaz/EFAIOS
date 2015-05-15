@@ -6,32 +6,35 @@ import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //TODO: singleton
 public class GameInstance {
 
-	private List<GameState> instanceList = new ArrayList<GameState>();
+    private List<GameState> instanceList = new ArrayList<GameState>();
 
-	private  GameInstance(){
-	}
+    private GameInstance() {
+    }
 
-	public GameState addGameInstance(Field field, DeckContainer deckContainer,List<Player> players ){
-		GameState gameState = new GameState(field, deckContainer, players);
-		instanceList.add(gameState);
-		return gameState;
-	}
-	public GameState getGameInstance(int k){
-		return	instanceList.get(k);
-	}
+    public GameState addGameInstance(Field field, DeckContainer deckContainer,
+            List<Player> players) {
+        GameState gameState = new GameState(field, deckContainer, players);
+        instanceList.add(gameState);
+        return gameState;
+    }
 
-	public int getInstanceSize(){
-		return instanceList.size();
-	}
+    public GameState getGameInstance(int k) {
+        return instanceList.get(k);
+    }
 
-	public boolean removeGameInstace(int k){
-		if(instanceList.remove(k)!=null){
-			return true;
-		}
-		return false;
-	}
+    public int getInstanceSize() {
+        return instanceList.size();
+    }
+
+    public boolean removeGameInstace(int k) {
+        if (instanceList.remove(k) != null) {
+            return true;
+        }
+        return false;
+    }
 
 }

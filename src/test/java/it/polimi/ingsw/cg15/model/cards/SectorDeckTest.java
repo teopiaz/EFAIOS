@@ -9,22 +9,19 @@ import org.junit.Test;
 
 public class SectorDeckTest {
 
-    
     private SectorDeck sectorDeckTest;
-    
-    
+
     @Before
     public void setUp() throws Exception {
         sectorDeckTest = new SectorDeck();
     }
 
-    
     @Test
     public void testGetSectorDeck() {
-       List<SectorCard> ritornato = sectorDeckTest.getSectorDeck(SectorDeck.DISCARTED_DECK);
+        List<SectorCard> ritornato = sectorDeckTest
+                .getSectorDeck(SectorDeck.DISCARTED_DECK);
         assertTrue(ritornato.isEmpty());
     }
- 
 
     @Test
     public void testGetNumberOfCard() {
@@ -37,26 +34,23 @@ public class SectorDeckTest {
      */
     @Test
     public void swapDeck() {
-        
+
     }
-    
-    
+
     @Test
     public void testShuffleDeck() {
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
         sectorDeckTest.shuffleDeck();
-       assertEquals(3, sectorDeckTest.getNumberOfCard()); 
+        assertEquals(3, sectorDeckTest.getNumberOfCard());
     }
 
-    
     @Test
     public void testDrawCard() {
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         sectorDeckTest.drawCard();
-        assertEquals(0,sectorDeckTest.getNumberOfCard());
+        assertEquals(0, sectorDeckTest.getNumberOfCard());
     }
 
-    
 }
