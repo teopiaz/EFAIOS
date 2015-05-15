@@ -16,6 +16,11 @@ public class SectorDeck {
     public  List<SectorCard> getSectorDeck(){
         return sectorDeck;
     }
+    
+    
+    /*
+     *  Inserire cosa faccio.
+     */
     public  List<SectorCard> getSectorDeck(int selector){
         if(selector==MAIN_DECK)
             return getSectorDeck();
@@ -25,9 +30,14 @@ public class SectorDeck {
         return null;
     }
 
+    
+    /*
+     * Return the number of the cards.
+     */
     public int getNumberOfCard(){
         return sectorDeck.size();
     }
+
 
 
     private void swapDeck(){
@@ -39,12 +49,18 @@ public class SectorDeck {
     }
 
     
+    /*
+     * Shuffle the deck.
+     */
     public void shuffleDeck(){
         Collections.shuffle(sectorDeck);
 
     }
 
     
+    /*
+     * Ritorna una carta
+     */
     public SectorCard drawCard(){
         if(sectorDeck.isEmpty()){
             shuffleDeck();
@@ -55,6 +71,10 @@ public class SectorDeck {
     }
 
     
+    
+    /*
+     * Inserisce una carta nel mazzo delle carte.
+     */
     public boolean insertCard(SectorCard card){
         return sectorDeck.add(card);
 

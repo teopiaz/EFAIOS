@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-/*
+/*  Questa classe contiene i tipi delle carte settore.
  * 
  */
 public enum SectorCard implements Card {
