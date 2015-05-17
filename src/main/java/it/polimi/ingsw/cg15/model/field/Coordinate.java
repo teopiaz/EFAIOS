@@ -10,22 +10,72 @@ public class Coordinate {
     private final int x,y,z;
 
 
-    public Coordinate(int r, int c){
-
-        this(
-                c-(r+(r&1))/2,  				//x
-                -(c-(r+(r&1))/2) - r,           //y
-                r	                            //z
-                );
-    }
-
-
-
     //cubic coordinate
     public Coordinate(int x, int y, int z){
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+
+
+    public Coordinate(int r, int c){
+
+        this(
+                c-(r+(r&1))/2,                  //x
+                -(c-(r+(r&1))/2) - r,           //y
+                r                               //z
+                );
+    }
+
+    //TODO: handle null parameter ???
+    public int getDistance(Coordinate b){
+        if(b==null){
+            throw new IllegalArgumentException("destination parameter cannot be null");
+        }
+        return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z - b.getZ())) / 2;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public int getCol(){
+        return x + (z + (z&1)) / 2;
+    }
+    public int getRow(){
+        return z;
+
+    }
+
+
+    @Override
+    public String toString() {
+        String tmp;
+        tmp = new String(""+((char)(getCol()+65)));
+        if((getRow()+1)<10)
+            tmp = new String(tmp+"0");
+
+        return new String(tmp+(getRow()));
+    }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + z;
+        return result;
     }
 
     @Override
@@ -46,21 +96,9 @@ public class Coordinate {
         return true;
     }
 
-    public int getCol(){
-        return x + (z + (z&1)) / 2;
-    }
-
-    //TODO: handle null parameter ???
-    public int getDistance(Coordinate b){
-        if(b==null){
-            throw new IllegalArgumentException("destination parameter cannot be null");
-        }
-        return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z - b.getZ())) / 2;
-    }
-
     public Coordinate getNeighbor(Direction direction){
 
-        switch (direction) {		
+        switch (direction) {        
         case N: return new Coordinate(x,y+1,z-1);
         case NE:return new Coordinate(x+1,y,z-1);
         case NW:return new Coordinate(x-1,y+1,z);
@@ -81,46 +119,8 @@ public class Coordinate {
         return list;
 
     }
-    public int getRow(){
-        return z;
 
-    }
-
-
-    public int getX() {
-        return x;
-    }
-
-
-    public int getY() {
-        return y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + x;
-        result = prime * result + y;
-        result = prime * result + z;
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        String tmp;
-        tmp = new String(""+((char)(getCol()+65)));
-        if((getRow()+1)<10)
-            tmp = new String(tmp+"0");
-
-        return new String(tmp+(getRow()));
-    }
-
-
+    
 
 
 

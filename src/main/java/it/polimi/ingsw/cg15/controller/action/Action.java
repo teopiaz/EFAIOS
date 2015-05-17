@@ -7,19 +7,19 @@ public abstract class Action<T> {
 
     private GameController gameController;
 
-    public Action(GameController gc){
+
+    public Action(GameController gc) {
         this.gameController = gc;
     }
 
-    public abstract T execute();
+    public GameController getGameController() {
+        return this.gameController;
+    }
 
-    public  PlayerController getCurrentPlayerController(){
+    public PlayerController getCurrentPlayerController() {
         return gameController.getCurrentPlayerInstance();
     }
 
-
-    public GameController getGameController(){
-        return this.gameController;
-    }
+    public abstract T execute();
 
 }

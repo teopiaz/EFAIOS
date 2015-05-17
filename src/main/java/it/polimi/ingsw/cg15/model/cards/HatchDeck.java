@@ -13,22 +13,27 @@ public class HatchDeck {
             return null;
         }
         return hatchDeck.remove(0);
+
     }
 
     public List<HatchCard> getItemDeck() {
         return hatchDeck;
+
     }
 
     public int getNumberOfCard() {
         return hatchDeck.size();
+
     }
 
     public boolean insertCard(HatchCard card) {
         return hatchDeck.add(card);
+
     }
 
     public void shuffleDeck() {
         Collections.shuffle(hatchDeck);
+
     }
 
 }

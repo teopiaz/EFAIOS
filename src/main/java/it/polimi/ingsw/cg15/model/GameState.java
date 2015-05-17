@@ -6,19 +6,16 @@ import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.List;
 
-
 public class GameState {
 
 
-    private	DeckContainer deckContainer;
-    private	Field field;
-    private	TurnState turnState;
-    private	List<Player> players;
+    private DeckContainer deckContainer;
+    private Field field;
+    private TurnState turnState;
+    private List<Player> players;
 
-
-
-    public GameState(Field field, DeckContainer deckContainer,List<Player> players){
-        this.field=field;
+    public GameState(Field field, DeckContainer deckContainer, List<Player> players) {
+        this.field = field;
         this.deckContainer = deckContainer;
         this.players = players;
         turnState = new TurnState();
@@ -28,6 +25,12 @@ public class GameState {
         return deckContainer;
     }
 
+
+    public List<Player> getPlayerList() {
+        return this.players;
+
+    }
+
     public Field getField() {
         return field;
     }
@@ -35,20 +38,18 @@ public class GameState {
         return this.players.get(id);
     }
 
-    public List<Player> getPlayerList(){
-        return this.players;
-    }
+
 
 
     public TurnState getTurnState() {
         return turnState;
     }
 
-    public void setTurnState(TurnState state){
+
+
+    public void setTurnState(TurnState state) {
         this.turnState = state;
     }
-
-
 
 
 }

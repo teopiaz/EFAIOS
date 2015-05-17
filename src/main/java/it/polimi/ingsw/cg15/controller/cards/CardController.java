@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.controller.cards;
 
-
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.HatchCard;
 import it.polimi.ingsw.cg15.model.cards.HatchDeck;
@@ -10,28 +9,26 @@ import it.polimi.ingsw.cg15.model.cards.DeckContainer;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorDeck;
 
-
 /**
  * @author LMR - MMP
  */
-public class CardController  {
+public class CardController {
 
-
-    private static int sectorItem=4;
-    private static int sector=6;
-    private static int sectorSilence=5;
+    private static int sectorItem = 4;
+    private static int sector = 6;
+    private static int sectorSilence = 5;
 
     private static int itemAttack = 2;
     private static int itemTeleport = 2;
-    private static int itemAdrenaline=3;
-    private static int itemSedatives=3;
+    private static int itemAdrenaline = 3;
+    private static int itemSedatives = 3;
     private static int itemSpotlight = 2;
     private static int itemDefense = 1;
     private static int hatchGreen = 3;
     private static int hatchRed = 3;
 
-    private DeckContainer deckContainer;
 
+    private DeckContainer deckContainer;
 
     /**
      * 
@@ -45,33 +42,13 @@ public class CardController  {
 
 
 
+
+
     /**
      * 
      */
     public void drawSectorCard() {
         // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void generateDecks() {
-        // TODO implement here
-    }
-
-    private void generateHatchDeck(){
-        HatchDeck hatchDeck = deckContainer.getHatchDeck();
-
-
-        for(int i=0;i<hatchGreen;i++){
-            hatchDeck.insertCard(HatchCard.HATCH_GREEN);
-        }
-        for(int i=0;i<hatchRed;i++){
-            hatchDeck.insertCard(HatchCard.HATCH_RED);
-        }
-
-        hatchDeck.shuffleDeck();
-
     }
 
 
@@ -102,31 +79,41 @@ public class CardController  {
     }
 
 
-    private void generateSectorDeck(){
+    private void generateSectorDeck() {
 
         SectorDeck sectorDeck = deckContainer.getSectorDeck();
 
-        for(int i=0;i<sectorItem;i++){
+
+        for (int i = 0; i < sectorItem; i++) {
             sectorDeck.insertCard(SectorCard.SECTOR_RED_ITEM);
             sectorDeck.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         }
-        for(int i=0;i<sector;i++){
+        for (int i = 0; i < sector; i++) {
             sectorDeck.insertCard(SectorCard.SECTOR_RED);
             sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
         }
-        for(int i=0;i<sectorSilence;i++){
+        for (int i = 0; i < sectorSilence; i++) {
             sectorDeck.insertCard(SectorCard.SECTOR_SILENCE);
         }
 
+
         sectorDeck.shuffleDeck();
+
     }
 
-    /**
-     * 
-     */
-    public void setCardStrategy() {
-        // TODO implement here
-    }
 
+    private void generateHatchDeck() {
+        HatchDeck hatchDeck = deckContainer.getHatchDeck();
+
+        for (int i = 0; i < hatchGreen; i++) {
+            hatchDeck.insertCard(HatchCard.HATCH_GREEN);
+        }
+        for (int i = 0; i < hatchRed; i++) {
+            hatchDeck.insertCard(HatchCard.HATCH_RED);
+        }
+
+        hatchDeck.shuffleDeck();
+
+    }
 
 }

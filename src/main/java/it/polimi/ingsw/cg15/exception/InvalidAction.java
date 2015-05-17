@@ -6,6 +6,7 @@ public class InvalidAction extends RuntimeException {
         super();
     }
     public InvalidAction(String message){
+
         super(message);
     }
 }

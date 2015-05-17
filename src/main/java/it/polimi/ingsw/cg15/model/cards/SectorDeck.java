@@ -17,7 +17,7 @@ public class SectorDeck {
      */
     public SectorCard drawCard() {
         if (sectorDeck.isEmpty()) {
-            shuffleDeck();
+            swapDeck();
         }
         SectorCard drawed = sectorDeck.remove(0);
         sectorDeckDiscarded.add(drawed);
@@ -69,6 +69,7 @@ public class SectorDeck {
             sectorDeckDiscarded = new ArrayList<SectorCard>();
             shuffleDeck();
         }
+
     }
 
 }

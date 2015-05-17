@@ -8,7 +8,7 @@ public class Move<T> extends Action<T> {
 
     private Coordinate dest;
 
-    public Move(GameController gc,Coordinate dest){
+    public Move(GameController gc, Coordinate dest) {
         super(gc);
         this.dest = dest;
     }
@@ -16,15 +16,11 @@ public class Move<T> extends Action<T> {
     @Override
     public T execute() {
         PlayerController pc = getCurrentPlayerController();
-        if(pc.moveIsPossible(dest)){
+        if (pc.moveIsPossible(dest)) {
             pc.movePlayer(dest);
-            Action draw = new DrawSectorCard(getGameController());
-            draw.execute();
         }
 
         return null;
     }
-
-
 
 }

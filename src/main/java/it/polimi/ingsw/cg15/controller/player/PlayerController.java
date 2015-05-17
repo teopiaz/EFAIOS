@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg15.controller.player;
 
-
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
+
 
 /**
  * @author LMR - MMP
@@ -25,6 +25,7 @@ public class PlayerController {
 
 
     public SectorCard drawSectorCard() {
+        // TODO implement here
         Player cp = gameState.getTurnState().getCurrentPlayer();
         return gameState.getDeckContainer().getSectorDeck().drawCard();
 
@@ -46,9 +47,8 @@ public class PlayerController {
         return false;
     }
 
-
     /**
-     * @return 
+     * @return
      * 
      */
     //TODO: testare se può essere mai chiamato (per design NON deve essere mai chiamato)
@@ -59,7 +59,8 @@ public class PlayerController {
 
     }
 
-    public void movePlayer(Coordinate dest){
+
+    public void movePlayer(Coordinate dest) {
         Cell destination = gameState.getField().getCell(dest);
         gameState.getTurnState().getCurrentPlayer().setPosition(destination);
 
@@ -71,8 +72,6 @@ public class PlayerController {
         cp.removeCard(card);
 
     }
-
-
 
 
 }

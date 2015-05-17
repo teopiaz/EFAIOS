@@ -22,6 +22,7 @@ public class Cell {
         this.coords = coords;
         this.map = map;
         this.sectorType = sectorType;
+
     }
 
 
@@ -61,11 +62,6 @@ public class Cell {
             throw new InvalidAction("player non presente nella cella");
         }
     }
-
-
-
-
-
 
 
 }

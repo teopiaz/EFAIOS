@@ -22,11 +22,12 @@ public class DeckContainer {
         HatchDeck hatchDeck = new HatchDeck();
     }
 
-    /*
-     * Questo metodo ritorna il mazzo delle carte hatch.
+
+    /*   
+     * Questo metodo ritorna il mazzo delle carte settore.
      */
-    public HatchDeck getHatchDeck() {
-        return hatcDeck;
+    public SectorDeck getSectorDeck() {
+        return sectorDeck;
     }
 
     /*
@@ -37,10 +38,11 @@ public class DeckContainer {
     }
 
     /*
-     * Questo metodo ritorna il mazzo delle carte settore.
+
+     * Questo metodo ritorna il mazzo delle carte hatch.
      */
-    public SectorDeck getSectorDeck() {
-        return sectorDeck;
+    public HatchDeck getHatchDeck() {
+        return hatcDeck;
     }
 
 }

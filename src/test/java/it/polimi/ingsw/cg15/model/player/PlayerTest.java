@@ -23,11 +23,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void testGetPlayerType() {
-        assertEquals(PlayerType.ALIEN, playerTest.getPlayerType());
-    }
-
-    @Test
     public void testGetPosition() {
         Cell cell = new Cell(new Coordinate(1, 1), fieldTest, Sector.ALIEN);
         playerTest.setPosition(cell);
@@ -35,10 +30,8 @@ public class PlayerTest {
     }
 
     @Test
-    public void testIsAlive() {
-        assertTrue(playerTest.isAlive());
-        playerTest.killPlayer();
-        assertFalse(playerTest.isAlive());
+    public void testGetPlayerType() {
+        assertEquals(PlayerType.ALIEN, playerTest.getPlayerType());
     }
 
     @Test
@@ -46,6 +39,14 @@ public class PlayerTest {
         Cell cell2 = new Cell(new Coordinate(2, 2), fieldTest, Sector.GREY);
         playerTest.setPosition(cell2);
         assertEquals(cell2, playerTest.getPosition());
+    }
+
+    @Test
+    public void testIsAlive() {
+        assertTrue(playerTest.isAlive());
+        playerTest.killPlayer();
+        assertFalse(playerTest.isAlive());
+
     }
 
 }

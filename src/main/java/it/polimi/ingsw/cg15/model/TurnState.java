@@ -24,6 +24,7 @@ public class TurnState {
     }
     public void setUsedItemCard(Boolean usedItemCard) {
         this.usedItemCard = usedItemCard;
+
     }
 
 }
