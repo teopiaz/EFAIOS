@@ -11,9 +11,9 @@ public class Noise extends Action {
 
 
     @Override
-    public Object execute() {
+    public boolean execute() {
         // TODO Auto-generated method stub
-        return null;
+        return false;
     }
 
 }

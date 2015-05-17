@@ -4,6 +4,7 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.player.Player;
 
 /**
  * @author LMR - MMP
@@ -34,6 +35,12 @@ public class AlienPlayerController extends PlayerController {
         Cell destination = field.getCell(coord);
         return field.isReachable(currentPosition, destination, 2);
     }
+
+
+    
+    
+
+
     
     
 

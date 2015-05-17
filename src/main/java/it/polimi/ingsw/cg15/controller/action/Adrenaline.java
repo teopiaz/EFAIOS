@@ -4,9 +4,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 
-public class Telport extends Action {
+public class Adrenaline extends Action {
 
-    public Telport(GameController gc) {
+    public Adrenaline(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
     }
@@ -14,12 +14,13 @@ public class Telport extends Action {
     @Override
     public boolean execute() {
         PlayerController pc = getCurrentPlayerController();
-        if(pc.hasCard(ItemCard.ITEM_TELEPORT)){
-            pc.removeCard(ItemCard.ITEM_TELEPORT);
-            pc.movePlayer(getGameController().getFieldController().getHumanStartingPosition());
+        if(pc.hasCard(ItemCard.ITEM_ADRENALINE)){
+            pc.removeCard(ItemCard.ITEM_ADRENALINE);
+            pc.setOnAdrenaline();
             return true;
         }
         return false;
 
     }
+
 }

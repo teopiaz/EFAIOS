@@ -2,8 +2,9 @@ package it.polimi.ingsw.cg15.controller.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.model.player.Player;
 
-public abstract class Action<T> {
+public abstract class Action {
 
     private GameController gameController;
 
@@ -17,9 +18,11 @@ public abstract class Action<T> {
     }
 
     public PlayerController getCurrentPlayerController() {
-        return gameController.getCurrentPlayerInstance();
+        Player currentPlayer = getGameController().getCurrentPlayer();
+        return gameController.getPlayerInstance(currentPlayer);
     }
 
-    public abstract T execute();
+    public abstract boolean execute();
+
 
 }

@@ -2,7 +2,7 @@ package it.polimi.ingsw.cg15.controller.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 
-public class DrawItemCard extends Action<Boolean> {
+public class DrawItemCard extends Action {
 
     public DrawItemCard(GameController gc) {
         super(gc);
@@ -10,7 +10,7 @@ public class DrawItemCard extends Action<Boolean> {
     }
 
     @Override
-    public Boolean execute() {
+    public boolean execute() {
         // TODO Auto-generated method stub
         return true;
     }

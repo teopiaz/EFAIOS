@@ -2,9 +2,11 @@ package it.polimi.ingsw.cg15.controller.action;
 
 import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameController;
+import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
+import it.polimi.ingsw.cg15.model.player.Player;
 
-public class DrawSectorCard extends Action<Boolean> {
+public class DrawSectorCard extends Action {
 
 
     public DrawSectorCard(GameController gc) {
@@ -14,12 +16,14 @@ public class DrawSectorCard extends Action<Boolean> {
 
 
     @Override
-    public Boolean execute() {
+    public boolean execute() {
 
         GameController gc = getGameController();
         FieldController fc = gc.getFieldController();
-        if(fc.isDangerousSector(gc.getCurrentPlayerInstance().getPlayerPosition())){
-            SectorCard card = gc.getCurrentPlayerInstance().drawSectorCard();
+        Player currentPlayer = getGameController().getCurrentPlayer();
+        PlayerController pc= gc.getPlayerInstance(currentPlayer);
+        if(fc.isDangerousSector(pc.getPlayerPosition())){
+            SectorCard card = pc.drawSectorCard();
             Action noise=null;
             if(card==SectorCard.SECTOR_GREEN){
                 noise = new NoiseGreen(gc);
@@ -37,10 +41,12 @@ public class DrawSectorCard extends Action<Boolean> {
                 Action draw = new DrawItemCard(gc);
                 draw.execute();
             }
-            noise.execute();
+            if(noise.execute()){
+                return true;
+            }
         }
 
-        return null;
+        return false;
     }
 
 

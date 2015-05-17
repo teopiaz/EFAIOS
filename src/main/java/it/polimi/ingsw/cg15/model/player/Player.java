@@ -70,8 +70,12 @@ public class Player {
      * Questo metodo uccide il giocatore su cui viene chiamato. Serve quando un
      * giocatore viene eliminato.
      */
-    public void killPlayer() {
-        this.status = false;
+    public boolean killPlayer() {
+        if(status==true){
+            this.status = false;
+            return true;
+        }
+        return false;
     }
 
     public boolean removeCard(ItemCard card) {
@@ -79,6 +83,10 @@ public class Player {
             return true;
         }
         return false;
+    }
+    
+    public boolean addCard(ItemCard card){
+        return cards.add(card);
     }
 
     /*

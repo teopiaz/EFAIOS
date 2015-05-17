@@ -4,6 +4,9 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.field.Sector;
+import it.polimi.ingsw.cg15.model.player.Player;
+
+import java.util.List;
 
 public class FieldController {
 	
@@ -27,6 +30,10 @@ public class FieldController {
 	   }
 	    
 	    return false;
+	}
+	
+	public List<Player> getPlayersInSector(Coordinate coord){
+	    return  field.getCell(coord).getPlayers();
 	}
 
 }

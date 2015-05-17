@@ -61,15 +61,32 @@ public class PlayerController {
 
 
     public void movePlayer(Coordinate dest) {
+        Player cp = gameState.getTurnState().getCurrentPlayer();
+        cp.getPosition().removePlayer(cp);
+        
         Cell destination = gameState.getField().getCell(dest);
-        gameState.getTurnState().getCurrentPlayer().setPosition(destination);
+        cp.setPosition(destination);
+        destination.addPlayer(cp);
+        
 
     }
-
-
+    
+    public boolean killPlayer(Player player){
+        if(player.killPlayer()){
+            return true;
+        }
+        return false;
+    }
+    
     public void removeCard(ItemCard card) {
         Player cp = gameState.getTurnState().getCurrentPlayer();
         cp.removeCard(card);
+
+    }
+    
+    //TODO: testare se può essere mai chiamato (per design NON deve essere mai chiamato)
+    public void setOnAdrenaline(){
+        System.out.println("playerController");
 
     }
 

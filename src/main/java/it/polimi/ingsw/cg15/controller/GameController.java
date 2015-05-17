@@ -32,12 +32,12 @@ public class GameController {
 
     // return a new specification instance of PlayerController from an
     // Enumeration Value
-    public PlayerController getCurrentPlayerInstance() {
-        Player currentPlayer = gameState.getTurnState().getCurrentPlayer();
+    public PlayerController getPlayerInstance(Player player) {
+       
         String className = ((new PlayerController(gameState)).getClass()
                 .getPackage()
                 + "."
-                + currentPlayer.getPlayerType().toClassName() + "PlayerController")
+                + player.getPlayerType().toClassName() + "PlayerController")
                 .substring("package ".length());
 
         Class<?> classe;
@@ -80,6 +80,11 @@ public class GameController {
 
     private PlayerController objectToPlayerController(Object myObject) {
         return (PlayerController) myObject;
+    }
+    
+    
+    public Player getCurrentPlayer(){
+        return gameState.getTurnState().getCurrentPlayer();
     }
 
 

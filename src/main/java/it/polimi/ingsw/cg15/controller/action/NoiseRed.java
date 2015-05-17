@@ -10,11 +10,11 @@ public class NoiseRed extends Action {
     }
 
     @Override
-    public Object execute() {
+    public boolean execute() {
         // TODO Auto-generated method stub
 
         //TODO ask player 
-        return null;
+        return false;
     }
 
 }
