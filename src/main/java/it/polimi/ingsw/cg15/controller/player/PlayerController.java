@@ -85,11 +85,11 @@ public class PlayerController {
     }
 
     public boolean itemCardUsed() {
-        return gameState.getTurnState().UsedItemCard();
+        return gameState.getTurnState().usedItemCard();
     }
 
     public boolean hasAttacked() {
-        return gameState.getTurnState().HasAttacked();
+        return gameState.getTurnState().hasAttacked();
 
     }
 

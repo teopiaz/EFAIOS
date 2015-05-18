@@ -34,10 +34,10 @@ public class TurnState {
         this.usedItemCard = usedItemCard;
 
     }
-    public boolean UsedItemCard() {
+    public boolean usedItemCard() {
         return usedItemCard;
     }
-    public boolean HasAttacked() {
+    public boolean hasAttacked() {
         return hasAttacked;
     }
     public void setHasAttacked() {
