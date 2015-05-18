@@ -99,11 +99,8 @@ public class PlayerController {
     }
 
     public boolean canDrawItemCard() {
-        if (gameState.getTurnState().getCurrentPlayer().getCardListSize() < Player.MAX_ITEMCARD) {
-            return true;
-        } else {
-            return false;
-        }
+        return gameState.getTurnState().getCurrentPlayer().getCardListSize() < Player.MAX_ITEMCARD;
+       
     }
 
     public ItemCard drawItemCard() {
