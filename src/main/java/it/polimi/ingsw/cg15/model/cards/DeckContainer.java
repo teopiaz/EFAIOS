@@ -11,15 +11,15 @@ public class DeckContainer {
 
     SectorDeck sectorDeck;
     ItemDeck itemDeck;
-    HatchDeck hatcDeck;
+    HatchDeck hatchDeck;
 
     /*
      * Costruttore della classe che istanzia i tre tipi di mazzi pesenti.
      */
     public DeckContainer() {
-        SectorDeck sectorDeck = new SectorDeck();
-        ItemDeck itemDeck = new ItemDeck();
-        HatchDeck hatchDeck = new HatchDeck();
+        sectorDeck = new SectorDeck();
+        itemDeck = new ItemDeck();
+        hatchDeck = new HatchDeck();
     }
 
 

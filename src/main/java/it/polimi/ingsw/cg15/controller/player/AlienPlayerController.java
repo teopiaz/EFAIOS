@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
-import it.polimi.ingsw.cg15.model.player.Player;
 
 /**
  * @author LMR - MMP
@@ -27,8 +26,9 @@ public class AlienPlayerController extends PlayerController {
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
-        // TODO implement here
-        System.out.println("AlienPlayerController");
+        if(gameState.getTurnState().hasMoved()){
+            return false;
+        }
         Field field = gameState.getField();
         Cell currentPosition = gameState.getTurnState().getCurrentPlayer()
                 .getPosition();

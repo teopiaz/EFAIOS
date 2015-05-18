@@ -15,10 +15,12 @@ import java.util.List;
 
 public class Player {
 
+    public static final int MAX_ITEMCARD = 3;
     protected Cell position;
     private List<ItemCard> cards;
     private PlayerType type;
     private boolean status = true;
+
 
     /*
      * Il costruttore di questa classe prende in oggetto la cella di origine da

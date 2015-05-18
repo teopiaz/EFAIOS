@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15.controller.action;
+package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
@@ -19,6 +19,11 @@ public class Attack extends Action {
     public boolean execute() {
         GameController gc = getGameController();
         PlayerController pc = getCurrentPlayerController();
+        
+        if(pc.hasAttacked()){
+            return false;
+        }
+        
         List<Player> playersInSector = getGameController().getFieldController().getPlayersInSector(pc.getPlayerPosition());
         
         for (Player player : playersInSector) {
@@ -27,7 +32,7 @@ public class Attack extends Action {
                 getCurrentPlayerController().killPlayer(player);
             }
         }
-        
+        pc.setHasAttacked();
         
         
         return false;

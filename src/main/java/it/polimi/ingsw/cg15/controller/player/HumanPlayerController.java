@@ -4,7 +4,6 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
-import it.polimi.ingsw.cg15.model.player.Player;
 
 /**
  * @author LMR - MMP
@@ -29,7 +28,9 @@ public class HumanPlayerController extends PlayerController {
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
-        System.out.println("HumanPlayerController");
+        if(gameState.getTurnState().hasMoved()){
+            return false;
+        }
         Field field = gameState.getField();
         int distance = 1;
         if(gameState.getTurnState().isUnderAdrenaline()){
@@ -40,6 +41,7 @@ public class HumanPlayerController extends PlayerController {
         return field.isReachable(currentPosition, destination, distance);
     }
     
+    @Override
     public void setOnAdrenaline(){
         gameState.getTurnState().setUnderAdrenaline();
     }

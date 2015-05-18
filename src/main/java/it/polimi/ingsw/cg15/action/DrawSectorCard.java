@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15.controller.action;
+package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameController;
@@ -26,18 +26,18 @@ public class DrawSectorCard extends Action {
             SectorCard card = pc.drawSectorCard();
             Action noise=null;
             if(card==SectorCard.SECTOR_GREEN){
-                noise = new NoiseGreen(gc);
+                noise = new NoiseGreen(gc,false);
             }
             if(card==SectorCard.SECTOR_GREEN_ITEM){
-                noise = new NoiseGreen(gc);
+                noise = new NoiseGreen(gc,true);
                 Action draw = new DrawItemCard(gc);
                 draw.execute();
             }
             if(card==SectorCard.SECTOR_RED){
-                noise = new NoiseRed(gc);
+                noise = new NoiseRed(gc,false);
             }
             if(card==SectorCard.SECTOR_RED_ITEM){
-                noise = new NoiseRed(gc);
+                noise = new NoiseRed(gc,true);
                 Action draw = new DrawItemCard(gc);
                 draw.execute();
             }

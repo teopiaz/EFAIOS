@@ -1,12 +1,15 @@
-package it.polimi.ingsw.cg15.controller.action;
+package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 
 public class NoiseRed extends Action {
+    
+    boolean hasItem=false;
 
-    public NoiseRed(GameController gc) {
+    public NoiseRed(GameController gc, boolean item) {
         super(gc);
-        // TODO Auto-generated constructor stub
+        this.hasItem=item;
+
     }
 
     @Override

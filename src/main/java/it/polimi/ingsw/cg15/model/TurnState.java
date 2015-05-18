@@ -17,21 +17,31 @@ public class TurnState {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-    public void setHasAttacked(boolean hasAttacked) {
-        this.hasAttacked = hasAttacked;
-    }
     public boolean isUnderAdrenaline() {
         return isUnderAdrenaline;
     }
     public void setUnderAdrenaline(){
         this.isUnderAdrenaline=true;
     }
-    public void setHasMoved(boolean hasMoved) {
-        this.hasMoved = hasMoved;
+    public void setHasMoved() {
+        this.hasMoved = true;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
     }
     public void setUsedItemCard(boolean usedItemCard) {
         this.usedItemCard = usedItemCard;
 
+    }
+    public boolean UsedItemCard() {
+        return usedItemCard;
+    }
+    public boolean HasAttacked() {
+        return hasAttacked;
+    }
+    public void setHasAttacked() {
+        hasAttacked = true;
     }
 
 }

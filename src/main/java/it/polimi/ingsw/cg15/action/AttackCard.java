@@ -1,12 +1,12 @@
-package it.polimi.ingsw.cg15.controller.action;
+package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 
-public class Adrenaline extends Action {
+public class AttackCard extends Action {
 
-    public Adrenaline(GameController gc) {
+    public AttackCard(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
     }
@@ -14,13 +14,16 @@ public class Adrenaline extends Action {
     @Override
     public boolean execute() {
         PlayerController pc = getCurrentPlayerController();
-        if(pc.hasCard(ItemCard.ITEM_ADRENALINE)){
-            pc.removeCard(ItemCard.ITEM_ADRENALINE);
-            pc.setOnAdrenaline();
+        if(pc.itemCardUsed()){
+            return false;
+        }
+        if(pc.hasCard(ItemCard.ITEM_ATTACK)){
+            pc.removeCard(ItemCard.ITEM_ATTACK);
+            Action attack = new Attack(getGameController());
+            attack.execute();
             return true;
         }
         return false;
-
     }
 
 }

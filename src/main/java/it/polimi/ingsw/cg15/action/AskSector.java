@@ -1,14 +1,13 @@
-package it.polimi.ingsw.cg15.controller.action;
+package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 
-public class Noise extends Action {
+public class AskSector extends Action {
 
-    public Noise(GameController gc) {
+    public AskSector(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
     }
-
 
     @Override
     public boolean execute() {
