@@ -6,33 +6,33 @@ import java.util.List;
 
 public class HatchDeck {
 
-    private List<HatchCard> hatchDeck = new ArrayList<HatchCard>();
+    private List<HatchCard> hatchDeckMain = new ArrayList<HatchCard>();
 
     public HatchCard drawCard() {
-        if (hatchDeck.isEmpty()) {
+        if (hatchDeckMain.isEmpty()) {
             return null;
         }
-        return hatchDeck.remove(0);
+        return hatchDeckMain.remove(0);
 
     }
 
     public List<HatchCard> getItemDeck() {
-        return hatchDeck;
+        return hatchDeckMain;
 
     }
 
     public int getNumberOfCard() {
-        return hatchDeck.size();
+        return hatchDeckMain.size();
 
     }
 
     public boolean insertCard(HatchCard card) {
-        return hatchDeck.add(card);
+        return hatchDeckMain.add(card);
 
     }
 
     public void shuffleDeck() {
-        Collections.shuffle(hatchDeck);
+        Collections.shuffle(hatchDeckMain);
 
     }
 

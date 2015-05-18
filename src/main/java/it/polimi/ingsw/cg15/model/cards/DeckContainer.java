@@ -42,7 +42,7 @@ public class DeckContainer {
      * Questo metodo ritorna il mazzo delle carte hatch.
      */
     public HatchDeck getHatchDeck() {
-        return hatcDeck;
+        return hatchDeck;
     }
 
 }

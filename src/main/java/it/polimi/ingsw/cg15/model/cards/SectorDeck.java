@@ -9,17 +9,17 @@ public class SectorDeck {
     public static final int MAIN_DECK = 1;
     public static final int DISCARTED_DECK = 2;
 
-    private List<SectorCard> sectorDeck = new ArrayList<SectorCard>();
+    private List<SectorCard> sectorDeckMain = new ArrayList<SectorCard>();
     private List<SectorCard> sectorDeckDiscarded = new ArrayList<SectorCard>();
 
     /*
      * Ritorna una carta.
      */
     public SectorCard drawCard() {
-        if (sectorDeck.isEmpty()) {
+        if (sectorDeckMain.isEmpty()) {
             swapDeck();
         }
-        SectorCard drawed = sectorDeck.remove(0);
+        SectorCard drawed = sectorDeckMain.remove(0);
         sectorDeckDiscarded.add(drawed);
         return drawed;
     }
@@ -28,11 +28,11 @@ public class SectorDeck {
      * Return the number of the cards.
      */
     public int getNumberOfCard() {
-        return sectorDeck.size();
+        return sectorDeckMain.size();
     }
 
     public List<SectorCard> getSectorDeck() {
-        return sectorDeck;
+        return sectorDeckMain;
     }
 
     /*
@@ -51,7 +51,7 @@ public class SectorDeck {
      * Inserisce una carta nel mazzo delle carte.
      */
     public boolean insertCard(SectorCard card) {
-        return sectorDeck.add(card);
+        return sectorDeckMain.add(card);
 
     }
 
@@ -59,13 +59,13 @@ public class SectorDeck {
      * Shuffle the deck.
      */
     public void shuffleDeck() {
-        Collections.shuffle(sectorDeck);
+        Collections.shuffle(sectorDeckMain);
 
     }
 
     private void swapDeck() {
-        if (sectorDeck.isEmpty()) {
-            sectorDeck = sectorDeckDiscarded;
+        if (sectorDeckMain.isEmpty()) {
+            sectorDeckMain = sectorDeckDiscarded;
             sectorDeckDiscarded = new ArrayList<SectorCard>();
             shuffleDeck();
         }

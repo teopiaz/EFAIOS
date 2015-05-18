@@ -9,22 +9,22 @@ public class ItemDeck {
     public static final int MAIN_DECK = 1;
     public static final int DISCARTED_DECK = 2;
 
-    private List<ItemCard> itemDeck = new ArrayList<ItemCard>();
+    private List<ItemCard> itemDeckMain = new ArrayList<ItemCard>();
     private List<ItemCard> itemDeckDiscarded = new ArrayList<ItemCard>();
 
 
     public ItemCard drawCard() {
-        if (itemDeck.isEmpty()) {
+        if (itemDeckMain.isEmpty()) {
             swapDeck();
         }
-        ItemCard drawed = itemDeck.remove(0);
+        ItemCard drawed = itemDeckMain.remove(0);
         itemDeckDiscarded.add(drawed);
         return drawed;
 
     }
 
     public List<ItemCard> getItemDeck() {
-        return itemDeck;
+        return itemDeckMain;
 
     }
 
@@ -39,28 +39,28 @@ public class ItemDeck {
     }
 
     public int getNumberOfCard() {
-        return itemDeck.size();
+        return itemDeckMain.size();
     }
 
 
     public boolean insertCard(ItemCard card) {
-        return itemDeck.add(card);
+        return itemDeckMain.add(card);
 
 
     }
 
     public void shuffleDeck() {
-        Collections.shuffle(itemDeck);
+        Collections.shuffle(itemDeckMain);
 
     }
 
     private void swapDeck() {
 
 
-        if (itemDeck.isEmpty()) {
-            itemDeck = itemDeckDiscarded;
+        if (itemDeckMain.isEmpty()) {
+            itemDeckMain = itemDeckDiscarded;
             itemDeckDiscarded = new ArrayList<ItemCard>();
-            Collections.shuffle(itemDeck);
+            Collections.shuffle(itemDeckMain);
         }
 
 
