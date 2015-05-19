@@ -3,37 +3,49 @@ package it.polimi.ingsw.cg15.model.field;
 import java.util.LinkedList;
 import java.util.List;
 
-
 public class Coordinate {
 
+    private final int x, y, z;
 
-    private final int x,y,z;
-
-
-    //cubic coordinate
-    public Coordinate(int x, int y, int z){
+    // cubic coordinate
+    public Coordinate(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
+    public Coordinate(int r, int c) {
 
-
-    public Coordinate(int r, int c){
-
-        this(
-                c-(r+(r&1))/2,                  //x
-                -(c-(r+(r&1))/2) - r,           //y
-                r                               //z
-                );
+        this(c - (r + (r & 1)) / 2, // x
+                -(c - (r + (r & 1)) / 2) - r, // y
+                r // z
+        );
     }
 
-    //TODO: handle null parameter ???
-    public int getDistance(Coordinate b){
-        if(b==null){
+    public static Coordinate getByLabel(String str) {
+
+        int r = 1, c = 1;
+        char[] charStr = str.toCharArray();
+        if (charStr.length < 3) {
+            c = charStr[0];
+            r = charStr[1];
+        }
+        if (charStr.length == 3) {
+            c = charStr[0];
+            r = charStr[1] * 10 + charStr[2];
+
+        }
+        return new Coordinate(r, c);
+
+    }
+
+    // TODO: handle null parameter ???
+    public int getDistance(Coordinate b) {
+        if (b == null) {
             throw new IllegalArgumentException("destination parameter cannot be null");
         }
-        return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z - b.getZ())) / 2;
+        return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z
+                - b.getZ())) / 2;
     }
 
     public int getX() {
@@ -48,25 +60,24 @@ public class Coordinate {
         return z;
     }
 
-    public int getCol(){
-        return x + (z + (z&1)) / 2;
+    public int getCol() {
+        return x + (z + (z & 1)) / 2;
     }
-    public int getRow(){
+
+    public int getRow() {
         return z;
 
     }
 
-
     @Override
     public String toString() {
         String tmp;
-        tmp = new String(""+((char)(getCol()+65)));
-        if((getRow()+1)<10)
-            tmp = new String(tmp+"0");
+        tmp = new String("" + ((char) (getCol() + 64)));
+        if ((getRow() + 1) < 10)
+            tmp = new String(tmp + "0");
 
-        return new String(tmp+(getRow()));
+        return new String(tmp + (getRow()));
     }
-
 
     @Override
     public int hashCode() {
@@ -96,22 +107,28 @@ public class Coordinate {
         return true;
     }
 
-    public Coordinate getNeighbor(Direction direction){
+    public Coordinate getNeighbor(Direction direction) {
 
-        switch (direction) {        
-        case N: return new Coordinate(x,y+1,z-1);
-        case NE:return new Coordinate(x+1,y,z-1);
-        case NW:return new Coordinate(x-1,y+1,z);
-        case S: return new Coordinate(x,y-1,z+1);
-        case SE:return new Coordinate(x+1,y-1,z);
-        case SW:return new Coordinate(x-1,y,z+1);
+        switch (direction) {
+        case N:
+            return new Coordinate(x, y + 1, z - 1);
+        case NE:
+            return new Coordinate(x + 1, y, z - 1);
+        case NW:
+            return new Coordinate(x - 1, y + 1, z);
+        case S:
+            return new Coordinate(x, y - 1, z + 1);
+        case SE:
+            return new Coordinate(x + 1, y - 1, z);
+        case SW:
+            return new Coordinate(x - 1, y, z + 1);
         default:
             return null;
         }
 
     }
 
-    public List<Coordinate> getNeighborsList(){
+    public List<Coordinate> getNeighborsList() {
         List<Coordinate> list = new LinkedList<Coordinate>();
         for (Direction direction : Direction.values()) {
             list.add(getNeighbor(direction));
@@ -119,10 +136,5 @@ public class Coordinate {
         return list;
 
     }
-
-    
-
-
-
 
 }

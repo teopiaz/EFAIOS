@@ -8,6 +8,8 @@ import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.List;
 
+import utils.MapLoader;
+
 public class FieldController {
 	
 	Field field;
@@ -15,6 +17,10 @@ public class FieldController {
 			
 	public FieldController(GameState gs){
 		this.field = gs.getField();
+	}
+	
+	public boolean loadMap(String mapName){
+	    return MapLoader.loadMap(field, mapName);
 	}
 
 	public Coordinate getHumanStartingPosition() {
@@ -35,5 +41,7 @@ public class FieldController {
 	public List<Player> getPlayersInSector(Coordinate coord){
 	    return  field.getCell(coord).getPlayers();
 	}
+	
+	
 
 }

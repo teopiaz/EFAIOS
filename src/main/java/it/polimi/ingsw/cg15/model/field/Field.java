@@ -21,17 +21,15 @@ public class Field {
 
     private Cell humanStartingPosition;
 
-    public Field(int row, int col) {
-        this.r = row;
-        this.c = col;
-        for (int i = 1; i < r + 1; i++) {
-            for (int j = 1; j < c + 1; j++) {
-                Coordinate coord = new Coordinate(i, j);
-                addCell(coord, Sector.WHITE);
-            }
-        }
-    }
+    /*
+     * public Field(int row, int col) { this.r = row; this.c = col; for (int i =
+     * 1; i < r + 1; i++) { for (int j = 1; j < c + 1; j++) { Coordinate coord =
+     * new Coordinate(i, j); addCell(coord, Sector.WHITE); } } }
+     */
 
+    public Field() {
+
+    }
 
     public void addCell(Coordinate coord, Sector sector) {
         map.put(coord, new Cell(coord, this, sector));
@@ -41,12 +39,13 @@ public class Field {
         return c;
     }
 
-
+    public int getR() {
+        return c;
+    }
 
     public Cell getCell(Coordinate coords) {
         return map.get(coords);
     }
-
 
     public Map<Coordinate, Cell> getField() {
         return map;
@@ -81,8 +80,7 @@ public class Field {
             for (Coordinate nodo : nodikmenouno) {
                 for (Coordinate coordinate : nodo.getNeighborsList()) {
 
-                    if (map.containsKey(coordinate)
-                            && !visited.contains(coordinate)) {
+                    if (map.containsKey(coordinate) && !visited.contains(coordinate)) {
 
                         fringes.get(k).add(coordinate);
                         reachable.add(map.get(coordinate));
@@ -125,8 +123,7 @@ public class Field {
 
                 for (Coordinate coordinate : nodo.getNeighborsList()) {
 
-                    if (map.containsKey(coordinate)
-                            && !visited.contains(coordinate)) {
+                    if (map.containsKey(coordinate) && !visited.contains(coordinate)) {
                         if (coordinate.equals(dest.getCoordinate())) {
                             return true;
                         }
@@ -144,12 +141,17 @@ public class Field {
 
     }
 
+    // TODO: For debuggin purpose. Remove when done.
     public void printMap() {
 
-        for (Entry<Coordinate, Cell> entry : map.entrySet()) {
-            System.out.println("R: " + entry.getKey().getRow() + "C: "
-                    + entry.getKey().getCol() + " value: "
-                    + entry.getValue().getLabel());
+        for (int i = 1; i < 15; i++) {
+            for (int j = 1; j < 23; j++) {
+                Cell cell = map.get(new Coordinate(j, i));
+                if (cell != null) {
+                    System.out.println("R: " + i + " C: " + j + " "
+                            + cell.getCoordinate().toString() + " Type " + cell.getSectorType());
+                }
+            }
         }
     }
 

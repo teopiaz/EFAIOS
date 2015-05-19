@@ -17,7 +17,7 @@ public class PlayerTest {
 
     @Before
     public void setUp() throws Exception {
-        fieldTest = new Field(3, 3);
+        fieldTest = new Field();
         playerTest = new Player(cell, PlayerType.ALIEN);
         cell = new Cell(new Coordinate(1, 1), fieldTest, Sector.ALIEN);
     }
