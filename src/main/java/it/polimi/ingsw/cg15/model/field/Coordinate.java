@@ -39,14 +39,7 @@ public class Coordinate {
 
     }
 
-    // TODO: handle null parameter ???
-    public int getDistance(Coordinate b) {
-        if (b == null) {
-            throw new IllegalArgumentException("destination parameter cannot be null");
-        }
-        return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z
-                - b.getZ())) / 2;
-    }
+
 
     public int getX() {
         return x;
