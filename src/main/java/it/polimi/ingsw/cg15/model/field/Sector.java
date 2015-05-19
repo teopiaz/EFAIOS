@@ -21,6 +21,10 @@ public enum Sector {
     public static Sector valueOf(int sectorNum) {
         return map.get(sectorNum);
     }
+    
+    public int getValue() {
+        return sectorNum;
+    }
 
     
 }

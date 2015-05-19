@@ -78,6 +78,7 @@ public class GameController {
     public Player getCurrentPlayer(){
         return gameState.getTurnState().getCurrentPlayer();
     }
-
+    
+  
 
 }

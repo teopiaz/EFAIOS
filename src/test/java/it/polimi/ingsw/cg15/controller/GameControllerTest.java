@@ -11,24 +11,4 @@ public class GameControllerTest {
     public void setUp() throws Exception {
     }
 
-    @Test
-    public void testGameController() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetFieldController() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetPlayerInstance() {
-        fail("Not yet implemented");
-    }
-
-    @Test
-    public void testGetCurrentPlayer() {
-        fail("Not yet implemented");
-    }
-
 }

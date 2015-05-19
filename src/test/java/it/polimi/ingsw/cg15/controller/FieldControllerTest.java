@@ -20,12 +20,7 @@ public class FieldControllerTest {
         fc = new FieldController(gs);
     }
 
-    @Test
-    public void testLoadMap() {
-        //assertTrue(fc.loadMap("galilei"));
 
-        
-    }
 
 
 }
