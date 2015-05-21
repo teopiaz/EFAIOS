@@ -18,7 +18,7 @@ public abstract class Action {
     }
 
     public PlayerController getCurrentPlayerController() {
-        Player currentPlayer = getGameController().getCurrentPlayer();
+        Player currentPlayer = getGameController().getCurrentPlayer();        
         return gameController.getPlayerInstance(currentPlayer);
     }
 

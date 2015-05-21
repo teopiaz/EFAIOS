@@ -33,6 +33,11 @@ public class Player {
         this.type = type;
         cards = new ArrayList<ItemCard>(3);
     }
+    
+    public Player(){
+        
+    }
+    
 
     public ItemCard getCardById(int id){
         return cards.get(id);

@@ -65,13 +65,7 @@ public class GameController {
         } catch (InvocationTargetException e) {
             // TODO Auto-generated catch block
         }
-
-        return objectToPlayerController(object);
-
-    }
-
-    private PlayerController objectToPlayerController(Object myObject) {
-        return (PlayerController) myObject;
+        return (PlayerController) object;
     }
     
     

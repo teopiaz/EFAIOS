@@ -13,6 +13,8 @@ public class GameState {
     private Field field;
     private TurnState turnState;
     private List<Player> players;
+    private String name;
+
 
     public GameState(Field field, DeckContainer deckContainer, List<Player> players) {
         this.field = field;
@@ -23,6 +25,10 @@ public class GameState {
 
     public DeckContainer getDeckContainer() {
         return deckContainer;
+    }
+    
+    public void setName(String name){
+        this.name=name;
     }
 
 
