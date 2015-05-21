@@ -9,7 +9,7 @@ public class SessionTokenGeneratorTest {
     @Test
     public void testNextSessionId() {
         String token = SessionTokenGenerator.nextSessionId();
-
+        System.out.println(token);
         assertEquals(token.length(), 26);
     }
 

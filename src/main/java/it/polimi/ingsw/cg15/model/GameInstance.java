@@ -21,8 +21,10 @@ public class GameInstance {
     
     
 
-    public GameState addGameInstance(Field field, DeckContainer deckContainer,List<Player> players ){
-        GameState gameState = new GameState(field, deckContainer, players);
+    public GameState addGameInstance( ){
+        Field field = new Field();
+        DeckContainer deckContainer = new DeckContainer();
+        GameState gameState = new GameState(field, deckContainer);
         instanceList.add(gameState);
         return gameState;
     }

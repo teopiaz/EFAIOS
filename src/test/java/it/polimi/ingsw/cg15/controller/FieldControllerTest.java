@@ -16,7 +16,7 @@ public class FieldControllerTest {
     @Before
     public void setUp() throws Exception {
         
-        GameState gs = new GameState(field, null, null);
+        GameState gs = new GameState(field, null);
         fc = new FieldController(gs);
     }
 

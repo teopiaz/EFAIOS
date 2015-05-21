@@ -2,12 +2,26 @@ package it.polimi.ingsw.cg15.model;
 
 import it.polimi.ingsw.cg15.model.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TurnState {
 
     private boolean hasMoved = false;
     private boolean hasAttacked = false;
     private boolean usedItemCard = false;
     private boolean isUnderAdrenaline = false;
+    private boolean lockedOnDiscardOrUseItem = false;
+    private List<String> avaibleActionsList = new ArrayList<String>();
+    private List<String> lockedActionsList = new ArrayList<String>();
+
+    
+    public boolean isLockedOnDiscardOrUseItem() {
+        return lockedOnDiscardOrUseItem;
+    }
+    public void lockOnDiscardOrUseItem() {
+        this.lockedOnDiscardOrUseItem = true;
+    }
     private Player currentPlayer = null;
 
 
