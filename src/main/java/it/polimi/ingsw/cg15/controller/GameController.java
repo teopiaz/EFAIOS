@@ -5,66 +5,53 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author LMR - MMP
  */
-public class GameController implements Runnable{
-
+public class GameController implements Runnable {
 
     private GameState gameState;
     private FieldController fieldController;
     private BlockingQueue<Event> queue;
 
-
-
     public GameController(GameBox gameBox) {
-        this.gameState=gameBox.getGameState();
+        this.gameState = gameBox.getGameState();
         this.queue = gameBox.getQueue();
-        //TODO: modificare la sequenza di creazione della partita
-
+        // TODO: modificare la sequenza di creazione della partita
 
         this.fieldController = new FieldController(gameState);
 
     }
 
-
-
-
     public void run() {
-        while(!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             eventHandler(queue.poll());
         }
     }
 
+    public void eventHandler(Event e) {
 
-
-    public void eventHandler(Event e){
-        
-        System.out.println(this.toString()+" "+e.getCommand());
+        System.out.println(this.toString() + " " + e.getCommand());
     }
-
 
     public FieldController getFieldController() {
         return this.fieldController;
     }
 
-
-
-
-
     // return a new specification instance of PlayerController from an
     // Enumeration Value
     public PlayerController getPlayerInstance(Player player) {
-        String className = ((new PlayerController(gameState)).getClass()
-                .getPackage()
-                + "."
-                + player.getPlayerType().toClassName() + "PlayerController")
-                .substring("package ".length());
+        String className = ((new PlayerController(gameState)).getClass().getPackage() + "."
+                + player.getPlayerType().toClassName() + "PlayerController").substring("package "
+                        .length());
 
         Class<?> classe;
 
@@ -76,47 +63,38 @@ public class GameController implements Runnable{
             object = costruttore.newInstance(gameState);
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "ClassNotFoundException", e);
+
         } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "NoSuchMethodException", e);
+
         } catch (SecurityException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "SecurityException", e);
         } catch (InstantiationException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "InstantiationException", e);
+
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IllegalAccessException", e);
+
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE,
+                    "IllegalArgumentException", e);
+
         } catch (InvocationTargetException e) {
-            e.printStackTrace();
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE,
+                    "InvocationTargetException", e);
+
         }
         return objectToPlayerController(object);
     }
 
-
     private PlayerController objectToPlayerController(Object myObject) {
-        return (PlayerController)myObject;
-     }
-    
-    
-    public Player getCurrentPlayer(){
-        return gameState.getTurnState().getCurrentPlayer();
+        return (PlayerController) myObject;
     }
 
-    
-
-
-
-
-
-
-
+    public Player getCurrentPlayer() {
+        return gameState.getTurnState().getCurrentPlayer();
+    }
 
 }

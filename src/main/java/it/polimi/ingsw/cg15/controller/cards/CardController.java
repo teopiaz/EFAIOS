@@ -44,14 +44,6 @@ public class CardController {
 
 
 
-    /**
-     * 
-     */
-    public void drawSectorCard() {
-        // TODO implement here
-    }
-
-
     private void generateItemDeck() {
         ItemDeck itemDeck = deckContainer.getItemDeck();
 
