@@ -1,8 +1,9 @@
 package utils;
 
 import static org.junit.Assert.*;
-
 import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.utils.MapLoader;
+
 import org.junit.Test;
 
 public class MapLoaderTest {

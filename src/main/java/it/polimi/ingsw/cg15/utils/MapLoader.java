@@ -1,4 +1,4 @@
-package utils;
+package it.polimi.ingsw.cg15.utils;
 
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;

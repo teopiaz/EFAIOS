@@ -1,35 +1,39 @@
 package it.polimi.ingsw.cg15.networking;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @author matteo
+ *
+ */
 public class Event {
-    ClientToken token;
-    String command;
-    List<String> args; 
-    List<String>  retValues;
-    Class event;
-    
-    public void setCommand(String command){
-        this.command=command;
-        /*   event.getClass().
-     Action pippo =  event.class.newInstance();
-        pippo.
-        */
-    }
+   private final ClientToken token;
+   private final String command;
+   private final Map<String, String> args;
 
-    public Event(ClientToken token, String command, List<String> args) {
+   private final List<String>  retValues;
+    
+
+
+    public Event(ClientToken token, String command, Map<String, String>  args) {
         this.token = token;
         this.command = command;
         this.args = args;
-
+        retValues=null;
     }
     
-    public Event(ClientToken token, String command, List<String> args, List<String> retValues) {
+
+
+    public Event(ClientToken token, String command, Map<String, String>  args, List<String> retValues) {
         this.token = token;
         this.command = command;
         this.args = args;
         this.retValues = retValues;
     }
+    
     
     public Event(Event e, List<String> retValues ) {
         this.token = e.token;
@@ -38,33 +42,40 @@ public class Event {
         this.retValues = retValues;
 
     }
+    
+       public Event(Event e, String value ) {
+        this.token = e.token;
+        this.command = e.command;
+        this.args = e.args;
+
+        List<String> array = new ArrayList<String>();
+        array.add(value);
+        this.retValues = array;
+    }
 
     public ClientToken getToken() {
         return token;
     }
 
-    public void setPlayerToken(ClientToken token) {
-        this.token = token;
-    }
 
-    public List<String> getArgs() {
+    public Map<String, String> getArgs() {
         return args;
     }
 
-    public void setArgs(List<String> args) {
-        this.args = args;
-    }
 
     public List<String> getRetValues() {
         return retValues;
     }
 
-    public void setRetValues(List<String> retValues) {
-        this.retValues = retValues;
-    }
 
     public String getCommand() {
         return command;
+    }
+    
+    @Override
+    public String toString() {
+        return "Event [tokenPlayer=" + token.getPlayerToken()+" tokenGame="+ token.getGameToken() + ", command=" + command + ", args=" + args + ", retValues="
+                + retValues + "]";
     }
     
     
