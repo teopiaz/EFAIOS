@@ -28,6 +28,7 @@ public class HumanPlayerController extends PlayerController {
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
+        System.out.println("human moveIsPossible");
         if(gameState.getTurnState().hasMoved()){
             return false;
         }

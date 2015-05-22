@@ -26,6 +26,7 @@ public class AlienPlayerController extends PlayerController {
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
+        System.out.println("alien moveIsPossible");
         if(gameState.getTurnState().hasMoved()){
             return false;
         }

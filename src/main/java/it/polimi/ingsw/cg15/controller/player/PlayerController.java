@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.controller.player;
 
 import it.polimi.ingsw.cg15.model.GameState;
+import it.polimi.ingsw.cg15.model.TurnState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
@@ -54,9 +55,9 @@ public class PlayerController {
     }
 
     public void movePlayer(Coordinate dest) {
-        Player cp = gameState.getTurnState().getCurrentPlayer();
+        TurnState ts = gameState.getTurnState();
+        Player cp = ts.getCurrentPlayer();
         cp.getPosition().removePlayer(cp);
-
         Cell destination = gameState.getField().getCell(dest);
         cp.setPosition(destination);
         destination.addPlayer(cp);

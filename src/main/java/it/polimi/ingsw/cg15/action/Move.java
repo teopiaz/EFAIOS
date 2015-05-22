@@ -17,6 +17,7 @@ public class Move<T> extends Action {
     public boolean execute() {
         PlayerController pc = getCurrentPlayerController();
         if (pc.moveIsPossible(dest)) {
+            System.out.println();
             pc.movePlayer(dest);
             Action draw = new DrawSectorCard(getGameController());
             draw.execute();
