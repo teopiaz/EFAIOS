@@ -40,6 +40,10 @@ public class TurnState {
     public void setHasMoved() {
         this.hasMoved = true;
     }
+    
+    public void resetHasMoved(){
+        this.hasMoved=false;
+    }
 
     public boolean hasMoved() {
         return hasMoved;

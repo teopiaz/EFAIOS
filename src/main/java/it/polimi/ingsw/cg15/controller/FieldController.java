@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.controller;
 
 import it.polimi.ingsw.cg15.model.GameState;
+import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.field.Sector;
@@ -25,6 +26,13 @@ public class FieldController {
 	public Coordinate getHumanStartingPosition() {
 	    
 	    return field.getHumanStartingPosition().getCoordinate();
+	}
+	
+	public void setHumanStartingPosition(Coordinate coord){
+	    Cell startingPosition = field.getCell(coord);
+	    if(startingPosition!=null){
+	        field.setHumanStartingPosition(startingPosition);
+	    }
 	}
 	
 	

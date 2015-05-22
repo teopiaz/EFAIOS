@@ -16,6 +16,7 @@ public class GameState {
     private List<Player> players;
     private String name;
     private GameStatus gameStatus = GameStatus.INITIALIZATION;
+    private final int MAX_PLAYERS = 8;
 
 
     public GameState(Field field, DeckContainer deckContainer) {
@@ -27,6 +28,14 @@ public class GameState {
 
     public DeckContainer getDeckContainer() {
         return deckContainer;
+    }
+    
+    public boolean addPlayer(Player player){
+        if(this.players.size()<MAX_PLAYERS){
+            this.players.add(player);
+            return true;
+        }
+        return false;
     }
     
     public void setName(String name){

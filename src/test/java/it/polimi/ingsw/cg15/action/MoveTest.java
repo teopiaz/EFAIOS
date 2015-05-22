@@ -1,10 +1,11 @@
 package it.polimi.ingsw.cg15.action;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.GameManager;
+import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.AlienPlayerController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameInstance;
@@ -43,34 +44,44 @@ public class MoveTest {
         ctoken = new ClientToken(e.getToken().getPlayerToken(), result.getRetValues().get(0));
         gameToken = ctoken.getGameToken();
         */
-        GameBox gameBox = new GameBox(GameInstance.getInstance().addGameInstance(), null, "prova");
-        GameController gc = new GameController(gameBox);
-        GameState gs = gameBox.getGameState();
-        FieldController fc = gc.getFieldController();
-        fc.loadMap("galilei");
-        
-        Cell startingPosition = gs.getField().getCell(new Coordinate(1, 1));
-        Player player = new Player(startingPosition, PlayerType.ALIEN);
-        gs.getTurnState().setCurrentPlayer(player);
-
-        System.out.println("porcodio");
-        PlayerController pc = gc.getPlayerInstance(player);
-        System.out.println(pc+"    ad");
-
-        pc.movePlayer(new Coordinate(1, 1));
-        Coordinate dest = new Coordinate(1, 2);
-        System.out.println("asd");
-        boolean bo = pc.moveIsPossible(dest);
-        System.out.println(bo+"a");
-        Action move = new Move<Boolean>(gc, dest);
-        move.execute();
-        
+    
         
     }
 
     @Test
     public void testMove() {
-        fail("Not yet implemented");
+        GameState gs = GameInstance.getInstance().addGameInstance();
+        CardController cc = new CardController(gs);
+        GameBox gameBox = new GameBox(gs, null, "prova");
+        GameController gc = new GameController(gameBox);
+        FieldController fc = gc.getFieldController();
+        fc.loadMap("galilei");
+        System.out.println("PORCODIO");
+        Cell startingPosition = gs.getField().getCell(new Coordinate(5,2));
+        System.out.println(startingPosition.getLabel());
+
+        Player player = new Player(startingPosition, PlayerType.ALIEN);
+        startingPosition.addPlayer(player);
+        gs.getTurnState().setCurrentPlayer(player);
+        
+        gs.addPlayer(player);
+
+        System.out.println("porcodio");
+        PlayerController pc = gc.getPlayerInstance(player);
+        System.out.println(pc+"    ad");
+        
+        GameState STATO =gs;
+        Cell provaCella = gs.getField().getCell(new Coordinate(3,2));
+        System.out.println(provaCella.getLabel());
+        pc.movePlayer(provaCella.getCoordinate());
+        gs.getTurnState().resetHasMoved();
+        Coordinate dest = new Coordinate(6, 2);
+
+        Action move = new Move<Boolean>(gc, dest);
+        move.execute();
+        System.out.println("diocane");
+        System.out.println("dioporco"+dest);
+        //assertEquals(gs.getTurnState().getCurrentPlayer().getPosition().getCoordinate(),dest);
     }
 
 }

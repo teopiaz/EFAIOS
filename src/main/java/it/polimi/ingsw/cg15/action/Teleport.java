@@ -4,9 +4,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 
-public class Telport extends Action {
+public class Teleport extends Action {
 
-    public Telport(GameController gc) {
+    public Teleport(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
     }
