@@ -54,7 +54,6 @@ public class MapLoader {
             try {
                 fin=new FileInputStream(file);
             } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
                 Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "File "+ fName+" not found", e1);
                 return false;
             }
@@ -84,16 +83,16 @@ public class MapLoader {
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad readline IOException", e1);
+
             }
         }
 
         try {
             reader.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad close IOException", e);
+
         }
         return true;
 
@@ -137,14 +136,14 @@ public class MapLoader {
             System.out.println("Done");
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave IOException", e);
         } finally {
             try {
                 if (fop != null) {
                     fop.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave file close IOException", e);
             }
         }
     }
