@@ -110,7 +110,7 @@ public class Player {
 
 
     /**
-     * 
+     * Funzione che uccide il giocatore cioè mette a zero il parametro isAlive.
      * @return
      */
     public boolean killPlayer() {
