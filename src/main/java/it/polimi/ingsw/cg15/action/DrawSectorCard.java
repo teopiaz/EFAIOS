@@ -41,6 +41,9 @@ public class DrawSectorCard extends Action {
                 Action draw = new DrawItemCard(gc);
                 draw.execute();
             }
+            if(card==SectorCard.SECTOR_SILENCE){
+                return true;
+            }
             if(noise.execute()){
                 return true;
             }
