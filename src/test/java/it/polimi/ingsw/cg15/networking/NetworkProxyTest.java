@@ -17,7 +17,7 @@ public class NetworkProxyTest {
 
     @Before
     public void setUp() throws Exception {
-        s = "{\"playerToken\": \"d23d2ed223faf3f3a3\",\"gameToken\": \"91ca29jd933d2ed2f3f33\",\"command\": \"move\",\"args\": {\"destination\": \"A02\", \"asdasd\": \"B99\"},\"retValues\": { \"result\": \"true\",\"sectorCard\":\"cardRed\", \"itemCard\":\"itemTeleport\" }}";
+        s = "{\"playerToken\": \"d23d2ed223faf3f3a3\",\"gameToken\":\n \"91ca29jd933d2ed2f3f33\",\"command\": \"move\",\"args\": {\"destination\": \"A02\", \"asdasd\": \"B99\"},\"retValues\": { \"result\": \"true\",\"sectorCard\":\"cardRed\", \"itemCard\":\"itemTeleport\" }}";
     }
 
     @Test

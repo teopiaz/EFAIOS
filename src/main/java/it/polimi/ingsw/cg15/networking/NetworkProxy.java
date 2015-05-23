@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -20,7 +22,10 @@ public class NetworkProxy {
 
 
     public static Event JSONToEvent(String s){
+        Logger.getLogger(NetworkProxy.class.getName()).log(Level.INFO, s);
+        System.out.println(s);
         Event e = null ;
+        
 
         try {
             JSONParser jsonParser = new JSONParser();
