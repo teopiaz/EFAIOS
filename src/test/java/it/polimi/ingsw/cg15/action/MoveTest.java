@@ -56,32 +56,29 @@ public class MoveTest {
         GameController gc = new GameController(gameBox);
         FieldController fc = gc.getFieldController();
         fc.loadMap("galilei");
-        System.out.println("PORCODIO");
         Cell startingPosition = gs.getField().getCell(new Coordinate(5,2));
-        System.out.println(startingPosition.getLabel());
 
-        Player player = new Player(startingPosition, PlayerType.ALIEN);
+
+        Player player = new Player(startingPosition, PlayerType.HUMAN);
         startingPosition.addPlayer(player);
         gs.getTurnState().setCurrentPlayer(player);
         
         gs.addPlayer(player);
 
-        System.out.println("porcodio");
         PlayerController pc = gc.getPlayerInstance(player);
-        System.out.println(pc+"    ad");
         
-        GameState STATO =gs;
-        Cell provaCella = gs.getField().getCell(new Coordinate(3,2));
-        System.out.println(provaCella.getLabel());
+        Cell provaCella = gs.getField().getCell(new Coordinate(5,2));
+
         pc.movePlayer(provaCella.getCoordinate());
         gs.getTurnState().resetHasMoved();
-        Coordinate dest = new Coordinate(6, 2);
+        Coordinate dest = new Coordinate(5, 3);
 
-        Action move = new Move<Boolean>(gc, dest);
-        move.execute();
-        System.out.println("diocane");
-        System.out.println("dioporco"+dest);
-        //assertEquals(gs.getTurnState().getCurrentPlayer().getPosition().getCoordinate(),dest);
+        Action move = new Move(gc, dest);
+        boolean b = move.execute();
+        
+        Coordinate c = gs.getTurnState().getCurrentPlayer().getPosition().getCoordinate();
+        
+        assertEquals(c,dest);
     }
 
 }

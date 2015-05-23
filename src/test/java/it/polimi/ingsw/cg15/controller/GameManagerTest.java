@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,10 +26,12 @@ public class GameManagerTest {
     public static void setUpBeforeClass() throws Exception {
         ctoken = new ClientToken("playerToken", null);
         args.put("gamename","prova_nome_partita");
+
         e = new Event(ctoken, "creategame",args);
+
         Event result = gm.createGame(e);
 
-        ctoken = new ClientToken(e.getToken().getPlayerToken(), result.getRetValues().get(0));
+        ctoken = new ClientToken(e.getToken().getPlayerToken(), result.getRetValues().get("return"));
         gameToken = ctoken.getGameToken();
     }
 
@@ -41,22 +44,14 @@ public class GameManagerTest {
     public void testDispatchMessage() {
         Event event = new Event(ctoken, "move", args);
         gm.dispatchMessage(event);
-
     }
 
     @Test
     public void testCreateGameAndGetGameList() {
-
-
-
         ClientToken ctoken = new ClientToken("playerToken", "gameToken");
-
-        e = new Event(ctoken, "gamelist",null);
-
+        e = new Event(ctoken, "gamelist",null);        
         Event result = gm.getGameList(e);
-        String[] res = result.getRetValues().get(0).split(":");
-        System.out.println(res[1]);
-        assertTrue(res[1].equals("prova_nome_partita"));
+        assertTrue(result.getRetValues().containsKey("prova_nome_partita"));
     }
 
 

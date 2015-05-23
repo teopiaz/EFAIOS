@@ -1,11 +1,15 @@
 package it.polimi.ingsw.cg15.model.field;
 
+import it.polimi.ingsw.cg15.utils.MapLoader;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 
@@ -105,7 +109,7 @@ public class Field {
 
         // creo l'array con la lista di nodi vuoto
         List<List<Coordinate>> fringes = new ArrayList<List<Coordinate>>();
-
+        
         List<Coordinate> visited = new LinkedList<Coordinate>();
         // creo la prima lista a distanza 0 e ci metto il nodo di partenza
         fringes.add(0, new LinkedList<Coordinate>());

@@ -32,7 +32,6 @@ public class TelportTest {
         GameController gc = new GameController(gameBox);
         FieldController fc = gc.getFieldController();
         fc.loadMap("galilei");
-        System.out.println("PORCODIO");
         Cell cella1 = gs.getField().getCell(new Coordinate(6,12));
         System.out.println(cella1.getLabel());
         
@@ -44,7 +43,6 @@ public class TelportTest {
         cella1.addPlayer(player);
         gs.addPlayer(player);
 
-        System.out.println("porcodio");
         
         GameState STATO =gs;
         System.out.println("do la carta");

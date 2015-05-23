@@ -27,12 +27,12 @@ public class Coordinate {
         int r = 1, c = 1;
         char[] charStr = str.toCharArray();
         if (charStr.length < 3) {
-            c = charStr[0];
-            r = charStr[1];
+            c = (int)charStr[0]-64;
+            r = charStr[1]-48;
         }
         if (charStr.length == 3) {
-            c = charStr[0];
-            r = charStr[1] * 10 + charStr[2];
+            c = (int)charStr[0]-64;
+            r = (charStr[1]-48 )* 10 + (charStr[2]-48);
 
         }
         return new Coordinate(r, c);
@@ -94,8 +94,6 @@ public class Coordinate {
         if (x != other.x)
             return false;
         if (y != other.y)
-            return false;
-        if (z != other.z)
             return false;
         return true;
     }

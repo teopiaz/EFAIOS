@@ -1,5 +1,8 @@
 package it.polimi.ingsw.cg15.controller.player;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
@@ -28,7 +31,7 @@ public class HumanPlayerController extends PlayerController {
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
-        System.out.println("human moveIsPossible");
+        Logger.getLogger(Field.class.getName()).log(Level.INFO,"Human move is possible");
         if(gameState.getTurnState().hasMoved()){
             return false;
         }

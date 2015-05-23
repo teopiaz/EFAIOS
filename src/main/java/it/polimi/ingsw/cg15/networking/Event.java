@@ -10,12 +10,12 @@ import java.util.Map;
  *
  */
 public class Event {
-   private final ClientToken token;
-   private final String command;
-   private final Map<String, String> args;
+    private final ClientToken token;
+    private final String command;
+    private final Map<String, String> args;
 
-   private final List<String>  retValues;
-    
+    private final Map<String, String> retValues;
+
 
 
     public Event(ClientToken token, String command, Map<String, String>  args) {
@@ -24,33 +24,33 @@ public class Event {
         this.args = args;
         retValues=null;
     }
-    
 
 
-    public Event(ClientToken token, String command, Map<String, String>  args, List<String> retValues) {
+
+    public Event(ClientToken token, String command, Map<String, String>  args, Map<String, String> retValues) {
         this.token = token;
         this.command = command;
         this.args = args;
         this.retValues = retValues;
     }
-    
-    
-    public Event(Event e, List<String> retValues ) {
+
+
+    public Event(Event e,  Map<String, String>retValues ) {
         this.token = e.token;
         this.command = e.command;
         this.args = e.args;
         this.retValues = retValues;
 
     }
-    
-       public Event(Event e, String value ) {
+
+    public Event(Event e, String value ) {
         this.token = e.token;
         this.command = e.command;
         this.args = e.args;
 
-        List<String> array = new ArrayList<String>();
-        array.add(value);
-        this.retValues = array;
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("return", value);
+        this.retValues = map;
     }
 
     public ClientToken getToken() {
@@ -63,7 +63,7 @@ public class Event {
     }
 
 
-    public List<String> getRetValues() {
+    public Map<String, String> getRetValues() {
         return retValues;
     }
 
@@ -71,12 +71,12 @@ public class Event {
     public String getCommand() {
         return command;
     }
-    
+
     @Override
     public String toString() {
         return "Event [tokenPlayer=" + token.getPlayerToken()+" tokenGame="+ token.getGameToken() + ", command=" + command + ", args=" + args + ", retValues="
                 + retValues + "]";
     }
-    
-    
+
+
 }

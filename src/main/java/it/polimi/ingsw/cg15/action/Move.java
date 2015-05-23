@@ -1,10 +1,14 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
+import it.polimi.ingsw.cg15.utils.MapLoader;
 
-public class Move<T> extends Action {
+public class Move extends Action {
 
     private Coordinate dest;
 
@@ -23,6 +27,7 @@ public class Move<T> extends Action {
             draw.execute();
             return true;
         }
+        Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
 
         return false;
     }
