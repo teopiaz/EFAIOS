@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg15.networking;
 
+import it.polimi.ingsw.cg15.MainServer;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,33 +10,87 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Server {
+public class Server implements Runnable{
 
-    private static final int PORT = 1337;
+    private final int PORT = 1337;
+    private boolean isStarted = false;
+    Object lock = new Object();
 
+    private ServerSocket serverSocket;
     static ExecutorService executor = Executors.newCachedThreadPool();
 
-    public static void main(String[] args) throws IOException {
 
-        Logger.getLogger(Server.class.getName()).log(Level.INFO, "Starting Server on port"+ PORT);
-
-        ServerSocket serverSocket = new ServerSocket(PORT);
+    public void run() {
 
         while (true) {
-            try {
+            synchronized (lock) {
+                if (isStarted==true) {
 
-                Socket socket = serverSocket.accept();
-                // Submits a Runnable task for execution
-                executor.submit(new ClientHandler(socket));
-            } catch (IOException e) {
-                break;
+                    Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "start server==" + isStarted);
+                    System.out.println("adadasdas d asd asd");
+
+                    try {
+
+                        Socket socket = serverSocket.accept();
+                        System.out.println(socket);
+                       // Submits a Runnable task for execution
+                        executor.submit(new ClientHandler(socket));
+                    } catch (IOException e) {
+                        break;
+                    }
+                }
             }
         }
-        // shutdown the executor
-        executor.shutdown();
-        // closes the ServerSocket
-        serverSocket.close();
 
 
     }
+
+
+    public void startServer() {
+        synchronized (lock) {
+
+
+            if (!isStarted) {
+                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Starting Server on port" + PORT);
+
+                try {
+                    serverSocket = new ServerSocket(PORT);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                isStarted = true;
+                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "start server==" + isStarted);
+
+            }
+            else{
+                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Server already up");
+
+            }
+        }
+    }
+
+    public void stopServer() {
+   
+
+            if (isStarted) {
+
+                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Stopping Server");
+
+                try {
+                    serverSocket.close();
+                    isStarted = false;
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            else{
+                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Nothing to stop");
+
+            }
+        }
+    
+
 }

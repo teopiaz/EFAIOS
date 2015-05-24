@@ -37,6 +37,22 @@ public class NetworkProxyTest {
         assertEquals(e.getRetValues().get("result"),"true");
         assertEquals(e.getRetValues().get("itemCard"),"itemTeleport");
 
+        String json = NetworkProxy.eventToJSON(e);
+        
+        e = NetworkProxy.JSONToEvent(json);
+
+        for (Entry<String, String> arg : e.getArgs().entrySet()) {
+            System.out.println("\""+arg.getKey()+"\" "  + arg.getValue());
+        }
+        
+        System.out.println(e);
+        assertEquals(e.getToken().getPlayerToken(),"d23d2ed223faf3f3a3");
+        assertEquals(e.getToken().getGameToken(),"91ca29jd933d2ed2f3f33");
+        assertEquals(e.getCommand(),"move");
+        assertEquals(e.getArgs().get("destination"),"A02");
+        assertEquals(e.getRetValues().get("result"),"true");
+        assertEquals(e.getRetValues().get("itemCard"),"itemTeleport");
+
         
 
     

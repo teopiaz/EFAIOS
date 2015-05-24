@@ -3,7 +3,6 @@ package it.polimi.ingsw.cg15.controller;
 import it.polimi.ingsw.cg15.model.GameInstance;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Field;
-import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 
@@ -97,7 +96,7 @@ public class GameManager {
 
         GameBox gameBox = new GameBox(gameState,queue,token);        
         gameBoxList.put(token, gameBox);
-        Event event = new Event(new ClientToken(e.getToken().getPlayerToken(), token),e.getCommand(),e.getArgs(),e.getRetValues());
+        Event event = new Event(e,token);
         return event;
     }
 

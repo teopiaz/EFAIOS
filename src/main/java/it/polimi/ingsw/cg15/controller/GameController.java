@@ -38,8 +38,12 @@ public class GameController implements Runnable {
     }
 
     public void eventHandler(Event e) {
+        synchronized (gameState) {
+            
+            System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
 
-        System.out.println(this.toString() + " eventHandler -  evento: " + e.getCommand());
+        }
+
     }
 
     public FieldController getFieldController() {

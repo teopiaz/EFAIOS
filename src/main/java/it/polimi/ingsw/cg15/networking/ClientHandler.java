@@ -4,10 +4,10 @@ import it.polimi.ingsw.cg15.controller.GameManager;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler implements Runnable{
 
@@ -21,7 +21,6 @@ public class ClientHandler implements Runnable{
     public void run() {
         // TODO Auto-generated method stub
 
-
         try {
 
 
@@ -32,7 +31,6 @@ public class ClientHandler implements Runnable{
             
            
             while (socketAlive){
-                
                 char[] buffer = new char[1024];
 
                 String message = "";
@@ -40,7 +38,6 @@ public class ClientHandler implements Runnable{
                 int num = inReader.read(buffer);
                 message = new String(buffer);
                 message = message.substring(0,num);
-                System.out.println("MESSAGGIO\n"+message);
                 
 
               Event request = NetworkProxy.JSONToEvent(message);
