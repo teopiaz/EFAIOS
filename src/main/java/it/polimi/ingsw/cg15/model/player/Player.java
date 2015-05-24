@@ -15,18 +15,38 @@ import java.util.List;
 
 public class Player {
 
+    
+    /**
+     * Maximum number of objects that can be held simultaneously by a player is 3
+     */
     public static final int MAX_ITEMCARD = 3;
+    
+    /**
+     * Maximum number of objects that can be held simultaneously by a player is 3
+     */
     protected Cell position;
+    
+    
+    /**
+     * List item cards the player owns. They are cards.
+     */
     private List<ItemCard> cards;
+    
+    /**
+     * list item cards the player owns. Are type paper
+     */
     private PlayerType type;
+    
+    /**
+     * The status of a player indicates if it is still active (in the race) in the current game, or if he was killed and then deleted. Default is active.
+     */
     private boolean status = true;
 
 
-    /*
-     * Il costruttore di questa classe prende in oggetto la cella di origine da
-     * dove partono i due tipi di giocatore e il tipo di giocatore che è stato
-     * creato. Inoltre assegna la possibilità di assegnargli alcune carte di
-     * tipo oggetto, massimo 3.
+    /**
+     * The constructor.
+     * @param origin  the cell from where the players
+     * @param type the type of player that is human or alien
      */
     public Player(Cell origin, PlayerType type) {
         this.position = origin;
@@ -39,43 +59,59 @@ public class Player {
     }
     
 
+    /**
+     * This method returns the item cards held by the player via their identification.
+     * @param id
+     * @return
+     */
     public ItemCard getCardById(int id){
         return cards.get(id);
     }
 
+    
+    /**
+     * Method to get the number of the cards.
+     * @return the number of object cards the player owns.
+     */
     public int getCardListSize(){
         return cards.size();
     }
 
-    /*
-     * Questo metodo ritorna il tipo del giocatore in oggetto.
+    
+    /**
+     * @return the type of player.
      */
     public PlayerType getPlayerType() {
         return this.type;
     }
 
-    /*
-     * Questo metodo ritorna la posizione corrente del giocatore.
+
+    /**
+     * @return the current position of the player
      */
     public Cell getPosition() {
         return this.position;
     }
 
-    /*
-     * Questo metodo ritorna lo stato del giocatore ossia se è ancora vivo
-     * oppure no.
+
+    /**
+     * @return a boolean that says if the player is still alive or not
      */
     public boolean isAlive() {
         return status;
     }
 
+    /**
+     * @return says if the deck of cards the player's personal are present or not
+     */
     public boolean isPersonalDeckEmpty(){
         return cards.isEmpty();
     }
 
-    /*
-     * Questo metodo uccide il giocatore su cui viene chiamato. Serve quando un
-     * giocatore viene eliminato.
+
+    /**
+     * 
+     * @return
      */
     public boolean killPlayer() {
         if(status==true){
@@ -96,7 +132,7 @@ public class Player {
         return cards.add(card);
     }
 
-    /*
+    /**
      * Questo metodo assegna al giocatore una nuova posizione.
      */
     public void setPosition(Cell dest) {
