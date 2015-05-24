@@ -19,7 +19,7 @@ public class Player {
     public static final int MAX_ITEMCARD = 3;
 
     /**
-     * Maximum number of objects that can be held simultaneously by a player is 3
+     * The position of the player.
      */
     protected Cell position;
 
