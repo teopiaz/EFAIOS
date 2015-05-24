@@ -1,7 +1,8 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-/*
- * Questa è la classe dell'oggetto di tipo carta.
+/**
+ * This is the superclass of the model type of card.
+ * @author MMP - LMR
  */
 public interface Card {
 

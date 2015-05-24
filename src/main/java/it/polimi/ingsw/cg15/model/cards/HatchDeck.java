@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author MMP - LMR
+ *
+ */
 public class HatchDeck {
 
     private List<HatchCard> hatchDeckMain = new ArrayList<HatchCard>();

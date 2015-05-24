@@ -1,20 +1,33 @@
 package it.polimi.ingsw.cg15.model.cards;
 
-/*
- * Questa classe contiene i mazzi di gioco e possiede i metodi per gestirli. In particolare i tipi di mazzi sono tre:
- * SectorCard: 4 rosse con oggetto e 6 normali, 4 verdi con oggetto e 6 normali. 5 carte silenzio, tutte senza oggetti. il retro è un esagono.
- * ItemCard: 2 attacco, 2 teletrasporto, 2 adrenalina, 3 sedativi, 2 luci, 1 difesa, il retro è un quadrato.
- * HatchCard: TODO: aggiungere quante carte hatch ci sono
+/**
+ * This class contains the decks of the game and has methods to handle them. 
+ * In particular types of decks are three: 
+ * SectorCard: 4 red and covered with 6 normal, 4 green with item 6 and normal. 5 cards silence, without any objects. the back is a hexagon. 
+ * ItemCard: 2 attack, teleportation 2, 2 adrenaline, 3 sedative, 2 lights, 1 defense, the back is a square. 
+ * HatchCard: TODO: add as many cards as there are hatch
+ * @author MMP - LMR
  */
-
 public class DeckContainer {
 
+    /**
+     * This is the deck of cards sector.
+     */
     SectorDeck sectorDeck;
+    
+    /**
+     * This is the deck of cards object.
+     */
     ItemDeck itemDeck;
+    
+    /**
+     * This is the card deck hatch.
+     */
     HatchDeck hatchDeck;
 
-    /*
-     * Costruttore della classe che istanzia i tre tipi di mazzi pesenti.
+
+    /**
+     * Class constructor that instantiates the three types of clusters present.
      */
     public DeckContainer() {
         sectorDeck = new SectorDeck();
@@ -22,24 +35,24 @@ public class DeckContainer {
         hatchDeck = new HatchDeck();
     }
 
-
-    /*   
-     * Questo metodo ritorna il mazzo delle carte settore.
+    /**
+     * @return the deck of sector cards.
      */
     public SectorDeck getSectorDeck() {
         return sectorDeck;
     }
 
-    /*
-     * Questo metodo ritorna il mazzo delle carte oggetto.
+    
+    /**
+     * @return the deck of the item cards.
      */
     public ItemDeck getItemDeck() {
         return itemDeck;
     }
 
-    /*
-
-     * Questo metodo ritorna il mazzo delle carte hatch.
+    
+    /**
+     * @return the deck of the hatch cards.
      */
     public HatchDeck getHatchDeck() {
         return hatchDeck;

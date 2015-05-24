@@ -1,15 +1,17 @@
 package it.polimi.ingsw.cg15.model.player;
 
-/*
- * Questa classe del model contiene le informazioni sul suo tipo, esso può essere di 3 tipi.
+/**
+ * This class of model contains information on its type, it can be of three types namely human, alien and superalien. 
+ * An alien becomes superalien after successfully attacked at least one human. A superalien can move to three cells within the same turn.
+ * @author MMP - LMR
+ *
  */
-
 public enum PlayerType {
 
     HUMAN, ALIEN, SUPERALIEN;
-    /*
-     * Questo metodo ritorna il tipo di giocatore sotto forma di stringa dove la
-     * prima lettera è maiuscola e le altre no.
+    /**
+     * This method returns the name of the type of player where the first letter is a capital letter and the rest do not.
+     * @return
      */
     public String toClassName() {
         return name().charAt(0) + name().substring(1).toLowerCase();
