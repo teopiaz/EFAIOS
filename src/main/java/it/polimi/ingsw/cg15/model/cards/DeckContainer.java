@@ -25,7 +25,6 @@ public class DeckContainer {
      */
     HatchDeck hatchDeck;
 
-
     /**
      * Class constructor that instantiates the three types of clusters present.
      */
@@ -41,7 +40,6 @@ public class DeckContainer {
     public SectorDeck getSectorDeck() {
         return sectorDeck;
     }
-
     
     /**
      * @return the deck of the item cards.
@@ -50,7 +48,6 @@ public class DeckContainer {
         return itemDeck;
     }
 
-    
     /**
      * @return the deck of the hatch cards.
      */
