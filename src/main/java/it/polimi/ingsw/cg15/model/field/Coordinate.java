@@ -3,17 +3,34 @@ package it.polimi.ingsw.cg15.model.field;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The class that contains the cubic coordinates.
+ * @author MMP - LMR
+ */
 public class Coordinate {
 
+    /**
+     * The cubic coordinate.
+     */
     private final int x, y, z;
 
-    // cubic coordinate
+    /**
+     * The values of the cubics coordinate.
+     * @param x
+     * @param y
+     * @param z
+     */
     public Coordinate(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
+    /**
+     * Trasforms the values of row and coloumn into a cubic coordinates.
+     * @param r
+     * @param c
+     */
     public Coordinate(int r, int c) {
 
         this(c - (r + (r & 1)) / 2, // x
@@ -22,8 +39,12 @@ public class Coordinate {
         );
     }
 
+    /**
+     * It allows to obtain the coordinates from a string that identifies the.
+     * @param str
+     * @return coordinate by row and coloumn.
+     */
     public static Coordinate getByLabel(String str) {
-
         int r = 1, c = 1;
         char[] charStr = str.toCharArray();
         if (charStr.length < 3) {
@@ -36,30 +57,41 @@ public class Coordinate {
 
         }
         return new Coordinate(r, c);
-
     }
 
-
-
+    /**
+     * @return the x cubic coordinate.
+     */
     public int getX() {
         return x;
     }
-
+    
+    /**
+     * @return the y cubic coordinate.
+     */
     public int getY() {
         return y;
     }
-
+    
+    /**
+     * @return the z cubic coordinate.
+     */
     public int getZ() {
         return z;
     }
 
+    /**
+     * @return the column
+     */
     public int getCol() {
         return x + (z + (z & 1)) / 2;
     }
 
+    /**
+     * @return the row
+     */
     public int getRow() {
         return z;
-
     }
 
     @Override
@@ -98,8 +130,12 @@ public class Coordinate {
         return true;
     }
 
+    /**
+     * It allows you to get a list of the coordinates adjacent given a certain direction.
+     * @param direction
+     * @return list of the coordinates adjacent.
+     */
     public Coordinate getNeighbor(Direction direction) {
-
         switch (direction) {
         case N:
             return new Coordinate(x, y + 1, z - 1);
@@ -119,6 +155,10 @@ public class Coordinate {
 
     }
 
+    /**
+     * It allows you to get a list of the coordinates adjacent.
+     * @returnlist of the coordinates adjacent.
+     */
     public List<Coordinate> getNeighborsList() {
         List<Coordinate> list = new LinkedList<Coordinate>();
         for (Direction direction : Direction.values()) {

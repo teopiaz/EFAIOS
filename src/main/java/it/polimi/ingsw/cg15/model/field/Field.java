@@ -11,18 +11,32 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
- * 
+ * This is the instance of the model of the playing field.
+ * @author MMP - LMR
  */
 public class Field {
 
+
     /**
-     * 
+     *  The map.
      */
     private Map<Coordinate, Cell> map = new ConcurrentHashMap<Coordinate, Cell>();
+    
+    /**
+     * The row
+     */
     private int r;
+    
+    /**
+     * The column.
+     */
     private int c;
 
+    /**
+     * The location of the field from where the human players.
+     */
     private Cell humanStartingPosition;
 
     /*
@@ -32,17 +46,26 @@ public class Field {
      */
 
     public Field() {
-
     }
 
+    /**
+     * @param coordinate
+     * @param sector
+     */
     public void addCell(Coordinate coord, Sector sector) {
         map.put(coord, new Cell(coord, this, sector));
     }
 
+    /**
+     * @return the column
+     */
     public int getC() {
         return c;
     }
 
+    /**
+     * @return the row.
+     */
     public int getR() {
         return c;
     }
@@ -51,19 +74,27 @@ public class Field {
         return map.get(coords);
     }
 
+    /**
+     * @return the map of the game.
+     */
     public Map<Coordinate, Cell> getField() {
         return map;
     }
 
+    /**
+     * @return  the location of the field from where the human players.
+     */
     public Cell getHumanStartingPosition() {
         return humanStartingPosition;
     }
 
-    // ritorna una lista di celle reaggiungibili da una sorgente data una
-    // distanza
+    /**
+     * @param source
+     * @param distance
+     * @return list of cells from a source reaggiungibili date a distance
+     */
     public List<Cell> getReachableCellsList(Cell src, int distance) {
         int k;
-
         Coordinate start = src.getCoordinate();
         List<Cell> reachable = new ArrayList<Cell>();
 
@@ -102,6 +133,12 @@ public class Field {
 
     }
 
+    /**
+     * @param src
+     * @param dest
+     * @param distance
+     * @return 
+     */
     public boolean isReachable(Cell src, Cell dest, int distance) {
         int k;
 
@@ -147,7 +184,6 @@ public class Field {
 
     // TODO: For debuggin purpose. Remove when done.
     public void printMap() {
-
         for (int i = 1; i < 15; i++) {
             for (int j = 1; j < 23; j++) {
                 Cell cell = map.get(new Coordinate(j, i));
@@ -159,6 +195,9 @@ public class Field {
         }
     }
 
+    /**
+     * @param human starting position
+     */
     public void setHumanStartingPosition(Cell humanStartingPosition) {
         this.humanStartingPosition = humanStartingPosition;
     }

@@ -7,15 +7,19 @@ import it.polimi.ingsw.cg15.model.field.Field;
 
 /**
  * @author LMR - MMP
+ * The controller of the player.
  */
 public class AlienPlayerController extends PlayerController {
 
     /**
-     * 
+     *  The state of the game.
      */
     private GameState gameState;
 
 
+    /**
+     * @param gameState
+     */
     public AlienPlayerController(GameState gameState) {
         super(gameState);
         this.gameState = gameState;
@@ -36,15 +40,5 @@ public class AlienPlayerController extends PlayerController {
         Cell destination = field.getCell(coord);
         return field.isReachable(currentPosition, destination, 2);
     }
-
-
-    
-    
-
-
-    
-    
-
-
 
 }
