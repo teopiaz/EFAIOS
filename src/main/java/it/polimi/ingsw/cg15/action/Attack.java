@@ -6,6 +6,14 @@ import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.List;
 
+/**
+ * @author MMP - LMR
+ * This class contains the logic of attack. 
+ * It can be done only by a player-type alien or superalien. 
+ * Once a player has declared attack dates back to its current location on the map and check if there are players (both human and alien) in the corresponding cell. 
+ * If there are they are eliminated then the variable isAlive the model is set to false. 
+ * TODO You can attack even before moving or just after?
+ */
 public class Attack extends Action {
 
     public Attack(GameController gc) {

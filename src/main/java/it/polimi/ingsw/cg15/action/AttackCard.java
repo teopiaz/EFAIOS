@@ -4,6 +4,12 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 
+/**
+ * @author MMP - LMR
+ * This class contains the effect of the paper object attacks. 
+ * It checks to see if the player in question is human and then checks to see if other players are present in the cell of the player who calls this card. 
+ * If they are discarded and lost.
+ */
 public class AttackCard extends Action {
 
     public AttackCard(GameController gc) {
