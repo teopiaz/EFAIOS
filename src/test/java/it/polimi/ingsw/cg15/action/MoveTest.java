@@ -6,7 +6,6 @@ import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
-import it.polimi.ingsw.cg15.controller.player.AlienPlayerController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameInstance;
 import it.polimi.ingsw.cg15.model.GameState;
@@ -20,7 +19,6 @@ import it.polimi.ingsw.cg15.networking.Event;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class MoveTest {
@@ -32,21 +30,6 @@ public class MoveTest {
     static ClientToken ctoken;
     static String gameToken;
     
-    
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-       /*
-        ctoken = new ClientToken("playerToken", null);
-        args.put("gamename","prova_nome_partita");
-        e = new Event(ctoken, "creategame",args);
-        Event result = gm.createGame(e);
-
-        ctoken = new ClientToken(e.getToken().getPlayerToken(), result.getRetValues().get(0));
-        gameToken = ctoken.getGameToken();
-        */
-    
-        
-    }
 
     @Test
     public void testMove() {
