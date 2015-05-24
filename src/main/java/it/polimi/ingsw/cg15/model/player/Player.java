@@ -6,37 +6,33 @@ import it.polimi.ingsw.cg15.model.field.Cell;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
- * Questa è l'istanza del model "Player", contiene le informazioni sul giocatore 
- * come: posizione, la lista delle carte oggetto che possiede e il tipo del giocatore 
- * (umano, alieno). Inoltre è presente status che indica se il giocatore è ancora vivo 
- * oppure è stato eliminato da un alieno, in quel caso la variabile status è false.
+/**
+ * This is the instance of the model "Player", contains player information such as location, the list of cards that object and the type of player (human, alien). 
+ * There is also the status that indicates whether the player is still alive or has been killed by an alien, in which case the variable status is false.
+ * @author MMP - LMR
  */
-
 public class Player {
 
-    
     /**
      * Maximum number of objects that can be held simultaneously by a player is 3
      */
     public static final int MAX_ITEMCARD = 3;
-    
+
     /**
      * Maximum number of objects that can be held simultaneously by a player is 3
      */
     protected Cell position;
-    
-    
+
     /**
      * List item cards the player owns. They are cards.
      */
     private List<ItemCard> cards;
-    
+
     /**
      * list item cards the player owns. Are type paper
      */
     private PlayerType type;
-    
+
     /**
      * The status of a player indicates if it is still active (in the race) in the current game, or if he was killed and then deleted. Default is active.
      */
@@ -53,11 +49,10 @@ public class Player {
         this.type = type;
         cards = new ArrayList<ItemCard>(3);
     }
-    
+
+    //TODO: verificare se questo serve!
     public Player(){
-        
     }
-    
 
     /**
      * This method returns the item cards held by the player via their identification.
@@ -68,7 +63,6 @@ public class Player {
         return cards.get(id);
     }
 
-    
     /**
      * Method to get the number of the cards.
      * @return the number of object cards the player owns.
@@ -77,7 +71,6 @@ public class Player {
         return cards.size();
     }
 
-    
     /**
      * @return the type of player.
      */
@@ -108,9 +101,8 @@ public class Player {
         return cards.isEmpty();
     }
 
-
     /**
-     * Funzione che uccide il giocatore cioè mette a zero il parametro isAlive.
+     * Function to kill the player that makes zero parameter isAlive.
      * @return
      */
     public boolean killPlayer() {
@@ -121,19 +113,30 @@ public class Player {
         return false;
     }
 
+    /**
+     * Removing object card in the player's possession.
+     * @param card
+     * @return
+     */
     public boolean removeCard(ItemCard card) {
         if(cards.remove(card)){
             return true;
         }
         return false;
     }
-    
+
+    /**
+     * He adds the current player a card object available. The card must be passed to the function.
+     * @param card
+     * @return
+     */
     public boolean addCard(ItemCard card){
         return cards.add(card);
     }
 
     /**
-     * Questo metodo assegna al giocatore una nuova posizione.
+     * This function takes as input a target cell and move there the current player.
+     * @param dest
      */
     public void setPosition(Cell dest) {
         this.position = dest;
