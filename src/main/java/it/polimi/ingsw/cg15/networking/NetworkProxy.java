@@ -91,16 +91,16 @@ public class NetworkProxy {
         jsonObject.put("gameToken", e.getToken().getGameToken());
         jsonObject.put("command", e.getCommand());
         
-        JSONArray jsonArgs = new JSONArray();
+        JSONObject jsonArgs = new JSONObject();
         for (Entry<String, String> elem : e.getArgs().entrySet()) {
-            jsonArgs.add(elem.getKey()+":"+elem.getValue());
+            jsonArgs.put(elem.getKey(), elem.getValue());
         }
         jsonObject.put("args", jsonArgs);
         
         
-        JSONArray jsonRet = new JSONArray();
+        JSONObject jsonRet = new JSONObject();
         for (Entry<String, String> elem : e.getRetValues().entrySet()) {
-            jsonRet.add(elem.getKey()+":"+elem.getValue());
+            jsonRet.put(elem.getKey(), elem.getValue());
         }
         jsonObject.put("retValues", jsonRet);
 
