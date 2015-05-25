@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @author MMP - LMR
- * 
+ * This is the class of the game controller that takes care of managing the field.
  */
 public class FieldController {
 	
