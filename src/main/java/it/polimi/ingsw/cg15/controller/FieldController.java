@@ -10,6 +10,10 @@ import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.util.List;
 
+/**
+ * @author MMP - LMR
+ * 
+ */
 public class FieldController {
 	
 	Field field;
