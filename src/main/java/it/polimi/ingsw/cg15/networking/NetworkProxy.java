@@ -26,6 +26,8 @@ public class NetworkProxy {
         System.out.println(s);
         Event e = null ;
         
+        Map<String, String> retValues=null;
+        Map<String, String> args = null;
 
         try {
             JSONParser jsonParser = new JSONParser();
@@ -43,7 +45,7 @@ public class NetworkProxy {
 
             
             
-            Map<String, String> args = new HashMap<String, String>();
+            args = new HashMap<String, String>();
             
             
             Iterator<String> argkeysItr = argsjson.keySet().iterator();
@@ -54,7 +56,7 @@ public class NetworkProxy {
                 args.put(key, (String) value);
             }
 
-            Map<String, String> retValues = new HashMap<String, String>();
+           retValues = new HashMap<String, String>();
 
             
             Iterator<String> retkeysItr = retjson.keySet().iterator();
@@ -75,6 +77,7 @@ public class NetworkProxy {
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
+            e = new Event(new ClientToken("nullplyerToken", "nullgameToken"), "nullcommand",  args, retValues);
         }
         return e;
 

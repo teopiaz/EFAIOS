@@ -37,12 +37,13 @@ public class GameController implements Runnable {
         }
     }
 
-    public void eventHandler(Event e) {
+    public Event eventHandler(Event e) {
         synchronized (gameState) {
             
             System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
 
         }
+        return new Event(e, "comando "+e.getCommand());
 
     }
 

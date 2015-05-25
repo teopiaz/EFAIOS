@@ -52,16 +52,22 @@ public class GameManager {
      * Dispatch the event to the requested game instance
      * @param e received event
      */
-    public void dispatchMessage(Event e){
-
+    public Event dispatchMessage(Event e){
         String gameToken = e.getToken().getGameToken();
+        if(!gameBoxList.containsKey(gameToken)){
+            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "Client" + e.getToken().getPlayerToken() + " tried to access an invalid game" );
+
+            return new Event(e, "error game not avaible");
+        }
+
         try {
             gameBoxList.get(gameToken).getQueue().put(e);
         } catch (InterruptedException e1) {
             Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE,"InterruptedException on BlockingQueue",e1 );
         }
         GameController controller = new GameController(gameBoxList.get(gameToken));
-        executor.execute(controller);
+        return controller.eventHandler(e);
+        //executor.execute(controller);
     }
 
     /**
@@ -78,8 +84,31 @@ public class GameManager {
         }
 
         Event event=new Event(e,result);
-
         return event;
+    }
+
+
+
+    public Event eventHandler(Event e) {
+        Event response=null;
+        String command = e.getCommand();
+        switch(command){
+
+            case "creategame": {
+    
+                response =createGame(e);
+                break;
+            }
+            case "listgame": {
+                response=getGameList(e);
+                break;
+            }
+            default:{ 
+                response=dispatchMessage(e);
+                break;
+            }
+        }
+        return response;
     }
 
     /**
@@ -94,9 +123,12 @@ public class GameManager {
         GameState gameState = GameInstance.getInstance().addGameInstance();
         gameState.setName(e.getArgs().get("gamename"));
 
-        GameBox gameBox = new GameBox(gameState,queue,token);        
+        GameBox gameBox = new GameBox(gameState,queue,token);   
+
         gameBoxList.put(token, gameBox);
-        Event event = new Event(e,token);
+        Map<String,String> result = new HashMap<String, String>();
+        result.put("gameToken", token);
+        Event event = new Event(e,result);
         return event;
     }
 

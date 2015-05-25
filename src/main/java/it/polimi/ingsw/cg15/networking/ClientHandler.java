@@ -38,10 +38,10 @@ public class ClientHandler implements Runnable{
                 int num = inReader.read(buffer);
                 message = new String(buffer);
                 message = message.substring(0,num);
-                
+               
 
               Event request = NetworkProxy.JSONToEvent(message);
-              Event response = GameManager.getInstance().createGame(request);
+              Event response = GameManager.getInstance().eventHandler(request);
 
               
                 

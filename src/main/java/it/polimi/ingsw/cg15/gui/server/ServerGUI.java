@@ -19,13 +19,13 @@ import javax.swing.JTextArea;
 
 public class ServerGUI implements Runnable {
 
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 600;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 480;
 
     private JFrame frame; 
     private JTextArea logTextArea;
     private Server server;
-    
+    private String strTitle = "Escape From Alien - Server";
     
     public ServerGUI(Server server){
         this.server = server;
@@ -34,7 +34,7 @@ public class ServerGUI implements Runnable {
     
     private void prepareFrame() {
         
-        frame= new JFrame("Escape From Alien - Server");
+        frame= new JFrame(strTitle);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(true);
@@ -89,6 +89,7 @@ public class ServerGUI implements Runnable {
                 server.startServer();
                  logTextArea.append("Server Started\n");
                  logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
+                 frame.setTitle(strTitle+" STARTED");
 
             } });
         
@@ -97,6 +98,7 @@ public class ServerGUI implements Runnable {
                 server.stopServer();
                  logTextArea.append("Server Stopped\n");
                  logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
+                 frame.setTitle(strTitle+" STOPPED");
 
             } });
         
