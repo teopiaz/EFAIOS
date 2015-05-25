@@ -12,6 +12,9 @@ import it.polimi.ingsw.cg15.model.cards.ItemCard;
  */
 public class AttackCard extends Action {
 
+    /**
+     * @param gc the game controller
+     */
     public AttackCard(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub

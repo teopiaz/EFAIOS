@@ -10,6 +10,10 @@ import it.polimi.ingsw.cg15.model.cards.ItemCard;
  */
 public class Adrenaline extends Action {
 
+    /**
+     * This class is the action of the paper object adrenaline. It takes the instance of the corresponding Gamecontroller.
+     * @param gc the game controller
+     */
     public Adrenaline(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub

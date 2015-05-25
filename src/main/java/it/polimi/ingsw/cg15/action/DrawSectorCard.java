@@ -6,9 +6,18 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 
+/**
+ * @author MMP - LMR
+ * This class is the action of fishing a card type field. 
+ * It occurs when the player is in a cell area of the game called "dangerous area". 
+ * The drawn card can be divided into 5 types.
+ */
 public class DrawSectorCard extends Action {
 
 
+    /**
+     * @param gc the game controller
+     */
     public DrawSectorCard(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub

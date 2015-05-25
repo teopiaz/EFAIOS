@@ -22,8 +22,8 @@ public class Move extends Action {
     private Coordinate dest;
 
     /**
-     * @param gc, it is the Game Controller
-     * @param dest, It is the cell that will be the destination for the player. 
+     * @param gc the Game Controller
+     * @param dest It is the cell that will be the destination for the player. 
      */
     public Move(GameController gc, Coordinate dest) {
         super(gc);

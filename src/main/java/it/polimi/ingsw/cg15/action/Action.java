@@ -13,10 +13,17 @@ public abstract class Action {
     private GameController gameController;
 
 
+    /**
+     * The constructor
+     * @param gc is the Game Controller
+     */
     public Action(GameController gc) {
         this.gameController = gc;
     }
 
+    /**
+     * @return the game controller.
+     */
     public GameController getGameController() {
         return this.gameController;
     }
@@ -29,6 +36,10 @@ public abstract class Action {
         return gameController.getPlayerInstance(currentPlayer);
     }
 
+    /**
+     * This is the method that will be override.
+     * @return
+     */
     public abstract boolean execute();
 
 

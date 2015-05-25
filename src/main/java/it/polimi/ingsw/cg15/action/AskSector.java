@@ -9,6 +9,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
  */
 public class AskSector extends Action {
 
+    /**
+     * @param gc the game controller
+     */
     public AskSector(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub

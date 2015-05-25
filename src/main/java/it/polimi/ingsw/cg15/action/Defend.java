@@ -15,6 +15,10 @@ public class Defend extends Action {
     PlayerController pc;
 
     
+    /**
+     * @param gc the game controller
+     * @param player the current player in use
+     */
     public Defend(GameController gc,Player player) {
         super(gc);
         this.pc= getGameController().getPlayerInstance(player);

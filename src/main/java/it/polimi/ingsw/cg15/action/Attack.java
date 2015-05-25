@@ -16,6 +16,9 @@ import java.util.List;
  */
 public class Attack extends Action {
 
+    /**
+     * @param gc the game controller
+     */
     public Attack(GameController gc) {
         super(gc);
         // TODO Auto-generated constructor stub
