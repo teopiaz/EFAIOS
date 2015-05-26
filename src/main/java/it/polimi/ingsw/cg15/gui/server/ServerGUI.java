@@ -27,9 +27,11 @@ public class ServerGUI implements Runnable {
     private Server server;
     private String strTitle = "Escape From Alien - Server";
     
-    public ServerGUI(Server server){
-        this.server = server;
+    public ServerGUI(){
         prepareFrame();
+    }
+    public void setServer(Server server){
+        this.server=server;
     }
     
     private void prepareFrame() {
@@ -101,6 +103,13 @@ public class ServerGUI implements Runnable {
                  frame.setTitle(strTitle+" STOPPED");
 
             } });
+        
+    }
+    
+    public void stampa(String msg){
+        logTextArea.append(msg);
+        logTextArea.updateUI();
+        logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
         
     }
 

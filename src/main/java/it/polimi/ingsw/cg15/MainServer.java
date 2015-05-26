@@ -12,13 +12,18 @@ public class MainServer {
 
 
     public static void main(String[] args) throws IOException {
-
-        Server server = new Server();
+        
+        ServerGUI serverGUI = new ServerGUI();
+        Thread serverGUIThread = new Thread(serverGUI);
+        
+        Server server = new Server(serverGUI);
         Thread serverThread = new Thread(server);
+        
+        serverGUI.setServer(server);
+        
         serverThread.start();
         
-        ServerGUI serverGUI = new ServerGUI(server);
-        Thread serverGUIThread = new Thread(serverGUI);
+      
         serverGUIThread.start();
         
        

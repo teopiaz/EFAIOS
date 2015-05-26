@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.controller.GameManager;
+import it.polimi.ingsw.cg15.gui.server.ServerGUI;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +14,11 @@ public class ClientHandler implements Runnable{
 
     private Socket socket;
     private boolean socketAlive = true;
+    private ServerGUI gui;
 
-    public ClientHandler(Socket s){
+    public ClientHandler(Socket s,ServerGUI gui){
         this.socket=s;
+        this.gui=gui;
     }
 
     public void run() {
@@ -45,8 +48,12 @@ public class ClientHandler implements Runnable{
 
               
                 
-              socketOut.println("request "+request);
-              socketOut.println("response "+response);
+              socketOut.println("request "+request+"\n");
+              socketOut.println("response "+response+"\n");
+              gui.stampa(socket.getRemoteSocketAddress()+ " "+request.toString()+"\n");
+              gui.stampa(response.toString()+"\n");
+              System.out.println(response.toString());
+              
                     socketOut.flush();
                 
             }

@@ -76,7 +76,9 @@ public class NetworkProxy {
 
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
-            e1.printStackTrace();
+            //e1.printStackTrace();
+            retValues = new HashMap<String, String>();
+            retValues.put("return", "invalid request");
             e = new Event(new ClientToken("nullplyerToken", "nullgameToken"), "nullcommand",  args, retValues);
         }
         return e;

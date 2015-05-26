@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.MainServer;
+import it.polimi.ingsw.cg15.gui.server.ServerGUI;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,7 +18,12 @@ public class Server implements Runnable{
     Object lock = new Object();
 
     private ServerSocket serverSocket;
+    private ServerGUI gui;
     static ExecutorService executor = Executors.newCachedThreadPool();
+    
+    public Server(ServerGUI gui){
+        this.gui=gui;
+    }
 
 
     public void run() {
@@ -34,7 +40,7 @@ public class Server implements Runnable{
                         Socket socket = serverSocket.accept();
                         System.out.println(socket);
                        // Submits a Runnable task for execution
-                        executor.submit(new ClientHandler(socket));
+                        executor.submit(new ClientHandler(socket,gui));
                     } catch (IOException e) {
                         break;
                     }
