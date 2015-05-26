@@ -40,8 +40,11 @@ public class GameController implements Runnable {
     public Event eventHandler(Event e) {
         synchronized (gameState) {
             
+            
+            if(gameState.isStarted()){
+            
             System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
-
+            }
         }
         return new Event(e, "comando "+e.getCommand());
 

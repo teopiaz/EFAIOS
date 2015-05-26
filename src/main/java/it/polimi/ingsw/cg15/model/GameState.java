@@ -15,8 +15,11 @@ public class GameState {
     private TurnState turnState;
     private List<Player> players;
     private String name;
-    private GameStatus gameStatus = GameStatus.INITIALIZATION;
-    private final int MAX_PLAYERS = 8;
+    private String mapName;
+    public final int MAX_PLAYERS = 8;
+    
+    private boolean isStarted=false;
+    private boolean isEnded=false;
 
 
     public GameState(Field field, DeckContainer deckContainer) {
@@ -46,6 +49,14 @@ public class GameState {
     }
 
 
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
+    }
+
     public List<Player> getPlayerList() {
         return this.players;
 
@@ -70,10 +81,26 @@ public class GameState {
     public void setTurnState(TurnState state) {
         this.turnState = state;
     }
+    
 
-private enum GameStatus{
-    INITIALIZATION,CREATED,STARTED,ENDED;
-}
+    public void setStarted(){
+       this.isStarted=true;
+    }
+    public void setEnded(){
+        this.isEnded=true;
+    }
+    
+    public boolean isStarted(){
+       return isStarted;
+    }
+    
+
+    
+    public boolean isEnded(){
+        return isEnded; 
+    }
+    
+
 
 
 }

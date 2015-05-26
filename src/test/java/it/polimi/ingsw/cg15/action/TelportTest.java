@@ -28,7 +28,7 @@ public class TelportTest {
         
         GameState gs = GameInstance.getInstance().addGameInstance();
         CardController cc = new CardController(gs);
-        GameBox gameBox = new GameBox(gs, null, "prova");
+        GameBox gameBox = new GameBox(gs, null, "prova", null);
         GameController gc = new GameController(gameBox);
         FieldController fc = gc.getFieldController();
         fc.loadMap("galilei");

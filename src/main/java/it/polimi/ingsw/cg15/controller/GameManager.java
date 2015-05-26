@@ -2,19 +2,16 @@ package it.polimi.ingsw.cg15.controller;
 
 import it.polimi.ingsw.cg15.model.GameInstance;
 import it.polimi.ingsw.cg15.model.GameState;
-import it.polimi.ingsw.cg15.model.field.Field;
+import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +31,7 @@ public class GameManager {
 
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
 
-    ExecutorService executor = Executors.newCachedThreadPool();
+    //ExecutorService executor = Executors.newCachedThreadPool();
 
 
 
@@ -91,24 +88,90 @@ public class GameManager {
 
     public Event eventHandler(Event e) {
         Event response=null;
-        String command = e.getCommand();
-        switch(command){
 
-            case "creategame": {
+        if(e.getToken().getPlayerToken()!=null){
+            String command = e.getCommand();
+            switch(command){
+
+                case "creategame": {
     
-                response =createGame(e);
-                break;
-            }
-            case "listgame": {
-                response=getGameList(e);
-                break;
-            }
-            default:{ 
-                response=dispatchMessage(e);
-                break;
+                    response =createGame(e);
+                    break;
+                }
+                case "listgame": {
+                    response=getGameList(e);
+                    break;
+                }
+                case "joingame":{
+                    response =joinGame(e);
+                    break;
+                }
+                case "startgame":{
+                    response =startGame(e);
+                    break;
+                }
+    
+                default:{ 
+                    response=dispatchMessage(e);
+                    break;
+                }
             }
         }
+
+        else{
+            response = getClientToken();
+
+        }
         return response;
+
+    }
+
+    private Event startGame(Event e) {
+        ClientToken token = e.getToken();
+        String gameToken = token.getGameToken();
+
+        if(!gameBoxList.containsKey(gameToken)){
+            return new Event(e,"error","invalid_game");
+        }
+        if(gameBoxList.get(gameToken).getPlayers().size() < 2){
+            Logger.getLogger(GameManager.class.getName()).log(Level.INFO,"player size=" + gameBoxList.get(gameToken).getPlayers().size());
+            return new Event(e,"error","wait for more players");
+        }
+        GameBox gameBox = gameBoxList.get(gameToken);
+        gameBox.getGameState().setStarted();
+        return new Event(e,"game_started");
+    }
+
+    private Event getClientToken() {
+        ClientToken ctoken = new ClientToken(SessionTokenGenerator.nextSessionId(), null);
+        return new Event(ctoken,ctoken.getPlayerToken());
+
+    }
+
+    private Event joinGame(Event e) {
+        ClientToken token = e.getToken();
+        String gameToken = token.getGameToken();
+
+        if(!gameBoxList.containsKey(gameToken)){
+
+            return new Event(e,"error","invalid_game");
+        }
+        if(gameBoxList.get(gameToken).getPlayers().size() >= 8){
+
+
+            return new Event(e,"error","game_full");
+        }
+
+        
+        GameBox gameBox = gameBoxList.get(gameToken);
+        if(gameBox.getGameState().isStarted()){
+            return new Event(e,"error","game_already_started");
+
+        }
+        gameBox.getPlayers().put(token.getPlayerToken(), new Player());
+
+
+        return new Event(e,"joined");
     }
 
     /**
@@ -120,10 +183,14 @@ public class GameManager {
         BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(10,true);
         String token = SessionTokenGenerator.nextSessionId();
 
+        
         GameState gameState = GameInstance.getInstance().addGameInstance();
         gameState.setName(e.getArgs().get("gamename"));
-
-        GameBox gameBox = new GameBox(gameState,queue,token);   
+        String mapName = e.getArgs().get("mapname");
+        gameState.setMapName(mapName);
+        
+        Map<String,Player> players = new HashMap<String, Player>();
+        GameBox gameBox = new GameBox(gameState,queue,token,players);   
 
         gameBoxList.put(token, gameBox);
         Map<String,String> result = new HashMap<String, String>();

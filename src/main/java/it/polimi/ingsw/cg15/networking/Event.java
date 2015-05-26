@@ -24,6 +24,16 @@ public class Event {
         this.args = args;
         retValues=null;
     }
+    
+    public Event(ClientToken token, String retValue) {
+        this.token = token;
+        this.command = null;
+        this.args = null;
+        
+        Map<String, String> retmap = new HashMap<String, String>();
+        retmap.put("return", retValue);
+        this.retValues = retmap;
+    }
 
 
 
@@ -50,6 +60,17 @@ public class Event {
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("return", value);
+        this.retValues = map;
+    }
+    
+    
+    public Event(Event e, String retKey, String retValue) {
+        this.token = e.token;
+        this.command = e.command;
+        this.args = e.args;
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(retKey, retValue);
         this.retValues = map;
     }
 
