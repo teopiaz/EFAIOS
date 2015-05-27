@@ -12,7 +12,6 @@ public class MapLoaderTest {
     @Test
     public void testMapLoadingFromLocalFile() {
         Field field = new Field();
-        assertFalse(MapLoader.loadMap(field, "fermi"));
         assertFalse(MapLoader.loadMap(field, null));
         assertTrue(MapLoader.loadMap(field, "galilei"));
         
