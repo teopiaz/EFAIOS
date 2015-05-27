@@ -33,7 +33,8 @@ public class ClientHandler implements Runnable{
             
             
            
-            while (socketAlive){
+           // while (socketAlive){
+                System.out.println("socketAlive");
                 char[] buffer = new char[1024];
 
                 String message = "";
@@ -46,17 +47,19 @@ public class ClientHandler implements Runnable{
               Event request = NetworkProxy.JSONToEvent(message);
               Event response = GameManager.getInstance().eventHandler(request);
 
-              
+
                 
-              socketOut.println("request "+request+"\n");
-              socketOut.println("response "+response+"\n");
-              gui.stampa(socket.getRemoteSocketAddress()+ " "+request.toString()+"\n");
-              gui.stampa(response.toString()+"\n");
+              //socketOut.println("request "+request+"\n");
+              //socketOut.println("response "+response+"\n");
+              String json = NetworkProxy.eventToJSON(response);
+              socketOut.println(json);
+              gui.stampa("RICHIESTA: "+request.toString()+"\n");
+              gui.stampa("RISPOSTA: "+response.toString()+"\n");
               System.out.println(response.toString());
               
                     socketOut.flush();
                 
-            }
+            //}
             inReader.close();
             socketOut.close();
             socket.close();

@@ -17,7 +17,7 @@ public class NetworkProxy {
     /*
      * 
      */
-    
+
     private NetworkProxy(){};
 
 
@@ -25,7 +25,7 @@ public class NetworkProxy {
         Logger.getLogger(NetworkProxy.class.getName()).log(Level.INFO, s);
         System.out.println(s);
         Event e = null ;
-        
+
         Map<String, String> retValues=null;
         Map<String, String> args = null;
 
@@ -38,41 +38,43 @@ public class NetworkProxy {
             String playerToken = (String) jsonObject.get("playerToken");
             String gameToken = (String) jsonObject.get("gameToken");
             String command = (String) jsonObject.get("command");
-            
+
             JSONObject argsjson = (JSONObject) jsonObject.get("args");
 
             JSONObject retjson = (JSONObject) jsonObject.get("retValues");
 
-            
-            
+
+
             args = new HashMap<String, String>();
-            
-            
-            Iterator<String> argkeysItr = argsjson.keySet().iterator();
-            while(argkeysItr.hasNext()) {
-                String key = argkeysItr.next();
-                Object value = argsjson.get(key);
 
-                args.put(key, (String) value);
+            if(argsjson!=null){
+                Iterator<String> argkeysItr = argsjson.keySet().iterator();
+                while(argkeysItr.hasNext()) {
+                    String key = argkeysItr.next();
+                    Object value = argsjson.get(key);
+
+                    args.put(key, (String) value);
+                }
+
             }
+            retValues = new HashMap<String, String>();
 
-           retValues = new HashMap<String, String>();
+            if(retjson!=null){
 
-            
-            Iterator<String> retkeysItr = retjson.keySet().iterator();
-            while(retkeysItr.hasNext()) {
-                String key = retkeysItr.next();
-                Object value = retjson.get(key);
+                Iterator<String> retkeysItr = retjson.keySet().iterator();
+                while(retkeysItr.hasNext()) {
+                    String key = retkeysItr.next();
+                    Object value = retjson.get(key);
 
-                retValues.put(key, (String) value);
+                    retValues.put(key, (String) value);
+                }
             }
-
 
 
 
 
             ClientToken ctoken = new ClientToken(playerToken, gameToken);
-             e = new Event(ctoken, command, args, retValues);
+            e = new Event(ctoken, command, args, retValues);
 
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
@@ -84,34 +86,48 @@ public class NetworkProxy {
         return e;
 
     }
-    
-    
-    
-    
+
+
+
+
     public static String eventToJSON(Event e){
-        
+
         JSONObject jsonObject = new JSONObject();
-
-        jsonObject.put("playerToken", e.getToken().getPlayerToken());
-        jsonObject.put("gameToken", e.getToken().getGameToken());
-        jsonObject.put("command", e.getCommand());
-        
-        JSONObject jsonArgs = new JSONObject();
-        for (Entry<String, String> elem : e.getArgs().entrySet()) {
-            jsonArgs.put(elem.getKey(), elem.getValue());
+        ClientToken ctoken = e.getToken();
+        String playerToken = null;
+        String gameToken= null;
+        if(ctoken!=null){
+            playerToken = e.getToken().getPlayerToken();
+            gameToken = e.getToken().getGameToken();
         }
-        jsonObject.put("args", jsonArgs);
-        
-        
-        JSONObject jsonRet = new JSONObject();
-        for (Entry<String, String> elem : e.getRetValues().entrySet()) {
-            jsonRet.put(elem.getKey(), elem.getValue());
+        String command = e.getCommand();
+        if(playerToken!=null){
+            jsonObject.put("playerToken", playerToken);
         }
-        jsonObject.put("retValues", jsonRet);
+        if(gameToken!=null){
+            jsonObject.put("gameToken", e.getToken().getGameToken());
+        }
+        if(command!=null){
+            jsonObject.put("command", e.getCommand());
+        }
 
-        
+        if(e.getArgs()!=null){
+            JSONObject jsonArgs = new JSONObject();
+            for (Entry<String, String> elem : e.getArgs().entrySet()) {
+                jsonArgs.put(elem.getKey(), elem.getValue());
+            }
+            jsonObject.put("args", jsonArgs);
+        }
+        if(e.getRetValues()!=null){
+            JSONObject jsonRet = new JSONObject();
+            for (Entry<String, String> elem : e.getRetValues().entrySet()) {
+                jsonRet.put(elem.getKey(), elem.getValue());
+            }
+            jsonObject.put("retValues", jsonRet);
+        }
+
         String result = new String(jsonObject.toString());
-        
+
         return result;
     }
 }

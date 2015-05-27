@@ -16,6 +16,7 @@ public class ClientToken {
     }
 
     public String getPlayerToken(){
+        
         return playerToken;
     }
     

@@ -19,7 +19,12 @@ public class Event {
 
 
     public Event(ClientToken token, String command, Map<String, String>  args) {
+        if(token==null){
+            this.token = new ClientToken(null, null);
+        }
+        else{
         this.token = token;
+        }
         this.command = command;
         this.args = args;
         retValues=null;
@@ -38,7 +43,12 @@ public class Event {
 
 
     public Event(ClientToken token, String command, Map<String, String>  args, Map<String, String> retValues) {
+        if(token==null){
+            this.token = new ClientToken(null, null);
+        }
+        else{
         this.token = token;
+        }
         this.command = command;
         this.args = args;
         this.retValues = retValues;
