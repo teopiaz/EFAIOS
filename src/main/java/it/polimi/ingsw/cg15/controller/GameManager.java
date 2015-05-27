@@ -15,10 +15,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * @author matteo
- *
- */
+
 /**
  * @author matteo
  *
@@ -222,6 +219,17 @@ System.out.println(gb);
         result.put("gameToken", token);
         Event event = new Event(e,result);
         return event;
+    }
+    
+    public Event getField(Event e){
+        
+        String gameToken = e.getToken().getGameToken();
+        GameBox gb = gameBoxList.get(gameToken);
+        String printableMap = gb.getGameState().getField().getPrintableMap();
+        
+        Event event = new Event(e.getToken(), printableMap);
+        return event;
+        
     }
 
 

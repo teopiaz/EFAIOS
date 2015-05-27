@@ -194,6 +194,31 @@ public class Field {
             }
         }
     }
+    
+    
+    public String getPrintableMap(){
+        
+        StringBuilder stringBuilder = new StringBuilder();
+
+      String line;
+        for (int i = 1; i < 15; i++) {
+            for (int j = 1; j < 23; j++) {
+                Cell cell = map.get(new Coordinate(j, i));
+                if (cell != null) {
+                     line = i+","+j+","+cell.getSectorType().getValue()+"\n";
+                    }
+                else{
+                     line = i+","+j+","+"0"+"\n";
+                }
+                
+                stringBuilder.append(line);
+
+            }
+        }
+        String result = stringBuilder.toString();
+
+        return result;
+    }
 
     /**
      * @param human starting position
