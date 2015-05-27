@@ -20,6 +20,7 @@ public class ClientCLI implements ViewClientInterface {
     Map<String,String> args;
     Map<String,String> retValues;
     Map<String,String> gameList = new HashMap<String, String>();
+    
 
 
 
@@ -52,12 +53,9 @@ public class ClientCLI implements ViewClientInterface {
             e1.printStackTrace();
         }
         server = new SocketCommunicator(socket);
-        System.out.println("Connection established");
 
         String toSend = NetworkProxy.eventToJSON(e);
-        System.out.println(toSend);
         server.send(toSend);
-        System.out.println("aaa");
 
         String response = server.receive();
         server.close();
@@ -85,7 +83,7 @@ public class ClientCLI implements ViewClientInterface {
         Event response = send(e);
     }
 
-    private Map<String, String> getGamesList() {
+    public Map<String, String> getGamesList() {
 
 
         if(ctoken==null){
@@ -101,17 +99,88 @@ public class ClientCLI implements ViewClientInterface {
     }
 
 
+    public void printGameList(Map<String, String> gameList){
+        
+        for (Entry<String,String> game : gameList.entrySet()) {
+            Map<String, String> retValues = getGameInfo(game.getValue());
+            System.out.println(
+                    "GameName: "+retValues.get("name")+
+                    "\tMap: "+retValues.get("mapName") +
+                    "\t"+retValues.get("playercount")+"/8"
+                    );
+            
+        }
+        
+        
+    }
+    
+    public Map<String, String> getGameInfo(String gameToken){
+        
+        ClientToken token = new ClientToken(ctoken.getPlayerToken(), gameToken);
+        Event e = new Event(token, "gameinfo", null);
+        Event response = send(e);
+        return response.getRetValues();
+    }
+    
+
+    public void joinGame(String gameToken) {
+
+        //{"playerToken": "dkdsulq5e864auhhenl3n7q5g4", "gameToken":"kb4unik0b8735q4ka3179m0vvc"  "command": "joingame",  "args": {    }  ,  "retValues": {}}
+
+        if(ctoken==null){
+            requestClientToken();
+        }
+        
+        ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
+        
+        Event e = new Event(ctoken,"joingame",args);
+        Event response = send(e);
+        stampa("JOIN: "+response.getRetValues().get("return"));
+        
+    }
+    
+    
+    
+    
+    public void startGame(){
+    //{"playerToken": "do85madnn97nq9vn29rccb1c5e", "gameToken":"kb4unik0b8735q4ka3179m0vvc"  "command": "startgame",  "args": {    }  ,  "retValues": {}}
+        if(ctoken==null){
+            requestClientToken();
+        }
+        if(ctoken.getGameToken()==null){
+            stampa("Join a game First");
+        }
+        Event e = new Event(ctoken,"startgame",args);
+        Event response = send(e);
+        for (Entry<String,String> ret : response.getRetValues().entrySet()) {
+            stampa("A"+ret.getKey()+ " "+ret.getValue());
+        }
+        if(response.getRetValues().get("return").equals("game_started")){
+            gameMenu();
+        }
+        
+        
+    }
+
+    
+    
+    
+
     @Override
     public void requestClientToken() {
         //{  "command": "gettoken",  "args": {      }  ,  "retValues": {}}
 
         args=new HashMap<String, String>();
         Event e = new Event(null, "gettoken",args,args);
-        System.out.println(e);
         Event response = send(e);
         this.ctoken= response.getToken();
+        stampa("TOKEN: "+response.getToken().getPlayerToken());
     }
 
+    
+    
+    
+    
     public void menu(){
         Scanner scanner = new Scanner(System.in);
 
@@ -138,12 +207,26 @@ public class ClientCLI implements ViewClientInterface {
                 break;
             }
             case "2" :{
-                gameList = getGamesList();
+               /* gameList = getGamesList();
                 for (Entry<String, String> game : gameList.entrySet()) {
                     System.out.println(game.getKey());
-                }
+                }*/
+                printGameList(getGamesList());
                 break;
             }
+            case "3": {
+                gameList = getGamesList();
+                System.out.println("insert game name");
+                String gameName = scanner.nextLine();
+                String gameToken = gameList.get(gameName);
+                joinGame(gameToken);
+                break;
+            }
+            case "4": {
+                startGame();
+                break;
+            }
+            
 
             }
 
@@ -153,6 +236,27 @@ public class ClientCLI implements ViewClientInterface {
 
 
 
+    public void gameMenu(){
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println(
+                "1)Move"+"\n"
+                        + "2)UseCard"+"\n"
+                        + "");
+
+        String action=null;
+        while(scanner.hasNextLine())
+        {
+            action  = scanner.nextLine();
+
+            switch(action){
+                case "1" :{
+                    System.out.println("action");
+                }
+            }
+        }
+        scanner.close();
+
+    }
 
 }

@@ -84,6 +84,27 @@ public class GameManager {
         return event;
     }
 
+    public Event gameInfo(Event e){
+
+        Event event = e;
+        ClientToken ctoken = e.getToken();
+        String gameToken = ctoken.getGameToken();
+        System.out.println("Test esiste"+gameBoxList.containsKey(gameToken));
+        if(gameBoxList.containsKey(gameToken)){
+            GameBox gb = gameBoxList.get(gameToken);
+System.out.println(gb);
+            Map<String,String> retValues = new HashMap<String, String>();
+
+            retValues.put("name",gb.getGameState().getName());
+            retValues.put("playercount",Integer.toString(gb.getPlayers().size()));
+            retValues.put("mapName",gb.getGameState().getMapName());
+            event = new Event(e,retValues);
+        }
+            System.out.println("GAMEINFO: "+e);
+        return event;
+
+    }
+
 
 
     public Event eventHandler(Event e) {
@@ -93,28 +114,32 @@ public class GameManager {
             String command = e.getCommand();
             switch(command){
 
-                case "creategame": {
-    
-                    response =createGame(e);
-                    break;
-                }
-                case "listgame": {
-                    response=getGameList(e);
-                    break;
-                }
-                case "joingame":{
-                    response =joinGame(e);
-                    break;
-                }
-                case "startgame":{
-                    response =startGame(e);
-                    break;
-                }
-    
-                default:{ 
-                    response=dispatchMessage(e);
-                    break;
-                }
+            case "creategame": {
+
+                response =createGame(e);
+                break;
+            }
+            case "listgame": {
+                response=getGameList(e);
+                break;
+            }
+            case "joingame":{
+                response =joinGame(e);
+                break;
+            }
+            case "startgame":{
+                response =startGame(e);
+                break;
+            }
+            case "gameinfo":{
+                response =gameInfo(e);
+                break;
+            }
+
+            default:{ 
+                response=dispatchMessage(e);
+                break;
+            }
             }
         }
 
@@ -162,7 +187,7 @@ public class GameManager {
             return new Event(e,"error","game_full");
         }
 
-        
+
         GameBox gameBox = gameBoxList.get(gameToken);
         if(gameBox.getGameState().isStarted()){
             return new Event(e,"error","game_already_started");
@@ -183,12 +208,12 @@ public class GameManager {
         BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(10,true);
         String token = SessionTokenGenerator.nextSessionId();
 
-        
+
         GameState gameState = GameInstance.getInstance().addGameInstance();
         gameState.setName(e.getArgs().get("gamename"));
         String mapName = e.getArgs().get("mapname");
         gameState.setMapName(mapName);
-        
+
         Map<String,Player> players = new HashMap<String, Player>();
         GameBox gameBox = new GameBox(gameState,queue,token,players);   
 

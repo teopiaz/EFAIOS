@@ -22,8 +22,7 @@ public class NetworkProxy {
 
 
     public static Event JSONToEvent(String s){
-        Logger.getLogger(NetworkProxy.class.getName()).log(Level.INFO, s);
-        System.out.println(s);
+      //  Logger.getLogger(NetworkProxy.class.getName()).log(Level.INFO, s);
         Event e = null ;
 
         Map<String, String> retValues=null;

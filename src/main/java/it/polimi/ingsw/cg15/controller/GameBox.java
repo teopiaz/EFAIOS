@@ -10,6 +10,13 @@ import java.util.concurrent.BlockingQueue;
 public class GameBox {
 
 
+    @Override
+    public String toString() {
+        return "GameBox [gameState=" + gameState + ", gameToken=" + gameToken + ", queue=" + queue
+                + ", players=" + players + "]";
+    }
+
+
     private GameState gameState;
     private String gameToken;
     private BlockingQueue<Event> queue;

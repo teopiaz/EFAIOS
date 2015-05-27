@@ -76,7 +76,7 @@ public class ServerGUI implements Runnable {
         sidePanel.add(btnStart,BoxLayout.X_AXIS);
 
         sidePanel.add(buttonLabel,BoxLayout.X_AXIS);
-
+        
         
         panel.add(sidePanel,BorderLayout.EAST);
 
