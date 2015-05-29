@@ -1,6 +1,8 @@
 package it.polimi.ingsw.cg15.networking;
 
-public class ClientToken {
+import java.io.Serializable;
+
+public class ClientToken implements Serializable{
 
 
     private final String playerToken;

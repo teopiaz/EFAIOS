@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-import it.polimi.ingsw.cg15.gui.ViewClientInterface;
+import it.polimi.ingsw.cg15.gui.ViewClientInterfaceCLI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-public class ClientCLI implements ViewClientInterface {
+public class ClientCLISocket implements ViewClientInterfaceCLI {
 
-    SocketCommunicator server;
-    ClientToken ctoken=null;
-    Map<String,String> args;
-    Map<String,String> retValues;
-    Map<String,String> gameList = new HashMap<String, String>();
+    private SocketCommunicator server;
+    private ClientToken ctoken=null;
+    private Map<String,String> args;
+    private Map<String,String> retValues;
+    private Map<String,String> gameList = new HashMap<String, String>();
     
 
 
@@ -27,19 +27,14 @@ public class ClientCLI implements ViewClientInterface {
     private String ip;
     private int port;
 
-    public ClientCLI(String ip, int port) {
+    public ClientCLISocket(String ip, int port) {
         this.ip = ip;
         this.port = port;
     }
 
 
 
-    public static void main(String[] args) { 
-        ClientCLI client = new ClientCLI("127.0.0.1", 1337);
-        while(true){
-            client.menu();
-        }
-    }
+
 
 
 

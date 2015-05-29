@@ -5,8 +5,10 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,7 +22,7 @@ import java.util.logging.Logger;
  * @author matteo
  *
  */
-public class GameManager {
+public class GameManager implements GameManagerRemote {
 
     private GameInstance gameInstance;
     private static GameManager singletonInstance = new GameManager();
@@ -46,7 +48,7 @@ public class GameManager {
      * Dispatch the event to the requested game instance
      * @param e received event
      */
-    public Event dispatchMessage(Event e){
+    public Event dispatchMessage(Event e) throws RemoteException{
         String gameToken = e.getToken().getGameToken();
         if(!gameBoxList.containsKey(gameToken)){
             Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "Client" + e.getToken().getPlayerToken() + " tried to access an invalid game" );
@@ -69,7 +71,7 @@ public class GameManager {
      * @param e received event
      * @return a new eventh with the requested list
      */
-    public Event getGameList(Event e){
+    public Event getGameList(Event e) throws RemoteException{
 
         Map<String,String> result = new HashMap<String, String>();
         for (Entry<String,GameBox> game : gameBoxList.entrySet()) {
@@ -81,7 +83,7 @@ public class GameManager {
         return event;
     }
 
-    public Event gameInfo(Event e){
+    public Event getGameInfo(Event e) throws RemoteException{
 
         Event event = e;
         ClientToken ctoken = e.getToken();
@@ -104,7 +106,7 @@ System.out.println(gb);
 
 
 
-    public Event eventHandler(Event e) {
+    public Event eventHandler(Event e) throws RemoteException {
         Event response=null;
 
         if(e.getToken().getPlayerToken()!=null){
@@ -129,7 +131,7 @@ System.out.println(gb);
                 break;
             }
             case "gameinfo":{
-                response =gameInfo(e);
+                response =getGameInfo(e);
                 break;
             }
 
@@ -148,7 +150,7 @@ System.out.println(gb);
 
     }
 
-    private Event startGame(Event e) {
+    public Event startGame(Event e)  throws RemoteException{
         ClientToken token = e.getToken();
         String gameToken = token.getGameToken();
 
@@ -164,13 +166,13 @@ System.out.println(gb);
         return new Event(e,"game_started");
     }
 
-    private Event getClientToken() {
+    public Event getClientToken()  throws RemoteException{
         ClientToken ctoken = new ClientToken(SessionTokenGenerator.nextSessionId(), null);
         return new Event(ctoken,ctoken.getPlayerToken());
 
     }
 
-    private Event joinGame(Event e) {
+    public Event joinGame(Event e)  throws RemoteException{
         ClientToken token = e.getToken();
         String gameToken = token.getGameToken();
 
@@ -201,7 +203,7 @@ System.out.println(gb);
      * @param e received event
      * @return a new event with the game token
      */
-    public Event createGame(Event e){
+    public Event createGame(Event e) throws RemoteException{
         BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(10,true);
         String token = SessionTokenGenerator.nextSessionId();
 
@@ -221,7 +223,7 @@ System.out.println(gb);
         return event;
     }
     
-    public Event getField(Event e){
+    public Event getField(Event e) throws RemoteException{
         
         String gameToken = e.getToken().getGameToken();
         GameBox gb = gameBoxList.get(gameToken);
@@ -231,6 +233,8 @@ System.out.println(gb);
         return event;
         
     }
+
+
 
 
 

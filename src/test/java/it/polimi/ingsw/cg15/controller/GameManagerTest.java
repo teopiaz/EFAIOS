@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,13 +42,13 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testDispatchMessage() {
+    public void testDispatchMessage() throws RemoteException {
         Event event = new Event(ctoken, "move", args);
         gm.dispatchMessage(event);
     }
 
     @Test
-    public void testCreateGameAndGetGameList() {
+    public void testCreateGameAndGetGameList() throws RemoteException {
         ClientToken ctoken = new ClientToken("playerToken", "gameToken");
         e = new Event(ctoken, "gamelist",null);        
         Event result = gm.getGameList(e);

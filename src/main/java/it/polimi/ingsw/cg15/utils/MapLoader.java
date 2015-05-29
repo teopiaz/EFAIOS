@@ -109,7 +109,7 @@ public class MapLoader {
         }
         try {
 
-            file = new File(mapName+".txt");
+            file = new File("maps/"+mapName+".txt");
             fop = new FileOutputStream(file);
 
             // if file doesnt exists, then create it

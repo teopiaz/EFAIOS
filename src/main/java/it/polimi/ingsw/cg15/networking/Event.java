@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.networking;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
  * @author matteo
  *
  */
-public class Event {
+public class Event implements Serializable {
     private final ClientToken token;
     private final String command;
     private final Map<String, String> args;

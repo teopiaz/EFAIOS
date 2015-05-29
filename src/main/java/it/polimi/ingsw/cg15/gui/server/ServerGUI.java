@@ -2,8 +2,8 @@ package it.polimi.ingsw.cg15.gui.server;
 
 
 
-import it.polimi.ingsw.cg15.MainServer;
 import it.polimi.ingsw.cg15.networking.Server;
+import it.polimi.ingsw.cg15.networking.ServerSock;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
