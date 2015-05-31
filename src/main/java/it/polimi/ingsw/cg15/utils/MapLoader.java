@@ -78,7 +78,15 @@ public class MapLoader {
             if (type!=0) {
                 Coordinate coord = new Coordinate(r, c);
                 field.addCell(coord, Sector.valueOf(type));
+                if(type==4){
+                    field.setHumanStartingPosition(field.getCell(coord));
+                }
+                if(type==5){
+                    field.setAlienStartingPosition(field.getCell(coord));
+                }
+                
             }
+            
 
             try {
                 line = reader.readLine();

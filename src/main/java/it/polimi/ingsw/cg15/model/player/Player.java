@@ -141,4 +141,8 @@ public class Player {
     public void setPosition(Cell dest) {
         this.position = dest;
     }
+
+    public void setPlayerType(PlayerType type) {
+        this.type=type;
+    }
 }

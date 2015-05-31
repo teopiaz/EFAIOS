@@ -24,14 +24,16 @@ public class ServerGUI implements Runnable {
 
     private JFrame frame; 
     private JTextArea logTextArea;
-    private Server server;
     private String strTitle = "Escape From Alien - Server";
+    private Server serverRMI;
+    private Server serverSocket;
     
     public ServerGUI(){
         prepareFrame();
     }
-    public void setServer(Server server){
-        this.server=server;
+    public void setServer(Server serverSocket,Server serverRMI){
+        this.serverSocket=serverSocket;
+        this.serverRMI = serverRMI;
     }
     
     private void prepareFrame() {
@@ -88,25 +90,27 @@ public class ServerGUI implements Runnable {
         
         btnStart.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                server.startServer();
-                 logTextArea.append("Server Started\n");
-                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
+                serverSocket.startServer();
+                serverRMI.startServer();
+               /*  logTextArea.append("Server Started\n");
+                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
                  frame.setTitle(strTitle+" STARTED");
 
             } });
         
         btnStop.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                server.stopServer();
-                 logTextArea.append("Server Stopped\n");
-                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
+                serverSocket.stopServer();
+                serverRMI.startServer();
+                /* logTextArea.append("Server Stopped\n");
+                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
                  frame.setTitle(strTitle+" STOPPED");
 
             } });
         
     }
     
-    public void stampa(String msg){
+    public void appendLog(String msg){
         logTextArea.append(msg);
         logTextArea.updateUI();
         logTextArea.setCaretPosition(logTextArea.getDocument().getLength());

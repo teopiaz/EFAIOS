@@ -1,14 +1,18 @@
 package it.polimi.ingsw.cg15.controller;
 
-import it.polimi.ingsw.cg15.controller.player.AlienPlayerController;
+import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameState;
+import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,13 +25,60 @@ public class GameController implements Runnable {
     private GameState gameState;
     private FieldController fieldController;
     private BlockingQueue<Event> queue;
+    private Map<String, Player> players;
+    private CardController cardController;
 
     public GameController(GameBox gameBox) {
         this.gameState = gameBox.getGameState();
         this.queue = gameBox.getQueue();
+        this.players = gameBox.getPlayers();
         // TODO: modificare la sequenza di creazione della partita
 
         this.fieldController = new FieldController(gameState);
+        this.cardController = new CardController(gameState);
+    }
+
+    public void popolateField(){
+        int numPlayer = players.size();
+        int numHumans = numPlayer/2;
+        int numAliens = numPlayer-numHumans;
+        Field field = gameState.getField();
+
+        Random ran = new Random();
+        for (Player player: players.values()) {
+            int randomNum = ran.nextInt(2);
+            if(randomNum==0 && numHumans>0){
+                player.setPosition(field.getHumanStartingPosition());
+                field.getHumanStartingPosition().addPlayer(player);
+                player.setPlayerType(PlayerType.HUMAN);
+                numHumans--;
+            }else{
+                if(numAliens>0){
+                    player.setPosition(field.getAlienStartingPosition());
+                    field.getAlienStartingPosition().addPlayer(player);
+
+                    player.setPlayerType(PlayerType.ALIEN);
+                    numAliens--;
+                }
+                else{
+                    player.setPosition(field.getHumanStartingPosition());
+                    field.getHumanStartingPosition().addPlayer(player);
+                    player.setPlayerType(PlayerType.HUMAN);
+                    numHumans--;
+                    
+                }
+            }
+        }
+
+    }
+    
+    
+    public void initGame(String mapName){
+
+    MapLoader.loadMap(gameState.getField(), mapName);
+    popolateField();
+    
+    
 
     }
 
@@ -39,11 +90,11 @@ public class GameController implements Runnable {
 
     public Event eventHandler(Event e) {
         synchronized (gameState) {
-            
-            
+
+
             if(gameState.isStarted()){
-            
-            System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
+
+                System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
             }
         }
         return new Event(e, "comando "+e.getCommand());

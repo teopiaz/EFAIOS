@@ -1,15 +1,11 @@
 package it.polimi.ingsw.cg15.model.field;
 
-import it.polimi.ingsw.cg15.utils.MapLoader;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
@@ -38,6 +34,11 @@ public class Field {
      * The location of the field from where the human players.
      */
     private Cell humanStartingPosition;
+    
+    /**
+     * Alien players starting position in the current field
+     */
+    private Cell alienStartingPosition;
 
     /*
      * public Field(int row, int col) { this.r = row; this.c = col; for (int i =
@@ -87,6 +88,25 @@ public class Field {
     public Cell getHumanStartingPosition() {
         return humanStartingPosition;
     }
+    
+    
+    /**
+     * @param human starting position
+     */
+    public void setHumanStartingPosition(Cell humanStartingPosition) {
+        this.humanStartingPosition = humanStartingPosition;
+    }
+
+    public Cell getAlienStartingPosition() {
+        return alienStartingPosition;
+
+    }
+
+    public void setAlienStartingPosition(Cell alienStartingPosition) {
+       this.alienStartingPosition = alienStartingPosition;
+        
+    }
+    
 
     /**
      * @param source
@@ -220,11 +240,7 @@ public class Field {
         return result;
     }
 
-    /**
-     * @param human starting position
-     */
-    public void setHumanStartingPosition(Cell humanStartingPosition) {
-        this.humanStartingPosition = humanStartingPosition;
-    }
+
+  
 
 }

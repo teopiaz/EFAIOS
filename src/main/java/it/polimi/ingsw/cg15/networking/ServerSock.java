@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.MainServer;
 import it.polimi.ingsw.cg15.gui.server.ServerGUI;
+import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,11 +19,9 @@ public class ServerSock implements Server{
     Object lock = new Object();
 
     private ServerSocket serverSocket;
-    private ServerGUI gui;
     static ExecutorService executor = Executors.newCachedThreadPool();
     
-    public ServerSock(ServerGUI gui){
-        this.gui=gui;
+    public ServerSock(){
     }
 
 
@@ -33,14 +32,13 @@ public class ServerSock implements Server{
                 if (isStarted==true) {
 
                     Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "start server==" + isStarted);
-                    System.out.println("adadasdas d asd asd");
 
                     try {
 
                         Socket socket = serverSocket.accept();
                         System.out.println(socket);
                        // Submits a Runnable task for execution
-                        executor.submit(new ClientHandler(socket,gui));
+                        executor.submit(new ClientHandler(socket));
                     } catch (IOException e) {
                         break;
                     }
@@ -57,7 +55,7 @@ public class ServerSock implements Server{
 
 
             if (!isStarted) {
-                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Starting Server on port" + PORT);
+                ServerLogger.log("Starting Socket Server on port" + PORT);
 
                 try {
                     serverSocket = new ServerSocket(PORT);
@@ -66,11 +64,11 @@ public class ServerSock implements Server{
                     e.printStackTrace();
                 }
                 isStarted = true;
-                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "start server==" + isStarted);
+                ServerLogger.log("start server==" + isStarted);
 
             }
             else{
-                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Server already up");
+                ServerLogger.log("Socket Server already up");
 
             }
         }
@@ -81,7 +79,7 @@ public class ServerSock implements Server{
 
             if (isStarted) {
 
-                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Stopping Server");
+                ServerLogger.log("Stopping Socket Server");
 
                 try {
                     serverSocket.close();
@@ -93,7 +91,8 @@ public class ServerSock implements Server{
                 }
             }
             else{
-                Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "Nothing to stop");
+                ServerLogger.log("Nothing to stop");
+
 
             }
         }

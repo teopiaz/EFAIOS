@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerGUI;
+import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,9 +17,8 @@ public class ClientHandler implements Runnable{
     private boolean socketAlive = true;
     private ServerGUI gui;
 
-    public ClientHandler(Socket s,ServerGUI gui){
+    public ClientHandler(Socket s){
         this.socket=s;
-        this.gui=gui;
     }
 
     public void run() {
@@ -53,8 +53,8 @@ public class ClientHandler implements Runnable{
               //socketOut.println("response "+response+"\n");
               String json = NetworkProxy.eventToJSON(response);
               socketOut.println(json);
-              gui.stampa("RICHIESTA: "+request.toString()+"\n");
-              gui.stampa("RISPOSTA: "+response.toString()+"\n");
+              ServerLogger.log("RICHIESTA: "+request.toString()+"\n");
+              ServerLogger.log("RISPOSTA: "+response.toString()+"\n");
               System.out.println(response.toString());
               
                     socketOut.flush();

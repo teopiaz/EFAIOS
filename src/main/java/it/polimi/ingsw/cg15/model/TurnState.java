@@ -12,8 +12,8 @@ public class TurnState {
     private boolean usedItemCard = false;
     private boolean isUnderAdrenaline = false;
     private boolean lockedOnDiscardOrUseItem = false;
-    private List<String> avaibleActionsList = new ArrayList<String>();
-    private List<String> lockedActionsList = new ArrayList<String>();
+    private List<ActionEnum> avaibleActionsList = new ArrayList<ActionEnum>();
+    private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
 
     
     public boolean isLockedOnDiscardOrUseItem() {

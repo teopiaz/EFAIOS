@@ -1,4 +1,4 @@
-package utils;
+package it.polimi.ingsw.cg15.utils;
 
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.model.field.Field;

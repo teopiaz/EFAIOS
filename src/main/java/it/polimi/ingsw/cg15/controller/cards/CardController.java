@@ -35,6 +35,9 @@ public class CardController {
      */
     public CardController(GameState gs) {
         this.deckContainer = gs.getDeckContainer();
+    }
+    
+    public void generateDecks(){
         generateSectorDeck();
         generateItemDeck();
         generateHatchDeck();

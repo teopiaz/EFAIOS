@@ -194,7 +194,7 @@ System.out.println(gb);
         }
         gameBox.getPlayers().put(token.getPlayerToken(), new Player());
 
-
+        
         return new Event(e,"joined");
     }
 

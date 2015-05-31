@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerGUI;
+import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -14,11 +15,10 @@ public class ServerRMI implements Server {
     private final int PORT=1099;
     private Registry registry;
     private final String REG = "gm";
-    private ServerGUI gui;
     
     
-    public ServerRMI(ServerGUI gui) throws RemoteException, AlreadyBoundException{
-        this.gui=gui;
+    public ServerRMI() throws RemoteException, AlreadyBoundException{
+        
         //creo il registro
         registry = LocateRegistry.createRegistry(PORT);
         System.out.println("CREO IL REGISTRO");
@@ -28,13 +28,12 @@ public class ServerRMI implements Server {
     public void startServerRMI() throws RemoteException, AlreadyBoundException{
         //creo un istanza dell'oggetto concreta
         GameManager gm = GameManager.getInstance();
-        System.out.println(gm);
         //Creo un oggetto remoto che è soltanto l'interfaccia dell'oggetto di prima
         //(ServerStubRemote) UnicastRemoteObject.exportObject(NOME_OGGETTO_CONCRETO, 0)
         GameManagerRemote gameManagerRemote = (GameManagerRemote) UnicastRemoteObject.exportObject(gm, 0);
         //Associo l'oggetto ad una "pagina" del registro
         registry.bind(REG, gameManagerRemote);
-        System.out.println("bindato l'oggetto remoto");
+        ServerLogger.log("bind remote registry");
     }
 
 
@@ -49,6 +48,7 @@ public class ServerRMI implements Server {
     public void startServer() {
         try {
             startServerRMI();
+            ServerLogger.log("RMI Server Started");
         } catch (RemoteException | AlreadyBoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -60,6 +60,7 @@ public class ServerRMI implements Server {
     @Override
     public void stopServer() {
         // TODO Auto-generated method stub
+        ServerLogger.log("RMI Server Stopped");
         
     }
 }

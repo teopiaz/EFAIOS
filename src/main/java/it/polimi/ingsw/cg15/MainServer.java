@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15;
 
 
 import it.polimi.ingsw.cg15.gui.server.ServerGUI;
+import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 import it.polimi.ingsw.cg15.networking.Server;
 import it.polimi.ingsw.cg15.networking.ServerRMI;
 import it.polimi.ingsw.cg15.networking.ServerSock;
@@ -20,14 +21,13 @@ public class MainServer {
     public static void main(String[] args) throws IOException, AlreadyBoundException {
         
         ServerGUI serverGUI = new ServerGUI();
-        
-       Server serverSocket = new ServerSock(serverGUI);
-        Server serverRMI = new ServerRMI(serverGUI);
-        serverRMI.startServer();
+        ServerLogger logger = new ServerLogger(serverGUI);
+       Server serverSocket = new ServerSock();
+        Server serverRMI = new ServerRMI();
         
         Thread serverSocketThread = new Thread(serverSocket);
         
-        serverGUI.setServer(serverSocket);
+        serverGUI.setServer(serverSocket,serverRMI);
         
 
         serverSocketThread.start();
