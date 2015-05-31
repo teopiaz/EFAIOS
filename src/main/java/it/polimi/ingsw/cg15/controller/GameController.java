@@ -65,20 +65,21 @@ public class GameController implements Runnable {
                     field.getHumanStartingPosition().addPlayer(player);
                     player.setPlayerType(PlayerType.HUMAN);
                     numHumans--;
-                    
+
                 }
             }
         }
 
     }
-    
-    
+
+
     public void initGame(String mapName){
 
-    MapLoader.loadMap(gameState.getField(), mapName);
-    popolateField();
-    
-    
+        MapLoader.loadMap(gameState.getField(), mapName);
+        popolateField();
+
+
+
 
     }
 
@@ -90,7 +91,6 @@ public class GameController implements Runnable {
 
     public Event eventHandler(Event e) {
         synchronized (gameState) {
-
 
             if(gameState.isStarted()){
 

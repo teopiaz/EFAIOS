@@ -72,7 +72,6 @@ public class SubscriberThread extends Thread {
 	 * Effettua la sottoscrizione al solo ed unico topic, 
 	 * i.e., crea la socket verso il subscriber e apre uno stream in ingresso per ricevere
 	 * i messaggi del publisher.
-	 * NB. Non é necessario creare uno stream in uscita, in ottemperanza al pattern.
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
