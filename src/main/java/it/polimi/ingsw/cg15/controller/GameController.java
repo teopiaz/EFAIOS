@@ -11,7 +11,10 @@ import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -28,12 +31,11 @@ public class GameController implements Runnable {
     private Map<String, Player> players;
     private CardController cardController;
 
+
     public GameController(GameBox gameBox) {
         this.gameState = gameBox.getGameState();
         this.queue = gameBox.getQueue();
         this.players = gameBox.getPlayers();
-        // TODO: modificare la sequenza di creazione della partita
-
         this.fieldController = new FieldController(gameState);
         this.cardController = new CardController(gameState);
     }
@@ -45,7 +47,9 @@ public class GameController implements Runnable {
         Field field = gameState.getField();
 
         Random ran = new Random();
+        int playerNumber =1;
         for (Player player: players.values()) {
+            player.setPlayerNumber(playerNumber);
             int randomNum = ran.nextInt(2);
             if(randomNum==0 && numHumans>0){
                 player.setPosition(field.getHumanStartingPosition());
@@ -68,6 +72,7 @@ public class GameController implements Runnable {
 
                 }
             }
+            playerNumber++;
         }
 
     }
@@ -75,11 +80,12 @@ public class GameController implements Runnable {
 
     public void initGame(String mapName){
 
-        MapLoader.loadMap(gameState.getField(), mapName);
+        fieldController.loadMap(mapName);
         popolateField();
 
-
-
+        PlayerController pc = new PlayerController(gameState);     
+        gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
+        cardController.generateDecks();
 
     }
 
@@ -90,15 +96,61 @@ public class GameController implements Runnable {
     }
 
     public Event eventHandler(Event e) {
+        Event response=null;
+
         synchronized (gameState) {
 
-            if(gameState.isStarted()){
+            if(e.getToken().getPlayerToken()!=null && (gameState.isStarted())){
+                String command = e.getCommand();
 
-                System.out.println(gameState.getName()+ " eventHandler -  evento: " + e.getCommand());
+                switch(command){
+
+                case "getmap": 
+                    response =getMap(e);
+                    break;
+
+
+                case "getplayerinfo" :
+                    response = getPlayerInfo(e);
+                    break;
+                }
             }
-        }
-        return new Event(e, "comando "+e.getCommand());
 
+        }
+
+        return response;
+
+    }
+
+    private Event getPlayerInfo(Event e) {
+System.out.println("RICHIESTA\n"+e);
+        String playerToken = e.getToken().getPlayerToken();
+
+        Player thisPlayer = players.get(playerToken);
+
+
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("playernumber",Integer.toString(thisPlayer.getPlayerNumber()));
+        retValues.put("currentposition",thisPlayer.getPosition().getCoordinate().toString());
+        retValues.put("cardnumber",Integer.toString(thisPlayer.getCardListSize()));
+        retValues.put("playertype",thisPlayer.getPlayerType().toClassName());
+
+
+        Event response = new Event(e,retValues);
+        System.out.println("RISPOSTA\n"+response);
+
+
+        return response;
+    }
+
+    private Event getMap(Event e) {
+
+        Field field = gameState.getField();
+
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("map", field.getPrintableMap());
+        Event result = new Event(e,retValues);
+        return result;
     }
 
     public FieldController getFieldController() {

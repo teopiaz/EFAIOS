@@ -1,6 +1,10 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
 
+import it.polimi.ingsw.cg15.gui.client.ClientGameCLI;
+import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -39,7 +43,8 @@ public class SubscriberThread extends Thread {
 	@Override
 	public void run() {
 		while(true){
-			receive();
+			String msg = receive();
+			handleMessage(msg);
 			try {
 				//aspetta 5ms per ridurre i cicli di clock
 				//soprattutto nel caso in cui il publisher vada in crash
@@ -51,7 +56,18 @@ public class SubscriberThread extends Thread {
 		}
 	}
 	
-	/**
+	private void handleMessage(String msg) {
+	    Event e = NetworkProxy.JSONToEvent(msg);
+	  if(  e.getRetValues().get("isstarted").equals("true")){
+	      ClientGameCLI.notifyStart();
+	      
+	      
+	  }
+        
+    }
+
+
+    /**
 	 * Metodo che riceve eventuali messaggi di testo dal publisher
 	 * @return
 	 */

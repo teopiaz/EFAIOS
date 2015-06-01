@@ -22,6 +22,10 @@ public class Player {
      * The position of the player.
      */
     protected Cell position;
+    
+    
+    private int playerNumber;
+
 
     /**
      * List item cards the player owns. They are cards.
@@ -50,8 +54,9 @@ public class Player {
         cards = new ArrayList<ItemCard>(3);
     }
 
-    //TODO: verificare se questo serve!
     public Player(){
+      cards = new ArrayList<ItemCard>(3);
+
     }
 
     /**
@@ -144,5 +149,14 @@ public class Player {
 
     public void setPlayerType(PlayerType type) {
         this.type=type;
+    }
+    
+    
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber) {
+        this.playerNumber = playerNumber;
     }
 }

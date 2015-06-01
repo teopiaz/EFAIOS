@@ -7,7 +7,7 @@ public class Subscribers {
 		for(int i=1; i<=3; i++){
 		    
 		    
-		//	new SubscriberThread(i,"topic"+Integer.toString(i)).start();
+			new SubscriberThread("topic"+Integer.toString(i)).start();
 			
 	}
 }

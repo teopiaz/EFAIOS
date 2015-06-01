@@ -8,12 +8,16 @@ import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
 
+import java.util.List;
+
 /**
  * @author LMR - MMP
  */
 public class PlayerController {
 
     private GameState gameState;
+    public static int FIRST_PLAYER = 1;
+
 
     /**
      * 
@@ -107,5 +111,31 @@ public class PlayerController {
     public ItemCard drawItemCard() {
         return gameState.getDeckContainer().getItemDeck().drawCard();
     }
+    
+    public Player getPlayerById(int id){
+        List<Player> playerList = gameState.getPlayerList();
+        for (Player player : playerList) {
+            if(player.getPlayerNumber()==id)
+                 return player;
+        }
+        return null;
+    }
+    
+    public Player getNextPlayer(){
+        
+        List<Player> playerList = gameState.getPlayerList();
+        int numPlayer = playerList.size();
+        
+        int currentPlayerIndex = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
+        if(currentPlayerIndex+1>numPlayer){
+            return getPlayerById(FIRST_PLAYER);
+        }
+        else{
+            return getPlayerById(currentPlayerIndex+1);
+
+        }
+        
+    }
+    
 
 }

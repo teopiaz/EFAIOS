@@ -1,6 +1,10 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
 
+import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.Server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
@@ -8,16 +12,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.BlockingQueue;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class Broker extends Thread{
-    private final int portNumber = 7331;
-    private boolean listening = true;
+public class Broker extends Thread implements Server{
+    private static final int portNumber = 7331;
+    private static boolean listening = false;
     //private ArrayList<BrokerThread> subscribers = new ArrayList<BrokerThread>();
-    private Map<String,List<BrokerThread>> topicMap =  new HashMap<String,List<BrokerThread>>();
+    private static Map<String,List<BrokerThread>> topicMap =  new HashMap<String,List<BrokerThread>>();
     private static Broker instance = new Broker();
+    private static Object lock = new Object();
 
+    private static BlockingQueue<Event> queue;
+
+    
     private Broker(){
 
     }
@@ -26,23 +35,17 @@ public class Broker extends Thread{
         return instance;
     }
     
-    public static void main(String[] args) {
-        System.out.println("Starting the Broker Service");
-        Broker broker = Broker.getInstance();
-        broker.start();
+  
+    
+    private static void handleQueue(){
+       if(!queue.isEmpty()) {
+            Event e = queue.poll();
+            String topic=e.getToken().getGameToken();
+            String json = NetworkProxy.eventToJSON(e);
+            publish(topic,json);
 
-       // System.out.println("Write something to publish on topic "+broker.topic+": ");
-        Scanner stdin = new Scanner(System.in);
-        try {
-            while (true) {
-                String topic = stdin.nextLine();
-                
-                String inputLine = stdin.nextLine();
-                
-                broker.publish(topic,inputLine);
-            }
-        }catch(NoSuchElementException e) {}
-
+            
+        }
     }
 
     /**
@@ -58,6 +61,12 @@ public class Broker extends Thread{
      */
     @Override
     public void run() {
+        
+        while (true) {
+            synchronized (lock) {
+                if (listening==true) {
+
+
         try(ServerSocket brokerSocket = new ServerSocket(portNumber)){
             while(listening){
                 BrokerThread brokerThread = new BrokerThread(brokerSocket.accept());
@@ -69,6 +78,9 @@ public class Broker extends Thread{
         }catch(IOException e){
             System.err.println("Cannot listen on port: "+portNumber);
             System.exit(-1);
+        }
+                }
+            }
         }
     }
 
@@ -91,7 +103,7 @@ public class Broker extends Thread{
      * un metodo interno a ciascun subscriber, il quale a sua volta gestirá l'invio del messaggio.
      * @param msg Il messaggio da mandare.
      */
-    private void publish(String topic,String msg){
+    public static void publish(String topic,String msg){
 
         System.out.println(topicMap.containsKey(topic));
         for (Entry<String,List<BrokerThread>> str : topicMap.entrySet()) {
@@ -111,5 +123,15 @@ public class Broker extends Thread{
             }
         }
 
+    }
+
+    @Override
+    public void startServer() {
+        listening = true;
+    }
+
+    @Override
+    public void stopServer() {
+        listening=false;
     }
 }

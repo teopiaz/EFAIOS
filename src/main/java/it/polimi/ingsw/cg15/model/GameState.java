@@ -33,12 +33,12 @@ public class GameState {
         return deckContainer;
     }
     
-    public boolean addPlayer(Player player){
+    public Player addPlayer(Player player){
         if(this.players.size()<MAX_PLAYERS){
             this.players.add(player);
-            return true;
+            return player;
         }
-        return false;
+        return null;
     }
     
     public void setName(String name){
@@ -65,12 +65,6 @@ public class GameState {
     public Field getField() {
         return field;
     }
-    public Player getPlayerById(int id){
-        return this.players.get(id);
-    }
-
-
-
 
     public TurnState getTurnState() {
         return turnState;
@@ -78,8 +72,9 @@ public class GameState {
 
 
 
-    public void setTurnState(TurnState state) {
-        this.turnState = state;
+    public void newTurnState(Player currentPlayer) {
+        this.turnState = new TurnState();
+        turnState.setCurrentPlayer(currentPlayer);
     }
     
 

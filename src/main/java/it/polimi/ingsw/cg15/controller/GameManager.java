@@ -6,16 +6,24 @@ import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
+import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.rmi.RemoteException;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimerTask;
 import java.util.Map.Entry;
+import java.util.Timer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.junit.rules.Timeout;
 
 
 /**
@@ -24,6 +32,7 @@ import java.util.logging.Logger;
  */
 public class GameManager implements GameManagerRemote {
 
+    private ClientToken token;
     private GameInstance gameInstance;
     private static GameManager singletonInstance = new GameManager();
 
@@ -91,7 +100,7 @@ public class GameManager implements GameManagerRemote {
         System.out.println("Test esiste"+gameBoxList.containsKey(gameToken));
         if(gameBoxList.containsKey(gameToken)){
             GameBox gb = gameBoxList.get(gameToken);
-System.out.println(gb);
+            System.out.println(gb);
             Map<String,String> retValues = new HashMap<String, String>();
 
             retValues.put("name",gb.getGameState().getName());
@@ -99,7 +108,7 @@ System.out.println(gb);
             retValues.put("mapName",gb.getGameState().getMapName());
             event = new Event(e,retValues);
         }
-            System.out.println("GAMEINFO: "+e);
+        System.out.println("GAMEINFO: "+e);
         return event;
 
     }
@@ -163,6 +172,18 @@ System.out.println(gb);
         }
         GameBox gameBox = gameBoxList.get(gameToken);
         gameBox.getGameState().setStarted();
+
+        //prepara tutto per iniziare il primo turno
+        GameController controller = new GameController(gameBoxList.get(gameToken));
+        controller.initGame(gameBox.getGameState().getMapName());
+
+        ClientToken ctoken = new ClientToken("", gameToken); 
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("isstarted", "true");
+        Event pub = new Event(ctoken, "pub", null, retValues);
+        Broker.publish(gameToken,NetworkProxy.eventToJSON(pub));
+
+
         return new Event(e,"game_started");
     }
 
@@ -173,7 +194,7 @@ System.out.println(gb);
     }
 
     public Event joinGame(Event e)  throws RemoteException{
-        ClientToken token = e.getToken();
+        token = e.getToken();
         String gameToken = token.getGameToken();
 
         if(!gameBoxList.containsKey(gameToken)){
@@ -192,9 +213,41 @@ System.out.println(gb);
             return new Event(e,"error","game_already_started");
 
         }
-        gameBox.getPlayers().put(token.getPlayerToken(), new Player());
+        gameBox.getPlayers().put(token.getPlayerToken(), gameBox.getGameState().addPlayer(new Player()));
 
-        
+
+
+        //thread per timeout
+        if(gameBoxList.get(gameToken).getPlayers().size() >=2){
+            Runnable timerThread = new Runnable() {
+
+                Timer timeout = new Timer();
+
+
+                @Override
+                public void run() {
+                    System.out.println("lanciato il timer thread");
+                    timeout.schedule(new TimerTask() {
+
+                        @Override
+                        public void run() {
+                            System.out.println("timer finito");
+                            Event e = new Event(token,"startgame",null);
+                            try {
+                                startGame(e);
+                            } catch (RemoteException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
+
+                        }
+                    }, 1000*5);
+                }
+            };
+            timerThread.run();
+
+        }
+
         return new Event(e,"joined");
     }
 
@@ -204,34 +257,41 @@ System.out.println(gb);
      * @return a new event with the game token
      */
     public Event createGame(Event e) throws RemoteException{
+        //creo la coda di eventi
         BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(10,true);
-        String token = SessionTokenGenerator.nextSessionId();
+        //creo un token della partita
+        String gameToken = SessionTokenGenerator.nextSessionId();
 
-
+        //creo un istanza del modello
         GameState gameState = GameInstance.getInstance().addGameInstance();
         gameState.setName(e.getArgs().get("gamename"));
         String mapName = e.getArgs().get("mapname");
         gameState.setMapName(mapName);
-
+                 
         Map<String,Player> players = new HashMap<String, Player>();
-        GameBox gameBox = new GameBox(gameState,queue,token,players);   
+        GameBox gameBox = new GameBox(gameState,queue,gameToken,players);   
 
-        gameBoxList.put(token, gameBox);
+        gameBoxList.put(gameToken, gameBox);
+        
+  
+        
+
+        
         Map<String,String> result = new HashMap<String, String>();
-        result.put("gameToken", token);
+        result.put("gameToken", gameToken);
         Event event = new Event(e,result);
         return event;
     }
-    
+
     public Event getField(Event e) throws RemoteException{
-        
+
         String gameToken = e.getToken().getGameToken();
         GameBox gb = gameBoxList.get(gameToken);
         String printableMap = gb.getGameState().getField().getPrintableMap();
-        
+
         Event event = new Event(e.getToken(), printableMap);
         return event;
-        
+
     }
 
 

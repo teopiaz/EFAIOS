@@ -27,13 +27,16 @@ public class ServerGUI implements Runnable {
     private String strTitle = "Escape From Alien - Server";
     private Server serverRMI;
     private Server serverSocket;
+    private Server broker;
+
     
     public ServerGUI(){
         prepareFrame();
     }
-    public void setServer(Server serverSocket,Server serverRMI){
+    public void setServer(Server serverSocket,Server serverRMI,Server broker){
         this.serverSocket=serverSocket;
         this.serverRMI = serverRMI;
+        this.broker = broker;
     }
     
     private void prepareFrame() {
@@ -92,6 +95,7 @@ public class ServerGUI implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 serverSocket.startServer();
                 serverRMI.startServer();
+                broker.startServer();
                /*  logTextArea.append("Server Started\n");
                  logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
                  frame.setTitle(strTitle+" STARTED");
@@ -102,6 +106,7 @@ public class ServerGUI implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 serverSocket.stopServer();
                 serverRMI.startServer();
+                broker.stopServer();
                 /* logTextArea.append("Server Stopped\n");
                  logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
                  frame.setTitle(strTitle+" STOPPED");

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.gui.client;
 
+import it.polimi.ingsw.cg15.MainClientCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterfaceCLI;
 import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -20,7 +21,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
-public class ClientCLI implements ViewClientInterfaceCLI {
+public class ClientLobbyCLI implements ViewClientInterfaceCLI {
 
 
     private SocketCommunicator server;
@@ -38,7 +39,7 @@ public class ClientCLI implements ViewClientInterfaceCLI {
 
 
     //costruttore sock
-    private ClientCLI(String ip, int port){
+    private ClientLobbyCLI(String ip, int port){
         this.ip = ip;
         this.port = port;
         this.type=SOCKET;
@@ -47,7 +48,7 @@ public class ClientCLI implements ViewClientInterfaceCLI {
 
 
 
-    private ClientCLI() throws RemoteException, AlreadyBoundException,MalformedURLException, NotBoundException{
+    private ClientLobbyCLI() throws RemoteException, AlreadyBoundException,MalformedURLException, NotBoundException{
         ClientRMI clientRMI = new ClientRMI();
         gmRemote = clientRMI.connect();
         this.type=RMI;
@@ -56,14 +57,14 @@ public class ClientCLI implements ViewClientInterfaceCLI {
 
 
 
-    public static ClientCLI getClientSocket(String ip, int port) {
+    public static ClientLobbyCLI getClientSocket(String ip, int port) {
 
-        return new ClientCLI(ip,port);
+        return new ClientLobbyCLI(ip,port);
     }
 
-    public static ClientCLI getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
+    public static ClientLobbyCLI getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
 
-        return new ClientCLI();
+        return new ClientLobbyCLI();
     }
 
 
@@ -217,56 +218,7 @@ public class ClientCLI implements ViewClientInterfaceCLI {
     }
 
 
-    @Override
-    public void startGame() {
-        if(ctoken==null){
-            requestClientToken();
-        }
-        if(ctoken.getGameToken()==null){
-            stampa("Join a game First");
-        }
-        Event e = new Event(ctoken,"startgame",args);
-        Event result;
 
-        if(type==SOCKET){
-            result = send(e);
-
-            if(result.getRetValues().get("error")!=null){
-                System.out.println("ERRORE: " +result.getRetValues().get("error"));
-
-
-            }
-            else{
-                if(result.getRetValues().get("return").equals("game_started")){
-                    gameMenu();
-                }       
-            }
-        }
-        if(type==RMI){
-            try {
-                result = gmRemote.startGame(e);
-
-                if(result.getRetValues().get("error")!=null){
-                    System.out.println("ERRORE: " +result.getRetValues().get("error"));
-
-
-                }
-                else{
-                    if(result.getRetValues().get("return").equals("game_started")){
-                        gameMenu();
-                    }       
-                }
-
-            } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-
-            }
-        }
-
-
-
-    }
 
     @Override
     public Map<String, String> getGameInfo(String gameToken) {
@@ -317,17 +269,22 @@ public class ClientCLI implements ViewClientInterfaceCLI {
 
     public void menu(){
         Scanner scanner = new Scanner(System.in);
-
+        String action=null;
+        boolean exit = false;
         System.out.println(
                 "1)Create game"+"\n"
                         + "2)List Game"+"\n"
                         + "3)Join Game"+"\n"
-                        + "4)Start Game"+"\n"
-                        + "5)Exit");
+                        + "4)Exit");
 
-        String action=null;
-        while(scanner.hasNextLine())
-        {
+        while(scanner.hasNextLine() && !exit){
+
+            System.out.println(
+                    "1)Create game"+"\n"
+                            + "2)List Game"+"\n"
+                            + "3)Join Game"+"\n"
+                            + "4)Exit");
+
             action  = scanner.nextLine();
 
             switch(action){
@@ -353,11 +310,16 @@ public class ClientCLI implements ViewClientInterfaceCLI {
                 System.out.println("insert game name");
                 String gameName = scanner.nextLine();
                 String gameToken = gameList.get(gameName);
+                ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
                 joinGame(gameToken);
+                ClientGameCLI gameCLI = new ClientGameCLI(ctoken,server,gmRemote);
+                gameCLI.start();
                 break;
             }
-            case "4": {
-                startGame();
+            
+            case "4" :{
+               
+               
                 break;
             }
 
@@ -368,28 +330,7 @@ public class ClientCLI implements ViewClientInterfaceCLI {
         scanner.close();
     }
 
-    public void gameMenu(){
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println(
-                "1)Move"+"\n"
-                        + "2)UseCard"+"\n"
-                        + "");
-
-        String action=null;
-        while(scanner.hasNextLine())
-        {
-            action  = scanner.nextLine();
-
-            switch(action){
-            case "1" :{
-                System.out.println("action");
-            }
-            }
-        }
-        scanner.close();
-
-    }
 
 
 

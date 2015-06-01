@@ -1,6 +1,6 @@
 package it.polimi.ingsw.cg15;
 
-import it.polimi.ingsw.cg15.gui.client.ClientCLI;
+import it.polimi.ingsw.cg15.gui.client.ClientLobbyCLI;
 
 
 import java.net.MalformedURLException;
@@ -11,10 +11,15 @@ import java.util.Scanner;
 
 public class MainClientCLI {
 
+    private static boolean joined = false;
+    
+    public static void join(){
+        joined = true;
+    }
   
     
     public static void main(String[] args) { 
-        ClientCLI client=null;
+        ClientLobbyCLI client=null;
         
         Scanner scanner = new Scanner(System.in);
         System.out.println("1)Socket\n2)RMI");
@@ -22,11 +27,11 @@ public class MainClientCLI {
         
         String choice = scanner.nextLine();
         if(choice.equals("1")){
-             client = ClientCLI.getClientSocket("127.0.0.1", 1337);
+             client = ClientLobbyCLI.getClientSocket("127.0.0.1", 1337);
         }
         else{
              try {
-                client = ClientCLI.getClientRMI();
+                client = ClientLobbyCLI.getClientRMI();
             } catch (RemoteException | MalformedURLException | AlreadyBoundException
                     | NotBoundException e) {
                 // TODO Auto-generated catch block
@@ -36,8 +41,9 @@ public class MainClientCLI {
         
         
         while(true){
-            
+           if(joined == false)
             client.menu();
+            System.out.println("lol");
         }
     }
 
