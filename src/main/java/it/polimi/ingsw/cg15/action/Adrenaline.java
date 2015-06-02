@@ -1,8 +1,11 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.Map;
+
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
+import it.polimi.ingsw.cg15.networking.Event;
 
 /**
  * @author MMP - LMR
@@ -10,25 +13,36 @@ import it.polimi.ingsw.cg15.model.cards.ItemCard;
  */
 public class Adrenaline extends Action {
 
+    Event e;
     /**
      * This class is the action of the paper object adrenaline. It takes the instance of the corresponding Gamecontroller.
      * @param gc the game controller
      */
-    public Adrenaline(GameController gc) {
+    public Adrenaline(GameController gc,Event e) {
         super(gc);
-        // TODO Auto-generated constructor stub
+        this.e=e;
     }
 
     @Override
-    public boolean execute() {
+    public Event execute() {
+        Map<String,String> retValues = e.getRetValues();
         PlayerController pc = getCurrentPlayerController();
+        if(pc.itemCardUsed()){
+            retValues.put("return", "false");
+            retValues.put("error","carta già usata in questo turno");
+            return new Event(e, retValues);
+        }
+        
         if(pc.hasCard(ItemCard.ITEM_ADRENALINE)){
             pc.removeCard(ItemCard.ITEM_ADRENALINE);
             pc.setOnAdrenaline();
-            return true;
+            retValues.put("return", "true");
+            retValues.put("state", "adrenaline");
+            return new Event(e, retValues);
         }
-        return false;
-
+        retValues.put("return", "false");
+        retValues.put("error","carta non posseduta");
+        return new Event(e, retValues);
     }
 
 }

@@ -1,20 +1,23 @@
 package it.polimi.ingsw.cg15.controller;
 
+
+import it.polimi.ingsw.cg15.action.*;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.model.player.PlayerType;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -30,6 +33,7 @@ public class GameController implements Runnable {
     private BlockingQueue<Event> queue;
     private Map<String, Player> players;
     private CardController cardController;
+    private String gameToken;
 
 
     public GameController(GameBox gameBox) {
@@ -38,6 +42,7 @@ public class GameController implements Runnable {
         this.players = gameBox.getPlayers();
         this.fieldController = new FieldController(gameState);
         this.cardController = new CardController(gameState);
+        this.gameToken = gameBox.getGameToken();
     }
 
     public void popolateField(){
@@ -82,10 +87,15 @@ public class GameController implements Runnable {
 
         fieldController.loadMap(mapName);
         popolateField();
-
-        PlayerController pc = new PlayerController(gameState);     
+        PlayerController pc = new PlayerController(gameState);   
         gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
         cardController.generateDecks();
+        gameState.setInit();
+        
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("currentplayer", Integer.toString(PlayerController.FIRST_PLAYER));
+        String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
+        Broker.publish(gameToken, json);
 
     }
 
@@ -99,8 +109,10 @@ public class GameController implements Runnable {
         Event response=null;
 
         synchronized (gameState) {
+            
+            String playerToken = e.getToken().getPlayerToken();
 
-            if(e.getToken().getPlayerToken()!=null && (gameState.isStarted())){
+            if(playerToken!=null && (gameState.isStarted() && gameState.isInit())){
                 String command = e.getCommand();
 
                 switch(command){
@@ -114,6 +126,14 @@ public class GameController implements Runnable {
                     response = getPlayerInfo(e);
                     break;
                 }
+                
+                if(players.containsKey(playerToken)){
+                    Player thisPlayer = players.get(playerToken);
+                    if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
+                       response =  handleAction(e);
+                    }
+                }
+                                        
             }
 
         }
@@ -122,8 +142,46 @@ public class GameController implements Runnable {
 
     }
 
+    private Event handleAction(Event e) {
+        
+     if(gameState.getTurnState().isActionInActionList(e.getCommand())){
+         
+         switch(e.getCommand()){
+         
+         case "move":
+             Action move = new Move(this, e);
+             e= move.execute();
+             break;
+         case "attack":
+             Action attack = new Attack(this,e);
+             e = attack.execute();
+             break;
+         case "useitem":
+           //  e = useItem(e);
+             
+         case "discarditem":
+        //     e = discarditem(e);
+             
+         case "escape":
+        //     Action escape = new Escape(this,e);
+        //     e = escape.execute();
+             
+         case "asksector":
+             Action askSector = new AskSector(this,e);
+             
+             
+         case "endturn":
+      //       e = endTurn(e);
+         
+         }
+         
+     }
+                
+        return e;
+        
+    }
+
     private Event getPlayerInfo(Event e) {
-System.out.println("RICHIESTA\n"+e);
         String playerToken = e.getToken().getPlayerToken();
 
         Player thisPlayer = players.get(playerToken);
@@ -137,8 +195,6 @@ System.out.println("RICHIESTA\n"+e);
 
 
         Event response = new Event(e,retValues);
-        System.out.println("RISPOSTA\n"+response);
-
 
         return response;
     }

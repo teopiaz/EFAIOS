@@ -9,10 +9,7 @@ import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 import it.polimi.ingsw.cg15.networking.pubsub.Broker;
-import it.polimi.ingsw.cg15.utils.MapLoader;
-
 import java.rmi.RemoteException;
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimerTask;
@@ -22,8 +19,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.junit.rules.Timeout;
 
 
 /**

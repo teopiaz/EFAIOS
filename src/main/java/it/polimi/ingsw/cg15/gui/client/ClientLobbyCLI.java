@@ -31,6 +31,8 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
     private Map<String,String> retValues;
     private Map<String,String> gameList = new HashMap<String, String>();
 
+    private SubscriberThread subThread;
+
     private String ip;
     private int port;
     private final int SOCKET = 1;
@@ -184,15 +186,17 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
         Event result;
 
         if(type==SOCKET){
-            
-            
+
+
             result = send(e);
 
             if(result.getRetValues().get("error")!=null){
                 System.out.println("ERRORE: " +result.getRetValues().get("error"));
             }
             else{
-                new SubscriberThread(gameToken).start();
+                subThread =  new SubscriberThread(gameToken);
+                subThread.start();
+
                 System.out.println(result.getRetValues().get("return"));
 
             }
@@ -204,7 +208,8 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
                     System.out.println("ERRORE: " +result.getRetValues().get("error"));
                 }
                 else{
-                    new SubscriberThread(gameToken).start();
+                    subThread =  new SubscriberThread(gameToken);
+                    subThread.start();
                     System.out.println(result.getRetValues().get("return"));
                 }
 
@@ -214,7 +219,7 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
             }
 
         }
-        
+
     }
 
 
@@ -316,10 +321,10 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
                 gameCLI.start();
                 break;
             }
-            
+
             case "4" :{
-               
-               
+
+
                 break;
             }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
+import it.polimi.ingsw.cg15.networking.Event;
 
 /**
  * @author MMP - LMR
@@ -8,19 +9,19 @@ import it.polimi.ingsw.cg15.controller.GameController;
  * The choice of the cell where the state noise is at the discretion of the player.
  */
 public class AskSector extends Action {
-
+Event e;
     /**
      * @param gc the game controller
      */
-    public AskSector(GameController gc) {
+    public AskSector(GameController gc,Event e) {
         super(gc);
-        // TODO Auto-generated constructor stub
+        this.e=e;
     }
 
     @Override
-    public boolean execute() {
+    public Event execute() {
         // TODO Auto-generated method stub
-        return false;
+        return e;
     }
 
 }

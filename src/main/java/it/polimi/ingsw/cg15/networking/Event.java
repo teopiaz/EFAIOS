@@ -111,6 +111,15 @@ public class Event implements Serializable {
         return "Event [tokenPlayer=" + token.getPlayerToken()+" tokenGame="+ token.getGameToken() + ", command=" + command + ", args=" + args + ", retValues="
                 + retValues + "]";
     }
+    
+    public boolean actionResult(){
+        if(this.retValues.containsKey("return")){
+            if(this.retValues.get("return").equals("true")){
+                return true;
+            }
+        }
+        return false;
+    }
 
 
 }

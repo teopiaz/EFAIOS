@@ -1,12 +1,13 @@
 package it.polimi.ingsw.cg15.action;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
-import it.polimi.ingsw.cg15.utils.MapLoader;
+import it.polimi.ingsw.cg15.networking.Event;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR
@@ -20,29 +21,40 @@ public class Move extends Action {
      * It is the cell that will be the destination for the player.
      */
     private Coordinate dest;
+    Event e;
 
     /**
      * @param gc the Game Controller
      * @param dest It is the cell that will be the destination for the player. 
      */
-    public Move(GameController gc, Coordinate dest) {
+    public Move(GameController gc, Event request) {
         super(gc);
-        this.dest = dest;
+        this.e=request;
+        String destinationString = e.getArgs().get("destination");
+        this.dest = Coordinate.getByLabel(destinationString);
     }
 
     @Override
-    public boolean execute() {
+    public Event execute() {
         PlayerController pc = getCurrentPlayerController();
         if (pc.moveIsPossible(dest)) {
             System.out.println();
             pc.movePlayer(dest);
-            Action draw = new DrawSectorCard(getGameController());
-            draw.execute();
-            return true;
+            Action draw = new DrawSectorCard(getGameController(),e);
+            Event response = draw.execute();
+            
+            Map<String,String> retValues = response.getRetValues();
+            retValues.put("return", "true");
+
+            return new Event(e, retValues);
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
 
-        return false;
+        Map<String,String> retValues = e.getRetValues();
+        retValues.put("error", "impossibile eseguire lo spostamento");
+        retValues.put("return", "false");
+
+        return new Event(e, retValues);
     }
 
 }

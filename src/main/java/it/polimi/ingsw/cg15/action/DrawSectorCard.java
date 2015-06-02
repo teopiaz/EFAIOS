@@ -5,6 +5,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.Event;
+
+import java.util.Map;
 
 /**
  * @author MMP - LMR
@@ -14,51 +17,95 @@ import it.polimi.ingsw.cg15.model.player.Player;
  */
 public class DrawSectorCard extends Action {
 
+    Event e;
 
     /**
      * @param gc the game controller
+     * @param e 
      */
-    public DrawSectorCard(GameController gc) {
+    public DrawSectorCard(GameController gc, Event request) {
         super(gc);
+        this.e = request;
         // TODO Auto-generated constructor stub
     }
 
 
     @Override
-    public boolean execute() {
+    public Event execute() {
 
         GameController gc = getGameController();
         FieldController fc = gc.getFieldController();
         Player currentPlayer = getGameController().getCurrentPlayer();
         PlayerController pc= gc.getPlayerInstance(currentPlayer);
+
+        Map<String,String> retValues = e.getRetValues();
+
         if(fc.isDangerousSector(pc.getPlayerPosition())){
+
+            retValues.put("sectortype", "dangerous");           
+            e=new Event(e, retValues);
+
             SectorCard card = pc.drawSectorCard();
             Action noise=null;
-            if(card==SectorCard.SECTOR_GREEN){
-                noise = new NoiseGreen(gc,false);
-            }
-            if(card==SectorCard.SECTOR_GREEN_ITEM){
-                noise = new NoiseGreen(gc,true);
-                Action draw = new DrawItemCard(gc);
-                draw.execute();
-            }
-            if(card==SectorCard.SECTOR_RED){
-                noise = new NoiseRed(gc,false);
-            }
-            if(card==SectorCard.SECTOR_RED_ITEM){
-                noise = new NoiseRed(gc,true);
-                Action draw = new DrawItemCard(gc);
-                draw.execute();
-            }
-            if(card==SectorCard.SECTOR_SILENCE){
-                return true;
-                }
-            if(noise.execute()){
-                return true;
-            }
-        }
 
-        return false;
+            //NON PESCO L'ITEM CARD
+            if(card==SectorCard.SECTOR_GREEN){
+
+                noise = new NoiseGreen(gc,e);
+                retValues.put("sectorcard", "sectorgreen");
+                e = new Event(e, retValues);
+
+            }
+
+            if(card==SectorCard.SECTOR_RED){
+                noise = new NoiseRed(gc,e);
+                retValues.put("sectorcard", "sectorred");
+                e = new Event(e, retValues);
+
+            }
+
+
+            //PESCO L'ITEM CARD
+            if(card==SectorCard.SECTOR_GREEN_ITEM){
+
+                retValues.put("sectorcard", "sectorgreen");
+                Event beforeDrawEvent = new Event(e, retValues);
+
+                Action draw = new DrawItemCard(gc,beforeDrawEvent);
+                e =  draw.execute();
+                noise = new NoiseGreen(gc,e);
+
+
+
+            }
+
+            if(card==SectorCard.SECTOR_RED_ITEM){
+                retValues.put("sectorcard", "sectorred");
+                Event beforeDrawEvent = new Event(e, retValues);
+                Action draw = new DrawItemCard(gc,beforeDrawEvent);
+                e =  draw.execute();
+                noise = new NoiseRed(gc,e);
+
+            }
+
+
+            if(card==SectorCard.SECTOR_SILENCE){
+                retValues.put("sectorcard", "silence");
+                retValues.put("noise", "false");
+
+                return new Event(e, retValues);
+            }
+
+            //faccio rumore
+            //TODO: publish noise
+            e = noise.execute();
+            return e;
+        }
+        retValues.put("sectortype", "safe");
+        retValues.put("noise", "false");
+
+
+        return new Event(e, retValues);
     }
 
 

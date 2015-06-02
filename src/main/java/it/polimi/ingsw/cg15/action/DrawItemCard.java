@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.networking.Event;
 
 /**
  * @author MMP - LMR
@@ -12,27 +13,28 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
  */
 public class DrawItemCard extends Action {
 
+    Event e;
     /**
      * @param gc the game controller
      */
-    public DrawItemCard(GameController gc) {
+    public DrawItemCard(GameController gc,Event e) {
         super(gc);
-        // TODO Auto-generated constructor stub
-    }
+        this.e=e;
+        }
 
     @Override
-    public boolean execute() {
+    public Event execute() {
         PlayerController pc = getCurrentPlayerController();
         
         if(pc.canDrawItemCard()){
             pc.drawItemCard();
         }
         else{
-            Action useOrDiscard = new UseOrDiscard(getGameController());
-            useOrDiscard.execute();
+            Action useOrDiscard = new UseOrDiscard(getGameController(),e);
+            e= useOrDiscard.execute();
         }
         
-        return true;
+        return e;
     }
 
 }

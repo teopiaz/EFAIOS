@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.Map;
+
 import it.polimi.ingsw.cg15.controller.GameController;
+import it.polimi.ingsw.cg15.networking.Event;
 
 /**
  * @author MMP - LMR
@@ -8,33 +11,31 @@ import it.polimi.ingsw.cg15.controller.GameController;
  */
 public class NoiseGreen extends Action {
 
+    Event e;
     /**
      * The icon of the item present in the sector card.
      */
-    boolean hasItem=false;
 
     /**
      * @param gc the game controller
+     * @param e 
      * @param item the icon of the item present in the sector card
      */
-    public NoiseGreen(GameController gc, boolean item) {
+    public NoiseGreen(GameController gc, Event e) {
         // TODO Auto-generated constructor stub
         super(gc);
-        this.hasItem=item;
+        this.e=e;
 
     }
 
+    //TODO: SISTEMARE switchare le azioni possibili permettendo solo la selezione del settore
     @Override
-    public boolean execute() {
+    public Event execute() {
 
-        if(hasItem){
-            Action draw = new DrawItemCard(getGameController());
-            draw.execute();
-            Action noise =new MakeNoise(getGameController());
-            noise.execute();
-        }
+ 
         
-        return false;
+        
+        return e;
     }
 
 }

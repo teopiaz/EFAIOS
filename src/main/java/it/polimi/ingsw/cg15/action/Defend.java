@@ -4,6 +4,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.Event;
+
+import java.util.Map;
 
 /**
  * @author MMP - LMR
@@ -13,25 +16,31 @@ import it.polimi.ingsw.cg15.model.player.Player;
  */
 public class Defend extends Action {
     PlayerController pc;
-
+    Event e;
     
     /**
      * @param gc the game controller
      * @param player the current player in use
      */
-    public Defend(GameController gc,Player player) {
+    public Defend(GameController gc,Player player,Event e) {
         super(gc);
         this.pc= getGameController().getPlayerInstance(player);
-    
+        this.e=e;
     }
 
     @Override
-    public boolean execute() {
+    public Event execute() {
+        Map<String,String> retValues = e.getRetValues();
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
-            return true;
+            
+            retValues.put("defense", "true");
+            
+            return new Event(e, retValues);
         }
-        return false;
+        retValues.put("defense", "true");
+
+        return new Event(e, retValues);
     }
 
 

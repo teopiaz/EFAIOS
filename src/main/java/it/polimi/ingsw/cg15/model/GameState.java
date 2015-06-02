@@ -20,6 +20,7 @@ public class GameState {
     
     private boolean isStarted=false;
     private boolean isEnded=false;
+    private boolean isInit=false;
 
 
     public GameState(Field field, DeckContainer deckContainer) {
@@ -85,6 +86,10 @@ public class GameState {
         this.isEnded=true;
     }
     
+    public void setInit(){
+        this.isInit=true;
+    }
+    
     public boolean isStarted(){
        return isStarted;
     }
@@ -93,6 +98,10 @@ public class GameState {
     
     public boolean isEnded(){
         return isEnded; 
+    }
+
+    public boolean isInit() {
+        return isInit;
     }
     
 

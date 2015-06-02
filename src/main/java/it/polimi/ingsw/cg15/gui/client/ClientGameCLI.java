@@ -1,14 +1,17 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SocketCommunicator;
+import it.polimi.ingsw.cg15.networking.pubsub.SubscriberThread;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class ClientGameCLI {
 
@@ -19,16 +22,20 @@ public class ClientGameCLI {
     private String ip="127.0.0.1";
     private int port = 1337;
     
+    private static int currentPlayerId;
+
     String playerType;
     String currentPosition;
     int playerNumber;
     int cardNumber;
+    private boolean myTurn;
 
 
     public ClientGameCLI(ClientToken ctoken, SocketCommunicator server, GameManagerRemote gmRemote) {
         this.ctoken = ctoken;
         this.server = server;
         this.gmRemote = gmRemote;
+
 
 
     }
@@ -39,35 +46,29 @@ public class ClientGameCLI {
 
 
     public void start(){
+        Scanner scanner = new Scanner(System.in);
         while(true){
-                        
-            if(isStarted){
 
-                System.out.println("sono dentro al gioco ");
-                
-                //getMap();
-                getPlayerInfo();
-                
-                System.out.println("player number: "+playerNumber+"\n"+
-                                   "player type: "+playerType+"\n"+
-                                   "num cards: "+cardNumber+"\n"+
-                                   "current position: "+currentPosition+"\n");
-                        
-                        
-                
-                
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+            if(isStarted){
+                if(myTurn()){
+                    System.out.println("E' il tuo turno");
+                    getMap();
+                    getPlayerInfo();
+                    System.out.println("player number: "+playerNumber+"\n"+
+                            "player type: "+playerType+"\n"+
+                            "num cards: "+cardNumber+"\n"+
+                            "current position: "+currentPosition+"\n");
+
+                    
+                    move();
+
                 }
-                
-   
+
+               
 
             }
-            
-            
+
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -75,38 +76,66 @@ public class ClientGameCLI {
                 e.printStackTrace();
             }
         }
+        
+    }
+
+    private boolean myTurn() {
+        return currentPlayerId == playerNumber;
     }
 
     private void getPlayerInfo() {        
-        
+
         Event e = new Event(ctoken,"getplayerinfo",null);
         Event result;
         result = send(e);
-        
+        /*
         this.playerNumber =Integer.parseInt( result.getRetValues().get("playernumber"));
         this.currentPosition = result.getRetValues().get("currentposition");
         this.cardNumber = Integer.parseInt( result.getRetValues().get("cardnumber"));
         this.playerType = result.getRetValues().get("playertype");
-        
+         */
+        System.out.println(result);
+
         /*
          * numero 1
          * tipo Alien/Human/Superalien
          * currentposition A03
          * numcard = 2
          */
-        
+
     }
 
     private void getMap() {
-       
+
         Event e = new Event(ctoken,"getmap",null);
         Event result;
 
         result = send(e);
-        System.out.println(NetworkProxy.eventToJSON(result));
+        //System.out.println(NetworkProxy.eventToJSON(result));
     }
-    
-    
+
+    private void move() {
+        Scanner scanner = new Scanner(System.in);
+        String destination = scanner.nextLine();
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event e = new Event(ctoken,"move",args);
+        Event result;
+
+        result = send(e);
+        if(result.actionResult()){
+            currentPosition=result.getRetValues().get("destination");
+            System.out.println("DEST: "+currentPosition);
+
+        }else{
+            System.out.println(NetworkProxy.eventToJSON(result));
+        }
+        scanner.close();
+    }
+
+
+
+
     public Event send(Event e){
 
         Socket socket = null;
@@ -125,6 +154,10 @@ public class ClientGameCLI {
         server.close();
 
         return NetworkProxy.JSONToEvent(response);
+    }
+
+    public static void setCurrentPlayer(int currentPlayer) {
+        currentPlayerId = currentPlayer;
     }
 
 }

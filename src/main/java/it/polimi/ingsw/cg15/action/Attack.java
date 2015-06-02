@@ -3,8 +3,10 @@ package it.polimi.ingsw.cg15.action;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.Event;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author MMP - LMR
@@ -16,37 +18,45 @@ import java.util.List;
  */
 public class Attack extends Action {
 
+    Event e;
+    
     /**
      * @param gc the game controller
      */
-    public Attack(GameController gc) {
+    public Attack(GameController gc,Event e) {
         super(gc);
-        // TODO Auto-generated constructor stub
+        this.e=e;
     }
 
-    
+
     //TODO: Evolution
     @Override
-    public boolean execute() {
+    public Event execute() {
         GameController gc = getGameController();
         PlayerController pc = getCurrentPlayerController();
-        
+        Map<String,String> retValues = e.getRetValues();
         if(pc.hasAttacked()){
-            return false;
-        }
-        
-        List<Player> playersInSector = getGameController().getFieldController().getPlayersInSector(pc.getPlayerPosition());
-        
-        for (Player player : playersInSector) {
-            Action defend = new Defend(gc, player);
-            if(defend.execute()==false){
-                getCurrentPlayerController().killPlayer(player);
-            }
-        }
-        pc.setHasAttacked();
-        
-        
-        return false;
-    }
+            retValues.put("return", "false");
+            retValues.put("error", "attacco già effettuato");
 
-}
+            return new Event(e, retValues);
+        }
+
+        List<Player> playersInSector = getGameController().getFieldController().getPlayersInSector(pc.getPlayerPosition());
+
+        for (Player player : playersInSector) {
+            Action defend = new Defend(gc, player,e);
+            Event defenseEvent = defend.execute();
+
+            if(defenseEvent.getRetValues().containsKey("defense") ){
+                if(defenseEvent.getRetValues().get("defense").equals("false") ){
+                    getCurrentPlayerController().killPlayer(player);
+                }
+            }
+            pc.setHasAttacked();
+        }
+        retValues.put("return", "true");
+        return new Event(e, retValues);
+        }
+
+    }

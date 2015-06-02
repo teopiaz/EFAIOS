@@ -1,6 +1,9 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.Map;
+
 import it.polimi.ingsw.cg15.controller.GameController;
+import it.polimi.ingsw.cg15.networking.Event;
 
 /**
  * @author MMP - LMR
@@ -8,19 +11,25 @@ import it.polimi.ingsw.cg15.controller.GameController;
  */
 public class MakeNoise extends Action {
 
+    Event e;
     /**
      * @param gc the game controller
      */
-    public MakeNoise(GameController gc) {
+    public MakeNoise(GameController gc,Event e) {
         super(gc);
-        // TODO Auto-generated constructor stub
+        this.e=e;
     }
 
 
     @Override
-    public boolean execute() {
-        // TODO Auto-generated method stub
-        return false;
+    public Event execute() {
+
+        //TODO NOTIFICARE COL PUBLISHER IL RUMORE
+
+        Map<String,String> retValues = e.getRetValues();
+        retValues.put("noise", "true");
+        e = new Event(e, retValues);
+        return e;
     }
 
 }

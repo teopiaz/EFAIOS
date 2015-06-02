@@ -15,6 +15,9 @@ public class TurnState {
     private List<ActionEnum> avaibleActionsList = new ArrayList<ActionEnum>();
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
 
+    public TurnState(){
+    avaibleActionsList.add(ActionEnum.MOVE);
+    }
     
     public boolean isLockedOnDiscardOrUseItem() {
         return lockedOnDiscardOrUseItem;
@@ -60,6 +63,16 @@ public class TurnState {
     }
     public void setHasAttacked() {
         hasAttacked = true;
+    }
+    
+    
+    public boolean isActionInActionList(String action){
+        for (ActionEnum actionEnum : avaibleActionsList) {
+            if(actionEnum.toString().equals(action)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
