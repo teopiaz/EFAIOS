@@ -125,15 +125,18 @@ public class GameController implements Runnable {
                 case "getplayerinfo" :
                     response = getPlayerInfo(e);
                     break;
-                }
                 
+                
+                default:
+                    System.out.println("DEFAULT");
                 if(players.containsKey(playerToken)){
                     Player thisPlayer = players.get(playerToken);
                     if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
                        response =  handleAction(e);
                     }
                 }
-                                        
+                break;
+                }                    
             }
 
         }
@@ -171,6 +174,7 @@ public class GameController implements Runnable {
              
              
          case "endturn":
+             System.out.println("ENDTURN");
       //       e = endTurn(e);
          
          }

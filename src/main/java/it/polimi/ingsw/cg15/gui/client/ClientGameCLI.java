@@ -50,17 +50,27 @@ public class ClientGameCLI {
         while(true){
 
             if(isStarted){
-                if(myTurn()){
+                getMap();
+                getPlayerInfo();
+                getTurnInfo();
+                System.out.println("Game Started");
+                System.out.println(myTurn());
+                if(myTurn()||false){
                     System.out.println("E' il tuo turno");
                     getMap();
                     getPlayerInfo();
-                    System.out.println("player number: "+playerNumber+"\n"+
-                            "player type: "+playerType+"\n"+
-                            "num cards: "+cardNumber+"\n"+
-                            "current position: "+currentPosition+"\n");
-
+                    debugPrint();
                     
                     move();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    endTurn();
+                    debugPrint();
+
 
                 }
 
@@ -78,6 +88,25 @@ public class ClientGameCLI {
         }
         
     }
+    
+    private void debugPrint(){
+        System.out.println("player number: "+playerNumber+"\n"+
+                "player type: "+playerType+"\n"+
+                "num cards: "+cardNumber+"\n"+
+                "current position: "+currentPosition+"\n");
+
+    }
+
+    private void endTurn() {
+        System.out.println("ENDTURN");
+        Event e = new Event(ctoken,"endturn",null);
+        Event result;
+        result = send(e);        
+    }
+
+    private void getTurnInfo() {
+        
+    }
 
     private boolean myTurn() {
         return currentPlayerId == playerNumber;
@@ -88,12 +117,11 @@ public class ClientGameCLI {
         Event e = new Event(ctoken,"getplayerinfo",null);
         Event result;
         result = send(e);
-        /*
         this.playerNumber =Integer.parseInt( result.getRetValues().get("playernumber"));
         this.currentPosition = result.getRetValues().get("currentposition");
         this.cardNumber = Integer.parseInt( result.getRetValues().get("cardnumber"));
         this.playerType = result.getRetValues().get("playertype");
-         */
+         
         System.out.println(result);
 
         /*
@@ -115,8 +143,16 @@ public class ClientGameCLI {
     }
 
     private void move() {
-        Scanner scanner = new Scanner(System.in);
-        String destination = scanner.nextLine();
+        System.out.println("DESTINATION:");
+        String destination;
+        //Scanner scanner = new Scanner(System.in);
+        if(currentPosition=="L06"){
+         destination = "L05";//scanner.nextLine();
+        }
+        else{
+             destination = "L09";
+
+        }
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
         Event e = new Event(ctoken,"move",args);
@@ -124,13 +160,14 @@ public class ClientGameCLI {
 
         result = send(e);
         if(result.actionResult()){
+            System.out.println(result);
             currentPosition=result.getRetValues().get("destination");
             System.out.println("DEST: "+currentPosition);
 
         }else{
             System.out.println(NetworkProxy.eventToJSON(result));
         }
-        scanner.close();
+       // scanner.close();
     }
 
 

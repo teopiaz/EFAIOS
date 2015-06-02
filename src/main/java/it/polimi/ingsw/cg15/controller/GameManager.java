@@ -262,16 +262,16 @@ public class GameManager implements GameManagerRemote {
         gameState.setName(e.getArgs().get("gamename"));
         String mapName = e.getArgs().get("mapname");
         gameState.setMapName(mapName);
-                 
+
         Map<String,Player> players = new HashMap<String, Player>();
         GameBox gameBox = new GameBox(gameState,queue,gameToken,players);   
 
         gameBoxList.put(gameToken, gameBox);
-        
-  
-        
 
-        
+
+
+
+
         Map<String,String> result = new HashMap<String, String>();
         result.put("gameToken", gameToken);
         Event event = new Event(e,result);

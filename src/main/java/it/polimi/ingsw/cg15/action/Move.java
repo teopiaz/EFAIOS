@@ -45,6 +45,7 @@ public class Move extends Action {
             
             Map<String,String> retValues = response.getRetValues();
             retValues.put("return", "true");
+            retValues.put("destination", dest.toString());
 
             return new Event(e, retValues);
         }

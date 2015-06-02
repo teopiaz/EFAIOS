@@ -64,8 +64,8 @@ public class SubscriberThread extends Thread {
             }
         }                               
         if(  e.getRetValues().containsKey("currentplayer")){
-            System.out.println(e.getRetValues().get("currentPlayer"));
-            int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentPlayer"));
+            System.out.println(e.getRetValues().get("currentplayer"));
+            int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
             ClientGameCLI.setCurrentPlayer(currentPlayer);    
         }
 
