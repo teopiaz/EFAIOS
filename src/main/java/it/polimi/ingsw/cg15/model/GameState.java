@@ -17,6 +17,7 @@ public class GameState {
     private String name;
     private String mapName;
     public final int MAX_PLAYERS = 8;
+    private int turnNumber = 1;
     
     private boolean isStarted=false;
     private boolean isEnded=false;
@@ -40,6 +41,13 @@ public class GameState {
             return player;
         }
         return null;
+    }
+    
+    public int getTurnNumber(){
+        return turnNumber;
+    }
+    public void setTurnNumber(int n){
+        this.turnNumber=n;
     }
     
     public void setName(String name){

@@ -29,6 +29,8 @@ public class ClientGameCLI {
     int playerNumber;
     int cardNumber;
     private boolean myTurn;
+    private boolean hasMove=false;
+    Scanner scanner = new Scanner(System.in);
 
 
     public ClientGameCLI(ClientToken ctoken, SocketCommunicator server, GameManagerRemote gmRemote) {
@@ -47,21 +49,26 @@ public class ClientGameCLI {
 
     public void start(){
         Scanner scanner = new Scanner(System.in);
+        boolean test = true;
         while(true){
 
             if(isStarted){
+                if(test){
                 getMap();
                 getPlayerInfo();
                 getTurnInfo();
                 System.out.println("Game Started");
                 System.out.println(myTurn());
-                if(myTurn()||false){
+                test=false;
+                }
+                if(myTurn()){
                     System.out.println("E' il tuo turno");
-                    getMap();
                     getPlayerInfo();
-                    debugPrint();
+                    debugPrintPlayerInfo();
                     
+                    if(!hasMove){
                     move();
+                   
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -69,8 +76,8 @@ public class ClientGameCLI {
                         e.printStackTrace();
                     }
                     endTurn();
-                    debugPrint();
-
+                    debugPrintPlayerInfo();
+                    }
 
                 }
 
@@ -89,23 +96,37 @@ public class ClientGameCLI {
         
     }
     
-    private void debugPrint(){
+    private void debugPrintPlayerInfo(){
         System.out.println("player number: "+playerNumber+"\n"+
                 "player type: "+playerType+"\n"+
                 "num cards: "+cardNumber+"\n"+
                 "current position: "+currentPosition+"\n");
 
     }
+    
+    public static void debugPrint(String s){
+        System.out.println(s);
+    }
 
     private void endTurn() {
         System.out.println("ENDTURN");
         Event e = new Event(ctoken,"endturn",null);
         Event result;
-        result = send(e);        
+        result = send(e);  
+        
+        if(result.actionResult()){
+            System.out.println("FINTE TURNO");
+            hasMove = false;
+        }
+        
     }
 
     private void getTurnInfo() {
-        
+        Event e = new Event(ctoken,"getturninfo",null);
+        Event result;
+        result = send(e);
+        this.currentPlayerId =Integer.parseInt( result.getRetValues().get("currentplayer"));
+
     }
 
     private boolean myTurn() {
@@ -144,14 +165,14 @@ public class ClientGameCLI {
 
     private void move() {
         System.out.println("DESTINATION:");
-        String destination;
-        //Scanner scanner = new Scanner(System.in);
-        if(currentPosition=="L06"){
-         destination = "L05";//scanner.nextLine();
-        }
-        else{
-             destination = "L09";
-
+        String destination="";
+        Scanner scanner = new Scanner(System.in);
+       
+        if(scanner.hasNextLine()){
+        destination = scanner.nextLine();
+        System.out.println("end scanner");
+        }else{
+            System.out.println("no");
         }
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
@@ -163,11 +184,13 @@ public class ClientGameCLI {
             System.out.println(result);
             currentPosition=result.getRetValues().get("destination");
             System.out.println("DEST: "+currentPosition);
+            hasMove=true;
 
         }else{
             System.out.println(NetworkProxy.eventToJSON(result));
+            hasMove=false;
         }
-       // scanner.close();
+       scanner.close();
     }
 
 

@@ -33,7 +33,8 @@ public class HumanPlayerController extends PlayerController {
     public boolean moveIsPossible(Coordinate coord) {
         Logger.getLogger(Field.class.getName()).log(Level.INFO,"Human move is possible");
         if(gameState.getTurnState().hasMoved()){
-            return false;
+            System.err.println("ciao");
+            //return false;
         }
         Field field = gameState.getField();
         int distance = 1;

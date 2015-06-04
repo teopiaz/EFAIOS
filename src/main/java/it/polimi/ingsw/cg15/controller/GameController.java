@@ -23,11 +23,14 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.ietf.jgss.GSSContext;
+
 /**
  * @author LMR - MMP
  */
 public class GameController implements Runnable {
 
+    private static final int MAX_TURN_NUMBER = 50;
     private GameState gameState;
     private FieldController fieldController;
     private BlockingQueue<Event> queue;
@@ -79,7 +82,7 @@ public class GameController implements Runnable {
             }
             playerNumber++;
         }
-
+        System.out.println("NUMERO GIOCATORI: "+playerNumber);
     }
 
 
@@ -97,6 +100,29 @@ public class GameController implements Runnable {
         String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
         Broker.publish(gameToken, json);
 
+    }
+    
+    public void nextTurn(){
+      int turnNumber = gameState.getTurnNumber();
+      if(turnNumber<=MAX_TURN_NUMBER){
+          gameState.setTurnNumber(turnNumber+1);
+          
+          
+          PlayerController pc = new PlayerController(gameState);   
+          gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
+          
+          Map<String,String> retValues = new HashMap<String, String>();
+          retValues.put("currentplayer", Integer.toString(gameState.getTurnNumber()));
+          
+          String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
+          Broker.publish(gameToken, json);
+          
+          
+      }
+      else{
+          System.out.println("ENDGAME");
+      }
+        
     }
 
     public void run() {
@@ -124,6 +150,10 @@ public class GameController implements Runnable {
 
                 case "getplayerinfo" :
                     response = getPlayerInfo(e);
+                    break;
+                    
+                case "getturninfo" :
+                    response = getTurnInfo(e);
                     break;
                 
                 
@@ -175,7 +205,7 @@ public class GameController implements Runnable {
              
          case "endturn":
              System.out.println("ENDTURN");
-      //       e = endTurn(e);
+             e = endTurn(e);
          
          }
          
@@ -183,6 +213,20 @@ public class GameController implements Runnable {
                 
         return e;
         
+    }
+
+    private Event endTurn(Event e) {
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("endturn", "true");        
+        Event response = new Event(e, retValues);
+        
+        Event toPublish = new Event(new ClientToken("", gameToken),"pub",retValues);
+        Broker.publish(gameToken,NetworkProxy.eventToJSON(toPublish));
+        
+        nextTurn();
+        
+        
+        return response;
     }
 
     private Event getPlayerInfo(Event e) {
@@ -202,6 +246,21 @@ public class GameController implements Runnable {
 
         return response;
     }
+    
+
+    private Event getTurnInfo(Event e) {
+        
+        int currentPlayer = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
+        Map<String,String> retValues = new HashMap<String, String>();
+        retValues.put("currentplayer",Integer.toString(currentPlayer) );
+        
+        Event response = new Event(e,retValues);   
+        
+        return response;
+    }
+
+    
+    
 
     private Event getMap(Event e) {
 

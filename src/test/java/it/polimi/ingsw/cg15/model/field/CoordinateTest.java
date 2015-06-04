@@ -43,6 +43,10 @@ public class CoordinateTest {
        assertEquals(bylabel.toString(), "B01");
        Coordinate bylabel2 = Coordinate.getByLabel("F18");
        assertEquals(bylabel2.toString(), "F18");
+       Coordinate bylabel3 = Coordinate.getByLabel("L9");
+       assertEquals( "L09",bylabel3.toString());
+       
+       
     }
 
 

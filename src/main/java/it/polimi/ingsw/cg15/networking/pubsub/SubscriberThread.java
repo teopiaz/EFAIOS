@@ -69,6 +69,9 @@ public class SubscriberThread extends Thread {
             ClientGameCLI.setCurrentPlayer(currentPlayer);    
         }
 
+            ClientGameCLI.debugPrint(msg);
+
+
 
 
     }

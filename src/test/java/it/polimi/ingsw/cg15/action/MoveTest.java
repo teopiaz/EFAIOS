@@ -30,7 +30,7 @@ public class MoveTest {
     static ClientToken ctoken;
     static String gameToken;
     
-
+/*
     @Test
     public void testMove() {
         GameState gs = GameInstance.getInstance().addGameInstance();
@@ -64,5 +64,5 @@ public class MoveTest {
         
         assertEquals(c,dest);
     }
-
+*/
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.model.field;
 
 import static org.junit.Assert.*;
+import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,5 +41,8 @@ public class FieldTest {
         map.addCell(new Coordinate(2, 4), Sector.WHITE);
         assertEquals(testPrintMap, map.getPrintableMap());
     }
+    
+    
+
 
 }

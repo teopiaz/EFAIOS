@@ -125,12 +125,14 @@ public class PlayerController {
         
         List<Player> playerList = gameState.getPlayerList();
         int numPlayer = playerList.size();
+        System.out.println("PLAYER CONTROLLER SIZE "+numPlayer);
         
         int currentPlayerIndex = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
         if(currentPlayerIndex+1>numPlayer){
             return getPlayerById(FIRST_PLAYER);
         }
         else{
+            System.out.println("CURRENT PLAYER INDEX: "+(currentPlayerIndex+1));
             return getPlayerById(currentPlayerIndex+1);
 
         }

@@ -16,7 +16,9 @@ public class TurnState {
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
 
     public TurnState(){
-    avaibleActionsList.add(ActionEnum.MOVE);
+        avaibleActionsList.add(ActionEnum.MOVE);
+        avaibleActionsList.add(ActionEnum.ENDTURN);
+
     }
     
     public boolean isLockedOnDiscardOrUseItem() {

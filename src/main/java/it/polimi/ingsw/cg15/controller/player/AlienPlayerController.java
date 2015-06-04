@@ -32,7 +32,8 @@ public class AlienPlayerController extends PlayerController {
     public boolean moveIsPossible(Coordinate coord) {
         System.out.println("alien moveIsPossible");
         if(gameState.getTurnState().hasMoved()){
-            return false;
+            System.err.println("ciao");
+            //return false;
         }
         Field field = gameState.getField();
         Cell currentPosition = gameState.getTurnState().getCurrentPlayer()

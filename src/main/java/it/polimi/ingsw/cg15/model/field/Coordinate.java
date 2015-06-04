@@ -98,7 +98,7 @@ public class Coordinate {
     public String toString() {
         String tmp;
         tmp = new String("" + ((char) (getCol() + 64)));
-        if ((getRow() + 1) < 10)
+        if ((getRow()) < 10)
             tmp = new String(tmp + "0");
 
         return new String(tmp + (getRow()));
