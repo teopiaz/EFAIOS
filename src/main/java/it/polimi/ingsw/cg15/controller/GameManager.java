@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 import it.polimi.ingsw.cg15.networking.pubsub.Broker;
+
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sql.rowset.spi.SyncResolver;
+
 
 /**
  * @author matteo
@@ -30,7 +33,7 @@ public class GameManager implements GameManagerRemote {
     private ClientToken token;
     private GameInstance gameInstance;
     private static GameManager singletonInstance = new GameManager();
-
+    
 
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
 
@@ -60,14 +63,9 @@ public class GameManager implements GameManagerRemote {
             return new Event(e, "error game not avaible");
         }
 
-        try {
-            gameBoxList.get(gameToken).getQueue().put(e);
-        } catch (InterruptedException e1) {
-            Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE,"InterruptedException on BlockingQueue",e1 );
-        }
+
         GameController controller = new GameController(gameBoxList.get(gameToken));
         return controller.eventHandler(e);
-        //executor.execute(controller);
     }
 
     /**
@@ -155,6 +153,7 @@ public class GameManager implements GameManagerRemote {
     }
 
     public Event startGame(Event e)  throws RemoteException{
+        
         ClientToken token = e.getToken();
         String gameToken = token.getGameToken();
 
@@ -166,6 +165,9 @@ public class GameManager implements GameManagerRemote {
             return new Event(e,"error","wait for more players");
         }
         GameBox gameBox = gameBoxList.get(gameToken);
+        if(gameBox.getGameState().isStarted()){
+            return new Event(e, "game_already_started");
+        }
         gameBox.getGameState().setStarted();
 
         //prepara tutto per iniziare il primo turno
@@ -188,7 +190,7 @@ public class GameManager implements GameManagerRemote {
 
     }
 
-    public Event joinGame(Event e)  throws RemoteException{
+    public synchronized  Event joinGame(Event e)  throws RemoteException{
         token = e.getToken();
         String gameToken = token.getGameToken();
 
@@ -213,7 +215,8 @@ public class GameManager implements GameManagerRemote {
 
 
         //thread per timeout
-        if(gameBoxList.get(gameToken).getPlayers().size() >=2){
+        if(gameBoxList.get(gameToken).getPlayers().size() >=2 ){
+            System.out.println("SONO ENTRATO "+gameBox.getGameState().isStarted());
             Runnable timerThread = new Runnable() {
 
                 Timer timeout = new Timer();
@@ -240,6 +243,7 @@ public class GameManager implements GameManagerRemote {
                 }
             };
             timerThread.run();
+            System.out.println("SONO USCITO "+gameBox.getGameState().isStarted());
 
         }
 

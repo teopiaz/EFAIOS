@@ -37,6 +37,9 @@ public class HumanPlayerController extends PlayerController {
             //return false;
         }
         Field field = gameState.getField();
+        if(!field.getField().containsKey(coord)){
+            return false;
+        }
         int distance = 1;
         if(gameState.getTurnState().isUnderAdrenaline()){
             distance = 2;

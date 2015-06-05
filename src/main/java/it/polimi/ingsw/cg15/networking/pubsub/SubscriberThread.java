@@ -64,12 +64,20 @@ public class SubscriberThread extends Thread {
             }
         }                               
         if(  e.getRetValues().containsKey("currentplayer")){
-            System.out.println(e.getRetValues().get("currentplayer"));
             int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
             ClientGameCLI.setCurrentPlayer(currentPlayer);    
         }
+        
+        
+        if(  e.getCommand().equals("log")){
+            if(  e.getRetValues().containsKey("move")){    
+                String player = e.getRetValues().get("player");
+                String sector = e.getRetValues().get("move");
+                System.out.println("Giocatore "+player+" si è mosso in "+sector);
+            }
+        }
 
-            ClientGameCLI.debugPrint(msg);
+         //   ClientGameCLI.debugPrint(msg);
 
 
 
@@ -86,7 +94,7 @@ public class SubscriberThread extends Thread {
         try {
             msg = in.readLine();
             if(msg!=null){
-                System.out.println("Topic: "+"received message: "+msg);
+              //  System.out.println("Topic: "+"received message: "+msg);
             }
         } catch (IOException e) {
             e.printStackTrace();

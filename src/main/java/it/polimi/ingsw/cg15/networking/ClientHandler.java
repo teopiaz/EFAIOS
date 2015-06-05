@@ -42,18 +42,23 @@ public class ClientHandler implements Runnable{
                 int num = inReader.read(buffer);
                 message = new String(buffer);
                 message = message.substring(0,num);
+                System.out.println("\nRAW MESSAGE:\n"+message+"\n\n");
                
+                if(message.contains("move")){
+                    System.out.println("move");
+                }
 
               Event request = NetworkProxy.JSONToEvent(message);
-              Event response = GameManager.getInstance().eventHandler(request);
+              ServerLogger.log("RICHIESTA: "+request.toString()+"\n");
+
+              Event req1 = new Event(request, "");
+              Event response = GameManager.getInstance().eventHandler(req1);
 
 
                 
-              //socketOut.println("request "+request+"\n");
-              //socketOut.println("response "+response+"\n");
+              
               String json = NetworkProxy.eventToJSON(response);
               socketOut.println(json);
-              ServerLogger.log("RICHIESTA: "+request.toString()+"\n");
               ServerLogger.log("RISPOSTA: "+response.toString()+"\n");
               System.out.println(response.toString());
               

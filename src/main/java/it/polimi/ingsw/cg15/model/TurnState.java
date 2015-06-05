@@ -12,12 +12,16 @@ public class TurnState {
     private boolean usedItemCard = false;
     private boolean isUnderAdrenaline = false;
     private boolean lockedOnDiscardOrUseItem = false;
-    private List<ActionEnum> avaibleActionsList = new ArrayList<ActionEnum>();
+    private List<ActionEnum> availableActionsList = new ArrayList<ActionEnum>();
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
 
     public TurnState(){
-        avaibleActionsList.add(ActionEnum.MOVE);
-        avaibleActionsList.add(ActionEnum.ENDTURN);
+        availableActionsList.add(ActionEnum.MOVE);
+        availableActionsList.add(ActionEnum.USEITEM);
+        availableActionsList.add(ActionEnum.DISCARD);
+        availableActionsList.add(ActionEnum.ASKSECTOR);
+        availableActionsList.add(ActionEnum.ENDTURN);
+        
 
     }
     
@@ -69,12 +73,16 @@ public class TurnState {
     
     
     public boolean isActionInActionList(String action){
-        for (ActionEnum actionEnum : avaibleActionsList) {
+        for (ActionEnum actionEnum : availableActionsList) {
             if(actionEnum.toString().equals(action)){
                 return true;
             }
         }
         return false;
+    }
+
+    public List<ActionEnum> getActionList() {
+        return availableActionsList;
     }
 
 }

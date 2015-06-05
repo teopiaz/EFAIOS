@@ -35,7 +35,11 @@ public class AlienPlayerController extends PlayerController {
             System.err.println("ciao");
             //return false;
         }
+       
         Field field = gameState.getField();
+        if(!field.getField().containsKey(coord)){
+            return false;
+        }
         Cell currentPosition = gameState.getTurnState().getCurrentPlayer()
                 .getPosition();
         Cell destination = field.getCell(coord);

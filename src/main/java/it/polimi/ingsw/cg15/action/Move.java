@@ -3,8 +3,14 @@ package it.polimi.ingsw.cg15.action;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
+import it.polimi.ingsw.cg15.model.field.Sector;
+import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,11 +48,32 @@ public class Move extends Action {
             pc.movePlayer(dest);
             Action draw = new DrawSectorCard(getGameController(),e);
             Event response = draw.execute();
-            
+
             Map<String,String> retValues = response.getRetValues();
             retValues.put("return", "true");
             retValues.put("destination", dest.toString());
 
+
+
+            
+            
+            int currentPlayer = getGameController().getCurrentPlayer().getPlayerNumber();
+            
+            Map<String,String> pubRet = new HashMap<String, String>();
+            pubRet.put("player", Integer.toString(currentPlayer));
+            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.WHITE){
+                pubRet.put("move","safesector" );
+            }
+            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.GREY){
+                pubRet.put("move","unsafesector" );
+            }
+            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.HATCH){
+                pubRet.put("move","hatchsector" );
+            }
+            Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log",null, pubRet);
+            Broker.publish(e.getToken().getGameToken(), NetworkProxy.eventToJSON(toPublish));
+            
+            
             return new Event(e, retValues);
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");

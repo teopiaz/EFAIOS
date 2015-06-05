@@ -1,9 +1,13 @@
 package it.polimi.ingsw.cg15.controller;
 
 
-import it.polimi.ingsw.cg15.action.*;
+import it.polimi.ingsw.cg15.action.Action;
+import it.polimi.ingsw.cg15.action.AskSector;
+import it.polimi.ingsw.cg15.action.Attack;
+import it.polimi.ingsw.cg15.action.Move;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
@@ -17,20 +21,19 @@ import it.polimi.ingsw.cg15.utils.MapLoader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ietf.jgss.GSSContext;
-
 /**
  * @author LMR - MMP
  */
-public class GameController implements Runnable {
+public class GameController  {
 
-    private static final int MAX_TURN_NUMBER = 50;
+    private static final int MAX_TURN_NUMBER = 39;
     private GameState gameState;
     private FieldController fieldController;
     private BlockingQueue<Event> queue;
@@ -82,7 +85,6 @@ public class GameController implements Runnable {
             }
             playerNumber++;
         }
-        System.out.println("NUMERO GIOCATORI: "+playerNumber);
     }
 
 
@@ -112,7 +114,7 @@ public class GameController implements Runnable {
           gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
           
           Map<String,String> retValues = new HashMap<String, String>();
-          retValues.put("currentplayer", Integer.toString(gameState.getTurnNumber()));
+          retValues.put("currentplayer", Integer.toString(gameState.getTurnState().getCurrentPlayer().getPlayerNumber()));
           
           String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
           Broker.publish(gameToken, json);
@@ -125,16 +127,12 @@ public class GameController implements Runnable {
         
     }
 
-    public void run() {
-        while (!queue.isEmpty()) {
-            eventHandler(queue.poll());
-        }
-    }
+
 
     public Event eventHandler(Event e) {
         Event response=null;
 
-        synchronized (gameState) {
+       synchronized (gameState) {
             
             String playerToken = e.getToken().getPlayerToken();
 
@@ -155,6 +153,11 @@ public class GameController implements Runnable {
                 case "getturninfo" :
                     response = getTurnInfo(e);
                     break;
+                    
+                    
+                case "getactionlist" :
+                    response = getActionList(e);
+                    break;
                 
                 
                 default:
@@ -173,6 +176,20 @@ public class GameController implements Runnable {
 
         return response;
 
+    }
+
+    private Event getActionList(Event e) {
+
+        List<ActionEnum> listAction = gameState.getTurnState().getActionList();
+        
+        Map<String,String> retValues = new HashMap<String, String>();
+           retValues.put("return", "true");
+        for (ActionEnum actionEnum : listAction) {
+            retValues.put(actionEnum.toString(),"");
+        }
+        
+        
+        return new Event(e, retValues);
     }
 
     private Event handleAction(Event e) {
@@ -218,6 +235,8 @@ public class GameController implements Runnable {
     private Event endTurn(Event e) {
         Map<String,String> retValues = new HashMap<String, String>();
         retValues.put("endturn", "true");        
+        retValues.put("return", "true");        
+
         Event response = new Event(e, retValues);
         
         Event toPublish = new Event(new ClientToken("", gameToken),"pub",retValues);
