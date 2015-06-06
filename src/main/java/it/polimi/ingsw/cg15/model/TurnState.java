@@ -16,12 +16,7 @@ public class TurnState {
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
 
     public TurnState(){
-        availableActionsList.add(ActionEnum.MOVE);
-        availableActionsList.add(ActionEnum.USEITEM);
-        availableActionsList.add(ActionEnum.DISCARD);
-        availableActionsList.add(ActionEnum.ASKSECTOR);
-        availableActionsList.add(ActionEnum.ENDTURN);
-        
+
 
     }
     

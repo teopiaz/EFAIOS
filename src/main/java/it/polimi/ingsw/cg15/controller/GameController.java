@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameState;
+import it.polimi.ingsw.cg15.model.TurnState;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.model.player.PlayerType;
@@ -97,21 +98,42 @@ public class GameController  {
         cardController.generateDecks();
         gameState.setInit();
         
+        /*
         Map<String,String> retValues = new HashMap<String, String>();
         retValues.put("currentplayer", Integer.toString(PlayerController.FIRST_PLAYER));
         String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
         Broker.publish(gameToken, json);
-
+*/
+        nextTurn();
     }
     
     public void nextTurn(){
       int turnNumber = gameState.getTurnNumber();
       if(turnNumber<=MAX_TURN_NUMBER){
+          TurnState turnState = null;
+          
+          PlayerController pc = new PlayerController(gameState);
+          if(turnNumber==1){
+          turnState =   gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
+
+          }else{
+          turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
+          }
+          
           gameState.setTurnNumber(turnNumber+1);
           
+          if(gameState.getTurnState().getCurrentPlayer().getPlayerType()==PlayerType.HUMAN){
+          turnState.getActionList().add(ActionEnum.MOVE);
+          turnState.getActionList().add(ActionEnum.ENDTURN);      
+          }else{
+              turnState.getActionList().add(ActionEnum.MOVE);
+              turnState.getActionList().add(ActionEnum.ATTACK);
+              turnState.getActionList().add(ActionEnum.ENDTURN); 
+              
+          }
           
-          PlayerController pc = new PlayerController(gameState);   
-          gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
+          
+          
           
           Map<String,String> retValues = new HashMap<String, String>();
           retValues.put("currentplayer", Integer.toString(gameState.getTurnState().getCurrentPlayer().getPlayerNumber()));
@@ -277,6 +299,12 @@ public class GameController  {
         
         return response;
     }
+    
+    
+    public void removeAction(ActionEnum action){
+        gameState.getTurnState().getActionList().remove(action);
+
+    }
 
     
     
@@ -295,7 +323,7 @@ public class GameController  {
         return this.fieldController;
     }
 
-    // return a new specification instance of PlayerController from an
+    // return a new instance of a specific subtype of PlayerController from an
     // Enumeration Value
     public PlayerController getPlayerInstance(Player player) {
         String className = ((new PlayerController(gameState)).getClass().getPackage() + "."

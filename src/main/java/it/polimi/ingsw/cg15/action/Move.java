@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Sector;
 import it.polimi.ingsw.cg15.model.player.Player;
@@ -49,6 +50,7 @@ public class Move extends Action {
             Action draw = new DrawSectorCard(getGameController(),e);
             Event response = draw.execute();
 
+            getGameController().removeAction(ActionEnum.MOVE);
             Map<String,String> retValues = response.getRetValues();
             retValues.put("return", "true");
             retValues.put("destination", dest.toString());

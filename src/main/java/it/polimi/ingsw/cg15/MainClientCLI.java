@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15;
 
-import it.polimi.ingsw.cg15.gui.client.ClientLobbyCLI;
-
+import it.polimi.ingsw.cg15.cli.client.ClientLobbyCLI;
 
 import java.net.MalformedURLException;
 import java.rmi.AlreadyBoundException;

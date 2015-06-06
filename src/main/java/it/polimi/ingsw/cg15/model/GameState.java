@@ -81,9 +81,10 @@ public class GameState {
 
 
 
-    public void newTurnState(Player currentPlayer) {
+    public TurnState newTurnState(Player currentPlayer) {
         this.turnState = new TurnState();
         turnState.setCurrentPlayer(currentPlayer);
+        return turnState;
     }
     
 

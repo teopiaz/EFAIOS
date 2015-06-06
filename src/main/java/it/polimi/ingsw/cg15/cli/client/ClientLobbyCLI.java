@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15.gui.client;
+package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.MainClientCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterfaceCLI;

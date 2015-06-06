@@ -23,7 +23,9 @@ public class GameControllerTest {
     @Test
     public final void testInitGame() {
         for(int i=0;i<7;i++){
-        gb.getPlayers().put(Integer.toString(i), new Player());
+       // gb.getPlayers().put(Integer.toString(i), new Player());
+        gb.getPlayers().put(Integer.toString(i), gb.getGameState().addPlayer(new Player()));
+
         }
         //MapLoader.loadMap(gs.getField(), "fermi");
 
@@ -40,8 +42,9 @@ public class GameControllerTest {
                     numHuman++;
                 }              
         }
-        assertEquals(numAlien,4);
-        assertEquals(numHuman,3);
+        System.out.println("A:"+numAlien+" H:"+numHuman);
+        assertEquals(4,numAlien);
+        assertEquals(3,numHuman);
 
         
     }

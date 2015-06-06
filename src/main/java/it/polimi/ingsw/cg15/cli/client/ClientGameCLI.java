@@ -1,4 +1,4 @@
-package it.polimi.ingsw.cg15.gui.client;
+package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
@@ -116,10 +116,10 @@ public class ClientGameCLI {
     }
 
     private void getAvailableActionsList() {
+        actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
         Event result;
         result = send(e);
-        System.out.println("LISTA AZIONIIIIIII\n"+result);
         if(result.actionResult()){
 
             for (String action : result.getRetValues().keySet()) {

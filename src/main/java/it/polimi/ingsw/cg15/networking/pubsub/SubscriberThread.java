@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
 
-import it.polimi.ingsw.cg15.gui.client.ClientGameCLI;
+import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 
