@@ -110,7 +110,13 @@ public class PlayerController {
     }
 
     public ItemCard drawItemCard() {
-        return gameState.getDeckContainer().getItemDeck().drawCard();
+        
+        ItemCard card = gameState.getDeckContainer().getItemDeck().drawCard();
+        TurnState ts = gameState.getTurnState();
+        Player cp = ts.getCurrentPlayer();
+        cp.addCard(card);
+        return card;
+
     }
     
     public Player getPlayerById(int id){

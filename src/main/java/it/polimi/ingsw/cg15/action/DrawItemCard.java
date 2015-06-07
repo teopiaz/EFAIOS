@@ -1,7 +1,10 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.Map;
+
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.networking.Event;
 
 /**
@@ -25,11 +28,16 @@ public class DrawItemCard extends Action {
     @Override
     public Event execute() {
         PlayerController pc = getCurrentPlayerController();
-        
+        Map<String, String> retValues = e.getRetValues();
+
         if(pc.canDrawItemCard()){
-            pc.drawItemCard();
+            System.out.println("POSSO PESCARE");
+            ItemCard card = pc.drawItemCard();
+            retValues.put("card", card.toString());
+            e = new Event(e, retValues);
         }
         else{
+            System.out.println("TROPPE CARTE");
             Action useOrDiscard = new UseOrDiscard(getGameController(),e);
             e= useOrDiscard.execute();
         }

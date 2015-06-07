@@ -36,6 +36,8 @@ public class ClientGameCLI {
     private Scanner scanner = new Scanner(System.in);
     private List<String> actionList=new ArrayList<String>();
     private boolean hasAttacked;
+    private List<String> cardList=new ArrayList<String>();
+    private int cardsSize;
 
 
 
@@ -71,6 +73,8 @@ public class ClientGameCLI {
                     debugPrintPlayerInfo();
                     getAvailableActionsList();
                     debugPrintActionList();
+                    getAvailableCardList();
+                    debugPrintCardList();
                     System.out.println("SELEZIONA UN AZIONE");
                     String choice = scanner.nextLine();
 
@@ -110,6 +114,14 @@ public class ClientGameCLI {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    private void debugPrintCardList() {
+            System.out.println("CARTE DISPONIBILI "+cardNumber);
+            for (String string : cardList) {
+                System.out.println(string);
+            }
 
     }
 
@@ -164,6 +176,28 @@ public class ClientGameCLI {
         }
 
     }
+    
+    private void getAvailableCardList() {
+        cardList = new ArrayList<String>();
+        Event e = new Event(ctoken,"getcardlist",null);
+        Event result;
+        result = send(e);
+        if(result.actionResult()){
+            
+            String size =result.getRetValues().get("cardssize");
+            cardsSize = Integer.parseInt(size);
+            
+            for (String action : result.getRetValues().keySet()) {
+                if((!action.equals("return")) && (!action.equals("cardssize")) ){
+                    cardList.add(action);  
+                }
+
+
+            }
+        }
+
+    }
+    
 
     private void debugPrintPlayerInfo(){
         System.out.println("player number: "+playerNumber+"\n"+
@@ -250,6 +284,11 @@ public class ClientGameCLI {
                 currentPosition=result.getRetValues().get("destination");
                 System.out.println("DEST: "+currentPosition);
                 hasMove=true;
+                if(result.getRetValues().containsKey("item")){
+                    if(result.getRetValues().get("item").equals("true")){
+                        System.out.println("hai pescato la carta "+(result.getRetValues().get("card")));
+                    }
+                }
 
             }else{
                 System.out.println("ERRORE: "+result.getRetValues().get("error"));

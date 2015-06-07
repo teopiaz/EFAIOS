@@ -10,6 +10,7 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.TurnState;
+import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.model.player.PlayerType;
@@ -180,11 +181,15 @@ public class GameController  {
                     response = getTurnInfo(e);
                     break;
                     
-                    
                 case "getactionlist" :
                     response = getActionList(e);
                     break;
+                    
+                case "getcardlist" :
+                    response = getCardList(e);
+                    break;
                 
+                    
                 
                 default:
                     System.out.println("DEFAULT");
@@ -202,6 +207,25 @@ public class GameController  {
 
         return response;
 
+    }
+
+    private Event getCardList(Event e) {
+        String playerToken = e.getToken().getPlayerToken();
+        Player thisPlayer = players.get(playerToken);
+        
+        List<ItemCard> list = thisPlayer.getCardList();
+        int cardsSize = thisPlayer.getCardListSize();
+        
+        Map<String,String> retValues = new HashMap<String, String>();
+           retValues.put("return", "true");
+           retValues.put("cardssize", Integer.toString(cardsSize));
+           
+        for (ItemCard actionEnum : list) {
+            retValues.put(actionEnum.toString(),"");
+        }
+        
+        
+        return new Event(e, retValues);    
     }
 
     private Event getActionList(Event e) {

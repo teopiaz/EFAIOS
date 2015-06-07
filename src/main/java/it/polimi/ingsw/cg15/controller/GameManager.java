@@ -42,7 +42,6 @@ public class GameManager implements GameManagerRemote {
 
 
 
-
     private GameManager(){
         gameInstance = GameInstance.getInstance();
     }
@@ -116,7 +115,6 @@ public class GameManager implements GameManagerRemote {
             switch(command){
 
             case "creategame": {
-
                 response =createGame(e);
                 break;
             }
@@ -292,6 +290,13 @@ public class GameManager implements GameManagerRemote {
         return event;
 
     }
+    
+
+
+    public Map<String, GameBox> getGameBoxList() {
+        return gameBoxList;
+    }
+
 
 
 

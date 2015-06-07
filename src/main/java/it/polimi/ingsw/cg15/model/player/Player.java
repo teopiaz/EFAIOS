@@ -51,11 +51,12 @@ public class Player {
     public Player(Cell origin, PlayerType type) {
         this.position = origin;
         this.type = type;
-        cards = new ArrayList<ItemCard>(3);
+        cards = new ArrayList<ItemCard>(MAX_ITEMCARD);
     }
 
     public Player(){
-      cards = new ArrayList<ItemCard>(3);
+      cards = new ArrayList<ItemCard>(MAX_ITEMCARD);
+      cards.add(ItemCard.ITEM_TELEPORT);
 
     }
 
@@ -107,7 +108,7 @@ public class Player {
     }
 
     /**
-     * Function to kill the player that makes zero parameter isAlive.
+     * Function to kill the player and set isAlive to false.
      * @return
      */
     public boolean killPlayer() {
@@ -158,5 +159,10 @@ public class Player {
 
     public void setPlayerNumber(int playerNumber) {
         this.playerNumber = playerNumber;
+    }
+
+
+    public List<ItemCard> getCardList() {
+        return cards;
     }
 }

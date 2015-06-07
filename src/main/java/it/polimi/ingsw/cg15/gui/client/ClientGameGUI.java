@@ -257,7 +257,7 @@ public class ClientGameGUI implements Runnable{
 	    this.frame.setVisible(true);
 	}
 	public void loadMap(){
-        board = new int[23][15];
+        board = new int[23][16];
         map.setBoard(board);
 	  strmap = netHelper.getMap(netHelper.getGameToken());
 	  System.out.println(strmap);
@@ -267,11 +267,16 @@ public class ClientGameGUI implements Runnable{
 
             // System.out.println(line);
              String[] splitted = line.split(",");
-             for (String string : splitted) {
-                System.out.println(string);
-            }
-               board[Integer.valueOf(splitted[1])-1][Integer.valueOf(splitted[0])-1]=Integer.valueOf(splitted[2]);
-               System.out.println("board["+(Integer.valueOf(splitted[1])-1)+"]["+(Integer.valueOf(splitted[0])-1)+"]="+board[(Integer.valueOf(splitted[1])-1)][(Integer.valueOf(splitted[0])-1)]);
+                 String strrr = splitted[0];
+                 String strc = splitted[1];
+                 String strtype = splitted[2];
+                 int r = Integer.parseInt(strrr)-1;
+                 int c = Integer.parseInt(strc)-1;
+                 int type = Integer.parseInt(strtype);
+                 System.out.println("C:"+c+" R:"+r+" type:"+type);
+
+               board[c][r]=type;
+               System.out.println("board["+c+"]["+r+"]="+board[c][r]);
 	    
            
 

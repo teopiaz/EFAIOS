@@ -47,11 +47,15 @@ public class DrawSectorCard extends Action {
 
             SectorCard card = pc.drawSectorCard();
             Action noise=null;
+            Event afterItemDraw = new Event(e, retValues);
+
 
             //NON PESCO L'ITEM CARD
             if(card==SectorCard.SECTOR_GREEN){
 
                 noise = new NoiseGreen(gc,e);
+                retValues.put("item", "false");
+
                 retValues.put("sectorcard", "sectorgreen");
                 e = new Event(e, retValues);
 
@@ -59,6 +63,8 @@ public class DrawSectorCard extends Action {
 
             if(card==SectorCard.SECTOR_RED){
                 noise = new NoiseRed(gc,e);
+                retValues.put("item", "false");
+
                 retValues.put("sectorcard", "sectorred");
                 e = new Event(e, retValues);
 
@@ -69,11 +75,15 @@ public class DrawSectorCard extends Action {
             if(card==SectorCard.SECTOR_GREEN_ITEM){
 
                 retValues.put("sectorcard", "sectorgreen");
+                retValues.put("item", "true");
+
                 Event beforeDrawEvent = new Event(e, retValues);
 
                 Action draw = new DrawItemCard(gc,beforeDrawEvent);
-                e =  draw.execute();
-                noise = new NoiseGreen(gc,e);
+                afterItemDraw =  draw.execute();
+                noise = new NoiseGreen(gc,afterItemDraw);
+                retValues = afterItemDraw.getRetValues();
+                retValues.put("return", "true");
 
 
 
@@ -81,11 +91,13 @@ public class DrawSectorCard extends Action {
 
             if(card==SectorCard.SECTOR_RED_ITEM){
                 retValues.put("sectorcard", "sectorred");
+                retValues.put("item", "true");
                 Event beforeDrawEvent = new Event(e, retValues);
                 Action draw = new DrawItemCard(gc,beforeDrawEvent);
-                e =  draw.execute();
-                noise = new NoiseRed(gc,e);
-
+                afterItemDraw =  draw.execute();
+                noise = new NoiseRed(gc,afterItemDraw);
+                
+                retValues = afterItemDraw.getRetValues();
             }
 
 
@@ -95,6 +107,9 @@ public class DrawSectorCard extends Action {
 
                 return new Event(e, retValues);
             }
+            
+
+            retValues.put("return", "true");
 
             //faccio rumore
             //TODO: publish noise

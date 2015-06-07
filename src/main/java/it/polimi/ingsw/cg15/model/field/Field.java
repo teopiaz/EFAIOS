@@ -221,14 +221,14 @@ public class Field {
         StringBuilder stringBuilder = new StringBuilder();
 
       String line;
-        for (int i = 1; i < 15; i++) {
-            for (int j = 1; j < 23; j++) {
-                Cell cell = map.get(new Coordinate(j, i));
+        for (int r = 1; r < 15; r++) {
+            for (int c = 1; c < 23; c++) {
+                Cell cell = map.get(new Coordinate(r, c));
                 if (cell != null) {
-                     line = i+","+j+","+cell.getSectorType().getValue()+"\n";
+                     line = r+","+c+","+cell.getSectorType().getValue()+"\n";
                     }
                 else{
-                     line = i+","+j+","+"0"+"\n";
+                     line = r+","+c+","+"0"+"\n";
                 }
                 
                 stringBuilder.append(line);

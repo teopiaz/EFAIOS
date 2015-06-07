@@ -75,12 +75,10 @@ public class MapLoader {
         }
         while (line != null) {
             String[] splitted = line.split(",");
-            int c = Integer.valueOf(splitted[0]);
-            int r = Integer.valueOf(splitted[1]);
+            int c = Integer.valueOf(splitted[1]);
+            int r = Integer.valueOf(splitted[0]);
             int type = Integer.valueOf(splitted[2]);
-            if(c==1 && r==4){
-                System.out.println("TIPO C1 R4:"+type);
-            }
+
 
             if (type!=0) {
                 Coordinate coord = new Coordinate(r, c);
@@ -133,11 +131,11 @@ public class MapLoader {
             }
             String content="";
             // get the content in bytes
-            for(int i=0;i<15;i++){
-                for(int j=0; j<23; j++){
-                    Cell cell = field.getCell(new Coordinate(j, i));
+            for(int r=0;r<15;r++){
+                for(int c=0; c<23; c++){
+                    Cell cell = field.getCell(new Coordinate(c, r));
                     if(cell!=null){
-                        content=content+(i)+","+(j)+","+ cell.getSectorType().getValue() +"\n"; 
+                        content=content+(r)+","+(c)+","+ cell.getSectorType().getValue() +"\n"; 
 
                     }
                 }
