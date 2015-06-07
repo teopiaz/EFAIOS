@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.cli.client;
 
+import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
@@ -83,18 +84,23 @@ public class ClientGameCLI {
                     case "m":
                         move();
                         break;
-                        
+
                     case "a":
                         attack();
-                        
+
                     case "e":
                         endTurn();
                         break;
+
+                    case "c":
+                        useCardMenu();
+                        break;
+
                     default:
                         System.out.println("Azione Non Valida");
                     }
-                    
-                    
+
+
 
                 }
 
@@ -117,39 +123,72 @@ public class ClientGameCLI {
 
     }
 
+    private void useCardMenu() {
+        getAvailableCardList();
+        debugPrintCardList();
+        String choice = scanner.nextLine();
+
+        switch(choice){
+
+        case "teleport":
+            useCard("teleport");
+            break;
+        }
+
+
+
+
+
+    }
+
+    private void useCard(String card) {
+        if(cardList.contains(card)){
+        Map<String,String> args = new HashMap<String, String>();
+        args.put("itemcard", card);
+        Event e = new Event(ctoken,"useitem",args);
+        Event result;
+        result = send(e);
+        System.out.println(result);
+        }
+        else{
+            System.out.println("Non possiedi questa carta");
+        }
+
+    }
+
     private void debugPrintCardList() {
-            System.out.println("CARTE DISPONIBILI "+cardNumber);
-            for (String string : cardList) {
-                System.out.println(string);
-            }
+        System.out.println("CARTE DISPONIBILI "+cardNumber);
+        for (String string : cardList) {
+            System.out.println(string);
+        }
 
     }
 
     private void attack() {
-            if(!hasAttacked){
-                
+        if(!hasAttacked){
 
-                Event e = new Event(ctoken,"attack",null);
-                Event result;
 
-                result = send(e);
-                System.out.println(result);
-                if(result.actionResult()){
-                   int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
-                   if(killedPlayer==0){
-                       System.out.println("Nessuna Vittima");
-                   }
-                   else{
-                       System.out.println("Hai ucciso "+killedPlayer+" giocatori");
-                   }
-                    hasAttacked=true;
+            Event e = new Event(ctoken,"attack",null);
+            Event result;
 
-                }else{
-                    System.out.println("ERRORE: "+result.getRetValues().get("error"));
-                    hasAttacked=false;
+            result = send(e);
+            System.out.println(result);
+            if(result.actionResult()){
+                int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
+                if(killedPlayer==0){
+                    System.out.println("Nessuna Vittima");
                 }
+                else{
+                    System.out.println("Hai ucciso "+killedPlayer+" giocatori");
+                }
+                hasAttacked=true;
+
+            }else{
+                System.out.println("ERRORE: "+result.getRetValues().get("error"));
+                hasAttacked=false;
             }
-  }
+        }
+    }
 
     private void debugPrintActionList() {
         System.out.println("AZIONI DISPONIBILI");
@@ -176,17 +215,17 @@ public class ClientGameCLI {
         }
 
     }
-    
+
     private void getAvailableCardList() {
         cardList = new ArrayList<String>();
         Event e = new Event(ctoken,"getcardlist",null);
         Event result;
         result = send(e);
         if(result.actionResult()){
-            
+
             String size =result.getRetValues().get("cardssize");
             cardsSize = Integer.parseInt(size);
-            
+
             for (String action : result.getRetValues().keySet()) {
                 if((!action.equals("return")) && (!action.equals("cardssize")) ){
                     cardList.add(action);  
@@ -197,7 +236,7 @@ public class ClientGameCLI {
         }
 
     }
-    
+
 
     private void debugPrintPlayerInfo(){
         System.out.println("player number: "+playerNumber+"\n"+

@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.model.player.PlayerType;
 
 import java.util.List;
 
@@ -34,6 +35,16 @@ public class PlayerController {
     public Coordinate getPlayerPosition() {
         Player cp = gameState.getTurnState().getCurrentPlayer();
         return cp.getPosition().getCoordinate();
+    }
+    
+    public boolean canUseCard(){
+        Player cp = gameState.getTurnState().getCurrentPlayer();
+        if(cp.getPlayerType()==PlayerType.HUMAN){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean hasCard(ItemCard card) {

@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg15.action.Action;
 import it.polimi.ingsw.cg15.action.AskSector;
 import it.polimi.ingsw.cg15.action.Attack;
 import it.polimi.ingsw.cg15.action.Move;
+import it.polimi.ingsw.cg15.action.Teleport;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.ActionEnum;
@@ -188,6 +189,9 @@ public class GameController  {
                 case "getcardlist" :
                     response = getCardList(e);
                     break;
+                case "useitem":
+                    response = useItemCard(e);
+                    break;
                 
                     
                 
@@ -207,6 +211,25 @@ public class GameController  {
 
         return response;
 
+    }
+
+    private Event useItemCard(Event e) {
+        
+        String strCard = e.getArgs().get("itemcard");
+        
+        ItemCard card = ItemCard.fromString(strCard);
+        Event response=null;
+        switch (card) {
+        case ITEM_TELEPORT:
+            Action teleport = new Teleport(this, e);
+            response= teleport.execute();
+            break;
+
+        default:
+            break;
+        }
+        
+        return response;
     }
 
     private Event getCardList(Event e) {
