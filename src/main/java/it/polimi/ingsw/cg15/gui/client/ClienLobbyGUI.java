@@ -85,6 +85,7 @@ public class ClienLobbyGUI implements Runnable{
              String gameToken="";
 
              gameToken = gameMap.get(selectedGame);
+             networkHelper.setGameToken(gameToken);
             
                 networkHelper.joinGame(gameToken);
                 gui.showGUI();

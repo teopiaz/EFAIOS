@@ -23,10 +23,12 @@ public class ActionPanel extends JPanel{
         JButton btnMove = new JButton("MOVE");
         JButton btnAttack = new JButton("ATTACK");
         JButton btnCard = new JButton("USE CARD");
+        btnCard.setEnabled(false);
 
         buttonList.add(btnMove);
         buttonList.add(btnAttack);
         buttonList.add(btnCard);
+
 
 
 

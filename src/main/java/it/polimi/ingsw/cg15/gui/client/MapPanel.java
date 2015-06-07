@@ -21,7 +21,7 @@ public class MapPanel extends JPanel {
      * 
      */
     GameMap test = new GameMap(15,23);
-    private int[][] board;
+    private int[][] board =new int[23][15];
     private boolean editorMode = false;
 
     private static final long serialVersionUID = 1L;
@@ -91,5 +91,24 @@ public class MapPanel extends JPanel {
             repaint();
         }        
     } //end of MyMouseListener class 
+
+    public boolean getEditorMode(){
+        return editorMode;
+    }
+    public void setEditorMode(boolean mode){
+        this.editorMode = mode;
+        if(mode){
+            board = new int[23][15];
+        }
+    }
+
+    public int[][] getBoard() {
+        return this.board;
+    }
+
+    public void setBoard(int[][] board) {
+        this.board=board;
+    }
+
 
 }

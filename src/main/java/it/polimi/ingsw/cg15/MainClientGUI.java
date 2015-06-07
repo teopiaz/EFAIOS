@@ -22,7 +22,7 @@ public class MainClientGUI {
 	    
 	   // NetworkHelper netHelper = NetworkHelper.getClientRMI();
 	    
-        Runnable clientTaskGUI = new ClientGameGUI();
+        Runnable clientTaskGUI = new ClientGameGUI(netHelper);
         EventQueue.invokeLater(clientTaskGUI);
 	    
 	    Runnable taskLobby = new ClienLobbyGUI(netHelper,clientTaskGUI);

@@ -40,9 +40,11 @@ public class MapLoader {
             return false;
         }
 
-        String fName = mapName + ".txt";
+        String fName ="maps/"+ mapName + ".txt";
 
         if(localMapList.contains(mapName)){
+            fName =mapName + ".txt";
+
             fin = MapLoader.class.getClassLoader().getResourceAsStream(fName);
 
             if (fin == null) {
@@ -50,9 +52,11 @@ public class MapLoader {
             }
         }
         else{
+            
             File file = new File(fName);
             try {
                 fin=new FileInputStream(file);
+                System.out.println(file.getAbsolutePath());
             } catch (FileNotFoundException e1) {
                 Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "File "+ fName+" not found", e1);
                 return false;
@@ -71,9 +75,12 @@ public class MapLoader {
         }
         while (line != null) {
             String[] splitted = line.split(",");
-            int c = Integer.valueOf(splitted[1]);
-            int r = Integer.valueOf(splitted[0]);
+            int c = Integer.valueOf(splitted[0]);
+            int r = Integer.valueOf(splitted[1]);
             int type = Integer.valueOf(splitted[2]);
+            if(c==1 && r==4){
+                System.out.println("TIPO C1 R4:"+type);
+            }
 
             if (type!=0) {
                 Coordinate coord = new Coordinate(r, c);

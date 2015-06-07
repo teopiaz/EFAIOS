@@ -21,7 +21,7 @@ public class MapLoaderTest {
         Field field = new Field();
         MapLoader.loadMap(field, "galilei");
         MapLoader.saveMap(field, "pippo");
-      //  assertTrue(MapLoader.loadMap(field, "pippo"));
+        assertTrue(MapLoader.loadMap(field, "test123"));
         assertFalse(MapLoader.loadMap(field, "pluto"));
 
     }
