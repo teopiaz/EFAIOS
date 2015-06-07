@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class ClientGameCLI {
@@ -36,6 +35,7 @@ public class ClientGameCLI {
     private boolean init = true;
     private Scanner scanner = new Scanner(System.in);
     private List<String> actionList=new ArrayList<String>();
+    private boolean hasAttacked;
 
 
 
@@ -80,10 +80,16 @@ public class ClientGameCLI {
                         move();
                         break;
                         
+                    case "a":
+                        attack();
+                        
                     case "e":
                         endTurn();
                         break;
+                    default:
+                        System.out.println("Azione Non Valida");
                     }
+                    
                     
 
                 }
@@ -106,6 +112,32 @@ public class ClientGameCLI {
         }
 
     }
+
+    private void attack() {
+            if(!hasAttacked){
+                
+
+                Event e = new Event(ctoken,"attack",null);
+                Event result;
+
+                result = send(e);
+                System.out.println(result);
+                if(result.actionResult()){
+                   int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
+                   if(killedPlayer==0){
+                       System.out.println("Nessuna Vittima");
+                   }
+                   else{
+                       System.out.println("Hai ucciso "+killedPlayer+" giocatori");
+                   }
+                    hasAttacked=true;
+
+                }else{
+                    System.out.println("ERRORE: "+result.getRetValues().get("error"));
+                    hasAttacked=false;
+                }
+            }
+  }
 
     private void debugPrintActionList() {
         System.out.println("AZIONI DISPONIBILI");
@@ -154,6 +186,7 @@ public class ClientGameCLI {
         if(result.actionResult()){
             System.out.println("FINTE TURNO");
             hasMove = false;
+            hasAttacked=false;
         }
 
     }

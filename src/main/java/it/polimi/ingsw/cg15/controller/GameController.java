@@ -148,6 +148,10 @@ public class GameController  {
       }
         
     }
+    
+    public String getGameToken(){
+        return gameToken;
+    }
 
 
 

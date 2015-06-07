@@ -75,6 +75,12 @@ public class SubscriberThread extends Thread {
                 String sector = e.getRetValues().get("move");
                 System.out.println("Giocatore "+player+" si è mosso in "+sector);
             }
+            if(  e.getRetValues().containsKey("attack")){ 
+                System.out.println(msg);
+                
+                
+            }
+
         }
 
          //   ClientGameCLI.debugPrint(msg);
