@@ -5,8 +5,10 @@ import it.polimi.ingsw.cg15.action.Action;
 import it.polimi.ingsw.cg15.action.Adrenaline;
 import it.polimi.ingsw.cg15.action.AskSector;
 import it.polimi.ingsw.cg15.action.Attack;
+import it.polimi.ingsw.cg15.action.AttackCard;
 import it.polimi.ingsw.cg15.action.Move;
 import it.polimi.ingsw.cg15.action.Sedatives;
+import it.polimi.ingsw.cg15.action.Spotlight;
 import it.polimi.ingsw.cg15.action.Teleport;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
@@ -130,6 +132,7 @@ public class GameController  {
                 turnState.getActionList().add(ActionEnum.MOVE);
                 turnState.getActionList().add(ActionEnum.ENDTURN);
                 turnState.getActionList().add(ActionEnum.ASKSECTOR); 
+                turnState.getActionList().add(ActionEnum.USEITEM);
 
             }else{
                 turnState.getActionList().add(ActionEnum.MOVE);
@@ -194,10 +197,7 @@ System.out.println("PORCODIOIMPESTATO "+command);
                 case "getcardlist" :
                     response = getCardList(e);
                     break;
-                case "useitem":
-                    System.out.println("DIOCANEEE");
-                    e = useItemCard(e);
-                    break;
+
 
 
                 default:
@@ -213,6 +213,7 @@ System.out.println("PORCODIOIMPESTATO "+command);
             }
 
         }
+        System.out.println("ACTION RESPONSE"+response);
 
         return response;
 
@@ -241,14 +242,18 @@ System.out.println("PORCODIOIMPESTATO "+command);
             response= sedatives.execute();
             break;
         case ITEM_ATTACK:
-            Action attack = new Attack(this, e);
+            Action attack = new AttackCard(this, e);
             response= attack.execute();
+            break;
+        case ITEM_SPOTLIGHT:
+            Action spotlight = new Spotlight(this, e);
+            response= spotlight.execute();
             break;
 
         default:
             break;
         }
-
+System.out.println("CARD RESPONSE"+response);
         return response;
     }
 
@@ -299,7 +304,10 @@ System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
                 Action attack = new Attack(this,e);
                 e = attack.execute();
                 break;
-
+            case "useitem":
+                System.out.println("DIOCANEEE");
+                e = useItemCard(e);
+                break;
 
             case "discarditem":
                 //     e = discarditem(e);
@@ -317,6 +325,13 @@ System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
                 System.out.println("ENDTURN");
                 e = endTurn(e);
                 break;
+                
+            default:
+                Map<String,String> retValues = new HashMap<String, String>();
+                retValues.put("return", "false");
+                retValues.put("errore", "azione non valida");
+                e=new Event(e, retValues);
+
             }
 
         }

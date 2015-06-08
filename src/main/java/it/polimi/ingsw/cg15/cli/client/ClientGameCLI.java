@@ -158,7 +158,8 @@ public class ClientGameCLI {
         case "attack":
             useCard("attack");
             break;
-            
+        case "spotlight":
+            spotlight();
             
         }
 
@@ -169,12 +170,32 @@ public class ClientGameCLI {
 
     }
 
+    private void spotlight() {
+        if(cardList.contains("spotlight")){
+            System.out.println("Inserisci un settore da illuminare");
+            String target = scanner.nextLine();
+            Map<String,String> args = new HashMap<String, String>();
+            args.put("itemcard", "spotlight");
+            args.put("target", target); 
+            Event e = new Event(ctoken,"useitem",args);
+            Event result;
+            System.out.println(e);
+            result = send(e);
+            System.out.println(result);
+        }
+        else{
+            System.out.println("Non possiedi questa carta");
+        }
+        
+    }
+
     private void useCard(String card) {
         if(cardList.contains(card)){
             Map<String,String> args = new HashMap<String, String>();
             args.put("itemcard", card);
             Event e = new Event(ctoken,"useitem",args);
             Event result;
+            System.out.println(e);
             result = send(e);
             System.out.println(result);
         }

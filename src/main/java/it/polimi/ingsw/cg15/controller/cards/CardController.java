@@ -63,7 +63,7 @@ public class CardController {
             itemDeck.insertCard(ItemCard.ITEM_SEDATIVES);
         }
         for(int i=0;i<itemSpotlight;i++){
-            itemDeck.insertCard(ItemCard.ITEM_SPOTLIGHTS);
+            itemDeck.insertCard(ItemCard.ITEM_SPOTLIGHT);
         }
         for(int i=0;i<itemDefense;i++){
             itemDeck.insertCard(ItemCard.ITEM_DEFENSE);

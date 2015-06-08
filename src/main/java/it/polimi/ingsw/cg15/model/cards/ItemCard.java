@@ -6,7 +6,7 @@ package it.polimi.ingsw.cg15.model.cards;
  */
 public enum ItemCard implements Card {
     ITEM_DEFENSE("defense"), ITEM_ATTACK("attack"), ITEM_TELEPORT("teleport"), 
-    ITEM_SEDATIVES("sedatives"), ITEM_SPOTLIGHTS("spotlights"), ITEM_ADRENALINE("adrenaline");
+    ITEM_SEDATIVES("sedatives"), ITEM_SPOTLIGHT("spotlight"), ITEM_ADRENALINE("adrenaline");
     
     public String toString() {
         return name().substring(5).toLowerCase();
