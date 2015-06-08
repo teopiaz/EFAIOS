@@ -26,8 +26,13 @@ public class AttackCard extends Action {
 
     @Override
     public Event execute() {
-        PlayerController pc = getCurrentPlayerController();
         Map<String,String> retValues = e.getRetValues();
+        PlayerController pc = getCurrentPlayerController();
+        if(!pc.canUseCard()){
+            retValues.put("return", "false");
+            retValues.put("error","solo gli umani possono usare le carte oggetto");
+            return new Event(e, retValues);
+        }
         if(pc.itemCardUsed()){
             retValues.put("return", "false");
             retValues.put("error","carta già usata in questo turno");

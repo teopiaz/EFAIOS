@@ -76,8 +76,16 @@ public class SubscriberThread extends Thread {
                 System.out.println("Giocatore "+player+" si è mosso in "+sector);
             }
             if(  e.getRetValues().containsKey("attack")){ 
-                System.out.println(msg);
+                String playerNum = e.getRetValues().get("player");
+                String position = e.getRetValues().get("attack");
+                System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
                 
+                
+            }
+            if(  e.getRetValues().containsKey("noise")){ 
+                String playerNum = e.getRetValues().get("player");
+                String position = e.getRetValues().get("position");
+                System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
                 
             }
 

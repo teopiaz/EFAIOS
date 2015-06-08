@@ -32,6 +32,10 @@ public class NoiseGreen extends Action {
     @Override
     public Event execute() {
 
+        
+        Action noise = new MakeNoise(getGameController(),e);
+        e = noise.execute();
+        
  
         
         

@@ -156,6 +156,12 @@ public class PlayerController {
         }
         
     }
-    
+
+    public boolean isUnderSedatives() {
+       return gameState.getTurnState().isUnderSedatives();
+    }
+    public void setUnderSedatives() {
+         gameState.getTurnState().setUnderAdrenaline();
+     }
 
 }

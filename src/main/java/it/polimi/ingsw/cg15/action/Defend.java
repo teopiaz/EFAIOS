@@ -38,7 +38,7 @@ public class Defend extends Action {
             
             return new Event(e, retValues);
         }
-        retValues.put("defense", "true");
+        retValues.put("defense", "false");
 
         return new Event(e, retValues);
     }

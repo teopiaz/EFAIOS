@@ -71,7 +71,6 @@ public class Attack extends Action {
                 pc.setHasAttacked();
             }
         }
-        
   
         pubRet.put("player", Integer.toString(currentPlayer.getPlayerNumber()));
         pubRet.put("attack", currentPlayer.getPosition().getLabel());

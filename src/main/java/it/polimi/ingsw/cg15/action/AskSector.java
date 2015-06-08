@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
+import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.networking.Event;
 
 /**
@@ -20,7 +21,10 @@ Event e;
 
     @Override
     public Event execute() {
-        // TODO Auto-generated method stub
+        //sistemare lista azioni
+        
+       Action noise = new MakeNoise(getGameController(), e);
+       e = noise.execute();
         return e;
     }
 

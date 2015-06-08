@@ -37,7 +37,7 @@ public class MapPanel extends JPanel {
         setBackground(Color.black);
         setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 
-
+        
 
         HexSprite.setHeight(40);
 

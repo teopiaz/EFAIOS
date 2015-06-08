@@ -2,9 +2,11 @@ package it.polimi.ingsw.cg15.controller;
 
 
 import it.polimi.ingsw.cg15.action.Action;
+import it.polimi.ingsw.cg15.action.Adrenaline;
 import it.polimi.ingsw.cg15.action.AskSector;
 import it.polimi.ingsw.cg15.action.Attack;
 import it.polimi.ingsw.cg15.action.Move;
+import it.polimi.ingsw.cg15.action.Sedatives;
 import it.polimi.ingsw.cg15.action.Teleport;
 import it.polimi.ingsw.cg15.controller.cards.CardController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
@@ -99,58 +101,61 @@ public class GameController  {
         gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
         cardController.generateDecks();
         gameState.setInit();
-        
+
         /*
         Map<String,String> retValues = new HashMap<String, String>();
         retValues.put("currentplayer", Integer.toString(PlayerController.FIRST_PLAYER));
         String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
         Broker.publish(gameToken, json);
-*/
+         */
         nextTurn();
     }
-    
-    public void nextTurn(){
-      int turnNumber = gameState.getTurnNumber();
-      if(turnNumber<=MAX_TURN_NUMBER){
-          TurnState turnState = null;
-          
-          PlayerController pc = new PlayerController(gameState);
-          if(turnNumber==1){
-          turnState =   gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
 
-          }else{
-          turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
-          }
-          
-          gameState.setTurnNumber(turnNumber+1);
-          
-          if(gameState.getTurnState().getCurrentPlayer().getPlayerType()==PlayerType.HUMAN){
-          turnState.getActionList().add(ActionEnum.MOVE);
-          turnState.getActionList().add(ActionEnum.ENDTURN);      
-          }else{
-              turnState.getActionList().add(ActionEnum.MOVE);
-              turnState.getActionList().add(ActionEnum.ATTACK);
-              turnState.getActionList().add(ActionEnum.ENDTURN); 
-              
-          }
-          
-          
-          
-          
-          Map<String,String> retValues = new HashMap<String, String>();
-          retValues.put("currentplayer", Integer.toString(gameState.getTurnState().getCurrentPlayer().getPlayerNumber()));
-          
-          String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
-          Broker.publish(gameToken, json);
-          
-          
-      }
-      else{
-          System.out.println("ENDGAME");
-      }
-        
+    public void nextTurn(){
+        int turnNumber = gameState.getTurnNumber();
+        if(turnNumber<=MAX_TURN_NUMBER){
+            TurnState turnState = null;
+
+            PlayerController pc = new PlayerController(gameState);
+            if(turnNumber==1){
+                turnState =   gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
+
+            }else{
+                turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
+            }
+
+            gameState.setTurnNumber(turnNumber+1);
+
+            if(gameState.getTurnState().getCurrentPlayer().getPlayerType()==PlayerType.HUMAN){
+                turnState.getActionList().add(ActionEnum.MOVE);
+                turnState.getActionList().add(ActionEnum.ENDTURN);
+                turnState.getActionList().add(ActionEnum.ASKSECTOR); 
+
+            }else{
+                turnState.getActionList().add(ActionEnum.MOVE);
+                turnState.getActionList().add(ActionEnum.ATTACK);
+                turnState.getActionList().add(ActionEnum.ENDTURN); 
+                turnState.getActionList().add(ActionEnum.ASKSECTOR); 
+
+            }
+
+
+
+
+            Map<String,String> retValues = new HashMap<String, String>();
+            retValues.put("currentplayer", Integer.toString(gameState.getTurnState().getCurrentPlayer().getPlayerNumber()));
+
+            String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
+            Broker.publish(gameToken, json);
+
+
+        }
+        else{
+            System.out.println("ENDGAME");
+        }
+
     }
-    
+
     public String getGameToken(){
         return gameToken;
     }
@@ -160,13 +165,13 @@ public class GameController  {
     public Event eventHandler(Event e) {
         Event response=null;
 
-       synchronized (gameState) {
-            
+        synchronized (gameState) {
+
             String playerToken = e.getToken().getPlayerToken();
 
             if(playerToken!=null && (gameState.isStarted() && gameState.isInit())){
                 String command = e.getCommand();
-
+System.out.println("PORCODIOIMPESTATO "+command);
                 switch(command){
 
                 case "getmap": 
@@ -177,33 +182,33 @@ public class GameController  {
                 case "getplayerinfo" :
                     response = getPlayerInfo(e);
                     break;
-                    
+
                 case "getturninfo" :
                     response = getTurnInfo(e);
                     break;
-                    
+
                 case "getactionlist" :
                     response = getActionList(e);
                     break;
-                    
+
                 case "getcardlist" :
                     response = getCardList(e);
                     break;
                 case "useitem":
-                    response = useItemCard(e);
+                    System.out.println("DIOCANEEE");
+                    e = useItemCard(e);
                     break;
-                
-                    
-                
+
+
                 default:
                     System.out.println("DEFAULT");
-                if(players.containsKey(playerToken)){
-                    Player thisPlayer = players.get(playerToken);
-                    if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
-                       response =  handleAction(e);
+                    if(players.containsKey(playerToken)){
+                        Player thisPlayer = players.get(playerToken);
+                        if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
+                            response =  handleAction(e);
+                        }
                     }
-                }
-                break;
+                    break;
                 }                    
             }
 
@@ -213,10 +218,12 @@ public class GameController  {
 
     }
 
+
     private Event useItemCard(Event e) {
-        
+        System.out.println("DIOMAIALEEEE!!! "+e);
+
         String strCard = e.getArgs().get("itemcard");
-        
+
         ItemCard card = ItemCard.fromString(strCard);
         Event response=null;
         switch (card) {
@@ -225,84 +232,97 @@ public class GameController  {
             response= teleport.execute();
             break;
 
+        case ITEM_ADRENALINE:
+            Action adrenaline = new Adrenaline(this, e);
+            response= adrenaline.execute();
+            break;
+        case ITEM_SEDATIVES:
+            Action sedatives = new Sedatives(this, e);
+            response= sedatives.execute();
+            break;
+        case ITEM_ATTACK:
+            Action attack = new Attack(this, e);
+            response= attack.execute();
+            break;
+
         default:
             break;
         }
-        
+
         return response;
     }
 
     private Event getCardList(Event e) {
         String playerToken = e.getToken().getPlayerToken();
         Player thisPlayer = players.get(playerToken);
-        
+
         List<ItemCard> list = thisPlayer.getCardList();
         int cardsSize = thisPlayer.getCardListSize();
-        
+
         Map<String,String> retValues = new HashMap<String, String>();
-           retValues.put("return", "true");
-           retValues.put("cardssize", Integer.toString(cardsSize));
-           
+        retValues.put("return", "true");
+        retValues.put("cardssize", Integer.toString(cardsSize));
+
         for (ItemCard actionEnum : list) {
             retValues.put(actionEnum.toString(),"");
         }
-        
-        
+
+
         return new Event(e, retValues);    
     }
 
     private Event getActionList(Event e) {
 
         List<ActionEnum> listAction = gameState.getTurnState().getActionList();
-        
+
         Map<String,String> retValues = new HashMap<String, String>();
-           retValues.put("return", "true");
+        retValues.put("return", "true");
         for (ActionEnum actionEnum : listAction) {
             retValues.put(actionEnum.toString(),"");
         }
-        
-        
+
+
         return new Event(e, retValues);
     }
 
     private Event handleAction(Event e) {
-        
-     if(gameState.getTurnState().isActionInActionList(e.getCommand())){
-         
-         switch(e.getCommand()){
-         
-         case "move":
-             Action move = new Move(this, e);
-             e= move.execute();
-             break;
-         case "attack":
-             Action attack = new Attack(this,e);
-             e = attack.execute();
-             break;
-         case "useitem":
-           //  e = useItem(e);
-             
-         case "discarditem":
-        //     e = discarditem(e);
-             
-         case "escape":
-        //     Action escape = new Escape(this,e);
-        //     e = escape.execute();
-             
-         case "asksector":
-             Action askSector = new AskSector(this,e);
-             
-             
-         case "endturn":
-             System.out.println("ENDTURN");
-             e = endTurn(e);
-         
-         }
-         
-     }
+
+        if(gameState.getTurnState().isActionInActionList(e.getCommand())){
+System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
+            switch(e.getCommand()){
+
+            case "move":
+                Action move = new Move(this, e);
+                e= move.execute();
+                break;
+            case "attack":
+                Action attack = new Attack(this,e);
+                e = attack.execute();
+                break;
+
+
+            case "discarditem":
+                //     e = discarditem(e);
+
+            case "escape":
+                //     Action escape = new Escape(this,e);
+                //     e = escape.execute();
+
+            case "asksector":
+                Action asksector = new AskSector(this,e);
+                e= asksector.execute();
+                break;
                 
+            case "endturn":
+                System.out.println("ENDTURN");
+                e = endTurn(e);
+                break;
+            }
+
+        }
+
         return e;
-        
+
     }
 
     private Event endTurn(Event e) {
@@ -311,13 +331,13 @@ public class GameController  {
         retValues.put("return", "true");        
 
         Event response = new Event(e, retValues);
-        
+
         Event toPublish = new Event(new ClientToken("", gameToken),"pub",retValues);
         Broker.publish(gameToken,NetworkProxy.eventToJSON(toPublish));
-        
+
         nextTurn();
-        
-        
+
+
         return response;
     }
 
@@ -338,27 +358,27 @@ public class GameController  {
 
         return response;
     }
-    
+
 
     private Event getTurnInfo(Event e) {
-        
+
         int currentPlayer = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
         Map<String,String> retValues = new HashMap<String, String>();
         retValues.put("currentplayer",Integer.toString(currentPlayer) );
-        
+
         Event response = new Event(e,retValues);   
-        
+
         return response;
     }
-    
-    
+
+
     public void removeAction(ActionEnum action){
         gameState.getTurnState().getActionList().remove(action);
 
     }
 
-    
-    
+
+
 
     private Event getMap(Event e) {
 

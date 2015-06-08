@@ -87,6 +87,7 @@ public class ClientGameCLI {
 
                     case "a":
                         attack();
+                        break;
 
                     case "e":
                         endTurn();
@@ -94,6 +95,9 @@ public class ClientGameCLI {
 
                     case "c":
                         useCardMenu();
+                        break;
+                    case "ask":
+                        askSector();
                         break;
 
                     default:
@@ -123,6 +127,18 @@ public class ClientGameCLI {
 
     }
 
+    private void askSector() {
+        System.out.println("In quale settore vuoi fare rumore?");
+        String position = scanner.nextLine();
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("position", position);
+        Event e = new Event(ctoken,"asksector",args);
+        Event result;
+        result = send(e);     
+        System.out.println(result);
+
+    }
+
     private void useCardMenu() {
         getAvailableCardList();
         debugPrintCardList();
@@ -133,7 +149,19 @@ public class ClientGameCLI {
         case "teleport":
             useCard("teleport");
             break;
+        case "adrenaline":
+            useCard("adrenaline");
+            break;
+        case "sedatives":
+            useCard("sedatives");
+            break;
+        case "attack":
+            useCard("attack");
+            break;
+            
+            
         }
+
 
 
 
@@ -143,12 +171,12 @@ public class ClientGameCLI {
 
     private void useCard(String card) {
         if(cardList.contains(card)){
-        Map<String,String> args = new HashMap<String, String>();
-        args.put("itemcard", card);
-        Event e = new Event(ctoken,"useitem",args);
-        Event result;
-        result = send(e);
-        System.out.println(result);
+            Map<String,String> args = new HashMap<String, String>();
+            args.put("itemcard", card);
+            Event e = new Event(ctoken,"useitem",args);
+            Event result;
+            result = send(e);
+            System.out.println(result);
         }
         else{
             System.out.println("Non possiedi questa carta");

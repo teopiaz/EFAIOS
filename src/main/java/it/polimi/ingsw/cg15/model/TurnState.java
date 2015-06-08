@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.model;
 
+import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class TurnState {
     private boolean hasAttacked = false;
     private boolean usedItemCard = false;
     private boolean isUnderAdrenaline = false;
+    private boolean isUnderSedatives = false;
     private boolean lockedOnDiscardOrUseItem = false;
     private List<ActionEnum> availableActionsList = new ArrayList<ActionEnum>();
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
@@ -19,7 +21,7 @@ public class TurnState {
 
 
     }
-    
+
     public boolean isLockedOnDiscardOrUseItem() {
         return lockedOnDiscardOrUseItem;
     }
@@ -41,10 +43,20 @@ public class TurnState {
     public void setUnderAdrenaline(){
         this.isUnderAdrenaline=true;
     }
-    public void setHasMoved() {
-        this.hasMoved = true;
+    public boolean isUnderSedatives() {
+        return isUnderSedatives;
     }
-    
+    public void setUnderSedatives(){
+        this.isUnderSedatives=true;
+    }
+    public void setHasMoved() {
+        if(availableActionsList.contains(ActionEnum.MOVE)){
+            availableActionsList.remove(ActionEnum.MOVE);
+            hasMoved = true;
+
+        }
+    }
+
     public void resetHasMoved(){
         this.hasMoved=false;
     }
@@ -63,10 +75,14 @@ public class TurnState {
         return hasAttacked;
     }
     public void setHasAttacked() {
-        hasAttacked = true;
+        if(availableActionsList.contains(ActionEnum.ATTACK)){
+            availableActionsList.remove(ActionEnum.ATTACK);
+            hasAttacked = true;
+
+        }
     }
-    
-    
+
+
     public boolean isActionInActionList(String action){
         for (ActionEnum actionEnum : availableActionsList) {
             if(actionEnum.toString().equals(action)){

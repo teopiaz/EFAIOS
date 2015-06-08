@@ -47,15 +47,22 @@ public class Move extends Action {
         if (pc.moveIsPossible(dest)) {
             System.out.println();
             pc.movePlayer(dest);
+            Event response;
+            if(!pc.isUnderSedatives()){
             Action draw = new DrawSectorCard(getGameController(),e);
-            Event response = draw.execute();
-
+             response = draw.execute();
+            }
+            else{
+                Map<String,String> retVal = new HashMap<String, String>();
+                retVal.put("sedatives", "true");
+                 response = new Event(e, retVal);
+            }
             getGameController().removeAction(ActionEnum.MOVE);
             Map<String,String> retValues = response.getRetValues();
             retValues.put("return", "true");
             retValues.put("destination", dest.toString());
 
-
+        
 
             
             
