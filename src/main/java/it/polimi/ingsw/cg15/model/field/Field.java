@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -93,7 +94,12 @@ public class Field {
     }
     
     public void setHatchBroken(Coordinate coord){
-        hatchSectorsList.replace(coord, true,false);
+        
+        if (hatchSectorsList.containsKey(coord) && Objects.equals(hatchSectorsList.get(coord), true)) {
+            hatchSectorsList.put(coord,false);
+        }
+        //only avaible in Java 1.8
+        //hatchSectorsList.replace(coord, true,false);
     }
     
     public boolean getHatchSectorStatus(Coordinate coord){
