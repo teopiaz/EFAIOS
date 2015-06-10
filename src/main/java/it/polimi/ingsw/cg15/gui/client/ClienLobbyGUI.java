@@ -38,7 +38,6 @@ public class ClienLobbyGUI implements Runnable{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
 
-
         JPanel lobbyPanel = new JPanel(new BorderLayout());
         JPanel sidePanel = new JPanel();
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
@@ -89,6 +88,7 @@ public class ClienLobbyGUI implements Runnable{
             
                 networkHelper.joinGame(gameToken);
                 gui.showGUI();
+                frame.setVisible(false);
                 frame.dispose();
                 
             }
@@ -115,9 +115,12 @@ public class ClienLobbyGUI implements Runnable{
 
         frame.pack();
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        frame.setVisible(false);
 
 
+    }
+    public void showGUI(){
+        this.frame.setVisible(true);
     }
 
     @Override

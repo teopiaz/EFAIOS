@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg15.gui.client;
 
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ActionPanel extends JPanel{
+    
+    JLabel actionLabel;
 
     public ActionPanel(){
         List<JButton> buttonList = new ArrayList<JButton>();
@@ -28,7 +32,16 @@ public class ActionPanel extends JPanel{
         buttonList.add(btnMove);
         buttonList.add(btnAttack);
         buttonList.add(btnCard);
+        
 
+        btnMove.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                actionLabel.setText("Seleziona una cella dove muoversi");
+
+            }
+        });
 
 
 
@@ -41,10 +54,9 @@ public class ActionPanel extends JPanel{
 
 
         JPanel actionLabelPanel = new JPanel();
-        JLabel actionLabel = new JLabel();
+        actionLabel = new JLabel();
         actionLabelPanel.setBackground(Color.BLACK);
         actionLabel.setFont(CFont.getFont("TopazPlus"));
-        actionLabel.setText("Seleziona una cella dove muoversi");
         actionLabel.setForeground(Color.WHITE);
         actionLabelPanel.add(actionLabel);
 
