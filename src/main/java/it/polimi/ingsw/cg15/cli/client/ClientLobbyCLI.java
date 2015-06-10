@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.cli.client;
 
-import it.polimi.ingsw.cg15.MainClientCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterfaceCLI;
 import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -272,6 +271,7 @@ public class ClientLobbyCLI implements ViewClientInterfaceCLI {
 
 
 
+    @Override
     public void menu(){
         Scanner scanner = new Scanner(System.in);
         String action=null;

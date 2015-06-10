@@ -16,7 +16,7 @@ public class GameControllerTest {
 
     GameState gs = GameInstance.getInstance().addGameInstance();
     Map<String,Player> players = new HashMap<String, Player>();
-    GameBox gb = new GameBox(gs, null, null, players);
+    GameBox gb = new GameBox(gs, null, players);
     GameController gc = new GameController(gb);
     
 

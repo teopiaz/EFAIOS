@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.model;
 
-import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.ArrayList;

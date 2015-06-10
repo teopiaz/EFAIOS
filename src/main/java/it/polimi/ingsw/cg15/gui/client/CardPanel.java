@@ -34,7 +34,8 @@ public class CardPanel extends JPanel{
              label.setPreferredSize(new Dimension(60,80));
             cardList.add(label);
             label.addMouseListener(new MouseAdapter() {
-              public void mouseClicked(MouseEvent me) {
+              @Override
+            public void mouseClicked(MouseEvent me) {
                 System.out.println("CLICKED"+cardList.size());
                 JLabel label = new JLabel(icon);
                 cardList.add(label);

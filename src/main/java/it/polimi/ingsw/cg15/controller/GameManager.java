@@ -16,12 +16,8 @@ import java.util.Map;
 import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.Timer;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.sql.rowset.spi.SyncResolver;
 
 
 /**
@@ -31,19 +27,14 @@ import javax.sql.rowset.spi.SyncResolver;
 public class GameManager implements GameManagerRemote {
 
     private ClientToken token;
-    private GameInstance gameInstance;
     private static GameManager singletonInstance = new GameManager();
     
 
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
 
-    //ExecutorService executor = Executors.newCachedThreadPool();
-
-
 
 
     private GameManager(){
-        gameInstance = GameInstance.getInstance();
     }
 
     public static GameManager getInstance(){
@@ -54,6 +45,7 @@ public class GameManager implements GameManagerRemote {
      * Dispatch the event to the requested game instance
      * @param e received event
      */
+    @Override
     public Event dispatchMessage(Event e) throws RemoteException{
         String gameToken = e.getToken().getGameToken();
         if(!gameBoxList.containsKey(gameToken)){
@@ -72,6 +64,7 @@ public class GameManager implements GameManagerRemote {
      * @param e received event
      * @return a new eventh with the requested list
      */
+    @Override
     public Event getGameList(Event e) throws RemoteException{
 
         Map<String,String> result = new HashMap<String, String>();
@@ -84,6 +77,7 @@ public class GameManager implements GameManagerRemote {
         return event;
     }
 
+    @Override
     public Event getGameInfo(Event e) throws RemoteException{
 
         Event event = e;
@@ -107,11 +101,12 @@ public class GameManager implements GameManagerRemote {
 
 
 
+    @Override
     public Event eventHandler(Event e) throws RemoteException {
         Event response=null;
 
         if(e.getToken().getPlayerToken()!=null){
-            String command = e.getCommand();
+            String command = e.getCommand().toLowerCase();
             switch(command){
 
             case "creategame": {
@@ -150,6 +145,7 @@ public class GameManager implements GameManagerRemote {
 
     }
 
+    @Override
     public Event startGame(Event e)  throws RemoteException{
         
         ClientToken token = e.getToken();
@@ -182,12 +178,14 @@ public class GameManager implements GameManagerRemote {
         return new Event(e,"game_started");
     }
 
+    @Override
     public Event getClientToken()  throws RemoteException{
         ClientToken ctoken = new ClientToken(SessionTokenGenerator.nextSessionId(), null);
         return new Event(ctoken,ctoken.getPlayerToken());
 
     }
 
+    @Override
     public synchronized  Event joinGame(Event e)  throws RemoteException{
         token = e.getToken();
         String gameToken = token.getGameToken();
@@ -253,9 +251,8 @@ public class GameManager implements GameManagerRemote {
      * @param e received event
      * @return a new event with the game token
      */
+    @Override
     public Event createGame(Event e) throws RemoteException{
-        //creo la coda di eventi
-        BlockingQueue<Event> queue = new ArrayBlockingQueue<Event>(10,true);
         //creo un token della partita
         String gameToken = SessionTokenGenerator.nextSessionId();
 
@@ -266,11 +263,9 @@ public class GameManager implements GameManagerRemote {
         gameState.setMapName(mapName);
 
         Map<String,Player> players = new HashMap<String, Player>();
-        GameBox gameBox = new GameBox(gameState,queue,gameToken,players);   
+        GameBox gameBox = new GameBox(gameState,gameToken,players);   
 
         gameBoxList.put(gameToken, gameBox);
-
-
 
 
 
@@ -280,6 +275,7 @@ public class GameManager implements GameManagerRemote {
         return event;
     }
 
+    @Override
     public Event getField(Event e) throws RemoteException{
 
         String gameToken = e.getToken().getGameToken();
@@ -295,6 +291,14 @@ public class GameManager implements GameManagerRemote {
 
     public Map<String, GameBox> getGameBoxList() {
         return gameBoxList;
+    }
+
+    public void removeGame(String gameToken) {
+        GameState gs = gameBoxList.get(gameToken).getGameState();
+        GameInstance.getInstance().removeGameInstace(gs);
+        gameBoxList.remove(gameToken);
+        
+        
     }
 
 

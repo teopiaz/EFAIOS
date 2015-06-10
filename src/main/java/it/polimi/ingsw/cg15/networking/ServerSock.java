@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.MainServer;
-import it.polimi.ingsw.cg15.gui.server.ServerGUI;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
 import java.io.IOException;
@@ -25,6 +24,7 @@ public class ServerSock implements Server{
     }
 
 
+    @Override
     public void run() {
 
         while (true) {
@@ -50,6 +50,7 @@ public class ServerSock implements Server{
     }
 
 
+    @Override
     public void startServer() {
         synchronized (lock) {
 
@@ -74,6 +75,7 @@ public class ServerSock implements Server{
         }
     }
 
+    @Override
     public void stopServer() {
    
 

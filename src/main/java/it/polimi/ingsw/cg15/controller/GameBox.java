@@ -23,10 +23,9 @@ public class GameBox {
     private Map<String,Player> players;
 
 
-    public GameBox(GameState gs, BlockingQueue<Event> queue, String token, Map<String,Player> players) {
+    public GameBox(GameState gs,  String token, Map<String,Player> players) {
         this.gameState=gs;
         this.gameToken=token;
-        this.queue=queue;
         this.players=players;
     }
 
@@ -47,8 +46,5 @@ public class GameBox {
     }
 
 
-    public BlockingQueue<Event> getQueue() {
-        return queue;
-    }
 
 }

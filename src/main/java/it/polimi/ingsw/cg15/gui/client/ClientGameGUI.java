@@ -245,8 +245,7 @@ public class ClientGameGUI implements Runnable{
 		
 
 		frame.pack();
-		GraphicsDevice device = GraphicsEnvironment
-		        .getLocalGraphicsEnvironment().getScreenDevices()[0];
+		//GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
        //device.setFullScreenWindow(frame);
 		
 

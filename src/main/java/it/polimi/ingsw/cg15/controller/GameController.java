@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,7 +42,6 @@ public class GameController  {
     private static final int MAX_TURN_NUMBER = 39;
     private GameState gameState;
     private FieldController fieldController;
-    private BlockingQueue<Event> queue;
     private Map<String, Player> players;
     private CardController cardController;
     private String gameToken;
@@ -51,7 +49,6 @@ public class GameController  {
 
     public GameController(GameBox gameBox) {
         this.gameState = gameBox.getGameState();
-        this.queue = gameBox.getQueue();
         this.players = gameBox.getPlayers();
         this.fieldController = new FieldController(gameState);
         this.cardController = new CardController(gameState);
@@ -114,8 +111,9 @@ public class GameController  {
     }
 
     public void nextTurn(){
+        
         int turnNumber = gameState.getTurnNumber();
-        if(turnNumber<=MAX_TURN_NUMBER){
+        if(turnNumber<=MAX_TURN_NUMBER || !isGameEnded()){
             TurnState turnState = null;
 
             PlayerController pc = new PlayerController(gameState);
@@ -157,6 +155,7 @@ public class GameController  {
         }
         else{
             System.out.println("ENDGAME");
+            endGame();
         }
 
     }
@@ -175,7 +174,7 @@ public class GameController  {
             String playerToken = e.getToken().getPlayerToken();
 
             if(playerToken!=null && (gameState.isStarted() && gameState.isInit())){
-                String command = e.getCommand();
+                String command = e.getCommand().toLowerCase();
                 switch(command){
 
                 case "getmap": 
@@ -389,6 +388,26 @@ public class GameController  {
     public void removeAction(ActionEnum action){
         gameState.getTurnState().getActionList().remove(action);
 
+    }
+    
+    public void endGame(){
+        gameState.setEnded();
+        
+        Map<String,String> retValues = new HashMap<String, String>();
+        
+        Event endEvent = new Event(new ClientToken("", getGameToken()),"endgame",null,retValues);
+
+        Broker.publish(gameToken,NetworkProxy.eventToJSON(endEvent));
+        GameManager.getInstance().removeGame(gameToken);
+    }
+    
+    public boolean isGameEnded(){
+        if(gameState.isEnded()){
+            endGame();
+            return true;
+        }
+        else
+            return false;
     }
 
 

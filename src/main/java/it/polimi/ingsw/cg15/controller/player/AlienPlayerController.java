@@ -48,6 +48,7 @@ public class AlienPlayerController extends PlayerController {
         return field.isReachable(currentPosition, destination, 2);
     }
     
+    @Override
     public boolean evolve(){
         Player cp = gameState.getTurnState().getCurrentPlayer();
         if(cp.getPlayerType()==PlayerType.ALIEN){

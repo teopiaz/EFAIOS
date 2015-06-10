@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg15.model;
 
 import it.polimi.ingsw.cg15.model.cards.DeckContainer;
 import it.polimi.ingsw.cg15.model.field.Field;
-import it.polimi.ingsw.cg15.model.player.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +37,11 @@ public class GameInstance {
 
     }
 
-    public boolean removeGameInstace(int k){
-        if(instanceList.remove(k)!=null){
-
+    
+    
+    public boolean removeGameInstace(GameState gameState){
+        
+        if(instanceList.remove(gameState)){
             return true;
         }
         return false;

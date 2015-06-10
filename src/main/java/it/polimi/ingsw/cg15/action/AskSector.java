@@ -26,7 +26,7 @@ Event e;
     public Event execute() {
         Map<String,String> retValues = new HashMap<String,String>();
 
-        String strTarget = e.getArgs().get("position");
+        String strTarget = e.getArgs().get("position").toUpperCase();
         Coordinate target = Coordinate.getByLabel(strTarget);
         if(getGameController().getFieldController().existInMap(target)){
             getGameController().restoreActionList();

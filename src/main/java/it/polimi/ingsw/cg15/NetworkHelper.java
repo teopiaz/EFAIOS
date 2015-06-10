@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15;
 
-import it.polimi.ingsw.cg15.MainClientCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -18,8 +17,6 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Scanner;
 
 public class NetworkHelper implements ViewClientInterface {
 

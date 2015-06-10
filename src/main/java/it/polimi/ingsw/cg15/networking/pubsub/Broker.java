@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.BlockingQueue;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public class Broker extends Thread implements Server{
     private static final int portNumber = 7331;

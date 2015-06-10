@@ -3,8 +3,6 @@ package it.polimi.ingsw.cg15.gui.server;
 
 
 import it.polimi.ingsw.cg15.networking.Server;
-import it.polimi.ingsw.cg15.networking.ServerSock;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
 public class ServerGUI implements Runnable {
 
@@ -52,7 +51,7 @@ public class ServerGUI implements Runnable {
         logTextArea.setLineWrap(true);
         logTextArea.setWrapStyleWord(true);
         logTextArea.setEditable(false);
-        logTextPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        logTextPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 
         
@@ -92,6 +91,7 @@ public class ServerGUI implements Runnable {
         
         
         btnStart.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 serverSocket.startServer();
                 serverRMI.startServer();
@@ -103,6 +103,7 @@ public class ServerGUI implements Runnable {
             } });
         
         btnStop.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 serverSocket.stopServer();
                 serverRMI.startServer();
@@ -122,6 +123,7 @@ public class ServerGUI implements Runnable {
         
     }
 
+    @Override
     public void run() {
         frame.setLocationRelativeTo(null);  
 

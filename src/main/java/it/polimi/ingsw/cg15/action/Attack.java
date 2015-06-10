@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
-import it.polimi.ingsw.cg15.model.field.Sector;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;

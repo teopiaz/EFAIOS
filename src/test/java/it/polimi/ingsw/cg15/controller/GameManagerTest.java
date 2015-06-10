@@ -4,13 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
-import it.polimi.ingsw.cg15.networking.NetworkProxy;
-
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -3,9 +3,6 @@ package it.polimi.ingsw.cg15;
 
 import it.polimi.ingsw.cg15.gui.server.ServerGUI;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
-import it.polimi.ingsw.cg15.networking.ClientToken;
-import it.polimi.ingsw.cg15.networking.Event;
-import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.Server;
 import it.polimi.ingsw.cg15.networking.ServerRMI;
 import it.polimi.ingsw.cg15.networking.ServerSock;
@@ -14,11 +11,6 @@ import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.AlreadyBoundException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
 import javax.swing.SwingUtilities;
 
 public class MainServer {
@@ -50,7 +42,7 @@ public class MainServer {
         }
 
        // serverGUIThread.start();
-        
+        /*
         Scanner stdin = new Scanner(System.in);
         try {
             while (true) {
@@ -61,6 +53,7 @@ public class MainServer {
 
             }
         }catch(NoSuchElementException e) {}
-
+         */
     }
+    
 }

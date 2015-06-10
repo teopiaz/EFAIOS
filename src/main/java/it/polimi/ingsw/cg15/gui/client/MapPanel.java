@@ -8,8 +8,6 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -68,6 +66,7 @@ public class MapPanel extends JPanel {
 
 
     class MyMouseListener extends MouseAdapter  {   //inner class inside DrawingPanel 
+        @Override
         public void mouseClicked(MouseEvent e) { 
 
             Point p = new Point( HexSprite.pxtoHex(e.getX(),e.getY()) );

@@ -1,18 +1,8 @@
 package it.polimi.ingsw.cg15.action;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameBox;
-import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.GameManager;
-import it.polimi.ingsw.cg15.controller.cards.CardController;
-import it.polimi.ingsw.cg15.controller.player.PlayerController;
-import it.polimi.ingsw.cg15.model.GameInstance;
-import it.polimi.ingsw.cg15.model.GameState;
-import it.polimi.ingsw.cg15.model.field.Cell;
-import it.polimi.ingsw.cg15.model.field.Coordinate;
-import it.polimi.ingsw.cg15.model.player.Player;
-import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 

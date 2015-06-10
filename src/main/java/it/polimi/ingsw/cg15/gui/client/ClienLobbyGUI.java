@@ -151,11 +151,13 @@ public class ClienLobbyGUI implements Runnable{
             return rows.size();
         }
 
+        @Override
         public int getColumnCount() {
             return columnNames.length;
         }
 
 
+        @Override
         public String getColumnName(int col) {
             return columnNames[col];
         }

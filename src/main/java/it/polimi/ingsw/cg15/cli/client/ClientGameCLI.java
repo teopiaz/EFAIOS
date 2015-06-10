@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.cli.client;
 
-import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
@@ -43,9 +42,9 @@ public class ClientGameCLI {
 
 
     public ClientGameCLI(ClientToken ctoken, SocketCommunicator server, GameManagerRemote gmRemote) {
-        this.ctoken = ctoken;
-        this.server = server;
-        this.gmRemote = gmRemote;
+        ClientGameCLI.ctoken = ctoken;
+        ClientGameCLI.server = server;
+        ClientGameCLI.gmRemote = gmRemote;
 
 
 
@@ -324,7 +323,7 @@ public class ClientGameCLI {
         Event e = new Event(ctoken,"getturninfo",null);
         Event result;
         result = send(e);
-        this.currentPlayerId =Integer.parseInt( result.getRetValues().get("currentplayer"));
+        ClientGameCLI.currentPlayerId =Integer.parseInt( result.getRetValues().get("currentplayer"));
 
     }
 

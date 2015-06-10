@@ -8,7 +8,7 @@ public class ServerLogger {
      
 
     public ServerLogger(ServerGUI gui){
-        this.gui=gui;
+        ServerLogger.gui=gui;
     }
     
     public static synchronized void log(String message){

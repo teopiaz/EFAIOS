@@ -67,7 +67,7 @@ public class Field {
      * @return the row.
      */
     public int getR() {
-        return c;
+        return r;
     }
 
     public Cell getCell(Coordinate coords) {
@@ -98,8 +98,9 @@ public class Field {
         if (hatchSectorsList.containsKey(coord) && Objects.equals(hatchSectorsList.get(coord), true)) {
             hatchSectorsList.put(coord,false);
         }
-        //only avaible in Java 1.8
-        //hatchSectorsList.replace(coord, true,false);
+        /*only avaible in Java 1.8
+        hatchSectorsList.replace(coord, true,false);
+        */
     }
     
     public boolean getHatchSectorStatus(Coordinate coord){

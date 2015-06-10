@@ -36,60 +36,71 @@ public class Move extends Action {
     public Move(GameController gc, Event request) {
         super(gc);
         this.e=request;
-        String destinationString = e.getArgs().get("destination");
-        this.dest = Coordinate.getByLabel(destinationString);
+
     }
 
     @Override
     public Event execute() {
+
+
         PlayerController pc = getCurrentPlayerController();
-        if (pc.moveIsPossible(dest)) {
-            System.out.println();
-            pc.movePlayer(dest);
-            Event response;
-            if(!pc.isUnderSedatives()){
-            Action draw = new DrawSectorCard(getGameController(),e);
-             response = draw.execute();
-            }
-            else{
-                Map<String,String> retVal = new HashMap<String, String>();
-                retVal.put("sedatives", "true");
-                 response = new Event(e, retVal);
-            }
-            
-            Map<String,String> retValues = response.getRetValues();
-            response = new Event(response, retValues);
-            Action escape = new Escape(getGameController(),response);
-            response = escape.execute();
-            
-            retValues = response.getRetValues();
-            getGameController().removeAction(ActionEnum.MOVE);
-            retValues = response.getRetValues();
-            retValues.put("return", "true");
-            retValues.put("destination", dest.toString());
 
-        
 
-            
-            
-            int currentPlayer = getGameController().getCurrentPlayer().getPlayerNumber();
-            
-            Map<String,String> pubRet = new HashMap<String, String>();
-            pubRet.put("player", Integer.toString(currentPlayer));
-            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.WHITE){
-                pubRet.put("move","safesector" );
+
+        String destString = e.getArgs().get("destination").toUpperCase();
+        this.dest = Coordinate.getByLabel(destString);
+        if(getGameController().getFieldController().existInMap(dest)){
+
+
+
+            if (pc.moveIsPossible(dest)) {
+                System.out.println();
+                pc.movePlayer(dest);
+                Event response;
+                if(!pc.isUnderSedatives()){
+                    Action draw = new DrawSectorCard(getGameController(),e);
+                    response = draw.execute();
+                }
+                else{
+                    Map<String,String> retVal = new HashMap<String, String>();
+                    retVal.put("sedatives", "true");
+                    response = new Event(e, retVal);
+                }
+
+                Map<String,String> retValues = response.getRetValues();
+                response = new Event(response, retValues);
+                Action escape = new Escape(getGameController(),response);
+                response = escape.execute();
+
+                retValues = response.getRetValues();
+                getGameController().removeAction(ActionEnum.MOVE);
+                retValues = response.getRetValues();
+                retValues.put("return", "true");
+                retValues.put("destination", dest.toString());
+
+
+
+
+
+                int currentPlayer = getGameController().getCurrentPlayer().getPlayerNumber();
+
+                Map<String,String> pubRet = new HashMap<String, String>();
+                pubRet.put("player", Integer.toString(currentPlayer));
+                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.WHITE){
+                    pubRet.put("move","safesector" );
+                }
+                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.GREY){
+                    pubRet.put("move","unsafesector" );
+                }
+                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.HATCH){
+                    pubRet.put("move","hatchsector" );
+                }
+                Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log",null, pubRet);
+                Broker.publish(e.getToken().getGameToken(), NetworkProxy.eventToJSON(toPublish));
+
+
+                return new Event(e, retValues);
             }
-            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.GREY){
-                pubRet.put("move","unsafesector" );
-            }
-            if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.HATCH){
-                pubRet.put("move","hatchsector" );
-            }
-            Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log",null, pubRet);
-            Broker.publish(e.getToken().getGameToken(), NetworkProxy.eventToJSON(toPublish));
-            
-            
-            return new Event(e, retValues);
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
 

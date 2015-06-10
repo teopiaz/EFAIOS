@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
-import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.Event;
