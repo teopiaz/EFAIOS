@@ -21,36 +21,48 @@ import java.util.logging.Logger;
 
 
 /**
- * @author matteo
- *
+ * @author  MMP - LMR
+ *  Class that contains methods to start a game, join a game already created, create a game.
  */
 public class GameManager implements GameManagerRemote {
 
+    /**
+     * The token of the player.
+     */
     private ClientToken token;
+
+    /**
+     * The unique reference to the Game Manager.
+     */
     private static GameManager singletonInstance = new GameManager();
     
-
+    /**
+     * A list of Game Box.
+     */
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
-
-
-
+    
+    /**
+     * The constructor.
+     */
     private GameManager(){
     }
 
+    /**
+     * @return the instance of the Game Manager.
+     */
     public static GameManager getInstance(){
         return singletonInstance;
     }
-
+    
     /**
      * Dispatch the event to the requested game instance
-     * @param e received event
+     * @param e Received event.
      */
     @Override
     public Event dispatchMessage(Event e) throws RemoteException{
         String gameToken = e.getToken().getGameToken();
         if(!gameBoxList.containsKey(gameToken)){
             Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "Client" + e.getToken().getPlayerToken() + " tried to access an invalid game" );
-
             return new Event(e, "error game not avaible");
         }
 
@@ -60,26 +72,28 @@ public class GameManager implements GameManagerRemote {
     }
 
     /**
-     * 
-     * @param e received event
-     * @return a new eventh with the requested list
+     * Method that provides access to the current list of games.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return A new event with the requested list. 
      */
     @Override
     public Event getGameList(Event e) throws RemoteException{
-
         Map<String,String> result = new HashMap<String, String>();
         for (Entry<String,GameBox> game : gameBoxList.entrySet()) {
             GameBox g = game.getValue();
             result.put(g.getGameState().getName(), g.getGameToken());
         }
-
         Event event=new Event(e,result);
         return event;
     }
 
+    /** 
+     * Method that returns various information about the game. The name and number of the players, the name of the map.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return event The event with the info.
+     */
     @Override
     public Event getGameInfo(Event e) throws RemoteException{
-
         Event event = e;
         ClientToken ctoken = e.getToken();
         String gameToken = ctoken.getGameToken();
@@ -88,7 +102,6 @@ public class GameManager implements GameManagerRemote {
             GameBox gb = gameBoxList.get(gameToken);
             System.out.println(gb);
             Map<String,String> retValues = new HashMap<String, String>();
-
             retValues.put("name",gb.getGameState().getName());
             retValues.put("playercount",Integer.toString(gb.getPlayers().size()));
             retValues.put("mapName",gb.getGameState().getMapName());
@@ -96,19 +109,19 @@ public class GameManager implements GameManagerRemote {
         }
         System.out.println("GAMEINFO: "+e);
         return event;
-
     }
 
-
-
+    /** 
+     * Method that recognizes a list of a series of actions to create a game, list the game, join game already existing, start the game and return the games info.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return event The event with the info.
+     */
     @Override
     public Event eventHandler(Event e) throws RemoteException {
         Event response=null;
-
         if(e.getToken().getPlayerToken()!=null){
             String command = e.getCommand().toLowerCase();
             switch(command){
-
             case "creategame": {
                 response =createGame(e);
                 break;
@@ -129,28 +142,27 @@ public class GameManager implements GameManagerRemote {
                 response =getGameInfo(e);
                 break;
             }
-
             default:{ 
                 response=dispatchMessage(e);
                 break;
             }
             }
         }
-
         else{
             response = getClientToken();
-
         }
         return response;
-
     }
 
+    /** 
+     * Method that start the game. Checks that are more than 2 players and that the game is not already started. Make ready to start the first round.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return event The event with the info.
+     */
     @Override
     public Event startGame(Event e)  throws RemoteException{
-        
         ClientToken token = e.getToken();
         String gameToken = token.getGameToken();
-
         if(!gameBoxList.containsKey(gameToken)){
             return new Event(e,"error","invalid_game");
         }
@@ -167,17 +179,18 @@ public class GameManager implements GameManagerRemote {
         //prepara tutto per iniziare il primo turno
         GameController controller = new GameController(gameBoxList.get(gameToken));
         controller.initGame(gameBox.getGameState().getMapName());
-
         ClientToken ctoken = new ClientToken("", gameToken); 
         Map<String,String> retValues = new HashMap<String, String>();
         retValues.put("isstarted", "true");
         Event pub = new Event(ctoken, "pub", null, retValues);
         Broker.publish(gameToken,NetworkProxy.eventToJSON(pub));
-
-
         return new Event(e,"game_started");
     }
 
+    /** 
+     * Method that returns the Token of the Client.
+     * @return event The event with the player token.
+     */
     @Override
     public Event getClientToken()  throws RemoteException{
         ClientToken ctoken = new ClientToken(SessionTokenGenerator.nextSessionId(), null);
@@ -185,39 +198,34 @@ public class GameManager implements GameManagerRemote {
 
     }
 
+    /** 
+     * Method that manages the process of adding a player to the current game. 
+     * @param e The event that I received and that I have to worry about managing.
+     * @return event The event with the response for the process of joining.
+     */
     @Override
     public synchronized  Event joinGame(Event e)  throws RemoteException{
         token = e.getToken();
         String gameToken = token.getGameToken();
-
         if(!gameBoxList.containsKey(gameToken)){
-
             return new Event(e,"error","invalid_game");
         }
         if(gameBoxList.get(gameToken).getPlayers().size() >= 8){
-
-
             return new Event(e,"error","game_full");
         }
-
-
         GameBox gameBox = gameBoxList.get(gameToken);
         if(gameBox.getGameState().isStarted()){
             return new Event(e,"error","game_already_started");
-
         }
         gameBox.getPlayers().put(token.getPlayerToken(), gameBox.getGameState().addPlayer(new Player()));
 
-
-
-        //thread per timeout
+        //thread per timeout 
         if(gameBoxList.get(gameToken).getPlayers().size() >=2 ){
             System.out.println("SONO ENTRATO "+gameBox.getGameState().isStarted());
             Runnable timerThread = new Runnable() {
 
                 Timer timeout = new Timer();
-
-
+                
                 @Override
                 public void run() {
                     System.out.println("lanciato il timer thread");
@@ -233,82 +241,68 @@ public class GameManager implements GameManagerRemote {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
-
                         }
                     }, 1000*5);
                 }
             };
              timerThread.run();
             System.out.println("SONO USCITO "+gameBox.getGameState().isStarted());
-
         }
-
         return new Event(e,"joined");
     }
 
     /**
-     * Create a new instance of a game with his game token
-     * @param e received event
+     * Create a new instance of a game with his game token.
+     * @param e The event that I received and that I have to worry about managing.
      * @return a new event with the game token
      */
     @Override
     public Event createGame(Event e) throws RemoteException{
         //creo un token della partita
         String gameToken = SessionTokenGenerator.nextSessionId();
-
         //creo un istanza del modello
         GameState gameState = GameInstance.getInstance().addGameInstance();
         gameState.setName(e.getArgs().get("gamename"));
         String mapName = e.getArgs().get("mapname");
         gameState.setMapName(mapName);
-
         Map<String,Player> players = new HashMap<String, Player>();
         GameBox gameBox = new GameBox(gameState,gameToken,players);   
-
         gameBoxList.put(gameToken, gameBox);
-
-
-
         Map<String,String> result = new HashMap<String, String>();
         result.put("gameToken", gameToken);
         Event event = new Event(e,result);
         return event;
     }
 
+    /** 
+     * Method that returns an event with the map.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return event The event with the map requested.
+     */
     @Override
     public Event getField(Event e) throws RemoteException{
-
         String gameToken = e.getToken().getGameToken();
         GameBox gb = gameBoxList.get(gameToken);
         String printableMap = gb.getGameState().getField().getPrintableMap();
-
         Event event = new Event(e.getToken(), printableMap);
         return event;
-
     }
     
-
-
+    /**
+     * Method that returns a list of Game Box.
+     * @return a list with the Game Box.
+     */
     public Map<String, GameBox> getGameBoxList() {
         return gameBoxList;
     }
 
+    /**
+     * method that eliminates a match
+     * @param gameToken The Game Token for the match to delete.
+     */
     public void removeGame(String gameToken) {
         GameState gs = gameBoxList.get(gameToken).getGameState();
         GameInstance.getInstance().removeGameInstace(gs);
         gameBoxList.remove(gameToken);
-        
-        
     }
-
-
-
-
-
-
-
-
-
-
-
 }
