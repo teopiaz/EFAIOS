@@ -40,8 +40,8 @@ public class Attack extends Action {
         PlayerController pc = getCurrentPlayerController();
         Map<String,String> retValues = e.getRetValues();
         if(pc.hasAttacked()){
-            retValues.put("return", "false");
-            retValues.put("error", "attacco già effettuato");
+            retValues.put("return", Event.FALSE);
+            retValues.put(Event.ERROR, "attacco già effettuato");
 
             return new Event(e, retValues);
         }
@@ -57,7 +57,7 @@ public class Attack extends Action {
                 Event defenseEvent = defend.execute();
 
                 if(defenseEvent.getRetValues().containsKey("defense") ){
-                    if(defenseEvent.getRetValues().get("defense").equals("false") ){
+                    if(defenseEvent.getRetValues().get("defense").equals(Event.FALSE) ){
                         getCurrentPlayerController().killPlayer(player);
                         killcount++;
                         pubRet.put(Integer.toString(player.getPlayerNumber()),"killed");
@@ -81,7 +81,7 @@ public class Attack extends Action {
         Event toPublish = new Event(new ClientToken("", gameToken),"log",null, pubRet);
         Broker.publish(gameToken,NetworkProxy.eventToJSON(toPublish));
 
-        retValues.put("return", "true");
+        retValues.put("return",Event.TRUE);
         retValues.put("killcount", Integer.toString(killcount));
         return new Event(e, retValues);
     }

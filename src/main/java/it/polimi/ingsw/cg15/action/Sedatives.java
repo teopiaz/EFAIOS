@@ -28,25 +28,25 @@ public class Sedatives extends Action {
         Map<String,String> retValues = e.getRetValues();
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
-            retValues.put("return", "false");
-            retValues.put("error","solo gli umani possono usare le carte oggetto");
+            retValues.put("return", Event.FALSE);
+            retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
             return new Event(e, retValues);
         }
         if(pc.itemCardUsed()){
-            retValues.put("return", "false");
-            retValues.put("error","carta già usata in questo turno");
+            retValues.put("return", Event.FALSE);
+            retValues.put(Event.ERROR,"carta già usata in questo turno");
             return new Event(e, retValues);
         }
         
         if(pc.hasCard(ItemCard.ITEM_SEDATIVES)){
             pc.removeCard(ItemCard.ITEM_SEDATIVES);
             pc.setOnAdrenaline();
-            retValues.put("return", "true");
+            retValues.put("return", Event.TRUE);
             retValues.put("state", "sedatives");
             return new Event(e, retValues);
         }
-        retValues.put("return", "false");
-        retValues.put("error","carta non posseduta");
+        retValues.put("return", Event.FALSE);
+        retValues.put(Event.ERROR,"carta non posseduta");
         return new Event(e, retValues);
     }
 

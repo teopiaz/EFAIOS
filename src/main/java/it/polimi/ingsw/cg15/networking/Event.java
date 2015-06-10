@@ -12,8 +12,11 @@ public class Event implements Serializable {
     private final ClientToken token;
     private final String command;
     private final Map<String, String> args;
-
     private final Map<String, String> retValues;
+    
+    public final static String FALSE = "false";
+    public final static String TRUE = "false";
+    public final static String ERROR = "error";
 
 
 

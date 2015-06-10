@@ -33,12 +33,12 @@ Event e;
             Action noise = new MakeNoise(getGameController(), e);
             e = noise.execute();
             retValues = e.getRetValues();
-            retValues.put("return", "true");    
+            retValues.put("return", Event.TRUE);    
             e = new Event(e, retValues);
              return e;
         }
-        retValues.put("return", "false");
-        retValues.put("error","settore non valido");
+        retValues.put("return", Event.FALSE);
+        retValues.put(Event.ERROR,"settore non valido");
         e = new Event(e, retValues);
         return e;
 

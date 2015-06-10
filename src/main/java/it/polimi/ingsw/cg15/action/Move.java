@@ -63,7 +63,7 @@ public class Move extends Action {
                 }
                 else{
                     Map<String,String> retVal = new HashMap<String, String>();
-                    retVal.put("sedatives", "true");
+                    retVal.put("sedatives", Event.TRUE);
                     response = new Event(e, retVal);
                 }
 
@@ -75,7 +75,7 @@ public class Move extends Action {
                 retValues = response.getRetValues();
                 getGameController().removeAction(ActionEnum.MOVE);
                 retValues = response.getRetValues();
-                retValues.put("return", "true");
+                retValues.put("return", Event.TRUE);
                 retValues.put("destination", dest.toString());
 
 
@@ -105,8 +105,8 @@ public class Move extends Action {
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
 
         Map<String,String> retValues = e.getRetValues();
-        retValues.put("error", "impossibile eseguire lo spostamento");
-        retValues.put("return", "false");
+        retValues.put(Event.ERROR, "impossibile eseguire lo spostamento");
+        retValues.put("return", Event.FALSE);
 
         return new Event(e, retValues);
     }

@@ -52,15 +52,15 @@ public class Escape extends Action {
         }
 
         if(fc.isHatchBlocked(sector)){
-            pubRet.put("hatch", "false");
+            pubRet.put("hatch", Event.FALSE);
             pubRet.put("message", "il giocatore "+currentPlayer.getPlayerNumber()+" prova a scappare ma il settore "+sector.toString()+" è bloccato");
-            retValues.put("hatch", "false");
-            pubRet.put("error", "il settore "+ sector.toString() +" è bloccato");
+            retValues.put("hatch", Event.FALSE);
+            pubRet.put(Event.ERROR, "il settore "+ sector.toString() +" è bloccato");
 
             
         }else{
-            pubRet.put("hatch", "true");
-            retValues.put("hatch", "true");
+            pubRet.put("hatch", Event.TRUE);
+            retValues.put("hatch", Event.TRUE);
 
             HatchCard card = pc.drawHatchCard();
             if(card == HatchCard.HATCH_RED){

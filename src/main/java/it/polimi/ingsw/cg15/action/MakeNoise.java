@@ -37,14 +37,14 @@ public class MakeNoise extends Action {
          position = getCurrentPlayerController().getPlayerPosition();
         }
         Map<String,String> retValues = e.getRetValues();
-        retValues.put("noise", "true");
+        retValues.put("noise", Event.TRUE);
         retValues.put("position", position.toString());
         e = new Event(e, retValues);
         
         String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
         Map<String,String> retPub = new HashMap<String, String>();
         retPub.put("player", currentPlayerNumber);
-        retPub.put("noise", "true");
+        retPub.put("noise", Event.TRUE);
         retPub.put("position", position.toString());
         Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
         Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));

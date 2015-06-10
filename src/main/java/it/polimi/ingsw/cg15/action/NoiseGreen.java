@@ -34,14 +34,14 @@ public class NoiseGreen extends Action {
         Map<String,String> retValues = new HashMap<String, String>();
 
        if( getGameController().askForSector()){
-           retValues.put("asksector","true");
+           retValues.put("asksector",Event.TRUE);
            e = new Event(e, retValues);
            return e;
        }      
        
        
-       retValues.put("asksector","false");
-       retValues.put("error","non puoi eseguire questa azione");
+       retValues.put("asksector",Event.FALSE);
+       retValues.put(Event.ERROR,"non puoi eseguire questa azione");
        e = new Event(e, retValues);
         return e;
     }

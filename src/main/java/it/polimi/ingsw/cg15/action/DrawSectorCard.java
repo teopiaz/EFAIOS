@@ -54,7 +54,7 @@ public class DrawSectorCard extends Action {
             if(card==SectorCard.SECTOR_GREEN){
 
                 noise = new NoiseGreen(gc,e);
-                retValues.put("item", "false");
+                retValues.put("item", Event.FALSE);
 
                 retValues.put("sectorcard", "sectorgreen");
                 e = new Event(e, retValues);
@@ -63,7 +63,7 @@ public class DrawSectorCard extends Action {
 
             if(card==SectorCard.SECTOR_RED){
                 noise = new NoiseRed(gc,e);
-                retValues.put("item", "false");
+                retValues.put("item", Event.FALSE);
 
                 retValues.put("sectorcard", "sectorred");
                 e = new Event(e, retValues);
@@ -75,7 +75,7 @@ public class DrawSectorCard extends Action {
             if(card==SectorCard.SECTOR_GREEN_ITEM){
 
                 retValues.put("sectorcard", "sectorgreen");
-                retValues.put("item", "true");
+                retValues.put("item", Event.TRUE);
 
                 Event beforeDrawEvent = new Event(e, retValues);
 
@@ -83,7 +83,7 @@ public class DrawSectorCard extends Action {
                 afterItemDraw =  draw.execute();
                 noise = new NoiseGreen(gc,afterItemDraw);
                 retValues = afterItemDraw.getRetValues();
-                retValues.put("return", "true");
+                retValues.put("return", Event.TRUE);
 
 
 

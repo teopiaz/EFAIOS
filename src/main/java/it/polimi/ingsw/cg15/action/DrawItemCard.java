@@ -31,13 +31,11 @@ public class DrawItemCard extends Action {
         Map<String, String> retValues = e.getRetValues();
 
         if(pc.canDrawItemCard()){
-            System.out.println("POSSO PESCARE");
             ItemCard card = pc.drawItemCard();
             retValues.put("card", card.toString());
             e = new Event(e, retValues);
         }
         else{
-            System.out.println("TROPPE CARTE");
             Action useOrDiscard = new UseOrDiscard(getGameController(),e);
             e= useOrDiscard.execute();
         }

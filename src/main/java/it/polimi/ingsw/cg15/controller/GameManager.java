@@ -238,7 +238,7 @@ public class GameManager implements GameManagerRemote {
                     }, 1000*5);
                 }
             };
-            timerThread.run();
+             timerThread.run();
             System.out.println("SONO USCITO "+gameBox.getGameState().isStarted());
 
         }
