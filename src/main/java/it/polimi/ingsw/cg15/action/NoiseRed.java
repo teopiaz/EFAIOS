@@ -17,7 +17,6 @@ public class NoiseRed extends Action {
     /**
      * @param gc the game controller
      * @param e 
-     * @param item the icon of the item present in the sector card
      */
     public NoiseRed(GameController gc, Event e) {
         super(gc);

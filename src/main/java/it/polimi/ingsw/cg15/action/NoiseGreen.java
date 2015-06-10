@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import it.polimi.ingsw.cg15.controller.GameController;
@@ -19,7 +20,6 @@ public class NoiseGreen extends Action {
     /**
      * @param gc the game controller
      * @param e 
-     * @param item the icon of the item present in the sector card
      */
     public NoiseGreen(GameController gc, Event e) {
         // TODO Auto-generated constructor stub
@@ -31,14 +31,18 @@ public class NoiseGreen extends Action {
     //TODO: SISTEMARE switchare le azioni possibili permettendo solo la selezione del settore
     @Override
     public Event execute() {
+        Map<String,String> retValues = new HashMap<String, String>();
 
-        
-        Action noise = new MakeNoise(getGameController(),e);
-        e = noise.execute();
-        
- 
-        
-        
+       if( getGameController().askForSector()){
+           retValues.put("asksector","true");
+           e = new Event(e, retValues);
+           return e;
+       }      
+       
+       
+       retValues.put("asksector","false");
+       retValues.put("error","non puoi eseguire questa azione");
+       e = new Event(e, retValues);
         return e;
     }
 

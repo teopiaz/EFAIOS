@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.model.field;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,11 +41,8 @@ public class Field {
      */
     private Cell alienStartingPosition;
 
-    /*
-     * public Field(int row, int col) { this.r = row; this.c = col; for (int i =
-     * 1; i < r + 1; i++) { for (int j = 1; j < c + 1; j++) { Coordinate coord =
-     * new Coordinate(i, j); addCell(coord, Sector.WHITE); } } }
-     */
+    private Map<Coordinate,Boolean> hatchSectorsList = new HashMap<Coordinate, Boolean>();
+    
 
     public Field() {
     }
@@ -90,6 +88,25 @@ public class Field {
     }
     
     
+    public void addHatchToList(Coordinate coord){
+        hatchSectorsList.put(coord, true);
+    }
+    
+    public void setHatchBroken(Coordinate coord){
+        hatchSectorsList.replace(coord, true,false);
+    }
+    
+    public boolean getHatchSectorStatus(Coordinate coord){
+        if(hatchSectorsList.containsKey(coord)){
+            return hatchSectorsList.get(coord);
+        }
+        return false;
+     }
+    
+    public Map<Coordinate, Boolean> getHatchSectorsList() {
+        return hatchSectorsList;
+    }
+
     /**
      * @param human starting position
      */

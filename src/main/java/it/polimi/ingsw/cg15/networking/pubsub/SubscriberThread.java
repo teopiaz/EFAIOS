@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Map.Entry;
 
 public class SubscriberThread extends Thread {
     private Socket subSocket;
@@ -55,7 +56,8 @@ public class SubscriberThread extends Thread {
 
         }
     }
-
+//TODO: trasformare in una classe log
+    
     private void handleMessage(String msg) {
         Event e = NetworkProxy.JSONToEvent(msg);
         if(  e.getRetValues().containsKey("isstarted")){
@@ -79,19 +81,40 @@ public class SubscriberThread extends Thread {
                 String playerNum = e.getRetValues().get("player");
                 String position = e.getRetValues().get("attack");
                 System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
-                
+                int count =0;
+                for (Entry<String,String> ret : e.getRetValues().entrySet()) {
+                    if(ret.getValue().equals("killed")){
+                        System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
+                        count++;
+                    }
+                }
+                if(count==0){
+                    System.out.println("Nessuna Vittima");
+                }
                 
             }
             if(  e.getRetValues().containsKey("noise")){ 
+                if(e.getRetValues().get("noise").equals("true")){
                 String playerNum = e.getRetValues().get("player");
                 String position = e.getRetValues().get("position");
                 System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
+                }
+            }
+            if(  e.getRetValues().containsKey("hatch")){ 
+                if(e.getRetValues().get("hatch").equals("false")){
+                    System.out.println(e.getRetValues().get("message"));
+                }
+                else{
+                    String player = e.getRetValues().get("player");
+
+                    System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
+                }
                 
             }
 
         }
 
-         //   ClientGameCLI.debugPrint(msg);
+           // ClientGameCLI.debugPrint(msg);
 
 
 

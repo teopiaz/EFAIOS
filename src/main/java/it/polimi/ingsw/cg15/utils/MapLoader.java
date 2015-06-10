@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -83,6 +84,9 @@ public class MapLoader {
             if (type!=0) {
                 Coordinate coord = new Coordinate(r, c);
                 field.addCell(coord, Sector.valueOf(type));
+                if(type==3){
+                    field.addHatchToList(coord);
+                }
                 if(type==4){
                     field.setHumanStartingPosition(field.getCell(coord));
                 }
@@ -106,6 +110,9 @@ public class MapLoader {
         } catch (IOException e) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad close IOException", e);
 
+        }
+        for (Entry<Coordinate, Boolean> hatch : field.getHatchSectorsList().entrySet()) {
+            System.out.println("HATCH "+hatch.getKey()+" "+hatch.getValue());
         }
         return true;
 

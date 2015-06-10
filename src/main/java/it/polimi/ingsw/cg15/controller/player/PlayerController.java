@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg15.controller.player;
 import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.TurnState;
+import it.polimi.ingsw.cg15.model.cards.HatchCard;
+import it.polimi.ingsw.cg15.model.cards.HatchDeck;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
@@ -30,6 +32,10 @@ public class PlayerController {
 
     public SectorCard drawSectorCard() {
         return gameState.getDeckContainer().getSectorDeck().drawCard();
+    }
+    
+    public HatchCard drawHatchCard() {
+        return gameState.getDeckContainer().getHatchDeck().drawCard();
     }
 
     public Coordinate getPlayerPosition() {
@@ -82,7 +88,11 @@ public class PlayerController {
     }
 
     public boolean killPlayer(Player player) {
+        if(!player.isAlive()){
+            return false;
+        }
         if (player.killPlayer()) {
+            player.getPosition().removePlayer(player);
             return true;
         }
         return false;
@@ -163,5 +173,10 @@ public class PlayerController {
     public void setUnderSedatives() {
          gameState.getTurnState().setUnderAdrenaline();
      }
+
+    public boolean evolve() {
+        
+        return false;
+    }
 
 }

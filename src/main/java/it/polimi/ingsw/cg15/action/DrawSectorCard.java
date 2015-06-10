@@ -116,7 +116,12 @@ public class DrawSectorCard extends Action {
             e = noise.execute();
             return e;
         }
+        if(fc.isHatchSector(pc.getPlayerPosition())){
+            retValues.put("sectortype", "hatch");
+
+        }else{
         retValues.put("sectortype", "safe");
+        }
         retValues.put("noise", "false");
 
 

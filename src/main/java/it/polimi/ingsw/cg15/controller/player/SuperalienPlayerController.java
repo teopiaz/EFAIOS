@@ -11,7 +11,7 @@ import it.polimi.ingsw.cg15.model.player.PlayerType;
  * @author LMR - MMP
  * The controller of the player.
  */
-public class AlienPlayerController extends PlayerController {
+public class SuperalienPlayerController extends PlayerController {
 
     /**
      *  The state of the game.
@@ -22,7 +22,7 @@ public class AlienPlayerController extends PlayerController {
     /**
      * @param gameState
      */
-    public AlienPlayerController(GameState gameState) {
+    public SuperalienPlayerController(GameState gameState) {
         super(gameState);
         this.gameState = gameState;
         System.out.println(gameState.getTurnState().getCurrentPlayer()
@@ -45,17 +45,9 @@ public class AlienPlayerController extends PlayerController {
         Cell currentPosition = gameState.getTurnState().getCurrentPlayer()
                 .getPosition();
         Cell destination = field.getCell(coord);
-        return field.isReachable(currentPosition, destination, 2);
+        return field.isReachable(currentPosition, destination, 3);
     }
     
-    public boolean evolve(){
-        Player cp = gameState.getTurnState().getCurrentPlayer();
-        if(cp.getPlayerType()==PlayerType.ALIEN){
-            cp.setPlayerType(PlayerType.SUPERALIEN);
-            return true;
-        }
-        else
-            return false;
-    }
+
 
 }

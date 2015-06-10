@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Sector;
-import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
@@ -57,8 +56,15 @@ public class Move extends Action {
                 retVal.put("sedatives", "true");
                  response = new Event(e, retVal);
             }
-            getGameController().removeAction(ActionEnum.MOVE);
+            
             Map<String,String> retValues = response.getRetValues();
+            response = new Event(response, retValues);
+            Action escape = new Escape(getGameController(),response);
+            response = escape.execute();
+            
+            retValues = response.getRetValues();
+            getGameController().removeAction(ActionEnum.MOVE);
+            retValues = response.getRetValues();
             retValues.put("return", "true");
             retValues.put("destination", dest.toString());
 

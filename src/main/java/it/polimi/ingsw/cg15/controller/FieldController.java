@@ -49,9 +49,38 @@ public class FieldController {
 	    return false;
 	}
 	
+	public boolean isHatchSector(Coordinate coord){
+	       if(field.getCell(coord).getSectorType() == Sector.HATCH){
+	           return true;
+	       }
+	        
+	        return false; 
+	}
+	
 	public List<Player> getPlayersInSector(Coordinate coord){
 	    return  field.getCell(coord).getPlayers();
 	}
+
+    public boolean existInMap(Coordinate coord) {
+        if(field.getCell(coord)!= null){
+            return true;
+        }
+        return false;
+         
+    }
+
+    public boolean isHatchBlocked(Coordinate coord) {
+     if(field.getHatchSectorStatus(coord)){
+         return false;
+     }
+     else{
+         return true;
+     }
+    }
+
+    public void blockHatchSector(Coordinate sector) {
+        field.setHatchBroken(sector);
+    }
 	
 	
 

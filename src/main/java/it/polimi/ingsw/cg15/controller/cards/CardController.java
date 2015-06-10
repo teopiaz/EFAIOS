@@ -85,6 +85,27 @@ public class CardController {
         }
         for (int i = 0; i < sector; i++) {
             sectorDeck.insertCard(SectorCard.SECTOR_RED);
+            /////////TODO: DA LEVARE
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+            sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
+
+            ///FINO QUI
+            
+            
+            
             sectorDeck.insertCard(SectorCard.SECTOR_GREEN);
         }
         for (int i = 0; i < sectorSilence; i++) {

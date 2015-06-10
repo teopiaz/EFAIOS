@@ -126,19 +126,21 @@ public class GameController  {
                 turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
             }
 
-            gameState.setTurnNumber(turnNumber+1);
+            if(turnState.getCurrentPlayer().isAlive()){
+                gameState.setTurnNumber(turnNumber+1);
+            }else{
+                nextTurn();
+            }
 
             if(gameState.getTurnState().getCurrentPlayer().getPlayerType()==PlayerType.HUMAN){
                 turnState.getActionList().add(ActionEnum.MOVE);
                 turnState.getActionList().add(ActionEnum.ENDTURN);
-                turnState.getActionList().add(ActionEnum.ASKSECTOR); 
                 turnState.getActionList().add(ActionEnum.USEITEM);
 
             }else{
                 turnState.getActionList().add(ActionEnum.MOVE);
                 turnState.getActionList().add(ActionEnum.ATTACK);
                 turnState.getActionList().add(ActionEnum.ENDTURN); 
-                turnState.getActionList().add(ActionEnum.ASKSECTOR); 
 
             }
 
@@ -174,7 +176,6 @@ public class GameController  {
 
             if(playerToken!=null && (gameState.isStarted() && gameState.isInit())){
                 String command = e.getCommand();
-System.out.println("PORCODIOIMPESTATO "+command);
                 switch(command){
 
                 case "getmap": 
@@ -221,7 +222,6 @@ System.out.println("PORCODIOIMPESTATO "+command);
 
 
     private Event useItemCard(Event e) {
-        System.out.println("DIOMAIALEEEE!!! "+e);
 
         String strCard = e.getArgs().get("itemcard");
 
@@ -253,7 +253,7 @@ System.out.println("PORCODIOIMPESTATO "+command);
         default:
             break;
         }
-System.out.println("CARD RESPONSE"+response);
+        System.out.println("CARD RESPONSE"+response);
         return response;
     }
 
@@ -293,7 +293,6 @@ System.out.println("CARD RESPONSE"+response);
     private Event handleAction(Event e) {
 
         if(gameState.getTurnState().isActionInActionList(e.getCommand())){
-System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
             switch(e.getCommand()){
 
             case "move":
@@ -320,12 +319,12 @@ System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
                 Action asksector = new AskSector(this,e);
                 e= asksector.execute();
                 break;
-                
+
             case "endturn":
                 System.out.println("ENDTURN");
                 e = endTurn(e);
                 break;
-                
+
             default:
                 Map<String,String> retValues = new HashMap<String, String>();
                 retValues.put("return", "false");
@@ -458,6 +457,24 @@ System.out.println("DIOMADONNAPUTTANA!!! "+e.getCommand());
 
     public Player getCurrentPlayer() {
         return gameState.getTurnState().getCurrentPlayer();
+    }
+
+    public boolean askForSector(){
+        TurnState ts = gameState.getTurnState();
+        if(!ts.areListSwapped()){
+            ts.swapActionsList();        
+            ts.addAskSectorAction();
+            return true;
+        }
+        return false;
+    }
+
+    public void restoreActionList() {
+        TurnState ts = gameState.getTurnState();
+        if(ts.areListSwapped()){
+            ts.swapActionsList();                    
+        }
+
     }
 
 }

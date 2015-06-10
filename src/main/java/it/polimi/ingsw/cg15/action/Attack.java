@@ -69,6 +69,9 @@ public class Attack extends Action {
                     }
                 }
                 pc.setHasAttacked();
+                if(killcount>0){
+                    pc.evolve();
+                }
             }
         }
   

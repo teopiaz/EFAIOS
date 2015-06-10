@@ -21,7 +21,6 @@ public class Teleport extends Action {
     public Teleport(GameController gc,Event e) {
         super(gc);
         this.e=e;
-        // TODO Auto-generated constructor stub
     }
 
     @Override

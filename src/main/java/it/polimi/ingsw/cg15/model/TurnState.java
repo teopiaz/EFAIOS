@@ -16,10 +16,9 @@ public class TurnState {
     private boolean lockedOnDiscardOrUseItem = false;
     private List<ActionEnum> availableActionsList = new ArrayList<ActionEnum>();
     private List<ActionEnum> lockedActionsList = new ArrayList<ActionEnum>();
-
+    private boolean actionlistsSwapped = false;
+    
     public TurnState(){
-
-
     }
 
     public boolean isLockedOnDiscardOrUseItem() {
@@ -96,4 +95,21 @@ public class TurnState {
         return availableActionsList;
     }
 
+    public void swapActionsList() {
+         List<ActionEnum> temp = availableActionsList;
+         availableActionsList = lockedActionsList;
+         lockedActionsList=temp;
+         actionlistsSwapped = !actionlistsSwapped;
+    }
+    public boolean areListSwapped(){
+        return actionlistsSwapped;
+    }
+    public void addAskSectorAction(){
+        availableActionsList.add(ActionEnum.ASKSECTOR);
+    }
+    public void addUseOrDiscard(){
+        availableActionsList.add(ActionEnum.USEITEM);
+        availableActionsList.add(ActionEnum.DISCARD);
+
+    }
 }

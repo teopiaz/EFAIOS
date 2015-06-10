@@ -4,6 +4,9 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.networking.Event;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author MMP - LMR
  * This class refers to a specific situation of the game in which a player, after having drawn one card green segment has the possibility of lying on its real position declaring noise in an area of the game that is not really the one in which it is located. 
@@ -21,11 +24,25 @@ Event e;
 
     @Override
     public Event execute() {
-        //sistemare lista azioni
-        
-       Action noise = new MakeNoise(getGameController(), e);
-       e = noise.execute();
+        Map<String,String> retValues = new HashMap<String,String>();
+
+        String strTarget = e.getArgs().get("position");
+        Coordinate target = Coordinate.getByLabel(strTarget);
+        if(getGameController().getFieldController().existInMap(target)){
+            getGameController().restoreActionList();
+            Action noise = new MakeNoise(getGameController(), e);
+            e = noise.execute();
+            retValues = e.getRetValues();
+            retValues.put("return", "true");    
+            e = new Event(e, retValues);
+             return e;
+        }
+        retValues.put("return", "false");
+        retValues.put("error","settore non valido");
+        e = new Event(e, retValues);
         return e;
+
+
     }
 
 }

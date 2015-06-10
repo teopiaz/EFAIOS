@@ -128,15 +128,22 @@ public class ClientGameCLI {
     }
 
     private void askSector() {
-        System.out.println("In quale settore vuoi fare rumore?");
-        String position = scanner.nextLine();
-        Map<String,String> args = new HashMap<String,String>();
-        args.put("position", position);
-        Event e = new Event(ctoken,"asksector",args);
-        Event result;
-        result = send(e);     
-        System.out.println(result);
-
+        boolean validSector=false;
+        while(!validSector){
+            System.out.println("In quale settore vuoi fare rumore?");
+            String position = scanner.nextLine();
+            Map<String,String> args = new HashMap<String,String>();
+            args.put("position", position);
+            Event e = new Event(ctoken,"asksector",args);
+            Event result;
+            result = send(e);     
+            System.out.println(result);
+            if(result.actionResult()){
+                validSector=true;
+            }else{
+                System.out.println(result.getRetValues().get("error"));
+            }
+        }
     }
 
     private void useCardMenu() {
@@ -160,7 +167,7 @@ public class ClientGameCLI {
             break;
         case "spotlight":
             spotlight();
-            
+
         }
 
 
@@ -186,7 +193,7 @@ public class ClientGameCLI {
         else{
             System.out.println("Non possiedi questa carta");
         }
-        
+
     }
 
     private void useCard(String card) {
@@ -372,6 +379,10 @@ public class ClientGameCLI {
                 currentPosition=result.getRetValues().get("destination");
                 System.out.println("DEST: "+currentPosition);
                 hasMove=true;
+
+                if(result.getRetValues().containsKey("asksector")){
+                    askSector();
+                }
                 if(result.getRetValues().containsKey("item")){
                     if(result.getRetValues().get("item").equals("true")){
                         System.out.println("hai pescato la carta "+(result.getRetValues().get("card")));
