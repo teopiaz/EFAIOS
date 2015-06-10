@@ -226,18 +226,7 @@ public class Field {
 
     }
 
-    // TODO: For debuggin purpose. Remove when done.
-    public void printMap() {
-        for (int i = 1; i < 15; i++) {
-            for (int j = 1; j < 23; j++) {
-                Cell cell = map.get(new Coordinate(j, i));
-                if (cell != null) {
-                    System.out.println("R: " + i + " C: " + j + " "
-                            + cell.getCoordinate().toString() + " Type " + cell.getSectorType());
-                }
-            }
-        }
-    }
+
     
     
     public String getPrintableMap(){

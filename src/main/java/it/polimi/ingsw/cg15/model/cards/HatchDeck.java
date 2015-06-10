@@ -25,7 +25,7 @@ public class HatchDeck {
     /**
      * @return the deck of the hatch cards.
      */
-    public List<HatchCard> getItemDeck() {
+    public List<HatchCard> getHatchDeck() {
         return hatchDeckMain;
 
     }

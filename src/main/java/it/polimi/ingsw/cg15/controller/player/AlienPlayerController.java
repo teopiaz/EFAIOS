@@ -25,17 +25,13 @@ public class AlienPlayerController extends PlayerController {
     public AlienPlayerController(GameState gameState) {
         super(gameState);
         this.gameState = gameState;
-        System.out.println(gameState.getTurnState().getCurrentPlayer()
-                .toString()
-                + " costruttore chiamato");
     }
 
     @Override
     public boolean moveIsPossible(Coordinate coord) {
         System.out.println("alien moveIsPossible");
         if(gameState.getTurnState().hasMoved()){
-            System.err.println("ciao");
-            //return false;
+            return false;
         }
        
         Field field = gameState.getField();

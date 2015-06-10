@@ -57,7 +57,6 @@ public class MapLoader {
             File file = new File(fName);
             try {
                 fin=new FileInputStream(file);
-                System.out.println(file.getAbsolutePath());
             } catch (FileNotFoundException e1) {
                 Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "File "+ fName+" not found", e1);
                 return false;
@@ -111,9 +110,7 @@ public class MapLoader {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad close IOException", e);
 
         }
-        for (Entry<Coordinate, Boolean> hatch : field.getHatchSectorsList().entrySet()) {
-            System.out.println("HATCH "+hatch.getKey()+" "+hatch.getValue());
-        }
+
         return true;
 
     }
@@ -153,7 +150,6 @@ public class MapLoader {
             fop.flush();
             fop.close();
 
-            System.out.println("Done");
 
         } catch (IOException e) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave IOException", e);

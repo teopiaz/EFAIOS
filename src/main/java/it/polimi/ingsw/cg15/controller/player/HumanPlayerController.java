@@ -23,9 +23,6 @@ public class HumanPlayerController extends PlayerController {
         super(gameState);
         this.gameState = gameState;
 
-        System.out.println(gameState.getTurnState().getCurrentPlayer()
-                .toString()
-                + " costruttore chiamato");
     }
 
 
@@ -33,8 +30,7 @@ public class HumanPlayerController extends PlayerController {
     public boolean moveIsPossible(Coordinate coord) {
         Logger.getLogger(Field.class.getName()).log(Level.INFO,"Human move is possible");
         if(gameState.getTurnState().hasMoved()){
-            System.err.println("ciao");
-            //return false;
+            return false;
         }
         Field field = gameState.getField();
         if(!field.getField().containsKey(coord)){
