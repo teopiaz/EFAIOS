@@ -41,19 +41,7 @@ public class MainServer {
             e.printStackTrace();
         }
 
-       // serverGUIThread.start();
-        /*
-        Scanner stdin = new Scanner(System.in);
-        try {
-            while (true) {
-                String topic = stdin.nextLine(); //gameToken
-                
-                String inputLine = stdin.nextLine();//il messaggio da pubblicare
-                
-
-            }
-        }catch(NoSuchElementException e) {}
-         */
+      
     }
     
 }

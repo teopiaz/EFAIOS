@@ -17,7 +17,6 @@ import java.util.concurrent.BlockingQueue;
 public class Broker extends Thread implements Server{
     private static final int portNumber = 7331;
     private static boolean listening = false;
-    //private ArrayList<BrokerThread> subscribers = new ArrayList<BrokerThread>();
     private static Map<String,List<BrokerThread>> topicMap =  new HashMap<String,List<BrokerThread>>();
     private static Broker instance = new Broker();
     private static Object lock = new Object();

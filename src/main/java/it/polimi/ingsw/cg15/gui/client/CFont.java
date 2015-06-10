@@ -31,7 +31,6 @@ public class CFont {
 					ge.registerFont(font);
 					fontCache.putIfAbsent(name, font);
 				} catch (Exception ex) {
-					//log.info(name + " not loaded.  Using serif font.");
 					font = SERIF_FONT;
 				}
 			}

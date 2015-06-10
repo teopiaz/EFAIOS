@@ -54,7 +54,6 @@ public class Move extends Action {
 
 
             if (pc.moveIsPossible(dest)) {
-                System.out.println();
                 pc.movePlayer(dest);
                 Event response;
                 if(!pc.isUnderSedatives()){

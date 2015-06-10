@@ -18,7 +18,6 @@ public class NetworkProxy {
 
 
     public static Event JSONToEvent(String s){
-      //  Logger.getLogger(NetworkProxy.class.getName()).log(Level.INFO, s);
         Event e = null ;
 
         Map<String, String> retValues=null;
@@ -72,8 +71,7 @@ public class NetworkProxy {
             e = new Event(ctoken, command, args, retValues);
 
         } catch (ParseException e1) {
-            // TODO Auto-generated catch block
-            //e1.printStackTrace();
+
             retValues = new HashMap<String, String>();
             retValues.put("return", "invalid request");
             e = new Event(new ClientToken("nullplyerToken", "nullgameToken"), "nullcommand",  args, retValues);
@@ -121,44 +119,6 @@ public class NetworkProxy {
             jsonObject.put("retValues", jsonRet);
         }
 
-        String result = new String(jsonObject.toString());
-
-        return result;
+        return new String(jsonObject.toString());
     }
 }
-
-/*
-{
-"playerToken": "d23d2ed223faf3f3a3",
-"gameToken": "91ca29jd933d2ed2f3f3a3",
-"command": "move",
-"args": 
-  {
-    "destination": "A02",
-     "asd": "A03"
-
-  }
-,
-"retValues": {
-  "result": "true",
-  "sectorCard":"cardRed",
-  "itemCard":"itemTeleport"
-}
-}
-
-
-
-{
-"clientToken": "d23d2ed223faf3f3a3",
-"gameToken": "91ca29jd933d2ed2f3f3a3",
-"command": "listgame",
-"args": {
-
-  }
-,
-"retValues": {
-  "result": "true",
-  "91ca29jd933d2ed2f3f3a3":"prova_partita",
-  "3d2ed2f33d2ed2f33d2ed2":"nome partita 2"
-}
-}*/

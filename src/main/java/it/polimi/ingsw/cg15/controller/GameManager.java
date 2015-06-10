@@ -83,10 +83,8 @@ public class GameManager implements GameManagerRemote {
         Event event = e;
         ClientToken ctoken = e.getToken();
         String gameToken = ctoken.getGameToken();
-        System.out.println("Test esiste"+gameBoxList.containsKey(gameToken));
         if(gameBoxList.containsKey(gameToken)){
             GameBox gb = gameBoxList.get(gameToken);
-            System.out.println(gb);
             Map<String,String> retValues = new HashMap<String, String>();
 
             retValues.put("name",gb.getGameState().getName());
@@ -94,7 +92,6 @@ public class GameManager implements GameManagerRemote {
             retValues.put("mapName",gb.getGameState().getMapName());
             event = new Event(e,retValues);
         }
-        System.out.println("GAMEINFO: "+e);
         return event;
 
     }
@@ -212,7 +209,6 @@ public class GameManager implements GameManagerRemote {
 
         //thread per timeout
         if(gameBoxList.get(gameToken).getPlayers().size() >=2 ){
-            System.out.println("SONO ENTRATO "+gameBox.getGameState().isStarted());
             Runnable timerThread = new Runnable() {
 
                 Timer timeout = new Timer();
@@ -220,12 +216,10 @@ public class GameManager implements GameManagerRemote {
 
                 @Override
                 public void run() {
-                    System.out.println("lanciato il timer thread");
                     timeout.schedule(new TimerTask() {
 
                         @Override
                         public void run() {
-                            System.out.println("timer finito");
                             Event e = new Event(token,"startgame",null);
                             try {
                                 startGame(e);
@@ -239,7 +233,6 @@ public class GameManager implements GameManagerRemote {
                 }
             };
              timerThread.run();
-            System.out.println("SONO USCITO "+gameBox.getGameState().isStarted());
 
         }
 

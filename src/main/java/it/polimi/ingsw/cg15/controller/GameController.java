@@ -154,7 +154,6 @@ public class GameController  {
 
         }
         else{
-            System.out.println("ENDGAME");
             endGame();
         }
 
@@ -201,7 +200,6 @@ public class GameController  {
 
 
                 default:
-                    System.out.println("DEFAULT");
                     if(players.containsKey(playerToken)){
                         Player thisPlayer = players.get(playerToken);
                         if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
@@ -213,7 +211,6 @@ public class GameController  {
             }
 
         }
-        System.out.println("ACTION RESPONSE"+response);
 
         return response;
 
@@ -252,7 +249,6 @@ public class GameController  {
         default:
             break;
         }
-        System.out.println("CARD RESPONSE"+response);
         return response;
     }
 
@@ -303,7 +299,6 @@ public class GameController  {
                 e = attack.execute();
                 break;
             case "useitem":
-                System.out.println("DIOCANEEE");
                 e = useItemCard(e);
                 break;
 
@@ -320,7 +315,6 @@ public class GameController  {
                 break;
 
             case "endturn":
-                System.out.println("ENDTURN");
                 e = endTurn(e);
                 break;
 
@@ -438,7 +432,6 @@ public class GameController  {
 
         Object object = null;
         try {
-            System.out.println(className);
             classe = Class.forName(className);
             Constructor<?> costruttore = classe.getConstructor(GameState.class);
             object = costruttore.newInstance(gameState);

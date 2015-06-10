@@ -27,10 +27,7 @@ public class GameInstance {
         return gameState;
     }
     
-    public GameState getGameInstance(int k){
-        return	instanceList.get(k);
 
-    }
 
     public int getInstanceSize(){
         return instanceList.size();
