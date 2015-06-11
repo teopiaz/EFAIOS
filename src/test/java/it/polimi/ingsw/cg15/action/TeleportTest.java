@@ -3,23 +3,23 @@ package it.polimi.ingsw.cg15.action;
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameManager;
+import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
-import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class MoveTest {
+public class TeleportTest {
+
 
     static GameManager gm =GameManager.getInstance();
     static Map<String, String> args = new HashMap<String, String>();
@@ -29,7 +29,8 @@ public class MoveTest {
     ClientToken currentPlayerToken;
     GameState gs;
 
-
+    
+    
     @Before
     public void setup() throws RemoteException{
         GameManager gm = GameManager.getInstance();
@@ -73,100 +74,38 @@ public class MoveTest {
         }else{
             currentPlayerToken = ctoken2;
         }
+
     }
-
-
+    
+    
+    
     @Test
-    public void testMovePickCard() throws RemoteException {
-
-        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
-        itemCardDeck.clear();
-        itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
-        for (ItemCard  itemCard : itemCardDeck) {
-            System.out.println(itemCard);
-        }
-
-
-        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
-        sectorCardDeck.clear();
-        sectorCardDeck.add(SectorCard.SECTOR_RED_ITEM);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
-        }
-
-
-
+    public void testTeleport() throws RemoteException {
+        
         Event response;
         String destination = "L07";
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
         response = gm.dispatchMessage(eMove);
-        String position = null;
-        if(response.actionResult()){
-            position = response.getRetValues().get("destination");
-        }
-
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
-        position = currentPlayer.getPosition().getLabel();
-        assertEquals(destination, position);
-
-        System.out.println(currentPlayer.getCardList());
-
-        assertEquals(ItemCard.ITEM_ADRENALINE, currentPlayer.getCardById(0));
-
-
-    }
-
-    @Test
-    public void testMoveAskSector() throws RemoteException{
-        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
-        sectorCardDeck.clear();
-        sectorCardDeck.add(SectorCard.SECTOR_GREEN);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
-        }
-
-
-        Event response;
-        String destination = "L07";
-        Map<String,String> args = new HashMap<String,String>();
-        args.put("destination", destination);
-        Event eMove = new Event(currentPlayerToken,"move",args);
-        response = gm.dispatchMessage(eMove);
-        String position = null;
-        if(response.actionResult()){
-            assertTrue(response.getRetValues().containsKey("asksector"));
-        }
-
-
-        String noiseTarget = "L07";
-        args = new HashMap<String,String>();
-        args.put("position", noiseTarget);
-        Event askEvent = new Event(currentPlayerToken,"asksector",args);
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+        gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
+        
+        currentPlayer.addCard(ItemCard.ITEM_TELEPORT);
         
         
-        response = gm.dispatchMessage(askEvent);
-        
-
-        List<String>actionList = new ArrayList<String>();
-        Event getActionEvent = new Event(currentPlayerToken,"getactionlist",null);
+        args = new HashMap<String, String>();
+        args.put("itemcard", "teleport");
+        Event teleportEvent = new Event(currentPlayerToken,"useitem",args);
         Event result;
-        result = gm.dispatchMessage(getActionEvent);
-  
-
-            for (String action : result.getRetValues().keySet()) {
-                if(!action.equals("return")){
-                    actionList.add(action);  
-                }
-            }
-            assertTrue(!actionList.contains("asksector"));
-
+        result = gm.dispatchMessage(teleportEvent);
         
-
+        System.out.println(currentPlayer.getPosition().getLabel());
+        
+      assertTrue(currentPlayer.getPosition().getLabel().equals("K07"));
+        
     }
-
-
-
 
 }

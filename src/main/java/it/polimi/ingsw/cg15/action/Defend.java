@@ -6,6 +6,7 @@ import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.Event;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,7 +31,14 @@ public class Defend extends Action {
 
     @Override
     public Event execute() {
-        Map<String,String> retValues = e.getRetValues();
+       Map<String,String> retValues;
+        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
+
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
             

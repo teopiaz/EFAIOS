@@ -32,7 +32,12 @@ Event e;
             getGameController().restoreActionList();
             Action noise = new MakeNoise(getGameController(), e);
             e = noise.execute();
+            
+            if(e.getRetValues()==null){
+                retValues = new HashMap<String, String>();
+            }else{
             retValues = e.getRetValues();
+            }
             retValues.put("return", Event.TRUE);    
             e = new Event(e, retValues);
              return e;

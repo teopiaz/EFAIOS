@@ -43,6 +43,7 @@ public class GameManager implements GameManagerRemote {
 
     private boolean gameTimer=true;;
 
+
     /**
      * The constructor.
      */
@@ -227,6 +228,10 @@ public class GameManager implements GameManagerRemote {
         }
         gameBox.getPlayers().put(token.getPlayerToken(), gameBox.getGameState().addPlayer(new Player()));
 
+        if(gameTimer == false && (gameBoxList.get(gameToken).getPlayers().size() >=2) ){
+            Event ev = new Event(token,"startgame",null);
+            return new Event(ev,"joined");
+        }
         //thread per timeout 
         if((gameBoxList.get(gameToken).getPlayers().size() >=2) && gameTimer==true ){
             Runnable timerThread = new Runnable() {
@@ -312,11 +317,12 @@ public class GameManager implements GameManagerRemote {
         gameBoxList.remove(gameToken);
     }
 
+    
     /**
      * enable or disable the timeout for game start
      * @param true or false
      */
-    public void setTimer(boolean value){
-        this.gameTimer=value;
-    }
+     public void setTimer(boolean value){
+     this.gameTimer=value;
+     }
 }
