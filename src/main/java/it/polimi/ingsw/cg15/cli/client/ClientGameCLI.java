@@ -25,6 +25,7 @@ public class ClientGameCLI {
 
 
     private static int currentPlayerId;
+    private static boolean isEnded=false;
 
     String playerType;
     String currentPosition;
@@ -53,10 +54,14 @@ public class ClientGameCLI {
     public static void notifyStart(){
         isStarted=true;
     }
+    public static void notifyEnd(){
+        isStarted=false;
+        isEnded=true;
+    }
 
 
     public void start(){
-        while(true){
+        while(!isEnded){
 
             if(isStarted){
                 if(init){

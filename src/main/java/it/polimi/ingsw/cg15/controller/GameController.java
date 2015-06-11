@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +154,7 @@ public class GameController  {
     public void nextTurn(){
 
         int turnNumber = gameState.getTurnNumber();
-        if(turnNumber<=MAX_TURN_NUMBER || !isGameEnded()){
+        if(!isGameEnded()){
             TurnState turnState = null;
             PlayerController pc = new PlayerController(gameState);
             if(turnNumber==1){
@@ -181,9 +182,7 @@ public class GameController  {
             String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken),"pub",null,retValues));
             Broker.publish(gameToken, json);
         }
-        else{
-            endGame();
-        }
+
     }
 
     /**
@@ -411,8 +410,20 @@ public class GameController  {
         gameState.setEnded();
         Map<String,String> retValues = new HashMap<String, String>();
         Event endEvent = new Event(new ClientToken("", getGameToken()),"endgame",null,retValues);
+
+        for (Entry<String,Player> item : players.entrySet()) {
+            Player player = item.getValue();
+            if(player.getStatus()==Player.WIN){
+                retValues.put(Integer.toString(player.getPlayerNumber()), "win");
+            }
+            else{
+                retValues.put(Integer.toString(player.getPlayerNumber()), "lose");
+                
+            }
+
+        }
         Broker.publish(gameToken,NetworkProxy.eventToJSON(endEvent));
-        GameManager.getInstance().removeGame(gameToken);
+        GameManager.getInstance().getGameBoxList().get(gameToken).setToRemove();
     }
 
     /**
@@ -420,12 +431,56 @@ public class GameController  {
      * @return yes or no
      */
     public boolean isGameEnded(){
+        /*tot turni
+       tutti umani scappati
+       tutti settori bloccati
+       alieni hanno ucciso l'ultimo umano
+        
+        */
+       if( fieldController.allHatchBlocked()){
+           gameState.setEnded();
+       }
+        
+        if(gameState.getTurnNumber()>=MAX_TURN_NUMBER){
+            for (Entry<String,Player> item : players.entrySet()) {
+                Player player = item.getValue();
+                if(player.isAlive() && !(player.getPlayerType()==PlayerType.HUMAN));
+                player.setWin();  
+                }
+            gameState.setEnded();
+        }
+        
+        if(allHumansGone()){
+            
+            for (Entry<String,Player> item : players.entrySet()) {
+                Player player = item.getValue();
+                if(player.isAlive() && !(player.getPlayerType()==PlayerType.HUMAN));
+                player.killPlayer();  
+                }
+            
+            gameState.setEnded();
+        }
+        
+        
         if(gameState.isEnded()){
             endGame();
             return true;
         }
         else
             return false;
+    }
+    
+    
+    private boolean allHumansGone(){
+        
+        boolean flag = true;
+        for (Entry<String,Player> item : players.entrySet()) {
+            Player player = item.getValue();
+             if(!player.isEscaped() && player.isAlive() && player.getPlayerType()==PlayerType.HUMAN){    
+                 flag=false;
+             }
+         }
+        return flag;
     }
 
     /**

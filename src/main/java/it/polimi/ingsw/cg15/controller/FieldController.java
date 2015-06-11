@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * @author MMP - LMR
@@ -80,6 +81,15 @@ public class FieldController {
 
     public void blockHatchSector(Coordinate sector) {
         field.setHatchBroken(sector);
+    }
+
+    public boolean allHatchBlocked() {
+        for (Coordinate hatchSector : field.getHatchSectorsList().keySet()) {
+            if(field.getHatchSectorStatus(hatchSector)==true){
+                return false;
+            }
+        }
+        return true;
     }
 	
 	

@@ -69,6 +69,15 @@ public class SubscriberThread extends Thread {
             int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
             ClientGameCLI.setCurrentPlayer(currentPlayer);    
         }
+        if(  e.getCommand().equals("endgame")){
+            for (Entry<String,String> ele : e.getRetValues().entrySet()) {
+                System.out.println("Player "+ele.getKey()+": "+ele.getValue());
+            }
+                ClientGameCLI.notifyEnd();
+           
+        }     
+        
+        
         
         
         if(  e.getCommand().equals("log")){

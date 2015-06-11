@@ -35,12 +35,14 @@ public class GameManager implements GameManagerRemote {
      * The unique reference to the Game Manager.
      */
     private static GameManager singletonInstance = new GameManager();
-    
+
     /**
      * A list of Game Box.
      */
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
-    
+
+    private boolean gameTimer=true;;
+
     /**
      * The constructor.
      */
@@ -53,7 +55,7 @@ public class GameManager implements GameManagerRemote {
     public static GameManager getInstance(){
         return singletonInstance;
     }
-    
+
     /**
      * Dispatch the event to the requested game instance
      * @param e Received event.
@@ -116,38 +118,47 @@ public class GameManager implements GameManagerRemote {
     @Override
     public Event eventHandler(Event e) throws RemoteException {
         Event response=null;
-        if(e.getToken().getPlayerToken()!=null){
-            String command = e.getCommand().toLowerCase();
-            switch(command){
-            case "creategame": {
-                response =createGame(e);
-                break;
-            }
-            case "listgame": {
-                response=getGameList(e);
-                break;
-            }
-            case "joingame":{
-                response =joinGame(e);
-                break;
-            }
-            case "startgame":{
-                response =startGame(e);
-                break;
-            }
-            case "gameinfo":{
-                response =getGameInfo(e);
-                break;
-            }
-            default:{ 
-                response=dispatchMessage(e);
-                break;
-            }
+
+        if(gameBoxList.containsKey(e.getToken().getGameToken()) ){
+            GameBox gameBox = gameBoxList.get(e.getToken().getGameToken());
+            if( gameBox.toRemove()){
+                removeGame(gameBox.getGameToken());
             }
         }
-        else{
-            response = getClientToken();
-        }
+
+                if(e.getToken().getPlayerToken()!=null){
+                    String command = e.getCommand().toLowerCase();
+                    switch(command){
+                    case "creategame": {
+                        response =createGame(e);
+                        break;
+                    }
+                    case "listgame": {
+                        response=getGameList(e);
+                        break;
+                    }
+                    case "joingame":{
+                        response =joinGame(e);
+                        break;
+                    }
+                    case "startgame":{
+                        response =startGame(e);
+                        break;
+                    }
+                    case "gameinfo":{
+                        response =getGameInfo(e);
+                        break;
+                    }
+                    default:{ 
+                        response=dispatchMessage(e);
+                        break;
+                    }
+                    }
+                }
+                else{
+                    response = getClientToken();
+                }
+            
         return response;
     }
 
@@ -217,11 +228,11 @@ public class GameManager implements GameManagerRemote {
         gameBox.getPlayers().put(token.getPlayerToken(), gameBox.getGameState().addPlayer(new Player()));
 
         //thread per timeout 
-        if(gameBoxList.get(gameToken).getPlayers().size() >=2 ){
+        if((gameBoxList.get(gameToken).getPlayers().size() >=2) && gameTimer==true ){
             Runnable timerThread = new Runnable() {
 
                 Timer timeout = new Timer();
-                
+
                 @Override
                 public void run() {
                     timeout.schedule(new TimerTask() {
@@ -239,7 +250,7 @@ public class GameManager implements GameManagerRemote {
                     }, 1000*5);
                 }
             };
-             timerThread.run();
+            timerThread.run();
 
         }
         return new Event(e,"joined");
@@ -281,7 +292,7 @@ public class GameManager implements GameManagerRemote {
         Event event = new Event(e.getToken(), printableMap);
         return event;
     }
-    
+
     /**
      * Method that returns a list of Game Box.
      * @return a list with the Game Box.
@@ -297,6 +308,15 @@ public class GameManager implements GameManagerRemote {
     public void removeGame(String gameToken) {
         GameState gs = gameBoxList.get(gameToken).getGameState();
         GameInstance.getInstance().removeGameInstace(gs);
+        Broker.removeAllSubscriber(gameToken);
         gameBoxList.remove(gameToken);
+    }
+
+    /**
+     * enable or disable the timeout for game start
+     * @param true or false
+     */
+    public void setTimer(boolean value){
+        this.gameTimer=value;
     }
 }

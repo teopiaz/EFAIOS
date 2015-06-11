@@ -131,4 +131,16 @@ public class Broker extends Thread implements Server{
     public void stopServer() {
         listening=false;
     }
+
+    public static void removeAllSubscriber(String gameToken) {
+        if(topicMap.containsKey(gameToken)){
+           List<BrokerThread> list = topicMap.get(gameToken);
+           
+           for (BrokerThread brokerThread : list) {
+            brokerThread.close();
+        }
+            
+        topicMap.remove(gameToken);
+        }
+    }
 }

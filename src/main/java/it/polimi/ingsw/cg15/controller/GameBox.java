@@ -21,6 +21,7 @@ public class GameBox {
     private String gameToken;
     private BlockingQueue<Event> queue;
     private Map<String,Player> players;
+    private boolean ended = false;
 
 
     public GameBox(GameState gs,  String token, Map<String,Player> players) {
@@ -43,6 +44,14 @@ public class GameBox {
 
     public String getGameToken() {
         return gameToken;
+    }
+    
+    public boolean toRemove(){
+        return ended;
+    }
+    
+    public void setToRemove(){
+        this.ended=true;
     }
 
 

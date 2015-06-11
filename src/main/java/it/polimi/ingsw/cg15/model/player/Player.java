@@ -17,6 +17,12 @@ public class Player {
      * Maximum number of objects that can be held simultaneously by a player is 3
      */
     public static final int MAX_ITEMCARD = 3;
+    
+    public static final int INGAME = 0;
+    public static final int WIN = 1;
+    public static final int KILLED = 2;
+
+    
 
     /**
      * The position of the player.
@@ -40,7 +46,11 @@ public class Player {
     /**
      * The status of a player indicates if it is still active (in the race) in the current game, or if he was killed and then deleted. Default is active.
      */
-    private boolean status = true;
+    private int status = INGAME;
+    
+
+    //TODO docs
+    private boolean escaped = false;
 
 
     /**
@@ -101,7 +111,12 @@ public class Player {
      * @return a boolean that says if the player is still alive or not
      */
     public boolean isAlive() {
-        return status;
+        if(status==INGAME){
+        return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**
@@ -116,8 +131,8 @@ public class Player {
      * @return
      */
     public boolean killPlayer() {
-        if(status==true){
-            this.status = false;
+        if(status==INGAME){
+            this.status = KILLED;
             return true;
         }
         return false;
@@ -157,6 +172,7 @@ public class Player {
     }
     
     
+    //TODO: docs
     public int getPlayerNumber() {
         return playerNumber;
     }
@@ -169,4 +185,26 @@ public class Player {
     public List<ItemCard> getCardList() {
         return cards;
     }
+    
+    public boolean isEscaped() {
+        if(status==WIN){
+        return true;
+        }
+        else{
+            return false;
+        }
+    }
+    public int getStatus() {
+        return status;
+    }
+
+    public void setEscaped() {
+        
+        setWin();
+    }
+
+ public void setWin() {
+        this.status = WIN;
+    }
+    
 }
