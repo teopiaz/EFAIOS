@@ -15,7 +15,7 @@ public class Event implements Serializable {
     private final Map<String, String> retValues;
     
     public final static String FALSE = "false";
-    public final static String TRUE = "false";
+    public final static String TRUE = "true";
     public final static String ERROR = "error";
 
 

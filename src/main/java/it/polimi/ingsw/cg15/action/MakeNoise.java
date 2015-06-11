@@ -36,7 +36,12 @@ public class MakeNoise extends Action {
         }else{
          position = getCurrentPlayerController().getPlayerPosition();
         }
-        Map<String,String> retValues = e.getRetValues();
+        Map<String,String>retValues;
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
         retValues.put("noise", Event.TRUE);
         retValues.put("position", position.toString());
         e = new Event(e, retValues);

@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.Event;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,14 @@ public class Spotlight extends Action {
 
     @Override
     public Event execute() {
-        Map<String,String> retValues = e.getRetValues();
+       Map<String,String> retValues;
+        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
+        
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put("return", Event.FALSE);

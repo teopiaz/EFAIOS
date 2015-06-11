@@ -5,6 +5,7 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.networking.Event;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +26,14 @@ public class Teleport extends Action {
 
     @Override
     public Event execute() {
-        Map<String,String> retValues = e.getRetValues();
+        Map<String,String> retValues;
+        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
+
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put("return",Event.FALSE);

@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.Event;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -37,9 +38,12 @@ public class DrawSectorCard extends Action {
         FieldController fc = gc.getFieldController();
         Player currentPlayer = getGameController().getCurrentPlayer();
         PlayerController pc= gc.getPlayerInstance(currentPlayer);
-
-        Map<String,String> retValues = e.getRetValues();
-
+        Map<String,String>retValues;
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
         if(fc.isDangerousSector(pc.getPlayerPosition())){
 
             retValues.put("sectortype", "dangerous");           

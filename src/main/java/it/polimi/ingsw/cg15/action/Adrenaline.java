@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import it.polimi.ingsw.cg15.controller.GameController;
@@ -25,7 +26,16 @@ public class Adrenaline extends Action {
 
     @Override
     public Event execute() {
-        Map<String,String> retValues = e.getRetValues();
+
+       Map<String,String> retValues;
+        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
+
+        
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put(Event.ERROR, Event.FALSE);
