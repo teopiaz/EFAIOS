@@ -38,7 +38,14 @@ public class Attack extends Action {
     public Event execute() {
         GameController gc = getGameController();
         PlayerController pc = getCurrentPlayerController();
-        Map<String,String> retValues = e.getRetValues();
+        Map<String,String> retValues;
+        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
+
         if(pc.hasAttacked()){
             retValues.put("return", Event.FALSE);
             retValues.put(Event.ERROR, "attacco già effettuato");
