@@ -114,6 +114,15 @@ public class MoveTest {
         System.out.println(currentPlayer.getCardList());
 
         assertEquals(ItemCard.ITEM_ADRENALINE, currentPlayer.getCardById(0));
+        
+        
+        Event getCardEvent = new Event(currentPlayerToken,"getcardlist",null);
+        response = gm.dispatchMessage(getCardEvent);
+
+        System.out.println(response);
+        assertEquals("1",response.getRetValues().get("cardssize"));
+        assertEquals(true,response.getRetValues().containsKey("adrenaline"));
+
 
 
     }

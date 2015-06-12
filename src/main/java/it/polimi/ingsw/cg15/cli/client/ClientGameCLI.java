@@ -360,8 +360,11 @@ public class ClientGameCLI {
 
         Event e = new Event(ctoken,"getmap",null);
         Event result;
+        
 
         result = send(e);
+        String map = result.getRetValues().get("map");
+        
     }
 
     private void move() {
