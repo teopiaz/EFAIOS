@@ -292,6 +292,41 @@ public class NetworkHelper implements ViewClientInterface {
         return result.getRetValues().get("map");
     }
 
+    
+    
+    private Event move(String destination) {
+   
+            Map<String,String> args = new HashMap<String,String>();
+            args.put("destination", destination);
+            Event e = new Event(ctoken,"move",args);
+            Event result=null;
+
+            
+            
+            if(type==SOCKET){
+                result = send(e);
+
+            }
+            if(type==RMI){
+                try {
+                    result = gmRemote.eventHandler(e);
+                } catch (RemoteException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+
+            }
+
+            return result; 
+        
+    }
+
+
+    
+    
+    
+    
+    
 
     public void setGameToken(String gameToken){
         this.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
@@ -305,6 +340,22 @@ public class NetworkHelper implements ViewClientInterface {
     @Override
     public void stampa(String messaggio) {
         System.out.println(messaggio);
+    }
+
+
+
+    public String getPlayerToken() {
+        if(ctoken==null){
+            requestClientToken();
+        }
+        
+        return ctoken.getPlayerToken();
+    }
+
+
+
+    public void setToken(ClientToken ctoken) {
+        this.ctoken=ctoken;
     }
 
 

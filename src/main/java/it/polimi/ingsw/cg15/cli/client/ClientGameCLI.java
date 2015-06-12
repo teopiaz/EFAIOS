@@ -86,7 +86,7 @@ public class ClientGameCLI {
                     switch(choice){
 
                     case "m":
-                        move();
+                        actionMove();
                         break;
 
                     case "a":
@@ -367,7 +367,7 @@ public class ClientGameCLI {
         
     }
 
-    private void move() {
+    private void actionMove() {
         if(!hasMove){
             System.out.println("CURRENT POSITION: "+currentPosition);
             System.out.println("DESTINATION:");
