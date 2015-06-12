@@ -14,6 +14,9 @@ import it.polimi.ingsw.cg15.model.cards.SectorDeck;
  */
 public class CardController {
 
+    /**
+     * Sector
+     */
     private static int sectorItem = 4;
     private static int sector = 6;
     private static int sectorSilence = 5;
