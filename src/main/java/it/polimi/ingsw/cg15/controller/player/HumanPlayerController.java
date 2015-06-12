@@ -52,7 +52,7 @@ public class HumanPlayerController extends PlayerController {
     }
     
     /**
-     * A method that set the adrenaline state for the human player. In this state he can move of two cells in 1 turn.
+     * A method that set the adrenaline state for the human player. In this state he can move of 2 cells in 1 turn.
      */
     @Override
     public void setOnAdrenaline(){
