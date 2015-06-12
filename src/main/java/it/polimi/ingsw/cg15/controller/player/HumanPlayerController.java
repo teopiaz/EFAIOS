@@ -11,23 +11,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author LMR - MMP
+ * @author MMP - LMR 
+ * The controller of the Human player.
  */
 public class HumanPlayerController extends PlayerController {
 
     /**
-     * 
+     *  The state of the game.
      */
     private GameState gameState;
 
-
+    /**
+     * The constructor.
+     * @param gameState
+     */
     public HumanPlayerController(GameState gameState) {
         super(gameState);
         this.gameState = gameState;
-
     }
 
-
+    /**
+     * A method that verify if a move is possible in that particular sector based on the type of the player.
+     * @param coord Coordinate where you would verify if the move is possible.
+     */
     @Override
     public boolean moveIsPossible(Coordinate coord) {
         Logger.getLogger(Field.class.getName()).log(Level.INFO,"Human move is possible");
@@ -46,7 +52,10 @@ public class HumanPlayerController extends PlayerController {
         Cell destination = field.getCell(coord);
         return field.isReachable(currentPosition, destination, distance);
     }
-
+    
+    /**
+     * A method that set the adrenaline state for the human player. In this state he can move of 2 cells in 1 turn.
+     */
     @Override
     public void setOnAdrenaline(){
         gameState.getTurnState().setUnderAdrenaline();
@@ -63,4 +72,5 @@ public class HumanPlayerController extends PlayerController {
 
 
 
+    
 }
