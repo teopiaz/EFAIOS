@@ -13,7 +13,7 @@ import java.util.Map;
  * The choice of the cell where the state noise is at the discretion of the player.
  */
 public class AskSector extends Action {
-Event e;
+    Event e;
     /**
      * @param gc the game controller
      */
@@ -28,19 +28,21 @@ Event e;
 
         String strTarget = e.getArgs().get("position").toUpperCase();
         Coordinate target = Coordinate.getByLabel(strTarget);
-        if(getGameController().getFieldController().existInMap(target)){
-            getGameController().restoreActionList();
-            Action noise = new MakeNoise(getGameController(), e);
-            e = noise.execute();
-            
-            if(e.getRetValues()==null){
-                retValues = new HashMap<String, String>();
-            }else{
-            retValues = e.getRetValues();
+        if(target!=null){
+            if(getGameController().getFieldController().existInMap(target)){
+                getGameController().restoreActionList();
+                Action noise = new MakeNoise(getGameController(), e);
+                e = noise.execute();
+
+                if(e.getRetValues()==null){
+                    retValues = new HashMap<String, String>();
+                }else{
+                    retValues = e.getRetValues();
+                }
+                retValues.put("return", Event.TRUE);    
+                e = new Event(e, retValues);
+                return e;
             }
-            retValues.put("return", Event.TRUE);    
-            e = new Event(e, retValues);
-             return e;
         }
         retValues.put("return", Event.FALSE);
         retValues.put(Event.ERROR,"settore non valido");

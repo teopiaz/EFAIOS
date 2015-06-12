@@ -173,4 +173,9 @@ public class PlayerController {
         return false;
     }
 
+    public boolean escape() {
+        return false;
+        
+    }
+
 }

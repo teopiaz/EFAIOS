@@ -46,6 +46,8 @@ public class Coordinate {
      */
     public static Coordinate getByLabel(String str) {
         int r = 1, c = 1;
+        str=str.toUpperCase();
+        if(str.matches("^[A-Z][0-9]?[0-9]$")){
         char[] charStr = str.toCharArray();
         if (charStr.length < 3) {
             c = (int)charStr[0]-64;
@@ -57,6 +59,10 @@ public class Coordinate {
 
         }
         return new Coordinate(r, c);
+        }
+        else{
+            return null;
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
-import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -59,18 +58,7 @@ public class GameManagerTest {
         assertEquals("game_started", response.getRetValues().get("return"));
 
 
-        
-        /*
-        ctoken = new ClientToken("playerToken", null);
-        args.put("gamename","prova_nome_partita");
-
-        e = new Event(ctoken, "creategame",args);
-
-        Event result = gm.createGame(e);
-
-        ctoken = new ClientToken(e.getToken().getPlayerToken(), result.getRetValues().get("return"));
-        gameToken = ctoken.getGameToken();
-        */
+    
     }
 
     @Test
@@ -92,36 +80,7 @@ public class GameManagerTest {
         assertTrue(result.getRetValues().containsKey("nome"));
     }
     
-   /* @Test
-    public void testGameCreationAndStart() throws RemoteException{
-        GameManager gm = GameManager.getInstance();
-         ctoken1 = new ClientToken("playertoken1",null);
-         ctoken2 = new ClientToken("playertoken2", null);
-
-        args=new HashMap<String, String>();
-        args.put("gamename", "nome");
-        args.put("mapname", "test123");
-        Event response = gm.createGame(new Event(ctoken1,"creategame",args,null));
-        String gameToken = response.getRetValues().get("gameToken");
-
-        ctoken1 = new ClientToken("playertoken1",gameToken );
-        ctoken2 = new ClientToken("playertoken2", gameToken);  
-        
-        Event join1 = new Event(ctoken1,"joingame",null);
-        response = gm.joinGame(join1);
-        assertEquals("joined", response.getRetValues().get("return"));
-        Event join2 = new Event(ctoken2,"joingame",null);
-        response = gm.joinGame(join2);
-        assertEquals("joined", response.getRetValues().get("return"));
-        
-
-        response = gm.startGame(new Event(ctoken1, "startgame",null));
-        assertEquals("game_started", response.getRetValues().get("return"));
-
-
-
-    }
-    */
+  
     
     @Test
     public void testGameList() throws RemoteException{

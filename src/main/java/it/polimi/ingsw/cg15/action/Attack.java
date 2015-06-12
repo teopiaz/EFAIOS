@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +58,13 @@ public class Attack extends Action {
         Map<String,String> pubRet = new HashMap<String, String>();
         
         List<Player> playersInSector = getGameController().getFieldController().getPlayersInSector(pc.getPlayerPosition());
+        List<Player> playersToIterate = new ArrayList<Player>();
+        
+         playersToIterate.addAll(playersInSector);
+        
+        
         int killcount=0;
-        for (Player player : playersInSector) {
+        for (Player player : playersToIterate) {
             if(player != currentPlayer){
                 Action defend = new Defend(gc, player,e);
                 Event defenseEvent = defend.execute();

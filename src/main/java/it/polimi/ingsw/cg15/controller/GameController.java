@@ -163,7 +163,7 @@ public class GameController  {
             }else{
                 turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
             }
-            if(turnState.getCurrentPlayer().isAlive()){
+            if(turnState.getCurrentPlayer().isAlive() || !turnState.getCurrentPlayer().isEscaped()){
                 gameState.setTurnNumber(turnNumber+1);
             }else{
                 nextTurn();
@@ -280,7 +280,7 @@ public class GameController  {
     private Event getCardList(Event e) {
         String playerToken = e.getToken().getPlayerToken();
         Player thisPlayer = players.get(playerToken);
-        
+
         List<ItemCard> list = thisPlayer.getCardList();
         int cardsSize = thisPlayer.getCardListSize();
         Map<String,String> retValues = new HashMap<String, String>();
@@ -363,7 +363,7 @@ public class GameController  {
         nextTurn();
         return response;
     }
-    
+
     /**
      * A method that allows to receive various player information.
      * @param e The event that I received and that I have to worry about managing.
@@ -418,7 +418,7 @@ public class GameController  {
             }
             else{
                 retValues.put(Integer.toString(player.getPlayerNumber()), "lose");
-                
+
             }
 
         }
@@ -435,33 +435,34 @@ public class GameController  {
        tutti umani scappati
        tutti settori bloccati
        alieni hanno ucciso l'ultimo umano
-        
-        */
-       if( fieldController.allHatchBlocked()){
-           gameState.setEnded();
-       }
-        
+
+         */
+        if( fieldController.allHatchBlocked()){
+            gameState.setEnded();
+        }
+
         if(gameState.getTurnNumber()>=MAX_TURN_NUMBER){
             for (Entry<String,Player> item : players.entrySet()) {
                 Player player = item.getValue();
-                if(player.isAlive() && !(player.getPlayerType()==PlayerType.HUMAN));
-                player.setWin();  
-                }
+                if(player.isAlive() && (player.getPlayerType()==PlayerType.HUMAN));
+                player.killPlayer();  
+            }
             gameState.setEnded();
         }
-        
+
         if(allHumansGone()){
-            
+
             for (Entry<String,Player> item : players.entrySet()) {
                 Player player = item.getValue();
-                if(player.isAlive() && !(player.getPlayerType()==PlayerType.HUMAN));
-                player.killPlayer();  
+                if(player.isAlive() && !(player.getPlayerType()==PlayerType.HUMAN)){
+                    player.setWin();  
                 }
-            
+            }
+
             gameState.setEnded();
         }
-        
-        
+
+
         if(gameState.isEnded()){
             endGame();
             return true;
@@ -469,17 +470,17 @@ public class GameController  {
         else
             return false;
     }
-    
-    
+
+
     private boolean allHumansGone(){
-        
+
         boolean flag = true;
         for (Entry<String,Player> item : players.entrySet()) {
             Player player = item.getValue();
-             if(!player.isEscaped() && player.isAlive() && player.getPlayerType()==PlayerType.HUMAN){    
-                 flag=false;
-             }
-         }
+            if(!player.isEscaped() && player.isAlive() && player.getPlayerType()==PlayerType.HUMAN){    
+                flag=false;
+            }
+        }
         return flag;
     }
 

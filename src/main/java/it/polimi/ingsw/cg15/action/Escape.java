@@ -69,10 +69,12 @@ public class Escape extends Action {
 
             }
             if(card == HatchCard.HATCH_GREEN){
+                pc.escape();
+             
                 retValues.put("hatchcard", "green");
                 pubRet.put("hatchcard", "green");
-
-            }
+                }
+            
             
             //blocco il settore
             fc.blockHatchSector(sector);

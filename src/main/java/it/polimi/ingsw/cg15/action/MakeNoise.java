@@ -29,7 +29,6 @@ public class MakeNoise extends Action {
     @Override
     public Event execute() {
         Coordinate position;
-        //TODO NOTIFICARE COL PUBLISHER IL RUMORE
         if(e.getArgs().containsKey("position")){
             position = Coordinate.getByLabel(e.getArgs().get("position"));
 
