@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15;
 
+import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -15,7 +16,9 @@ import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NetworkHelper implements ViewClientInterface {
@@ -54,7 +57,7 @@ public class NetworkHelper implements ViewClientInterface {
         this.type=RMI;
 
     }
-    
+
     public static NetworkHelper getInstance(){
         //RMI di default se non costruito precedentemente
         if(instance==null){
@@ -220,6 +223,7 @@ public class NetworkHelper implements ViewClientInterface {
                     System.out.println("ERRORE: " +result.getRetValues().get("error"));
                 }
                 else{
+                    //TODO SUBSCRIBER RMI
                     subThread =  new SubscriberThread(gameToken);
                     subThread.start();
                     System.out.println(result.getRetValues().get("return"));
@@ -264,74 +268,159 @@ public class NetworkHelper implements ViewClientInterface {
         return result.getRetValues();
 
     }  
-    
-    public String getMap(String gameToken) {
+
+    public String getMap() {
 
         if(ctoken==null){
             requestClientToken();
         }
-        
+        String gameToken = getGameToken();
+
         ClientToken token = new ClientToken(ctoken.getPlayerToken(), gameToken);
         Event e = new Event(token, "getmap", null);
-        Event result=null;   
-        
-        if(type==SOCKET){
-            result = send(e);
-
-        }
-        if(type==RMI){
-            try {
-                result = gmRemote.getGameInfo(e);
-            } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-
-        }
+        Event result = eventHandler(e);  
 
         return result.getRetValues().get("map");
     }
 
-    
-    
-    private Event move(String destination) {
-   
-            Map<String,String> args = new HashMap<String,String>();
-            args.put("destination", destination);
-            Event e = new Event(ctoken,"move",args);
-            Event result=null;
 
-            
-            
-            if(type==SOCKET){
-                result = send(e);
 
-            }
-            if(type==RMI){
-                try {
-                    result = gmRemote.eventHandler(e);
-                } catch (RemoteException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+    public Event move(String destination) {
 
-            }
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event e = new Event(ctoken,"move",args);
+        return eventHandler(e);  
 
-            return result; 
-        
     }
 
 
-    
-    
-    
-    
-    
+
+    public Event askSector(String position) {
+
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("position", position);
+        Event e = new Event(ctoken,"asksector",args);
+        return eventHandler(e);  
+
+    }
+
+
+    public Event useCard(String card) {
+
+        Map<String,String> args = new HashMap<String, String>();
+        args.put("itemcard", card);
+        Event e = new Event(ctoken,"useitem",args);
+
+        return eventHandler(e);  
+
+
+    }
+
+
+
+    public void spotlight(String target) {
+       
+            Map<String,String> args = new HashMap<String, String>();
+            args.put("itemcard", "spotlight");
+            args.put("target", target); 
+            Event e = new Event(ctoken,"useitem",args);
+            eventHandler(e);
+
+    }
+
+
+
+    public Event  attack() {
+
+        Event e = new Event(ctoken,"attack",null);
+        return eventHandler(e);
+    }
+
+
+
+    public Event endTurn() {
+        Event e = new Event(ctoken,"endturn",null);
+
+        return eventHandler(e);
+
+    }
+
+
+
+    public Event getPlayerInfo() {        
+
+
+        Event e = new Event(ctoken,"getplayerinfo",null);
+
+        return eventHandler(e);  
+
+
+    }
+
+
+    public int getTurnInfo() {
+        Event e = new Event(ctoken,"getturninfo",null);
+
+        Event result = eventHandler(e);  
+
+        return Integer.parseInt( result.getRetValues().get("currentplayer"));
+
+    }
+
+
+    public List<String> getAvailableCardsList() {
+        List<String> cardList = new ArrayList<String>();
+        Event e = new Event(ctoken,"getcardlist",null);
+
+        Event result = eventHandler(e);  
+
+        if(result.actionResult()){
+
+            String size =result.getRetValues().get("cardssize");
+
+            for (String action : result.getRetValues().keySet()) {
+                if((!action.equals("return")) && (!action.equals("cardssize")) ){
+                    cardList.add(action);  
+                }
+
+
+            }
+        }
+        return cardList;
+
+    }
+
+
+
+    public List<String> getAvailableActionsList() {
+        List<String> actionList = new ArrayList<String>();
+        Event e = new Event(ctoken,"getactionlist",null);
+
+
+        Event result = eventHandler(e);  
+
+        if(result.actionResult()){
+
+            for (String action : result.getRetValues().keySet()) {
+                if(!action.equals("return")){
+                    actionList.add(action);  
+                }
+
+
+            }
+
+        }
+        return actionList;
+    }
+
+
+
 
     public void setGameToken(String gameToken){
         this.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
     }
-    
+
     public String getGameToken(){
         return this.ctoken.getGameToken();
     }
@@ -348,7 +437,7 @@ public class NetworkHelper implements ViewClientInterface {
         if(ctoken==null){
             requestClientToken();
         }
-        
+
         return ctoken.getPlayerToken();
     }
 
@@ -358,6 +447,24 @@ public class NetworkHelper implements ViewClientInterface {
         this.ctoken=ctoken;
     }
 
+
+    private Event eventHandler(Event e){
+        Event result =null;
+        if(type==SOCKET){
+            result = send(e);
+
+        }
+        if(type==RMI){
+            try {
+                result = gmRemote.eventHandler(e);
+            } catch (RemoteException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+        }
+        return result;
+    }
 
 
 

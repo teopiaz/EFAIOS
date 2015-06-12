@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.cli.client;
 
+import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
@@ -26,6 +27,7 @@ public class ClientGameCLI {
 
     private static int currentPlayerId;
     private static boolean isEnded=false;
+    private static NetworkHelper networkHelper;
 
     String playerType;
     String currentPosition;
@@ -42,11 +44,11 @@ public class ClientGameCLI {
 
 
 
-    public ClientGameCLI(ClientToken ctoken, SocketCommunicator server, GameManagerRemote gmRemote) {
+    public ClientGameCLI(ClientToken ctoken,NetworkHelper netHelper, SocketCommunicator server, GameManagerRemote gmRemote) {
         ClientGameCLI.ctoken = ctoken;
         ClientGameCLI.server = server;
         ClientGameCLI.gmRemote = gmRemote;
-
+        ClientGameCLI.networkHelper = netHelper;
 
 
     }
@@ -119,8 +121,6 @@ public class ClientGameCLI {
 
 
 
-
-
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -136,11 +136,9 @@ public class ClientGameCLI {
         while(!validSector){
             System.out.println("In quale settore vuoi fare rumore?");
             String position = scanner.nextLine();
-            Map<String,String> args = new HashMap<String,String>();
-            args.put("position", position);
-            Event e = new Event(ctoken,"asksector",args);
-            Event result;
-            result = send(e);     
+
+            Event result = networkHelper.askSector(position);
+
             System.out.println(result);
             if(result.actionResult()){
                 validSector=true;
@@ -158,16 +156,16 @@ public class ClientGameCLI {
         switch(choice){
 
         case "teleport":
-            useCard("teleport");
+            actionUseCard("teleport");
             break;
         case "adrenaline":
-            useCard("adrenaline");
+            actionUseCard("adrenaline");
             break;
         case "sedatives":
-            useCard("sedatives");
+            actionUseCard("sedatives");
             break;
         case "attack":
-            useCard("attack");
+            actionUseCard("attack");
             break;
         case "spotlight":
             spotlight();
@@ -185,14 +183,7 @@ public class ClientGameCLI {
         if(cardList.contains("spotlight")){
             System.out.println("Inserisci un settore da illuminare");
             String target = scanner.nextLine();
-            Map<String,String> args = new HashMap<String, String>();
-            args.put("itemcard", "spotlight");
-            args.put("target", target); 
-            Event e = new Event(ctoken,"useitem",args);
-            Event result;
-            System.out.println(e);
-            result = send(e);
-            System.out.println(result);
+            networkHelper.spotlight(target);
         }
         else{
             System.out.println("Non possiedi questa carta");
@@ -200,19 +191,17 @@ public class ClientGameCLI {
 
     }
 
-    private void useCard(String card) {
+    private void actionUseCard(String card) {
         if(cardList.contains(card)){
-            Map<String,String> args = new HashMap<String, String>();
-            args.put("itemcard", card);
-            Event e = new Event(ctoken,"useitem",args);
-            Event result;
-            System.out.println(e);
-            result = send(e);
-            System.out.println(result);
+
+            Event result = networkHelper.useCard(card);
+
         }
         else{
             System.out.println("Non possiedi questa carta");
         }
+        getAvailableCardList();
+
 
     }
 
@@ -231,7 +220,7 @@ public class ClientGameCLI {
             Event e = new Event(ctoken,"attack",null);
             Event result;
 
-            result = send(e);
+            result = networkHelper.attack();
             System.out.println(result);
             if(result.actionResult()){
                 int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
@@ -259,42 +248,13 @@ public class ClientGameCLI {
     }
 
     private void getAvailableActionsList() {
-        actionList = new ArrayList<String>();
-        Event e = new Event(ctoken,"getactionlist",null);
-        Event result;
-        result = send(e);
-        if(result.actionResult()){
-
-            for (String action : result.getRetValues().keySet()) {
-                if(!action.equals("return")){
-                    actionList.add(action);  
-                }
-
-
-            }
-        }
-
+        actionList =networkHelper.getAvailableActionsList();
     }
 
     private void getAvailableCardList() {
-        cardList = new ArrayList<String>();
-        Event e = new Event(ctoken,"getcardlist",null);
-        Event result;
-        result = send(e);
-        if(result.actionResult()){
 
-            String size =result.getRetValues().get("cardssize");
-            cardsSize = Integer.parseInt(size);
-
-            for (String action : result.getRetValues().keySet()) {
-                if((!action.equals("return")) && (!action.equals("cardssize")) ){
-                    cardList.add(action);  
-                }
-
-
-            }
-        }
-
+        cardList =networkHelper.getAvailableCardsList();
+        cardsSize = cardList.size();
     }
 
 
@@ -312,9 +272,7 @@ public class ClientGameCLI {
 
     private void endTurn() {
         System.out.println("ENDTURN");
-        Event e = new Event(ctoken,"endturn",null);
-        Event result;
-        result = send(e);  
+        Event result = networkHelper.endTurn();
 
         if(result.actionResult()){
             System.out.println("FINTE TURNO");
@@ -325,22 +283,16 @@ public class ClientGameCLI {
     }
 
     private void getTurnInfo() {
-        Event e = new Event(ctoken,"getturninfo",null);
-        Event result;
-        result = send(e);
-        ClientGameCLI.currentPlayerId =Integer.parseInt( result.getRetValues().get("currentplayer"));
-
+        ClientGameCLI.currentPlayerId = networkHelper.getTurnInfo();
     }
 
     private boolean myTurn() {
         return currentPlayerId == playerNumber;
     }
 
-    private void getPlayerInfo() {        
-
-        Event e = new Event(ctoken,"getplayerinfo",null);
-        Event result;
-        result = send(e);
+    private void getPlayerInfo() {                
+        
+        Event result = networkHelper.getPlayerInfo();
         this.playerNumber =Integer.parseInt( result.getRetValues().get("playernumber"));
         this.currentPosition = result.getRetValues().get("currentposition");
         this.cardNumber = Integer.parseInt( result.getRetValues().get("cardnumber"));
@@ -358,13 +310,8 @@ public class ClientGameCLI {
 
     private void getMap() {
 
-        Event e = new Event(ctoken,"getmap",null);
-        Event result;
-        
+        String map = networkHelper.getMap();
 
-        result = send(e);
-        String map = result.getRetValues().get("map");
-        
     }
 
     private void actionMove() {
@@ -374,14 +321,9 @@ public class ClientGameCLI {
             String destination="";
 
             destination = scanner.nextLine();
-
-
-            Map<String,String> args = new HashMap<String,String>();
-            args.put("destination", destination);
-            Event e = new Event(ctoken,"move",args);
-            Event result;
-
-            result = send(e);
+            
+            Event result = networkHelper.move(destination);
+            
             if(result.actionResult()){
                 currentPosition=result.getRetValues().get("destination");
                 System.out.println("DEST: "+currentPosition);
@@ -406,27 +348,6 @@ public class ClientGameCLI {
 
 
 
-    public Event send(Event e){
-
-        Socket socket = null;
-        try {
-            socket = new Socket(ip, port);
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        server = new SocketCommunicator(socket);
-
-        String toSend = NetworkProxy.eventToJSON(e);
-
-
-        server.send(toSend);
-        String response = server.receive();
-
-        server.close();
-
-        return NetworkProxy.JSONToEvent(response);
-    }
 
     public static void setCurrentPlayer(int currentPlayer) {
         currentPlayerId = currentPlayer;
