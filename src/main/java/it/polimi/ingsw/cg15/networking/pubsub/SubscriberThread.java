@@ -56,74 +56,77 @@ public class SubscriberThread extends Thread {
 
         }
     }
-//TODO: trasformare in una classe log
-    
+    //TODO: trasformare in una classe log
+
     private void handleMessage(String msg) {
-        Event e = NetworkProxy.JSONToEvent(msg);
-        if(  e.getRetValues().containsKey("isstarted")){
-            if(  e.getRetValues().get("isstarted").equals("true")){
-                ClientGameCLI.notifyStart();
+        if(msg!=null){
+            Event e = NetworkProxy.JSONToEvent(msg);
+            if(  e.getRetValues().containsKey("isstarted")){
+                if(  e.getRetValues().get("isstarted").equals("true")){
+                    ClientGameCLI.notifyStart();
+                }
+            }                               
+            if(  e.getRetValues().containsKey("currentplayer")){
+                int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
+                ClientGameCLI.setCurrentPlayer(currentPlayer);    
             }
-        }                               
-        if(  e.getRetValues().containsKey("currentplayer")){
-            int  currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
-            ClientGameCLI.setCurrentPlayer(currentPlayer);    
-        }
-        if(  e.getCommand().equals("endgame")){
-            for (Entry<String,String> ele : e.getRetValues().entrySet()) {
-                System.out.println("Player "+ele.getKey()+": "+ele.getValue());
-            }
+            if(  e.getCommand().equals("endgame")){
+                for (Entry<String,String> ele : e.getRetValues().entrySet()) {
+                    System.out.println("Player "+ele.getKey()+": "+ele.getValue());
+                }
                 ClientGameCLI.notifyEnd();
-           
-        }     
-        
-        
-        
-        
-        if(  e.getCommand().equals("log")){
-            if(  e.getRetValues().containsKey("move")){    
-                String player = e.getRetValues().get("player");
-                String sector = e.getRetValues().get("move");
-                System.out.println("Giocatore "+player+" si è mosso in "+sector);
-            }
-            if(  e.getRetValues().containsKey("attack")){ 
-                String playerNum = e.getRetValues().get("player");
-                String position = e.getRetValues().get("attack");
-                System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
-                int count =0;
-                for (Entry<String,String> ret : e.getRetValues().entrySet()) {
-                    if(ret.getValue().equals("killed")){
-                        System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
-                        count++;
+
+            }     
+
+
+
+
+            if(  e.getCommand().equals("log")){
+                if(  e.getRetValues().containsKey("move")){    
+                    String player = e.getRetValues().get("player");
+                    String sector = e.getRetValues().get("move");
+                    System.out.println("Giocatore "+player+" si è mosso in "+sector);
+                }
+                if(  e.getRetValues().containsKey("attack")){ 
+                    String playerNum = e.getRetValues().get("player");
+                    String position = e.getRetValues().get("attack");
+                    System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
+                    int count =0;
+                    for (Entry<String,String> ret : e.getRetValues().entrySet()) {
+                        if(ret.getValue().equals("killed")){
+                            System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
+                            count++;
+                        }
+                    }
+                    if(count==0){
+                        System.out.println("Nessuna Vittima");
+                    }
+
+                }
+                if(  e.getRetValues().containsKey("noise")){ 
+                    if(e.getRetValues().get("noise").equals("true")){
+                        String playerNum = e.getRetValues().get("player");
+                        String position = e.getRetValues().get("position");
+                        System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
                     }
                 }
-                if(count==0){
-                    System.out.println("Nessuna Vittima");
-                }
-                
-            }
-            if(  e.getRetValues().containsKey("noise")){ 
-                if(e.getRetValues().get("noise").equals("true")){
-                String playerNum = e.getRetValues().get("player");
-                String position = e.getRetValues().get("position");
-                System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
-                }
-            }
-            if(  e.getRetValues().containsKey("hatch")){ 
-                if(e.getRetValues().get("hatch").equals("false")){
-                    System.out.println(e.getRetValues().get("message"));
-                }
-                else{
-                    String player = e.getRetValues().get("player");
+                if(  e.getRetValues().containsKey("hatch")){ 
+                    if(e.getRetValues().get("hatch").equals("false")){
+                        System.out.println(e.getRetValues().get("message"));
+                    }
+                    else{
+                        String player = e.getRetValues().get("player");
 
-                    System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
+                        System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
+                    }
+
                 }
-                
+
             }
+            ClientGameCLI.debugPrint(msg);
 
         }
-
-           // ClientGameCLI.debugPrint(msg);
+   
 
 
 
@@ -140,7 +143,7 @@ public class SubscriberThread extends Thread {
         try {
             msg = in.readLine();
             if(msg!=null){
-              //  System.out.println("Topic: "+"received message: "+msg);
+                //  System.out.println("Topic: "+"received message: "+msg);
             }
         } catch (IOException e) {
             e.printStackTrace();

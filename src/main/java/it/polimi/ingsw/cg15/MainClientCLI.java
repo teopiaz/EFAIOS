@@ -11,39 +11,43 @@ import java.util.Scanner;
 public class MainClientCLI {
 
     private static boolean joined = false;
-    
+
     public static void join(){
         joined = true;
     }
-  
-    
-    public static void main(String[] args) { 
+
+
+    public static void main(String[] args) throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException { 
         ClientLobbyCLI client=null;
-        
+        NetworkHelper netHelper =null;
         Scanner scanner = new Scanner(System.in);
         System.out.println("1)Socket\n2)RMI");
-        
-        
+
+        boolean isRunning = true;
+
         String choice = scanner.nextLine();
-        if(choice.equals("1")){
-             client = ClientLobbyCLI.getClientSocket("127.0.0.1", 1337);
-        }
-        else{
-             try {
-                client = ClientLobbyCLI.getClientRMI();
-            } catch (RemoteException | MalformedURLException | AlreadyBoundException
-                    | NotBoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
         
-        
-        while(true){
-           if(joined == false)
-            client.menu();
-            System.out.println("lol");
+        switch(choice){
+       
+        case "1":
+            netHelper = NetworkHelper.getClientSocket("localhost", 1337);
+            break;
+
+        case "2":
+            netHelper = NetworkHelper.getClientRMI();
+            break;
+        default:
+           System.exit(0);
+           break;
+       }
+
+        client = new ClientLobbyCLI(netHelper);
+
+        while(isRunning){
+            if(joined == false)
+                client.menu();
         }
+        scanner.close();
     }
 
 }
