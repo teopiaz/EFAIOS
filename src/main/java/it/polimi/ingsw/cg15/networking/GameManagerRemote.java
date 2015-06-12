@@ -13,7 +13,6 @@ public interface GameManagerRemote  extends Remote{
     public Event getClientToken() throws RemoteException;
     public Event joinGame(Event e) throws RemoteException; 
     public Event createGame(Event e) throws RemoteException;
-    public Event getField(Event e) throws RemoteException;
     
     
 }

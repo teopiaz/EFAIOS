@@ -55,7 +55,7 @@ public class MoveTest {
         assertEquals("joined", response.getRetValues().get("return"));
 
 
-        response = gm.startGame(new Event(ctoken1, "startgame",null));
+        response = gm.eventHandler((new Event(ctoken1, "startgame",null)));
         assertEquals("game_started", response.getRetValues().get("return"));
 
 

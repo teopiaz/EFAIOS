@@ -284,11 +284,13 @@ public class GameManager implements GameManagerRemote {
         return event;
     }
 
+   
     /** 
      * Method that returns an event with the map.
      * @param e The event that I received and that I have to worry about managing.
      * @return event The event with the map requested.
      */
+    /*
     @Override
     public Event getField(Event e) throws RemoteException{
         String gameToken = e.getToken().getGameToken();
@@ -297,6 +299,7 @@ public class GameManager implements GameManagerRemote {
         Event event = new Event(e.getToken(), printableMap);
         return event;
     }
+    */
 
     /**
      * Method that returns a list of Game Box.

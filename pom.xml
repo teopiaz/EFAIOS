@@ -12,7 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- sonar 
+		<!-- sonar  -->   
 		
 		<sonar.language>java</sonar.language>
 		<sonar.host.url> http://192.168.56.101:9000/ </sonar.host.url>
@@ -21,12 +21,12 @@
 		<sonar.jdbc.password>sonar</sonar.jdbc.password>
 		<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
 
-		end sonar -->
-		<!-- -->	
+		<!--end sonar -->
+		<!--
 		<sonar.language>java</sonar.language> 
 		<sonar.host.url> http://localhost:9000/ 
 		</sonar.host.url> 
-       
+        --> 
          
 	</properties>
 	<dependencies>
