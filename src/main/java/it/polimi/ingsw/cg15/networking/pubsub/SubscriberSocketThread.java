@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
 
+import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
@@ -11,9 +12,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Observable;
 import java.util.Map.Entry;
 
-public class SubscriberSocketThread extends Thread {
+public class SubscriberSocketThread extends Observable implements Runnable {
     private Socket subSocket;
     private BufferedReader in;
     private PrintWriter out;
@@ -22,15 +24,12 @@ public class SubscriberSocketThread extends Thread {
     private String topic;
 
 
-    /**
-     * Non appena il thread viene instanziato, ci si sottoscrive al broker.
-     * NB. Non é stato implementato il concetto di topic; questo viene lasciato come 
-     * compito agli studenti.
-     */
+
     public SubscriberSocketThread(String topic){
         try {
             this.topic=topic;
             subscribe(topic);
+            addObserver(NetworkHelper.getInstance());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,6 +63,7 @@ public class SubscriberSocketThread extends Thread {
             if(  e.getRetValues().containsKey("isstarted")){
                 if(  e.getRetValues().get("isstarted").equals("true")){
                     ClientGameCLI.notifyStart();
+
                 }
             }                               
             if(  e.getRetValues().containsKey("currentplayer")){
@@ -125,6 +125,10 @@ public class SubscriberSocketThread extends Thread {
             }
             ClientGameCLI.debugPrint(msg);
 
+            setChanged();
+            notifyObservers(msg);
+            
+            
         }
    
 

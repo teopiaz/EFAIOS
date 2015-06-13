@@ -233,7 +233,7 @@ public class Field {
 
       String line;
         for (int r = 1; r < 15; r++) {
-            for (int c = 1; c < 23; c++) {
+            for (int c = 1; c < 24; c++) {
                 Cell cell = map.get(new Coordinate(r, c));
                 if (cell != null) {
                      line = r+","+c+","+cell.getSectorType().getValue()+"\n";

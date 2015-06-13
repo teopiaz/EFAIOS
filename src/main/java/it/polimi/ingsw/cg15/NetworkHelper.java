@@ -19,17 +19,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
-public class NetworkHelper implements ViewClientInterface {
+public class NetworkHelper implements Observer {
 
 
     private SocketCommunicator server;
     private GameManagerRemote gmRemote=null;
     private static ClientToken ctoken=null;
     private Map<String,String> args;
+    private ViewClientInterface view;
 
-
-    private SubscriberSocketThread subThread;
+    private Thread subThread;
 
     private String ip;
     private int port;
@@ -86,7 +88,7 @@ public class NetworkHelper implements ViewClientInterface {
         }
 
 
-    @Override
+
     public void requestClientToken() {
         Event e = new Event(new ClientToken(null, null), "requesttoken");
         Event result = null;
@@ -105,7 +107,7 @@ public class NetworkHelper implements ViewClientInterface {
                 e1.printStackTrace();
             } 
         }
-        stampa("TOKEN: "+result.getToken().getPlayerToken());
+      //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
 
 
     }
@@ -131,7 +133,6 @@ public class NetworkHelper implements ViewClientInterface {
     }
 
 
-    @Override
     public void createGame(String gameName, String mapName) {
         //TODO: gestione errori
         if(ctoken==null){
@@ -161,7 +162,6 @@ public class NetworkHelper implements ViewClientInterface {
         System.out.println("Game Created: "+ gameName);
     }
 
-    @Override
     public Map<String, String> getGamesList() {
 
         if(ctoken==null){
@@ -190,7 +190,6 @@ public class NetworkHelper implements ViewClientInterface {
     }
 
 
-    @Override
     public void joinGame(String gameToken) {
         if(ctoken==null){
             requestClientToken();
@@ -210,7 +209,7 @@ public class NetworkHelper implements ViewClientInterface {
                 System.out.println("ERRORE: " +result.getRetValues().get("error"));
             }
             else{
-                subThread =  new SubscriberSocketThread(gameToken);
+                subThread =  new Thread(new SubscriberSocketThread(gameToken));
                 subThread.start();
 
                 System.out.println(result.getRetValues().get("return"));
@@ -226,7 +225,7 @@ public class NetworkHelper implements ViewClientInterface {
                 else{
                  //   setGameToken(gameToken);
                     //TODO SUBSCRIBER RMI
-                    subThread =  new SubscriberSocketThread(gameToken);
+                    subThread =  new Thread(new SubscriberSocketThread(gameToken));
                     subThread.start();
                     System.out.println(result.getRetValues().get("return"));
                 }
@@ -243,7 +242,6 @@ public class NetworkHelper implements ViewClientInterface {
 
 
 
-    @Override
     public Map<String, String> getGameInfo(String gameToken) {
 
         if(ctoken==null){
@@ -436,13 +434,7 @@ public class NetworkHelper implements ViewClientInterface {
     }
 
 
-    @Override
-    public void stampa(String messaggio) {
-        System.out.println(messaggio);
-    }
-
-
-
+  
     public String getPlayerToken() {
         if(ctoken==null){
             requestClientToken();
@@ -477,6 +469,19 @@ public class NetworkHelper implements ViewClientInterface {
         }
         return result;
     }
+    
+    public void registerGui(ViewClientInterface view){
+    	this.view = view;
+    }
+
+
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		String msg = (String)arg1;
+		view.stampa(msg);
+		
+	}
 
 
 

@@ -23,6 +23,8 @@ import javax.swing.border.Border;
 
 public class SidePanel extends JPanel {
 
+	private static ActionPanel actionPanel;
+	 
     //MP3Player player;
     /**
      * 
@@ -49,7 +51,7 @@ public class SidePanel extends JPanel {
 
         JPanel logPanel = new LogPanel();
         JPanel chatPanel = new ChatPanel();
-        JPanel actionPanel = new ActionPanel();
+        actionPanel = new ActionPanel();
         JPanel cardPanel = new CardPanel();
         //   MusicPlayer musicPlayer = new MusicPlayer();
         //	Thread mp3player = new Thread(musicPlayer);
@@ -182,5 +184,11 @@ public class SidePanel extends JPanel {
 
     }
      */
+
+
+	public static ActionPanel getActionPanel() {
+		return actionPanel;
+		
+	}
 
 }

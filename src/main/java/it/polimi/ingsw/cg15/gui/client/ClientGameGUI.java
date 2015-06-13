@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg15.gui.client;
 
 
 import it.polimi.ingsw.cg15.NetworkHelper;
+import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,7 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
-public class ClientGameGUI implements Runnable{
+public class ClientGameGUI implements Runnable, ViewClientInterface{
     
     
 	int[][] board = new int[23][15];
@@ -50,6 +51,7 @@ public class ClientGameGUI implements Runnable{
 	
 	public	ClientGameGUI(NetworkHelper netHelper){
 	    this.netHelper = netHelper;
+	    netHelper.registerGui(this);
 		    prepareFrame();
 	      System.out.println("GUI creato");
 
@@ -283,6 +285,15 @@ public class ClientGameGUI implements Runnable{
 	  mapScanner.close();
 	  map.repaint();
 	}
+
+
+	@Override
+	public void stampa(String msg) {
+		SidePanel.getActionPanel().printMsg(msg);
+		loadMap();
+	}
+	
+  
 	
 	
 }

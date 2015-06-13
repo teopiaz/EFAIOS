@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
+import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class ClientGameCLI {
+public class ClientGameCLI implements ViewClientInterface{
 
     private static SocketCommunicator server;
     private static GameManagerRemote gmRemote;
@@ -49,6 +50,7 @@ public class ClientGameCLI {
         ClientGameCLI.server = server;
         ClientGameCLI.gmRemote = gmRemote;
         ClientGameCLI.networkHelper = netHelper;
+        netHelper.registerGui(this);
 
 
     }
@@ -353,4 +355,7 @@ public class ClientGameCLI {
         currentPlayerId = currentPlayer;
     }
 
+    public void stampa(String msg){
+    	System.out.println("DIOCANEEE  "+msg);
+    }
 }

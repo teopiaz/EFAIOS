@@ -95,6 +95,11 @@ public class ActionPanel extends JPanel{
     }
     
     
+    public void printMsg(String msg){
+    	actionLabel.setText(msg);
+    }
+    
+    
 
 
 }
