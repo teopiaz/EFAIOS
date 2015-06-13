@@ -1,21 +1,9 @@
 package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
-import it.polimi.ingsw.cg15.gui.ViewClientInterfaceCLI;
-import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
-import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
-import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SocketCommunicator;
-import it.polimi.ingsw.cg15.networking.pubsub.SubscriberThread;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,15 +11,12 @@ import java.util.Scanner;
 
 public class ClientLobbyCLI {
 
-
     private SocketCommunicator server;
     private GameManagerRemote gmRemote=null;
     private ClientToken ctoken=null;
-    private Map<String,String> args;
-    private Map<String,String> retValues;
+
     private Map<String,String> gameList = new HashMap<String, String>();
 
-    private SubscriberThread subThread;
     private NetworkHelper networkHelper;
     Scanner scanner;
 

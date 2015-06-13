@@ -8,7 +8,7 @@ import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SocketCommunicator;
-import it.polimi.ingsw.cg15.networking.pubsub.SubscriberThread;
+import it.polimi.ingsw.cg15.networking.pubsub.SubscriberSocketThread;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,10 +28,9 @@ public class NetworkHelper implements ViewClientInterface {
     private GameManagerRemote gmRemote=null;
     private ClientToken ctoken=null;
     private Map<String,String> args;
-    private Map<String,String> retValues;
-    private Map<String,String> gameList = new HashMap<String, String>();
 
-    private SubscriberThread subThread;
+
+    private SubscriberSocketThread subThread;
 
     private String ip;
     private int port;
@@ -209,7 +208,7 @@ public class NetworkHelper implements ViewClientInterface {
                 System.out.println("ERRORE: " +result.getRetValues().get("error"));
             }
             else{
-                subThread =  new SubscriberThread(gameToken);
+                subThread =  new SubscriberSocketThread(gameToken);
                 subThread.start();
 
                 System.out.println(result.getRetValues().get("return"));
@@ -224,7 +223,7 @@ public class NetworkHelper implements ViewClientInterface {
                 }
                 else{
                     //TODO SUBSCRIBER RMI
-                    subThread =  new SubscriberThread(gameToken);
+                    subThread =  new SubscriberSocketThread(gameToken);
                     subThread.start();
                     System.out.println(result.getRetValues().get("return"));
                 }

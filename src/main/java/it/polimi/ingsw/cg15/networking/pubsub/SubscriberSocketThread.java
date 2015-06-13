@@ -13,7 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Map.Entry;
 
-public class SubscriberThread extends Thread {
+public class SubscriberSocketThread extends Thread {
     private Socket subSocket;
     private BufferedReader in;
     private PrintWriter out;
@@ -27,7 +27,7 @@ public class SubscriberThread extends Thread {
      * NB. Non é stato implementato il concetto di topic; questo viene lasciato come 
      * compito agli studenti.
      */
-    public SubscriberThread(String topic){
+    public SubscriberSocketThread(String topic){
         try {
             this.topic=topic;
             subscribe(topic);

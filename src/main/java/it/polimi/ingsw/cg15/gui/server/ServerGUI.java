@@ -3,6 +3,8 @@ package it.polimi.ingsw.cg15.gui.server;
 
 
 import it.polimi.ingsw.cg15.networking.Server;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,13 +28,13 @@ public class ServerGUI implements Runnable {
     private String strTitle = "Escape From Alien - Server";
     private Server serverRMI;
     private Server serverSocket;
-    private Server broker;
+    private Broker broker;
 
     
     public ServerGUI(){
         prepareFrame();
     }
-    public void setServer(Server serverSocket,Server serverRMI,Server broker){
+    public void setServer(Server serverSocket,Server serverRMI,Broker broker){
         this.serverSocket=serverSocket;
         this.serverRMI = serverRMI;
         this.broker = broker;

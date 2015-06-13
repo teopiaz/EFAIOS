@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class BrokerThread extends Thread {
+public class BrokerSocketThread extends Thread {
 	/*La nuova socket, verso uno specifico subscriber, creata dalla ServerSocket*/
 	private Socket socket;
 	/* Abbiamo soltanto bisogno di recapitare il messaggio. 
@@ -29,7 +29,7 @@ public class BrokerThread extends Thread {
 	 * che rappresenterá la specifica connessione allo specifico client/subscriber. 
 	 * @param socket La nuova socket, verso uno specifico subscriber, creata dalla ServerSocket
 	 */
-	public BrokerThread(Socket socket) {
+	public BrokerSocketThread(Socket socket) {
 		this.socket = socket;
 		buffer = new ConcurrentLinkedQueue<String>();
 		

@@ -258,7 +258,7 @@ public class ClientGameGUI implements Runnable{
 	public void loadMap(){
         board = new int[23][16];
         map.setBoard(board);
-	  strmap = netHelper.getMap(netHelper.getGameToken());
+	  strmap = netHelper.getMap();
 	  System.out.println(strmap);
 	  Scanner mapScanner = new Scanner(strmap);
 	  while (mapScanner.hasNextLine()) {

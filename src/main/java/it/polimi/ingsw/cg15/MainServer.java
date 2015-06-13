@@ -24,16 +24,14 @@ public class MainServer {
         ServerLogger logger = new ServerLogger(serverGUI);
         Server serverSocket = new ServerSock();
         Server serverRMI = new ServerRMI();
-        Server broker = Broker.getInstance();
+        Broker broker = Broker.getInstance();
         
         Thread serverSocketThread = new Thread(serverSocket);
-        Thread brokerThread = new Thread(broker);
 
         serverGUI.setServer(serverSocket,serverRMI,broker);
         
 
         serverSocketThread.start();
-        brokerThread.start();
         try {
             SwingUtilities.invokeAndWait(serverGUI);
         } catch (InvocationTargetException | InterruptedException e) {
