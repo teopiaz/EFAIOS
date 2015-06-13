@@ -225,6 +225,8 @@ public class GameController  {
                         Player thisPlayer = players.get(playerToken);
                         if(gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)){
                             response =  handleAction(e);
+                        }else{
+                            response = getTurnInfo(e);
                         }
                     }
                     break;

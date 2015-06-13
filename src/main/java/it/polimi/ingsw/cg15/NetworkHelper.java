@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15;
 
-import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.ClientRMI;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -26,7 +25,7 @@ public class NetworkHelper implements ViewClientInterface {
 
     private SocketCommunicator server;
     private GameManagerRemote gmRemote=null;
-    private ClientToken ctoken=null;
+    private static ClientToken ctoken=null;
     private Map<String,String> args;
 
 
@@ -38,6 +37,7 @@ public class NetworkHelper implements ViewClientInterface {
     private final int RMI = 2;
     private int type;
     private static NetworkHelper instance = null;
+    private String gameToken=null;
 
 
     //costruttore sock
@@ -74,14 +74,16 @@ public class NetworkHelper implements ViewClientInterface {
 
 
     public static NetworkHelper getClientSocket(String ip, int port) {
+        
+        instance =new NetworkHelper(ip,port);
 
-        return new NetworkHelper(ip,port);
+        return instance;
     }
 
     public static NetworkHelper getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
-
-        return new NetworkHelper();
-    }
+        instance =new NetworkHelper();
+        return instance;
+        }
 
 
     @Override
@@ -91,12 +93,12 @@ public class NetworkHelper implements ViewClientInterface {
 
         if(type==SOCKET){
             result = send(e);
-            this.ctoken= result.getToken();
+            NetworkHelper.ctoken= result.getToken();
         }
         if(type==RMI){
             try {
                 result = gmRemote.getClientToken();
-                this.ctoken = result.getToken();
+                NetworkHelper.ctoken = result.getToken();
 
             } catch (RemoteException e1) {
                 // TODO Auto-generated catch block
@@ -222,6 +224,7 @@ public class NetworkHelper implements ViewClientInterface {
                     System.out.println("ERRORE: " +result.getRetValues().get("error"));
                 }
                 else{
+                 //   setGameToken(gameToken);
                     //TODO SUBSCRIBER RMI
                     subThread =  new SubscriberSocketThread(gameToken);
                     subThread.start();
@@ -359,9 +362,13 @@ public class NetworkHelper implements ViewClientInterface {
 
 
     public int getTurnInfo() {
+        if(ctoken==null){
+            requestClientToken();
+        }
         Event e = new Event(ctoken,"getturninfo",null);
 
         Event result = eventHandler(e);  
+        System.err.println(result);
 
         return Integer.parseInt( result.getRetValues().get("currentplayer"));
 
@@ -417,11 +424,15 @@ public class NetworkHelper implements ViewClientInterface {
 
 
     public void setGameToken(String gameToken){
-        this.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
+        if(ctoken==null){
+            requestClientToken();
+        }
+        this.gameToken = gameToken;
+        NetworkHelper.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
     }
 
     public String getGameToken(){
-        return this.ctoken.getGameToken();
+        return NetworkHelper.ctoken.getGameToken();
     }
 
 
@@ -443,11 +454,13 @@ public class NetworkHelper implements ViewClientInterface {
 
 
     public void setToken(ClientToken ctoken) {
-        this.ctoken=ctoken;
+        NetworkHelper.ctoken=ctoken;
     }
 
 
     private Event eventHandler(Event e){
+
+        
         Event result =null;
         if(type==SOCKET){
             result = send(e);

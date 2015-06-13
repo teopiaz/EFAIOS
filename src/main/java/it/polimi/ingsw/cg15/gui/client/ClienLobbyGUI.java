@@ -5,6 +5,10 @@ import it.polimi.ingsw.cg15.NetworkHelper;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +33,8 @@ public class ClienLobbyGUI implements Runnable{
     NetworkHelper netHelper;
     private ClientGameGUI gui;
     private Map<String, String> gameMap;
-
+    private String host = "localhost";
+    private int port = 1337;
 
     public ClienLobbyGUI(final NetworkHelper networkHelper, Runnable clientTaskGUI){
         this.netHelper=networkHelper;
@@ -99,6 +104,40 @@ public class ClienLobbyGUI implements Runnable{
         JRadioButton radioSock = new JRadioButton("Socket");
         JRadioButton radioRMI = new JRadioButton("RMI");
         radioSock.setSelected(true);   
+        
+        radioSock.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                networkHelper.getClientSocket(host, port);
+                
+            }
+        });
+        
+        radioRMI.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    networkHelper.getClientRMI();
+                } catch (RemoteException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (AlreadyBoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } catch (NotBoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+            }
+        });
+        
+        
         radioGroup.add(radioSock);
         radioGroup.add(radioRMI);
         
@@ -111,6 +150,7 @@ public class ClienLobbyGUI implements Runnable{
 
         lobbyPanel.add(sidePanel,BorderLayout.EAST);
         lobbyPanel.add(table,BorderLayout.CENTER);
+        
         frame.add(lobbyPanel);
 
         frame.pack();

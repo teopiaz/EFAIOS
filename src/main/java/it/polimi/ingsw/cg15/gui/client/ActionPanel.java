@@ -1,7 +1,11 @@
 package it.polimi.ingsw.cg15.gui.client;
 
 
+import it.polimi.ingsw.cg15.NetworkHelper;
+import it.polimi.ingsw.cg15.networking.Event;
+
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,8 +19,10 @@ import javax.swing.JPanel;
 public class ActionPanel extends JPanel{
     
     JLabel actionLabel;
+    NetworkHelper networkHelper = NetworkHelper.getInstance();
 
     public ActionPanel(){
+        
         List<JButton> buttonList = new ArrayList<JButton>();
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -27,21 +33,43 @@ public class ActionPanel extends JPanel{
         JButton btnMove = new JButton("MOVE");
         JButton btnAttack = new JButton("ATTACK");
         JButton btnCard = new JButton("USE CARD");
+        JButton btnEndTurn = new JButton("END TURN");
+
         btnCard.setEnabled(false);
 
         buttonList.add(btnMove);
         buttonList.add(btnAttack);
         buttonList.add(btnCard);
+        buttonList.add(btnEndTurn);
+
         
 
         btnMove.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                actionLabel.setText("Seleziona una cella dove muoversi");
+                int player = networkHelper.getTurnInfo();
+                actionLabel.setText("è il turno del giocatore: "+player);
 
             }
         });
+        
+        btnEndTurn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Event response = networkHelper.endTurn();
+                if(response.actionResult()){
+                int player = networkHelper.getTurnInfo();
+
+                actionLabel.setText("è il turno del giocatore: "+player);
+                }else{
+                    actionLabel.setText("Errore");
+
+                }
+            }
+        });
+
 
 
 
@@ -58,11 +86,15 @@ public class ActionPanel extends JPanel{
         actionLabelPanel.setBackground(Color.BLACK);
         actionLabel.setFont(CFont.getFont("TopazPlus"));
         actionLabel.setForeground(Color.WHITE);
+        actionLabelPanel.setPreferredSize(new Dimension(100,40));
+        actionLabelPanel.setMaximumSize(getPreferredSize());
         actionLabelPanel.add(actionLabel);
 
 
         add(actionLabelPanel);
     }
+    
+    
 
 
 }
