@@ -68,19 +68,19 @@ public class ClientGameCLI implements ViewClientInterface{
 					getMap();
 					getPlayerInfo();
 					getTurnInfo();
-					System.out.println("Game Started");
-					System.out.println("E' il mio turno? "+myTurn());
+					printToScreen("Game Started");
+					printToScreen("E' il mio turno? "+myTurn());
 					init=false;
 				}
 				if(myTurn()){
-					System.out.println("E' il tuo turno");
+					printToScreen("E' il tuo turno");
 					getPlayerInfo();
 					debugPrintPlayerInfo();
 					getAvailableActionsList();
 					debugPrintActionList();
 					getAvailableCardList();
 					debugPrintCardList();
-					System.out.println("SELEZIONA UN AZIONE");
+					printToScreen("SELEZIONA UN AZIONE");
 					String choice = scanner.nextLine();
 
 					switch(choice){
@@ -105,7 +105,7 @@ public class ClientGameCLI implements ViewClientInterface{
 						break;
 
 					default:
-						System.out.println("Azione Non Valida");
+						printToScreen("Azione Non Valida");
 					}
 
 
@@ -132,7 +132,7 @@ public class ClientGameCLI implements ViewClientInterface{
 	private void askSector() {
 		boolean validSector=false;
 		while(!validSector){
-			System.out.println("In quale settore vuoi fare rumore?");
+			printToScreen("In quale settore vuoi fare rumore?");
 			String position = scanner.nextLine();
 
 			Event result = networkHelper.askSector(position);
@@ -140,7 +140,7 @@ public class ClientGameCLI implements ViewClientInterface{
 			if(result.actionResult()){
 				validSector=true;
 			}else{
-				System.out.println(result.getRetValues().get("error"));
+				printToScreen(result.getRetValues().get("error"));
 			}
 		}
 	}
@@ -178,12 +178,12 @@ public class ClientGameCLI implements ViewClientInterface{
 
 	private void spotlight() {
 		if(cardList.contains("spotlight")){
-			System.out.println("Inserisci un settore da illuminare");
+			printToScreen("Inserisci un settore da illuminare");
 			String target = scanner.nextLine();
 			networkHelper.spotlight(target);
 		}
 		else{
-			System.out.println("Non possiedi questa carta");
+			printToScreen("Non possiedi questa carta");
 		}
 
 	}
@@ -195,7 +195,7 @@ public class ClientGameCLI implements ViewClientInterface{
 
 		}
 		else{
-			System.out.println("Non possiedi questa carta");
+			printToScreen("Non possiedi questa carta");
 		}
 		getAvailableCardList();
 
@@ -203,9 +203,9 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	private void debugPrintCardList() {
-		System.out.println("CARTE DISPONIBILI "+cardList.size());
+		printToScreen("CARTE DISPONIBILI "+cardList.size());
 		for (String string : cardList) {
-			System.out.println(string);
+			printToScreen(string);
 		}
 
 	}
@@ -221,24 +221,24 @@ public class ClientGameCLI implements ViewClientInterface{
 			if(result.actionResult()){
 				int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
 				if(killedPlayer==0){
-					System.out.println("Nessuna Vittima");
+					printToScreen("Nessuna Vittima");
 				}
 				else{
-					System.out.println("Hai ucciso "+killedPlayer+" giocatori");
+					printToScreen("Hai ucciso "+killedPlayer+" giocatori");
 				}
 				hasAttacked=true;
 
 			}else{
-				System.out.println("ERRORE: "+result.getRetValues().get("error"));
+				printToScreen("ERRORE: "+result.getRetValues().get("error"));
 				hasAttacked=false;
 			}
 		}
 	}
 
 	private void debugPrintActionList() {
-		System.out.println("AZIONI DISPONIBILI");
+		printToScreen("AZIONI DISPONIBILI");
 		for (String string : actionList) {
-			System.out.println(string);
+			printToScreen(string);
 		}
 
 	}
@@ -254,7 +254,7 @@ public class ClientGameCLI implements ViewClientInterface{
 
 
 	private void debugPrintPlayerInfo(){
-		System.out.println("player number: "+playerNumber+"\n"+
+		printToScreen("player number: "+playerNumber+"\n"+
 				"player type: "+playerType+"\n"+
 				"num cards: "+cardList.size()+"\n"+
 				"current position: "+currentPosition+"\n");
@@ -262,14 +262,14 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	public static void debugPrint(String s){
-		System.out.println(s);
+		printToScreen(s);
 	}
 
 	private void endTurn() {
 		Event result = networkHelper.endTurn();
 
 		if(result.actionResult()){
-			System.out.println("FINE TURNO");
+			printToScreen("FINE TURNO");
 			hasMove = false;
 			hasAttacked=false;
 		}
@@ -310,8 +310,8 @@ public class ClientGameCLI implements ViewClientInterface{
 
 	private void actionMove() {
 		if(!hasMove){
-			System.out.println("POSIZIONE ATTUALE: "+currentPosition);
-			System.out.println("inserisci la destinazione:");
+			printToScreen("POSIZIONE ATTUALE: "+currentPosition);
+			printToScreen("inserisci la destinazione:");
 			String destination="";
 
 			destination = scanner.nextLine();
@@ -320,7 +320,7 @@ public class ClientGameCLI implements ViewClientInterface{
 
 			if(result.actionResult()){
 				currentPosition=result.getRetValues().get("destination");
-				System.out.println("Nuova Posizione: "+currentPosition);
+				printToScreen("Nuova Posizione: "+currentPosition);
 				hasMove=true;
 
 				if(result.getRetValues().containsKey("asksector")){
@@ -328,12 +328,12 @@ public class ClientGameCLI implements ViewClientInterface{
 				}
 				if(result.getRetValues().containsKey("item")){
 					if(result.getRetValues().get("item").equals("true")){
-						System.out.println("hai pescato la carta "+(result.getRetValues().get("card")));
+						printToScreen("hai pescato la carta "+(result.getRetValues().get("card")));
 					}
 				}
 
 			}else{
-				System.out.println("ERRORE: "+result.getRetValues().get("error"));
+				printToScreen("ERRORE: "+result.getRetValues().get("error"));
 				hasMove=false;
 			}
 		}
@@ -348,7 +348,7 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	public void stampa(String msg){
-		System.out.println(msg);
+		printToScreen(msg);
 	}
 
 	public void log(Event e){
@@ -356,21 +356,21 @@ public class ClientGameCLI implements ViewClientInterface{
 			if(  e.getRetValues().containsKey("move")){    
 				String player = e.getRetValues().get("player");
 				String sector = e.getRetValues().get("move");
-				System.out.println("Giocatore "+player+" si è mosso in "+sector);
+				printToScreen("Giocatore "+player+" si è mosso in "+sector);
 			}
 			if(  e.getRetValues().containsKey("attack")){ 
 				String playerNum = e.getRetValues().get("player");
 				String position = e.getRetValues().get("attack");
-				System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
+				printToScreen("Giocatore "+playerNum+": attacca nel settore "+position);
 				int count =0;
 				for (Entry<String,String> ret : e.getRetValues().entrySet()) {
 					if(ret.getValue().equals("killed")){
-						System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
+						printToScreen("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
 						count++;
 					}
 				}
 				if(count==0){
-					System.out.println("Nessuna Vittima");
+					printToScreen("Nessuna Vittima");
 				}
 
 			}
@@ -378,26 +378,32 @@ public class ClientGameCLI implements ViewClientInterface{
 				if(e.getRetValues().get("noise").equals("true")){
 					String playerNum = e.getRetValues().get("player");
 					String position = e.getRetValues().get("position");
-					System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
+					printToScreen("Giocatore "+playerNum+": rumore in settore "+position);
 				}
 			}
 			if(  e.getRetValues().containsKey("hatch")){ 
 				if(e.getRetValues().get("hatch").equals("false")){
-					System.out.println(e.getRetValues().get("message"));
+					printToScreen(e.getRetValues().get("message"));
 				}
 				else{
 					String player = e.getRetValues().get("player");
 
-					System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
+					printToScreen("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
 				}
 			}
 		}
 	public void chat(Event e){
-		System.out.println("Chat :"+"[Giocatore "+e.getRetValues().get("player")+"]"+" "+e.getRetValues().get("message"));
+		printToScreen("Chat :"+"[Giocatore "+e.getRetValues().get("player")+"]"+" "+e.getRetValues().get("message"));
 	}
 	
 	public void setStarted(){
 		notifyStart();
 	}
+	
+	
+	public static void printToScreen(String s){
+	    System.out.println(s);
+	}
+	
 
 }
