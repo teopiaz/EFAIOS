@@ -19,12 +19,10 @@ import java.util.Map.Entry;
 
 public class ClientGameCLI implements ViewClientInterface{
 
-	private static SocketCommunicator server;
-	private static GameManagerRemote gmRemote;
+
 	private static ClientToken ctoken;
 	private static boolean isStarted = false;
-	private String ip="127.0.0.1";
-	private int port = 1337;
+
 
 
 	private static int currentPlayerId;
@@ -35,21 +33,18 @@ public class ClientGameCLI implements ViewClientInterface{
 	String currentPosition;
 	int playerNumber;
 	int cardNumber;
-	private boolean myTurn;
 	private boolean hasMove=false;
 	private boolean init = true;
 	private Scanner scanner = new Scanner(System.in);
 	private List<String> actionList=new ArrayList<String>();
 	private boolean hasAttacked;
 	private List<String> cardList=new ArrayList<String>();
-	private int cardsSize;
 
 
 
 	public ClientGameCLI(ClientToken ctoken,NetworkHelper netHelper, SocketCommunicator server, GameManagerRemote gmRemote) {
 		ClientGameCLI.ctoken = ctoken;
-		ClientGameCLI.server = server;
-		ClientGameCLI.gmRemote = gmRemote;
+
 		ClientGameCLI.networkHelper = netHelper;
 		netHelper.registerGui(this);
 
@@ -142,7 +137,6 @@ public class ClientGameCLI implements ViewClientInterface{
 
 			Event result = networkHelper.askSector(position);
 
-			System.out.println(result);
 			if(result.actionResult()){
 				validSector=true;
 			}else{
@@ -209,7 +203,7 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	private void debugPrintCardList() {
-		System.out.println("CARTE DISPONIBILI "+cardNumber);
+		System.out.println("CARTE DISPONIBILI "+cardList.size());
 		for (String string : cardList) {
 			System.out.println(string);
 		}
@@ -224,7 +218,6 @@ public class ClientGameCLI implements ViewClientInterface{
 			Event result;
 
 			result = networkHelper.attack();
-			System.out.println(result);
 			if(result.actionResult()){
 				int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
 				if(killedPlayer==0){
@@ -257,14 +250,13 @@ public class ClientGameCLI implements ViewClientInterface{
 	private void getAvailableCardList() {
 
 		cardList =networkHelper.getAvailableCardsList();
-		cardsSize = cardList.size();
 	}
 
 
 	private void debugPrintPlayerInfo(){
 		System.out.println("player number: "+playerNumber+"\n"+
 				"player type: "+playerType+"\n"+
-				"num cards: "+cardNumber+"\n"+
+				"num cards: "+cardList.size()+"\n"+
 				"current position: "+currentPosition+"\n");
 
 	}
@@ -274,11 +266,10 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	private void endTurn() {
-		System.out.println("ENDTURN");
 		Event result = networkHelper.endTurn();
 
 		if(result.actionResult()){
-			System.out.println("FINTE TURNO");
+			System.out.println("FINE TURNO");
 			hasMove = false;
 			hasAttacked=false;
 		}
@@ -319,8 +310,8 @@ public class ClientGameCLI implements ViewClientInterface{
 
 	private void actionMove() {
 		if(!hasMove){
-			System.out.println("CURRENT POSITION: "+currentPosition);
-			System.out.println("DESTINATION:");
+			System.out.println("POSIZIONE ATTUALE: "+currentPosition);
+			System.out.println("inserisci la destinazione:");
 			String destination="";
 
 			destination = scanner.nextLine();
@@ -329,7 +320,7 @@ public class ClientGameCLI implements ViewClientInterface{
 
 			if(result.actionResult()){
 				currentPosition=result.getRetValues().get("destination");
-				System.out.println("DEST: "+currentPosition);
+				System.out.println("Nuova Posizione: "+currentPosition);
 				hasMove=true;
 
 				if(result.getRetValues().containsKey("asksector")){
@@ -357,7 +348,7 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	public void stampa(String msg){
-		System.out.println("DIOCANEEE  "+msg);
+		System.out.println(msg);
 	}
 
 	public void log(Event e){

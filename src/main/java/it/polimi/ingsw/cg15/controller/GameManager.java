@@ -170,8 +170,7 @@ public class GameManager implements GameManagerRemote {
      */
     @Override
     public Event startGame(Event e)  throws RemoteException{
-        ClientToken token = e.getToken();
-        String gameToken = token.getGameToken();
+        String gameToken = e.getToken().getGameToken();
         if(!gameBoxList.containsKey(gameToken)){
             return new Event(e,"error","invalid_game");
         }

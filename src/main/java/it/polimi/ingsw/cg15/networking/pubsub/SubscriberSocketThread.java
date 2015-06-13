@@ -21,13 +21,11 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     private PrintWriter out;
     private final String address = "localhost";
     private final int port = 7331;
-    private String topic;
 
 
 
     public SubscriberSocketThread(String topic){
         try {
-            this.topic=topic;
             subscribe(topic);
             addObserver(NetworkHelper.getInstance());
         } catch (IOException e) {
@@ -55,7 +53,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
 
         }
     }
-    //TODO: trasformare in una classe log
+    //TODO: pulire sta cosa!
 
     private void handleMessage(String msg) {
         if(msg!=null){
@@ -79,51 +77,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             }     
 
 
-
-
-            if(  e.getCommand().equals("log")){
-                if(  e.getRetValues().containsKey("move")){    
-                    String player = e.getRetValues().get("player");
-                    String sector = e.getRetValues().get("move");
-                    System.out.println("Giocatore "+player+" si è mosso in "+sector);
-                }
-                if(  e.getRetValues().containsKey("attack")){ 
-                    String playerNum = e.getRetValues().get("player");
-                    String position = e.getRetValues().get("attack");
-                    System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
-                    int count =0;
-                    for (Entry<String,String> ret : e.getRetValues().entrySet()) {
-                        if(ret.getValue().equals("killed")){
-                            System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
-                            count++;
-                        }
-                    }
-                    if(count==0){
-                        System.out.println("Nessuna Vittima");
-                    }
-
-                }
-                if(  e.getRetValues().containsKey("noise")){ 
-                    if(e.getRetValues().get("noise").equals("true")){
-                        String playerNum = e.getRetValues().get("player");
-                        String position = e.getRetValues().get("position");
-                        System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
-                    }
-                }
-                if(  e.getRetValues().containsKey("hatch")){ 
-                    if(e.getRetValues().get("hatch").equals("false")){
-                        System.out.println(e.getRetValues().get("message"));
-                    }
-                    else{
-                        String player = e.getRetValues().get("player");
-
-                        System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
-                    }
-
-                }
-
-            }
-            ClientGameCLI.debugPrint(msg);
+            //ClientGameCLI.debugPrint(msg);
 
             setChanged();
             notifyObservers(NetworkProxy.JSONToEvent(msg));
@@ -183,7 +137,6 @@ public class SubscriberSocketThread extends Observable implements Runnable {
         } finally {
             in=null;
             subSocket=null;
-            System.gc();
         }
 
     }

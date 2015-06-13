@@ -57,15 +57,27 @@ public class Cell {
 	public String toString() {
 		return "{"+this.label+"} "+ "[x=" + x + ", z=" + z +" y=" + y + "]";
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		Cell b = (Cell)obj;
-		if(this.x==b.getX() && this.y==b.getY() && this.z==b.getZ())
-			return true;
-		else
-			return false;
-	}
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((label == null) ? 0 : label.hashCode());
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + z;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Cell b = (Cell)obj;
+        if(this.x==b.getX() && this.y==b.getY() && this.z==b.getZ())
+            return true;
+        else
+            return false;
+    }
+
 
 
 }

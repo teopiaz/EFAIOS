@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.model.field;
 
-import it.polimi.ingsw.cg15.exception.InvalidAction;
 import it.polimi.ingsw.cg15.model.player.Player;
 
 import java.util.ArrayList;
@@ -96,9 +95,6 @@ public class Cell {
     public void removePlayer(Player player){
         if(players.contains(player)){
             players.remove(player);
-        }
-        else{
-            throw new InvalidAction("player non presente nella cella");
         }
     }
 

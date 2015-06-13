@@ -108,7 +108,6 @@ public class BrokerSocketThread extends Thread {
 		} finally {
 			out = null;
 			socket = null;
-			System.gc();
 		}
 	}
 

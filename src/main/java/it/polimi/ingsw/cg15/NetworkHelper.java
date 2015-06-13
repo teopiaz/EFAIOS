@@ -39,7 +39,6 @@ public class NetworkHelper implements Observer {
     private final int RMI = 2;
     private int type;
     private static NetworkHelper instance = null;
-    private String gameToken=null;
 
 
     //costruttore sock
@@ -76,7 +75,7 @@ public class NetworkHelper implements Observer {
 
 
     public static NetworkHelper getClientSocket(String ip, int port) {
-        
+
         instance =new NetworkHelper(ip,port);
 
         return instance;
@@ -85,7 +84,7 @@ public class NetworkHelper implements Observer {
     public static NetworkHelper getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
         instance =new NetworkHelper();
         return instance;
-        }
+    }
 
 
 
@@ -107,7 +106,7 @@ public class NetworkHelper implements Observer {
                 e1.printStackTrace();
             } 
         }
-      //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
+        //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
 
 
     }
@@ -142,17 +141,16 @@ public class NetworkHelper implements Observer {
         args.put("gamename", gameName);
         args.put("mapname", mapName);
         Event e = new Event(ctoken,"creategame",args);
-        Event result;
+        
 
         if(type==SOCKET){
-            result = send(e);
+            Event result = send(e);
         }
         if(type==RMI){
             try {
-                result = gmRemote.createGame(e);
+                Event result = gmRemote.createGame(e);
 
 
-                System.out.println();
             } catch (RemoteException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -223,7 +221,7 @@ public class NetworkHelper implements Observer {
                     System.out.println("ERRORE: " +result.getRetValues().get("error"));
                 }
                 else{
-                 //   setGameToken(gameToken);
+                    //   setGameToken(gameToken);
                     //TODO SUBSCRIBER RMI
                     subThread =  new Thread(new SubscriberSocketThread(gameToken));
                     subThread.start();
@@ -287,7 +285,7 @@ public class NetworkHelper implements Observer {
 
     public Event move(String destination) {
 
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("destination", destination);
         Event e = new Event(ctoken,"move",args);
         return eventHandler(e);  
@@ -298,7 +296,7 @@ public class NetworkHelper implements Observer {
 
     public Event askSector(String position) {
 
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("position", position);
         Event e = new Event(ctoken,"asksector",args);
         return eventHandler(e);  
@@ -308,7 +306,7 @@ public class NetworkHelper implements Observer {
 
     public Event useCard(String card) {
 
-        Map<String,String> args = new HashMap<String, String>();
+        args = new HashMap<String, String>();
         args.put("itemcard", card);
         Event e = new Event(ctoken,"useitem",args);
 
@@ -320,12 +318,12 @@ public class NetworkHelper implements Observer {
 
 
     public void spotlight(String target) {
-       
-            Map<String,String> args = new HashMap<String, String>();
-            args.put("itemcard", "spotlight");
-            args.put("target", target); 
-            Event e = new Event(ctoken,"useitem",args);
-            eventHandler(e);
+
+        args = new HashMap<String, String>();
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+        Event e = new Event(ctoken,"useitem",args);
+        eventHandler(e);
 
     }
 
@@ -425,7 +423,6 @@ public class NetworkHelper implements Observer {
         if(ctoken==null){
             requestClientToken();
         }
-        this.gameToken = gameToken;
         NetworkHelper.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
     }
 
@@ -434,7 +431,7 @@ public class NetworkHelper implements Observer {
     }
 
 
-  
+
     public String getPlayerToken() {
         if(ctoken==null){
             requestClientToken();
@@ -452,7 +449,7 @@ public class NetworkHelper implements Observer {
 
     private Event eventHandler(Event e){
 
-        
+
         Event result =null;
         if(type==SOCKET){
             result = send(e);
@@ -469,46 +466,46 @@ public class NetworkHelper implements Observer {
         }
         return result;
     }
-    
+
     public void registerGui(ViewClientInterface view){
-    	this.view = view;
+        this.view = view;
     }
 
 
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		Event e = (Event)arg1;
-		if(e.getCommand().equals("log")){
-			view.log(e);
-		}
-		if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
-			view.setStarted();
-		}
-		if(e.getCommand().equals("chat")){
-			view.chat(e);
-		}
-		view.stampa(e.getCommand());
-		
-	}
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        Event e = (Event)arg1;
+        if(e.getCommand().equals("log")){
+            view.log(e);
+        }
+        if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
+            view.setStarted();
+        }
+        if(e.getCommand().equals("chat")){
+            view.chat(e);
+        }
+        view.stampa(e.getCommand());
+
+    }
 
 
 
-	public void sendChat(String message) {
-		
+    public void sendChat(String message) {
+
         if(ctoken==null){
             requestClientToken();
         }
         String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("message", sanitizedMessage);
         Event e = new Event(ctoken,"chat",args);
 
         Event result = eventHandler(e);  
         System.err.println(result);
 
-		
-	}
+
+    }
 
 
 
