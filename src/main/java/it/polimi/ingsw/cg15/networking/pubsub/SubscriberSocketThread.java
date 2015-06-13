@@ -126,7 +126,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             ClientGameCLI.debugPrint(msg);
 
             setChanged();
-            notifyObservers(msg);
+            notifyObservers(NetworkProxy.JSONToEvent(msg));
             
             
         }

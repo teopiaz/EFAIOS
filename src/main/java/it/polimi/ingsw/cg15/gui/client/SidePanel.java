@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -24,6 +25,9 @@ import javax.swing.border.Border;
 public class SidePanel extends JPanel {
 
 	private static ActionPanel actionPanel;
+	private static LogPanel logPanel;
+	private static ChatPanel chatPanel;
+
 	 
     //MP3Player player;
     /**
@@ -33,15 +37,8 @@ public class SidePanel extends JPanel {
     private DefaultListModel<String> selections = new DefaultListModel<>();
 
     {
-        selections.addElement("Giocatore 1: attacca in F11 nessuno colpito");
-        selections.addElement("Giocatore 4: rumore in C05 ");
-        selections.addElement("Giocatore 3: si sposta in zona sicura"); 
-        selections.addElement("Giocatore 2: si sposta in zona sicura" );
-        selections.addElement("Giocatore 1: attacca in F11 nessuno colpito");
-        selections.addElement("Giocatore 4: rumore in C05 ");
-        selections.addElement("Giocatore 3: si sposta in zona sicura"); 
-        selections.addElement("iocatore 2:  rumore in L09" );
-        selections.addElement("Giocatore 1: attacca in F11 nessuno colpito");
+        selections.addElement("In attesa per l'inizio del match...");
+       
     }
     public SidePanel(){
         super();
@@ -49,8 +46,8 @@ public class SidePanel extends JPanel {
 
         setBackground(Color.black);
 
-        JPanel logPanel = new LogPanel();
-        JPanel chatPanel = new ChatPanel();
+        logPanel = new LogPanel();
+        chatPanel = new ChatPanel();
         actionPanel = new ActionPanel();
         JPanel cardPanel = new CardPanel();
         //   MusicPlayer musicPlayer = new MusicPlayer();
@@ -66,12 +63,14 @@ public class SidePanel extends JPanel {
     }
 
 
-    private class LogPanel extends JPanel{
+    class LogPanel extends JPanel{
 
         /**
          * 
          */
         private static final long serialVersionUID = 1L;
+        
+        JList<String> list;
 
         public LogPanel(){
 
@@ -79,8 +78,10 @@ public class SidePanel extends JPanel {
             setMaximumSize(getPreferredSize());
             setMinimumSize(getPreferredSize());
 
-            JList<String> list = new JList<String>(selections);
-            list.setBackground(Color.black);
+            list = new JList<String>(selections);
+            list.setBackground(Color.LIGHT_GRAY);
+
+            
             list.setCellRenderer(new RendererCelleLog());
             list.setSelectedIndex(0);
             list.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -100,10 +101,17 @@ public class SidePanel extends JPanel {
             add(scrollPane,BorderLayout.EAST);
             setBackground(Color.black);
         }
+
+		public void addToLog(String s) {
+			selections.insertElementAt(s, 0);
+			
+          
+			
+		}
     }
 
 
-    private class ChatPanel extends JPanel {
+    class ChatPanel extends JPanel {
 
         /**
          * 
@@ -123,7 +131,7 @@ public class SidePanel extends JPanel {
             textArea.setFont(CFont.getFont("TopazPlus"));
 
 
-            textArea.setText("Giocatore1: secondo me si trova nella cella H12!!");
+            textArea.setText("");
 
             final JTextField userInputField = new JTextField(30);
             userInputField.setFont(CFont.getFont("TopazPlus"));
@@ -132,7 +140,8 @@ public class SidePanel extends JPanel {
             userInputField.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    selections.insertElementAt(userInputField.getText(), 0);
+                    String msgToSend = userInputField.getText();
+                    netHelper.sendChat(msgToSend);
 
                 }
             });
@@ -189,6 +198,17 @@ public class SidePanel extends JPanel {
 	public static ActionPanel getActionPanel() {
 		return actionPanel;
 		
+	}
+
+
+	public static LogPanel getLogPanel() {
+		return logPanel;
+
+	}
+
+
+	public static ChatPanel getChatPanel() {
+		return chatPanel;
 	}
 
 }

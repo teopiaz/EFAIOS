@@ -478,8 +478,32 @@ public class NetworkHelper implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		String msg = (String)arg1;
-		view.stampa(msg);
+		Event e = (Event)arg1;
+		if(e.getCommand().equals("log")){
+			view.log(e);
+		}
+		if(e.getCommand().equals("chat")){
+			view.chat(e);
+		}
+		view.stampa(e.getCommand());
+		
+	}
+
+
+
+	public void sendChat(String message) {
+		
+        if(ctoken==null){
+            requestClientToken();
+        }
+        
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("message", message);
+        Event e = new Event(ctoken,"chat",args);
+
+        Event result = eventHandler(e);  
+        System.err.println(result);
+
 		
 	}
 

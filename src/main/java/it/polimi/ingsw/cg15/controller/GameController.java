@@ -220,6 +220,11 @@ public class GameController  {
                 case "getcardlist" :
                     response = getCardList(e);
                     break;
+                case "chat" :
+                    response = chat(e);
+                    break;
+                    
+                    
                 default:
                     if(players.containsKey(playerToken)){
                         Player thisPlayer = players.get(playerToken);
@@ -581,4 +586,35 @@ public class GameController  {
             ts.swapActionsList();                    
         }
     }
+    
+    
+    /**
+     * Method that publish the received message to all players
+     * @param e The event that contains the message
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
+     */
+    private Event chat(Event e) {
+    	Map<String,String> retValues = new HashMap<String, String>();
+    	Map<String,String> retPub = new HashMap<String, String>();
+
+    if(e.getArgs().containsKey("message")){
+    	Player thisPlayer = players.get(e.getToken().getPlayerToken());
+    	String message = e.getArgs().get("message");
+        retValues.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
+        retValues.put("message",message);
+        retValues.put("return",Event.TRUE);
+        
+        retPub.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
+        retPub.put("message",message);
+        Event toPublish =  new Event(new ClientToken("", gameToken), "chat", null,retPub);
+        Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
+
+        return new Event(e, retValues);
+        
+    }
+    retValues.put("return", Event.FALSE);
+    retValues.put(Event.ERROR, "errore messaggio");
+        return new Event(e, retValues);
+    }
+    
 }

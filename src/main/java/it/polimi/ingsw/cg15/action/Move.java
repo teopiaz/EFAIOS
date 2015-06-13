@@ -44,7 +44,13 @@ public class Move extends Action {
 
 
         PlayerController pc = getCurrentPlayerController();
-
+        
+        Map<String, String> retValues;
+		if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
 
 
         String destString = e.getArgs().get("destination").toUpperCase();
@@ -66,7 +72,7 @@ public class Move extends Action {
                     response = new Event(e, retVal);
                 }
 
-                Map<String,String> retValues = response.getRetValues();
+                retValues = response.getRetValues();
                 response = new Event(response, retValues);
                 Action escape = new Escape(getGameController(),response);
                 response = escape.execute();
@@ -103,7 +109,7 @@ public class Move extends Action {
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
 
-        Map<String,String> retValues = e.getRetValues();
+        retValues = e.getRetValues();
         retValues.put(Event.ERROR, "impossibile eseguire lo spostamento");
         retValues.put("return", Event.FALSE);
 
