@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.Event;
 
@@ -16,13 +15,17 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ActionPanel extends JPanel{
-    
+public class ActionPanel extends JPanel {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8240130326507614510L;
     JLabel actionLabel;
     NetworkHelper networkHelper = NetworkHelper.getInstance();
 
-    public ActionPanel(){
-        
+    public ActionPanel() {
+
         List<JButton> buttonList = new ArrayList<JButton>();
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -42,37 +45,31 @@ public class ActionPanel extends JPanel{
         buttonList.add(btnCard);
         buttonList.add(btnEndTurn);
 
-        
-
         btnMove.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 int player = networkHelper.getTurnInfo();
-                actionLabel.setText("è il turno del giocatore: "+player);
+                actionLabel.setText("è il turno del giocatore: " + player);
 
             }
         });
-        
+
         btnEndTurn.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 Event response = networkHelper.endTurn();
-                if(response.actionResult()){
-                int player = networkHelper.getTurnInfo();
+                if (response.actionResult()) {
+                    int player = networkHelper.getTurnInfo();
 
-                actionLabel.setText("è il turno del giocatore: "+player);
-                }else{
+                    actionLabel.setText("è il turno del giocatore: " + player);
+                } else {
                     actionLabel.setText("Errore");
 
                 }
             }
         });
-
-
-
-
 
         for (JButton btn : buttonList) {
             btn.setFont(CFont.getFont("TopazPlus"));
@@ -80,26 +77,20 @@ public class ActionPanel extends JPanel{
         }
         add(buttonPanel);
 
-
         JPanel actionLabelPanel = new JPanel();
         actionLabel = new JLabel();
         actionLabelPanel.setBackground(Color.BLACK);
         actionLabel.setFont(CFont.getFont("TopazPlus"));
         actionLabel.setForeground(Color.WHITE);
-        actionLabelPanel.setPreferredSize(new Dimension(100,40));
+        actionLabelPanel.setPreferredSize(new Dimension(100, 40));
         actionLabelPanel.setMaximumSize(getPreferredSize());
         actionLabelPanel.add(actionLabel);
 
-
         add(actionLabelPanel);
     }
-    
-    
-    public void printMsg(String msg){
-    	actionLabel.setText(msg);
-    }
-    
-    
 
+    public void printMsg(String msg) {
+        actionLabel.setText(msg);
+    }
 
 }
