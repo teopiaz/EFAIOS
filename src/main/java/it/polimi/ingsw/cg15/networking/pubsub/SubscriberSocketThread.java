@@ -62,7 +62,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             Event e = NetworkProxy.JSONToEvent(msg);
             if(  e.getRetValues().containsKey("isstarted")){
                 if(  e.getRetValues().get("isstarted").equals("true")){
-                    ClientGameCLI.notifyStart();
+                  //  ClientGameCLI.notifyStart();
 
                 }
             }                               

@@ -404,5 +404,9 @@ public class ClientGameCLI implements ViewClientInterface{
 	public void chat(Event e){
 		System.out.println("Chat :"+"[Giocatore "+e.getRetValues().get("player")+"]"+" "+e.getRetValues().get("message"));
 	}
+	
+	public void setStarted(){
+		notifyStart();
+	}
 
 }

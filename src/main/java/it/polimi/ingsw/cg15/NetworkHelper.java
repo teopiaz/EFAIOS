@@ -482,6 +482,9 @@ public class NetworkHelper implements Observer {
 		if(e.getCommand().equals("log")){
 			view.log(e);
 		}
+		if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
+			view.setStarted();
+		}
 		if(e.getCommand().equals("chat")){
 			view.chat(e);
 		}
@@ -496,9 +499,9 @@ public class NetworkHelper implements Observer {
         if(ctoken==null){
             requestClientToken();
         }
-        
+        String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
         Map<String,String> args = new HashMap<String,String>();
-        args.put("message", message);
+        args.put("message", sanitizedMessage);
         Event e = new Event(ctoken,"chat",args);
 
         Event result = eventHandler(e);  

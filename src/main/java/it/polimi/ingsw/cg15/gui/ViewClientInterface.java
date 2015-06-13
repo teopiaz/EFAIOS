@@ -12,4 +12,6 @@ public interface ViewClientInterface {
 
 	public void chat(Event e);
 
+	public void setStarted();
+
 }

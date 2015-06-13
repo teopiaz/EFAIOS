@@ -142,6 +142,7 @@ public class SidePanel extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     String msgToSend = userInputField.getText();
                     netHelper.sendChat(msgToSend);
+                    userInputField.setText("");
 
                 }
             });
@@ -154,6 +155,8 @@ public class SidePanel extends JPanel {
 
         public void addToChat(String msg){
             textArea.append(msg+"\n");
+            textArea.updateUI();
+            textArea.setCaretPosition(textArea.getDocument().getLength());
         }
 
 

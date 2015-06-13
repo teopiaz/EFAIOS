@@ -292,7 +292,6 @@ public class ClientGameGUI implements Runnable, ViewClientInterface{
 	@Override
 	public void stampa(String msg) {
 		SidePanel.getActionPanel().printMsg(msg);
-		loadMap();
 	}
 
 	public void addToLog(String s){
@@ -347,6 +346,10 @@ public class ClientGameGUI implements Runnable, ViewClientInterface{
 		String message ="[Giocatore "+e.getRetValues().get("player")+"]"+" "+e.getRetValues().get("message");
 		SidePanel.getChatPanel().addToChat(message);
 		
+	}
+	public void setStarted(){
+		loadMap();
+		addToLog("La Partita è cominciata!");
 	}
 
 
