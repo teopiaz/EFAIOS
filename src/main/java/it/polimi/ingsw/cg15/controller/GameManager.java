@@ -262,7 +262,7 @@ public class GameManager implements GameManagerRemote {
 
     /**
      * Create a new instance of a game with his game token.
-     * @param e The event that I received and that I have to worry about managing.
+     * @param e an Event containing "gamename" and "mapname" as argument values
      * @return a new event with the game token
      */
     @Override
@@ -284,21 +284,6 @@ public class GameManager implements GameManagerRemote {
     }
 
    
-    /** 
-     * Method that returns an event with the map.
-     * @param e The event that I received and that I have to worry about managing.
-     * @return event The event with the map requested.
-     */
-    /*
-    @Override
-    public Event getField(Event e) throws RemoteException{
-        String gameToken = e.getToken().getGameToken();
-        GameBox gb = gameBoxList.get(gameToken);
-        String printableMap = gb.getGameState().getField().getPrintableMap();
-        Event event = new Event(e.getToken(), printableMap);
-        return event;
-    }
-    */
 
     /**
      * Method that returns a list of Game Box.

@@ -25,12 +25,13 @@ public class GameBox {
     private GameState gameState;
     
     /**
-     * A token for the match.
+     * The unique token for the match.
      */
     private String gameToken;
     
     /**
      * A map with the players.
+     * The key is the playerToken and the value is the actual rappresentation of the player in the model
      */
     private Map<String,Player> players;
     private boolean ended = false;
@@ -48,7 +49,8 @@ public class GameBox {
     }
 
     /**
-     * A method that return the players.
+     * A method that return a map of the current client in the game.
+     * The key is the playerToken and the value is the actual rappresentation of the player in the model
      * @return the players 
      */
     public Map<String, Player> getPlayers() {
