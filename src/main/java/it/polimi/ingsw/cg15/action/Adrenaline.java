@@ -51,6 +51,7 @@ public class Adrenaline extends Action {
         if(pc.hasCard(ItemCard.ITEM_ADRENALINE)){
             pc.removeCard(ItemCard.ITEM_ADRENALINE);
             pc.setOnAdrenaline();
+            pc.setItemUsed();
             retValues.put("return", Event.TRUE);
             retValues.put("state", "adrenaline");
             return new Event(e, retValues);

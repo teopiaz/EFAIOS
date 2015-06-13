@@ -31,7 +31,7 @@ public class PlayerController {
     public SectorCard drawSectorCard() {
         return gameState.getDeckContainer().getSectorDeck().drawCard();
     }
-    
+
     public HatchCard drawHatchCard() {
         return gameState.getDeckContainer().getHatchDeck().drawCard();
     }
@@ -40,15 +40,9 @@ public class PlayerController {
         Player cp = gameState.getTurnState().getCurrentPlayer();
         return cp.getPosition().getCoordinate();
     }
-    
+
     public boolean canUseCard(){
-        Player cp = gameState.getTurnState().getCurrentPlayer();
-        if(cp.getPlayerType()==PlayerType.HUMAN){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return false;
     }
 
     public boolean hasCard(ItemCard card) {
@@ -123,11 +117,11 @@ public class PlayerController {
 
     public boolean canDrawItemCard() {
         return gameState.getTurnState().getCurrentPlayer().getCardListSize() < Player.MAX_ITEMCARD;
-       
+
     }
 
     public ItemCard drawItemCard() {
-        
+
         ItemCard card = gameState.getDeckContainer().getItemDeck().drawCard();
         TurnState ts = gameState.getTurnState();
         Player cp = ts.getCurrentPlayer();
@@ -135,21 +129,21 @@ public class PlayerController {
         return card;
 
     }
-    
+
     public Player getPlayerById(int id){
         List<Player> playerList = gameState.getPlayerList();
         for (Player player : playerList) {
             if(player.getPlayerNumber()==id)
-                 return player;
+                return player;
         }
         return null;
     }
-    
+
     public Player getNextPlayer(){
-        
+
         List<Player> playerList = gameState.getPlayerList();
         int numPlayer = playerList.size();
-        
+
         int currentPlayerIndex = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
         if(currentPlayerIndex+1>numPlayer){
             return getPlayerById(FIRST_PLAYER);
@@ -158,24 +152,29 @@ public class PlayerController {
             return getPlayerById(currentPlayerIndex+1);
 
         }
-        
+
     }
 
     public boolean isUnderSedatives() {
-       return gameState.getTurnState().isUnderSedatives();
+        return gameState.getTurnState().isUnderSedatives();
     }
     public void setUnderSedatives() {
-         gameState.getTurnState().setUnderAdrenaline();
-     }
+        gameState.getTurnState().setUnderAdrenaline();
+    }
 
     public boolean evolve() {
-        
+
         return false;
     }
 
     public boolean escape() {
         return false;
-        
+
+    }
+
+    public void setItemUsed() {
+        gameState.getTurnState().setUsedItemCard();
+
     }
 
 }

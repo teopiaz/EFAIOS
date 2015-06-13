@@ -41,6 +41,10 @@ public class SuperalienPlayerController extends PlayerController {
         Cell destination = field.getCell(coord);
         return field.isReachable(currentPosition, destination, 3);
     }
+    @Override
+    public boolean canUseCard(){
+        return false;
+    }
     
 
 

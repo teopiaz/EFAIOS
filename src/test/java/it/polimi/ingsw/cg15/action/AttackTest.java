@@ -94,7 +94,10 @@ public class AttackTest {
 
         int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
         assertEquals(0, killedPlayer);
-      /*  
+      
+
+        
+        
         Event endEvent = new Event(currentPlayerToken,"endturn",null);
         response = gm.dispatchMessage(endEvent);
         System.out.println("Fine Turno"+response);
@@ -126,7 +129,7 @@ public class AttackTest {
         System.out.println(result);
 
         killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
-    */
+    
     }
     
     

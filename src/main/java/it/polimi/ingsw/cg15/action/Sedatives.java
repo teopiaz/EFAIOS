@@ -51,6 +51,7 @@ public class Sedatives extends Action {
         if(pc.hasCard(ItemCard.ITEM_SEDATIVES)){
             pc.removeCard(ItemCard.ITEM_SEDATIVES);
             pc.setOnAdrenaline();
+            pc.setItemUsed();
             retValues.put("return", Event.TRUE);
             retValues.put("state", "sedatives");
             return new Event(e, retValues);

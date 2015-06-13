@@ -52,7 +52,7 @@ public class HumanPlayerController extends PlayerController {
         Cell destination = field.getCell(coord);
         return field.isReachable(currentPosition, destination, distance);
     }
-    
+
     /**
      * A method that set the adrenaline state for the human player. In this state he can move of 2 cells in 1 turn.
      */
@@ -69,8 +69,10 @@ public class HumanPlayerController extends PlayerController {
         }
         return false;
     }
+    @Override
+    public boolean canUseCard(){
+        return true;
+    }
 
 
-
-    
 }

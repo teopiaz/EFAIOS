@@ -35,6 +35,7 @@ public class Teleport extends Action {
         }
 
         PlayerController pc = getCurrentPlayerController();
+
         if(!pc.canUseCard()){
             retValues.put("return",Event.FALSE);
             retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
@@ -47,6 +48,7 @@ public class Teleport extends Action {
         }
         if(pc.hasCard(ItemCard.ITEM_TELEPORT)){
             pc.removeCard(ItemCard.ITEM_TELEPORT);
+            pc.setItemUsed();
             pc.movePlayer(getGameController().getFieldController().getHumanStartingPosition());
             retValues.put("return", Event.TRUE);
             return new Event(e, retValues);

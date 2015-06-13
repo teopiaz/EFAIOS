@@ -62,8 +62,8 @@ public class TurnState {
     public boolean hasMoved() {
         return hasMoved;
     }
-    public void setUsedItemCard(boolean usedItemCard) {
-        this.usedItemCard = usedItemCard;
+    public void setUsedItemCard() {
+        this.usedItemCard = true;
 
     }
     public boolean usedItemCard() {

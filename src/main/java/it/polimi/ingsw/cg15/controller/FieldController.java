@@ -88,7 +88,12 @@ public class FieldController {
      * @return the list of the player in that particular sector.
      */
     public List<Player> getPlayersInSector(Coordinate coord){
-        return  field.getCell(coord).getPlayers();
+        if(existInMap(coord)){
+            return  field.getCell(coord).getPlayers();
+        }
+        else{
+            return null;
+        }
     }
 
     /**
