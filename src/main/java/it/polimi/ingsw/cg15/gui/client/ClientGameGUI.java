@@ -269,6 +269,10 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
     @Override
     public void log(Event e) {
+        
+        SidePanel.getActionPanel().getActionsList();
+
+        
         if (e.getRetValues().containsKey("move")) {
             String player = e.getRetValues().get("player");
             String sector = e.getRetValues().get("move");
@@ -309,8 +313,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     }
 
     public void chat(Event e) {
-        String message = "[Giocatore " + e.getRetValues().get("player") + "]" + " "
-                + e.getRetValues().get("message");
+        String message = "[Giocatore " + e.getRetValues().get("player") + "]" + " "+ e.getRetValues().get("message");
         SidePanel.getChatPanel().addToChat(message);
 
     }
@@ -318,6 +321,15 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     public void setStarted() {
         loadMap();
         addToLog("La Partita è cominciata!");
+        SidePanel.getActionPanel().getActionsList();
     }
+
+    @Override
+    public void currentPlayer(int currentPlayer) {
+        addToLog("È il turno del giocatore "+ currentPlayer);
+        SidePanel.getActionPanel().getActionsList();
+        
+    }
+    
 
 }

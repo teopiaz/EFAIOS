@@ -371,4 +371,9 @@ public class ClientGameCLI implements ViewClientInterface {
         System.out.println(s);
     }
 
+    @Override
+    public void currentPlayer(int currentPlayer) {
+        this.currentPlayerId=currentPlayer;
+    }
+
 }

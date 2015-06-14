@@ -8,7 +8,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,6 +25,8 @@ public class ActionPanel extends JPanel {
     private static final long serialVersionUID = -8240130326507614510L;
     JLabel actionLabel;
     NetworkHelper networkHelper = NetworkHelper.getInstance();
+    Map<String,JButton> buttonMap = new HashMap<String,JButton>();
+
 
     public ActionPanel() {
 
@@ -40,10 +44,12 @@ public class ActionPanel extends JPanel {
 
         btnCard.setEnabled(false);
 
-        buttonList.add(btnMove);
-        buttonList.add(btnAttack);
-        buttonList.add(btnCard);
-        buttonList.add(btnEndTurn);
+        buttonMap.put("move", btnMove);
+        buttonMap.put("attack", btnAttack);
+        buttonMap.put("endturn", btnEndTurn);
+        buttonMap.put("usecard", btnCard);
+
+
 
         btnMove.addActionListener(new ActionListener() {
 
@@ -64,6 +70,7 @@ public class ActionPanel extends JPanel {
                     int player = networkHelper.getTurnInfo();
 
                     actionLabel.setText("è il turno del giocatore: " + player);
+                    getActionsList();
                 } else {
                     actionLabel.setText("Errore");
 
@@ -71,9 +78,11 @@ public class ActionPanel extends JPanel {
             }
         });
 
-        for (JButton btn : buttonList) {
+        for (JButton btn : buttonMap.values()) {
             btn.setFont(CFont.getFont("TopazPlus"));
+            btn.setEnabled(false);
             buttonPanel.add(btn);
+
         }
         add(buttonPanel);
 
@@ -91,6 +100,27 @@ public class ActionPanel extends JPanel {
 
     public void printMsg(String msg) {
         actionLabel.setText(msg);
+    }
+
+    public void getActionsList() {
+        System.out.println("SONO IL GIOCATORE: "+networkHelper.getPlayerNumber() );
+        List<String> actionList = new ArrayList<String>();
+
+        for (JButton btn : buttonMap.values()) {
+            btn.setEnabled(false);
+        }
+     
+        System.out.println(networkHelper.isMyTurn()+" ");
+        if(networkHelper.isMyTurn()){       
+            actionList = networkHelper.getAvailableActionsList();
+
+            System.out.println("è il mio turno prendo la lista delle azioni");
+            for (String action : actionList) {
+                System.out.println(action);
+                if(buttonMap.containsKey(action))
+                buttonMap.get(action).setEnabled(true);
+            }
+        }
     }
 
 }

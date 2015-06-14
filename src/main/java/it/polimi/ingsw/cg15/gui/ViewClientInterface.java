@@ -13,4 +13,6 @@ public interface ViewClientInterface {
 
     public void setStarted();
 
+    public void currentPlayer(int currentPlayer);
+
 }

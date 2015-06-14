@@ -39,6 +39,7 @@ public class NetworkHelper implements Observer {
     private final int RMI = 2;
     private int type;
     private static NetworkHelper instance = null;
+    private static int playerNumber;;
 
 
     //costruttore sock
@@ -350,8 +351,11 @@ public class NetworkHelper implements Observer {
 
 
         Event e = new Event(ctoken,"getplayerinfo",null);
-
-        return eventHandler(e);  
+        Event result = eventHandler(e);  
+        if(result.getRetValues().containsKey("playernumber")){
+            NetworkHelper.playerNumber=Integer.parseInt(result.getRetValues().get("playernumber"));
+        }
+        return result;
 
 
     }
@@ -399,9 +403,9 @@ public class NetworkHelper implements Observer {
         List<String> actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
 
-
+System.out.println(e);
         Event result = eventHandler(e);  
-
+System.out.println(result);
         if(result.actionResult()){
 
             for (String action : result.getRetValues().keySet()) {
@@ -482,6 +486,9 @@ public class NetworkHelper implements Observer {
         if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
             view.setStarted();
         }
+        if(e.getCommand().equals("pub") && e.getRetValues().containsKey("currentplayer")){
+            view.currentPlayer(Integer.parseInt(e.getRetValues().get("currentplayer")));
+            }
         if(e.getCommand().equals("chat")){
             view.chat(e);
         }
@@ -504,6 +511,16 @@ public class NetworkHelper implements Observer {
         Event result = eventHandler(e);  
         System.err.println(result);
 
+
+    }
+    
+    public int getPlayerNumber(){
+        return NetworkHelper.playerNumber;
+    }
+    
+    public boolean isMyTurn(){
+        getPlayerInfo();        
+        return NetworkHelper.playerNumber == getTurnInfo();
 
     }
 
