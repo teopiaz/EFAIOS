@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.action;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
+import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
@@ -50,9 +51,13 @@ public class Attack extends Action {
         if(pc.hasAttacked()){
             retValues.put("return", Event.FALSE);
             retValues.put(Event.ERROR, "attacco già effettuato");
-
+            System.err.println("ERRORE"+retValues.toString());
             return new Event(e, retValues);
         }
+        
+        pc.setHasAttacked();
+        getGameController().removeAction(ActionEnum.ATTACK);
+
         Player currentPlayer = getGameController().getCurrentPlayer();
         String gameToken = getGameController().getGameToken();
         Map<String,String> pubRet = new HashMap<String, String>();

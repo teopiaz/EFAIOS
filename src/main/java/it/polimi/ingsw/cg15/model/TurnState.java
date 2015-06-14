@@ -73,11 +73,7 @@ public class TurnState {
         return hasAttacked;
     }
     public void setHasAttacked() {
-        if(availableActionsList.contains(ActionEnum.ATTACK)){
-            availableActionsList.remove(ActionEnum.ATTACK);
             hasAttacked = true;
-
-        }
     }
 
 

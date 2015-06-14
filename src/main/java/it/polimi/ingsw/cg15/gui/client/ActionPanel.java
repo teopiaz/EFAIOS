@@ -50,6 +50,23 @@ public class ActionPanel extends JPanel {
 
 
 
+        
+        btnAttack.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                Event response = networkHelper.attack();
+                if(response.actionResult()){
+                    actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
+                    getActionsList();
+                }else{
+                    actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
+
+                }
+            }
+        });
+        
         btnMove.addActionListener(new ActionListener() {
 
             @Override

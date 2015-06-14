@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -21,13 +23,19 @@ public class CardPanel extends JPanel{
     List<JLabel> cardList = new ArrayList<JLabel>();
     JLabel label2;
     JLabel labelDefenseItemCard;
+    
+    Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
+    
     public CardPanel(){
+        
+        
+       
         
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         
         
-        BufferedImage spotLightCard = ImageLoader.load("spotlightItemCard");
-        spotLightCard = getScaledImage(spotLightCard, 60, 80);
+        BufferedImage spotLightCard = ImageLoader.load("defenseItemCard");
+        spotLightCard = getScaledImage(spotLightCard, 70, 95);
              icon = new ImageIcon(spotLightCard);
              JLabel label = new JLabel(icon);
               label2 = new JLabel(icon);
@@ -73,6 +81,10 @@ public class CardPanel extends JPanel{
 
     
     }
+    
+    
+    
+    
     
     private BufferedImage getScaledImage(Image srcImg, int w, int h){
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

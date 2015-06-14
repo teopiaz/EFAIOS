@@ -214,16 +214,23 @@ public class GameManager implements GameManagerRemote {
     @Override
     public synchronized  Event joinGame(Event e)  throws RemoteException{
         token = e.getToken();
+        Map<String,String> retValues = new HashMap<String, String>();
         String gameToken = token.getGameToken();
         if(!gameBoxList.containsKey(gameToken)){
-            return new Event(e,"error","invalid_game");
+            retValues.put(Event.ERROR,"invalid_game");
+            retValues.put(Event.RETURN,Event.FALSE);
+            return new Event(e, retValues);
         }
         if(gameBoxList.get(gameToken).getPlayers().size() >= 8){
-            return new Event(e,"error","game_full");
+            retValues.put(Event.ERROR,"game_full");
+            retValues.put(Event.RETURN,Event.FALSE);
+            return new Event(e, retValues);
         }
         GameBox gameBox = gameBoxList.get(gameToken);
         if(gameBox.getGameState().isStarted()){
-            return new Event(e,"error","game_already_started");
+            retValues.put(Event.ERROR,"game_already_started");
+            retValues.put(Event.RETURN,Event.FALSE);
+            return new Event(e, retValues);
         }
         gameBox.getPlayers().put(token.getPlayerToken(), gameBox.getGameState().addPlayer(new Player()));
 

@@ -641,12 +641,14 @@ public class GameController {
         if (e.getArgs().containsKey("message")) {
             Player thisPlayer = players.get(e.getToken().getPlayerToken());
             String message = e.getArgs().get("message");
+            String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
+
             retValues.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
-            retValues.put("message", message);
+            retValues.put("message", sanitizedMessage);
             retValues.put("return", Event.TRUE);
 
             retPub.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
-            retPub.put("message", message);
+            retPub.put("message", sanitizedMessage);
             Event toPublish = new Event(new ClientToken("", gameToken), "chat", null, retPub);
             Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
 
