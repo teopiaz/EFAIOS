@@ -26,6 +26,7 @@ public class ActionPanel extends JPanel {
     JLabel actionLabel;
     NetworkHelper networkHelper = NetworkHelper.getInstance();
     Map<String,JButton> buttonMap = new HashMap<String,JButton>();
+	static int a = 0;
 
 
     public ActionPanel() {
@@ -50,13 +51,39 @@ public class ActionPanel extends JPanel {
 
 
 
-        btnMove.addActionListener(new ActionListener() {
+        
+        btnAttack.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                int player = networkHelper.getTurnInfo();
-                actionLabel.setText("è il turno del giocatore: " + player);
+                
+                Event response = networkHelper.attack();
+                if(response.actionResult()){
+                    actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
+                    getActionsList();
+                }else{
+                    actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
 
+                }
+            }
+        });
+        
+        btnMove.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Event result=null;
+            	if(a%2==0){
+            	result = networkHelper.move("L07");
+            	}else{
+                result =	networkHelper.move("L08");
+
+            	}
+            	if (result.getRetValues().containsKey("asksector")) {
+            		result = networkHelper.askSector("L07");
+            	}
+            	
+            	
+            	a++;
             }
         });
 

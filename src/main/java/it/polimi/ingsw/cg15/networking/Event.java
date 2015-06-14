@@ -17,6 +17,7 @@ public class Event implements Serializable {
     public final static String FALSE = "false";
     public final static String TRUE = "true";
     public final static String ERROR = "error";
+    public final static String RETURN = "return";
 
 
 

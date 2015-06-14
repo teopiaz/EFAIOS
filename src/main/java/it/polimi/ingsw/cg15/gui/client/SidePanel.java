@@ -27,7 +27,7 @@ public class SidePanel extends JPanel {
     private static ActionPanel actionPanel;
     private static LogPanel logPanel;
     private static ChatPanel chatPanel;
-
+    private static CardPanel cardPanel;
     // MP3Player player;
     /**
      * 
@@ -49,7 +49,7 @@ public class SidePanel extends JPanel {
         logPanel = new LogPanel();
         chatPanel = new ChatPanel();
         actionPanel = new ActionPanel();
-        JPanel cardPanel = new CardPanel();
+        cardPanel = new CardPanel();
         // MusicPlayer musicPlayer = new MusicPlayer();
         // Thread mp3player = new Thread(musicPlayer);
         // mp3player.start();
@@ -198,5 +198,10 @@ public class SidePanel extends JPanel {
     public static ChatPanel getChatPanel() {
         return chatPanel;
     }
+
+	public static CardPanel getCardPanel() {
+        return cardPanel;
+
+	}
 
 }

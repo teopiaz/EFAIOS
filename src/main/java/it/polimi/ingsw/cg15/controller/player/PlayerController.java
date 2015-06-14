@@ -83,6 +83,10 @@ public class PlayerController {
         }
         if (player.killPlayer()) {
             player.getPosition().removePlayer(player);
+            for (ItemCard card : player.getCardList()) {
+				removeCard(card);
+				gameState.getDeckContainer().getItemDeck().addToDiscardedDeck(card);
+			}
             return true;
         }
         return false;
@@ -94,8 +98,7 @@ public class PlayerController {
 
     }
 
-    // TODO: testare se può essere mai chiamato (per design NON deve essere mai
-    // chiamato)
+
     public void setOnAdrenaline() {
         gameState.getTurnState().setUnderAdrenaline();
 

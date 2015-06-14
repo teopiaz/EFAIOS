@@ -88,7 +88,7 @@ public class ItemDeck {
     }
 
     /**
-     * This function allows you to re-create the card deck setore if the current deck is empty.
+     * This function allows you to re-create the Item deck if the current deck is empty.
      */
     private void swapDeck() {
         if (itemDeckMain.isEmpty()) {
@@ -97,5 +97,13 @@ public class ItemDeck {
             Collections.shuffle(itemDeckMain);
         }
     }
+
+    /**
+     * @param card to add to the discarded deck
+     * @return the card that has just been inserted into the deck
+     */
+	public void addToDiscardedDeck(ItemCard card) {
+		itemDeckDiscarded.add(card);	
+	}
 
 }
