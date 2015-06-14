@@ -112,7 +112,7 @@ public class NetworkHelper implements Observer {
 
     }
 
-    public Event send(Event e){
+    public synchronized Event send(Event e){
 
         Socket socket = null;
         try {
@@ -318,13 +318,13 @@ public class NetworkHelper implements Observer {
 
 
 
-    public void spotlight(String target) {
+    public Event spotlight(String target) {
 
         args = new HashMap<String, String>();
         args.put("itemcard", "spotlight");
         args.put("target", target); 
         Event e = new Event(ctoken,"useitem",args);
-        eventHandler(e);
+       return eventHandler(e);
 
     }
 
@@ -348,8 +348,9 @@ public class NetworkHelper implements Observer {
 
 
     public Event getPlayerInfo() {        
-
-
+        if(ctoken==null){
+            requestClientToken();
+        }
         Event e = new Event(ctoken,"getplayerinfo",null);
         Event result = eventHandler(e);  
         if(result.getRetValues().containsKey("playernumber")){
@@ -403,9 +404,7 @@ public class NetworkHelper implements Observer {
         List<String> actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
 
-System.out.println(e);
         Event result = eventHandler(e);  
-System.out.println(result);
         if(result.actionResult()){
 
             for (String action : result.getRetValues().keySet()) {
@@ -492,7 +491,7 @@ System.out.println(result);
         if(e.getCommand().equals("chat")){
             view.chat(e);
         }
-        view.stampa(e.getCommand());
+        view.stampa(e.toString());
 
     }
 
@@ -515,6 +514,7 @@ System.out.println(result);
     }
     
     public int getPlayerNumber(){
+    	getPlayerInfo();
         return NetworkHelper.playerNumber;
     }
     

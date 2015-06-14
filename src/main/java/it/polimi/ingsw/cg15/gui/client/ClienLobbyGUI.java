@@ -61,9 +61,9 @@ public class ClienLobbyGUI implements Runnable{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String gameName = JOptionPane.showInputDialog(frame, "Insert Game Name");
+                String gameName = JOptionPane.showInputDialog(frame, "Insert Game Name","1");
 
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name");
+                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name","test123");
 
                 networkHelper.createGame(gameName,mapName.toLowerCase());
                 updateGameList();

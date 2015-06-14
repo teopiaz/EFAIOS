@@ -270,7 +270,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     @Override
     public void log(Event e) {
         
-        SidePanel.getActionPanel().getActionsList();
+        //SidePanel.getActionPanel().getActionsList();
 
         
         if (e.getRetValues().containsKey("move")) {
@@ -326,8 +326,10 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
     @Override
     public void currentPlayer(int currentPlayer) {
+    	System.out.println("È il turno del giocatore "+ currentPlayer);
         addToLog("È il turno del giocatore "+ currentPlayer);
         SidePanel.getActionPanel().getActionsList();
+        
         
     }
     

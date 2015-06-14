@@ -30,7 +30,6 @@ public class ActionPanel extends JPanel {
 
     public ActionPanel() {
 
-        List<JButton> buttonList = new ArrayList<JButton>();
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -70,7 +69,6 @@ public class ActionPanel extends JPanel {
                     int player = networkHelper.getTurnInfo();
 
                     actionLabel.setText("è il turno del giocatore: " + player);
-                    getActionsList();
                 } else {
                     actionLabel.setText("Errore");
 
@@ -112,9 +110,10 @@ public class ActionPanel extends JPanel {
      
         System.out.println(networkHelper.isMyTurn()+" ");
         if(networkHelper.isMyTurn()){       
-            actionList = networkHelper.getAvailableActionsList();
 
             System.out.println("è il mio turno prendo la lista delle azioni");
+            actionList = networkHelper.getAvailableActionsList();
+
             for (String action : actionList) {
                 System.out.println(action);
                 if(buttonMap.containsKey(action))
