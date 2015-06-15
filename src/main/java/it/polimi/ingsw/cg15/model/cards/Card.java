@@ -1,8 +1,8 @@
 package it.polimi.ingsw.cg15.model.cards;
 
 /**
- * This is the superclass of the model type of card.
  * @author MMP - LMR
+ * This is the superclass of the model type of card.
  */
 public interface Card {
 
