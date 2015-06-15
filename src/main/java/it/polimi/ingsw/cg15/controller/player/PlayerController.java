@@ -8,7 +8,6 @@ import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
-import it.polimi.ingsw.cg15.model.player.PlayerType;
 
 import java.util.List;
 

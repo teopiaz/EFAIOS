@@ -9,7 +9,6 @@ import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 /**
  * @author MMP - LMR

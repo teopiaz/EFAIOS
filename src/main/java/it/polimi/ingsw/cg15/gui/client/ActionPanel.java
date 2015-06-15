@@ -54,6 +54,7 @@ public class ActionPanel extends JPanel {
         
         btnAttack.addActionListener(new ActionListener() {
 
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 

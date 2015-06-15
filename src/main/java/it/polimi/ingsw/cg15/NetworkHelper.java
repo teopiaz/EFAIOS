@@ -99,6 +99,7 @@ public class NetworkHelper implements Observer {
         //if(!loadTokenFromFile()){
 
 
+
             Event e = new Event(new ClientToken(null, null), "requesttoken");
             Event result = null;
 
@@ -193,6 +194,7 @@ public class NetworkHelper implements Observer {
 
         }
        // loadTokenFromFile();
+    
         return result.getRetValues();
 
     }
@@ -626,6 +628,13 @@ public class NetworkHelper implements Observer {
                 e1.printStackTrace();
             }
         }
+        
+        try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         //TODO: sistemare il resume del gioco (stesso file)
         /*
         if(playerToken !=null && gameToken != null){

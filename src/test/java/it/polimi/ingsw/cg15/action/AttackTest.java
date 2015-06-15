@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15.action;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.model.ActionEnum;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AttackTest {

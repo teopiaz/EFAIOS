@@ -17,27 +17,32 @@ import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class CardPanel extends JPanel{
-    ImageIcon icon;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3787962420496021239L;
+	
+	ImageIcon icon;
   //  List<JLabel> cardList = new ArrayList<JLabel>();
     JLabel label2;
     JLabel labelDefenseItemCard;
     
     NetworkHelper networkHelper = NetworkHelper.getInstance();
+
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
     
     public CardPanel(){
         
-
        
         
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         
         
+
         BufferedImage defenseCard = ImageLoader.load("defenseItemCard");
         defenseCard = getScaledImage(defenseCard, 70, 95);
         ImageIcon defenseIcon = new ImageIcon(defenseCard);
@@ -67,6 +72,7 @@ public class CardPanel extends JPanel{
 
 
         spotLightLabel.addMouseListener(new MouseAdapter() {
+
               @Override
             public void mouseClicked(MouseEvent me) {
                 
@@ -122,6 +128,7 @@ public class CardPanel extends JPanel{
         }
     }
     
+
     
     
     
