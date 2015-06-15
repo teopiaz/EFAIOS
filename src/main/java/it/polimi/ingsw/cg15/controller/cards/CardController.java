@@ -9,7 +9,7 @@ import it.polimi.ingsw.cg15.model.cards.DeckContainer;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorDeck;
 
-//TODO se field controller sta dentro controller anche card controller mettiamolo dentro controller. Penso abbia più sens che avere un package con dentro una sola classe.
+//TODO se field controller sta dentro controller anche card controller mettiamolo dentro controller. Penso abbia più senso che avere un package con dentro una sola classe.
 
 /**
  * @author LMR - MMP
