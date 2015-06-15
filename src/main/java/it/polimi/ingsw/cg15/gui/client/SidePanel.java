@@ -72,7 +72,7 @@ public class SidePanel extends JPanel {
 
         public LogPanel() {
 
-            setPreferredSize(new Dimension(350, 250));
+            setPreferredSize(new Dimension(310, 205));
             setMaximumSize(getPreferredSize());
             setMinimumSize(getPreferredSize());
 
@@ -89,11 +89,11 @@ public class SidePanel extends JPanel {
             Border emptyBorder = BorderFactory.createEmptyBorder();
             scrollPane.setBorder(emptyBorder);
 
-            /*
-             * scrollPane.setPreferredSize(new Dimension(300,200));
-             * scrollPane.setMaximumSize(getPreferredSize());
-             * scrollPane.setMinimumSize(getPreferredSize());
-             */
+           
+              scrollPane.setPreferredSize(new Dimension(300,200));
+              scrollPane.setMaximumSize(getPreferredSize());
+              scrollPane.setMinimumSize(getPreferredSize());
+             
             setBorder(BorderFactory.createLineBorder(Color.red));
             add(scrollPane, BorderLayout.EAST);
             setBackground(Color.black);

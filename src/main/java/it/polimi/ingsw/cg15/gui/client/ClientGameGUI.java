@@ -279,6 +279,14 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             String sector = e.getRetValues().get("move");
             addToLog("Giocatore " + player + " si è mosso in " + sector);
         }
+        
+        if (e.getRetValues().containsKey("card")) {
+            String player = e.getRetValues().get("player");
+            String card = e.getRetValues().get("card");
+            addToLog("Giocatore " + player + " ha usato la carta " + card);
+        }
+        
+        
         if (e.getRetValues().containsKey("attack")) {
             String playerNum = e.getRetValues().get("player");
             String position = e.getRetValues().get("attack");

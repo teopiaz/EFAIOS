@@ -4,7 +4,10 @@ import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +45,13 @@ public class Defend extends Action {
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
             retValues.put("defense", Event.TRUE);
+            
+            String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
+            Map<String,String> retPub = new HashMap<String, String>();
+            retPub.put("player", currentPlayerNumber);
+            retPub.put("card","defense");
+            Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
+            Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
             
             return new Event(e, retValues);
         }

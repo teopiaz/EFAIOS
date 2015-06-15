@@ -217,7 +217,7 @@ public class PlayerController {
      * @return if a player is under sedatives.
      */
     public void setUnderSedatives() {
-        gameState.getTurnState().setUnderAdrenaline();
+        gameState.getTurnState().setUnderSedatives();
     }
 
     /**

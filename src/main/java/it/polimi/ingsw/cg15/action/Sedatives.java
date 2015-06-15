@@ -6,7 +6,10 @@ import java.util.Map;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 /**
  * @author MMP - LMR
@@ -50,8 +53,19 @@ public class Sedatives extends Action {
         
         if(pc.hasCard(ItemCard.ITEM_SEDATIVES)){
             pc.removeCard(ItemCard.ITEM_SEDATIVES);
-            pc.setOnAdrenaline();
+            pc.setUnderSedatives();
             pc.setItemUsed();
+            
+            
+            String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
+            Map<String,String> retPub = new HashMap<String, String>();
+            retPub.put("player", currentPlayerNumber);
+            retPub.put("card","sedatives");
+            Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
+            Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
+            
+            
+            
             retValues.put("return", Event.TRUE);
             retValues.put("state", "sedatives");
             return new Event(e, retValues);

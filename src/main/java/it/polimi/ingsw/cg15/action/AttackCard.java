@@ -1,11 +1,15 @@
 package it.polimi.ingsw.cg15.action;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 /**
  * @author MMP - LMR
@@ -44,6 +48,15 @@ public class AttackCard extends Action {
             pc.setItemUsed();
             Action attack = new Attack(getGameController(),e);
             Event attackEvent = attack.execute();
+            
+            String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
+            Map<String,String> retPub = new HashMap<String, String>();
+            retPub.put("player", currentPlayerNumber);
+            retPub.put("card","spotlight");
+            Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
+            Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
+
+            
             return attackEvent;
         }
         
