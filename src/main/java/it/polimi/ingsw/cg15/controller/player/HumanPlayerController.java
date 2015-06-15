@@ -5,14 +5,13 @@ import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
-import it.polimi.ingsw.cg15.model.player.PlayerType;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR 
- * The controller of the Human player.
+ * The controller of the Human Player.
  */
 public class HumanPlayerController extends PlayerController {
 
@@ -61,6 +60,10 @@ public class HumanPlayerController extends PlayerController {
         gameState.getTurnState().setUnderAdrenaline();
     }
 
+    /** 
+     * The escape method that only a human player can do.
+     * @see it.polimi.ingsw.cg15.controller.player.PlayerController#escape()
+     */
     public boolean escape() {
         Player currentPlayer = gameState.getTurnState().getCurrentPlayer();
         if(currentPlayer.isAlive()){
@@ -69,10 +72,13 @@ public class HumanPlayerController extends PlayerController {
         }
         return false;
     }
+    
+    /**
+     * The possibility to use a card is true in the human player.
+     */
     @Override
     public boolean canUseCard(){
         return true;
     }
-
 
 }
