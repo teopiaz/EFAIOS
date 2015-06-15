@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class that contains cell information of the game that are part of the map.
  * @author MMP - LMR
+ * A class that contains cell information of the game that are part of the map.
  */
 public class Cell {
 
@@ -34,19 +34,18 @@ public class Cell {
     /**
      * The constructor of the cells.
      * @param coords coordinate.
-     * @param the map
-     * @param the type of the sector.
+     * @param map The map
+     * @param sectorType The type of the sector.
      */
     public Cell(Coordinate coords, Field map, Sector sectorType) {
         this.coords = coords;
         this.map = map;
         this.sectorType = sectorType;
-
     }
 
     /**
      * He adds the player that is passed as a parameter to the list of active players.
-     * @param player
+     * @param player The player to add.
      */
     public void addPlayer(Player player){
         this.players.add(player);
@@ -60,22 +59,22 @@ public class Cell {
     }
 
     /**
-     * It converts the coordinates in a string
-     * @return the string
+     * It converts the coordinates in a string.
+     * @return the string to be converted.
      */
     public String getLabel(){
         return coords.toString();
     }
 
     /**
-     * @return the map
+     * @return the map.
      */
     public Field getMap() {
         return map;
     }
 
     /**
-     * @return he list of the players
+     * @return The list of the players.
      */
     public List<Player> getPlayers() {
         return players;
@@ -90,7 +89,7 @@ public class Cell {
 
     /**
      * Removes the player passed as a parameter from the list of the players present.
-     * @param player
+     * @param player The player to be removed.
      */
     public void removePlayer(Player player){
         if(players.contains(player)){
