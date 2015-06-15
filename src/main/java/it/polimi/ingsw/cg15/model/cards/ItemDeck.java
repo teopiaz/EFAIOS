@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This is the class of the model that contains information about the card deck object.
  * @author MMP - LMR
+ * This is the class of the model that contains information about the card deck object.
  */
 public class ItemDeck {
 
@@ -41,19 +41,18 @@ public class ItemDeck {
         ItemCard drawed = itemDeckMain.remove(0);
         itemDeckDiscarded.add(drawed);
         return drawed;
-
     }
 
     /**
-     * @return the card deck object involved
+     * @return the card deck object involved.
      */
     public List<ItemCard> getItemDeck() {
         return itemDeckMain;
     }
 
     /**
-     * @param selector of the deck involved
-     * @return the item card deck involved
+     * @param selector of the deck involved.
+     * @return the item card deck involved.
      */
     public List<ItemCard> getItemDeck(int selector) {
         if (selector == MAIN_DECK)
@@ -72,8 +71,8 @@ public class ItemDeck {
     }
 
     /**
-     * @param card to add to the deck
-     * @return the card that has just been inserted into the deck
+     * @param card The card to add to the deck.
+     * @return the card that has just been inserted into the deck.
      */
     public boolean insertCard(ItemCard card) {
         return itemDeckMain.add(card);
@@ -84,7 +83,6 @@ public class ItemDeck {
      */
     public void shuffleDeck() {
         Collections.shuffle(itemDeckMain);
-
     }
 
     /**
