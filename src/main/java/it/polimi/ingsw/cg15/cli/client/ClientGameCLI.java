@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientGameCLI implements ViewClientInterface {
 
@@ -104,8 +106,7 @@ public class ClientGameCLI implements ViewClientInterface {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Logger.getLogger(ClientGameCLI.class.getName()).log(Level.SEVERE, "Timer interrupted", e);
 			}
 		}
 

@@ -11,6 +11,9 @@ import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.rmi.AlreadyBoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.SwingUtilities;
 
 public class MainServer {
@@ -35,7 +38,7 @@ public class MainServer {
         try {
             SwingUtilities.invokeAndWait(serverGUI);
         } catch (InvocationTargetException | InterruptedException e) {
-            // TODO Auto-generated catch block
+            Logger.getLogger(MainServer.class.getName()).log(Level.SEVERE, "Invocation Target Exception", e);
             e.printStackTrace();
         }
 

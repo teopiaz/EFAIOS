@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.networking;
 
+import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
@@ -8,6 +9,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerRMI implements Server {
 
@@ -49,8 +52,7 @@ public class ServerRMI implements Server {
             startServerRMI();
             ServerLogger.log("RMI Server Started");
         } catch (RemoteException | AlreadyBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, "RemoteException | AlreadyBoundException", e);
         }
         
     }

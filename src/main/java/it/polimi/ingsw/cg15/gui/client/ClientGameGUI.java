@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JLayer;
@@ -135,7 +137,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 try {
                     fin = new FileInputStream(file);
                 } catch (FileNotFoundException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "File not found exception", e1);
                     e1.printStackTrace();
                 }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
@@ -145,7 +147,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 try {
                     line = reader.readLine();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO exception", e1);
                     e1.printStackTrace();
                 }
                 while (line != null) {
@@ -156,7 +158,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                     try {
                         line = reader.readLine();
                     } catch (IOException e1) {
-                        // TODO Auto-generated catch block
+                        Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO exception", e1);
                         e1.printStackTrace();
                     }
                 }

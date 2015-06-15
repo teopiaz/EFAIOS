@@ -6,6 +6,8 @@ import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -61,8 +63,7 @@ public class ServerSock implements Server{
                 try {
                     serverSocket = new ServerSocket(PORT);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "Io Exception", e);
                 }
                 isStarted = true;
                 ServerLogger.log("start server==" + isStarted);
@@ -88,8 +89,7 @@ public class ServerSock implements Server{
                     isStarted = false;
 
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "IO Exception", e);
                 }
             }
             else{

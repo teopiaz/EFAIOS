@@ -69,7 +69,7 @@ public class MapLoader {
         try {
             line = reader.readLine();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IO exception", e1);
             e1.printStackTrace();
         }
         while (line != null) {

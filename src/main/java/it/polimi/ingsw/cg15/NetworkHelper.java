@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NetworkHelper implements Observer {
 
@@ -72,7 +74,7 @@ public class NetworkHelper implements Observer {
                 instance = new NetworkHelper();
             } catch (RemoteException | MalformedURLException | AlreadyBoundException
                     | NotBoundException e) {
-                // TODO Auto-generated catch block
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception | Malformed URL Exception | Already Bound Exception, | Not Bound Exception", e);
                 e.printStackTrace();
             }
         }
@@ -100,45 +102,39 @@ public class NetworkHelper implements Observer {
 
 
 
-            Event e = new Event(new ClientToken(null, null), "requesttoken");
-            Event result = null;
+        Event e = new Event(new ClientToken(null, null), "requesttoken");
+        Event result = null;
 
-            if(type==SOCKET){
-                result = send(e);
-                NetworkHelper.ctoken= result.getToken();
-            }
-            if(type==RMI){
-                try {
-                    result = gmRemote.getClientToken();
-                    NetworkHelper.ctoken = result.getToken();
+        if(type==SOCKET){
+            result = send(e);
+            NetworkHelper.ctoken= result.getToken();
+        }
+        if(type==RMI){
+            try {
+                result = gmRemote.getClientToken();
+                NetworkHelper.ctoken = result.getToken();
 
-                } catch (RemoteException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                } 
-            }
-            //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
-     //   }
+            } catch (RemoteException e1) {
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
+            } 
+        }
+        //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
+        //   }
 
     }
 
     public synchronized Event send(Event e){
-
         Socket socket = null;
         try {
             socket = new Socket(ip, port);
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
         }
         server = new SocketCommunicator(socket);
-
         String toSend = NetworkProxy.eventToJSON(e);
         server.send(toSend);
-
         String response = server.receive();
         server.close();
-
         return NetworkProxy.JSONToEvent(response);
     }
 
@@ -163,8 +159,7 @@ public class NetworkHelper implements Observer {
 
 
             } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
             }
 
         }
@@ -188,13 +183,11 @@ public class NetworkHelper implements Observer {
             try {
                 result = gmRemote.getGameList(e);
             } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
             }
-
         }
-       // loadTokenFromFile();
-    
+        // loadTokenFromFile();
+
         return result.getRetValues();
 
     }
@@ -244,8 +237,7 @@ public class NetworkHelper implements Observer {
                 }
 
             } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
             }
 
         }
@@ -259,43 +251,33 @@ public class NetworkHelper implements Observer {
 
 
     public Map<String, String> getGameInfo(String gameToken) {
-
         if(ctoken==null){
             requestClientToken();
         }
         ClientToken token = new ClientToken(ctoken.getPlayerToken(), gameToken);
         Event e = new Event(token, "gameinfo", null);
         Event result=null;   
-
         if(type==SOCKET){
             result = send(e);
-
         }
         if(type==RMI){
             try {
                 result = gmRemote.getGameInfo(e);
             } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
             }
-
         }
-
         return result.getRetValues();
-
     }  
 
     public String getMap() {
-
         if(ctoken==null){
             requestClientToken();
         }
         String gameToken = getGameToken();
-
         ClientToken token = new ClientToken(ctoken.getPlayerToken(), gameToken);
         Event e = new Event(token, "getmap", null);
         Event result = eventHandler(e);  
-
         return result.getRetValues().get("map");
     }
 
@@ -479,8 +461,7 @@ public class NetworkHelper implements Observer {
             try {
                 result = gmRemote.eventHandler(e);
             } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
             }
 
         }
@@ -597,8 +578,7 @@ public class NetworkHelper implements Observer {
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+          Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "File Not Found Exception", e1);
             return false;
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -608,8 +588,7 @@ public class NetworkHelper implements Observer {
         try {
             line = reader.readLine();
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e1);
         }
         while (line != null) {
             String[] splitted = line.split(",");
@@ -624,24 +603,22 @@ public class NetworkHelper implements Observer {
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e1);
             }
         }
-        
+
         try {
-			reader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            reader.close();
+        } catch (IOException e) {
+        Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
+        }
         //TODO: sistemare il resume del gioco (stesso file)
         /*
         if(playerToken !=null && gameToken != null){
             this.ctoken = new ClientToken(playerToken, gameToken);
             return true;
         }
-        */
+         */
         return false;
 
 
