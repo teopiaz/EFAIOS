@@ -9,9 +9,11 @@ import it.polimi.ingsw.cg15.model.cards.DeckContainer;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorDeck;
 
+//TODO se field controller sta dentro controller anche card controller mettiamolo dentro controller. Penso abbia più sens che avere un package con dentro una sola classe.
+
 /**
  * @author LMR - MMP
- * The class that have the method to control the cards.
+ * The class that have the method to control the various type of cards.
  */
 public class CardController {
 
@@ -56,7 +58,7 @@ public class CardController {
     private static int itemSpotlight = 2;
     
     /**
-     * The number of the Defence Item Card.
+     * The number of the Defense Item Card.
      */
     private static int itemDefense = 100;
     
@@ -70,6 +72,9 @@ public class CardController {
      */
     private static int hatchRed = 3;
 
+    /**
+     * The deck container.
+     */
     private DeckContainer deckContainer;
 
     /**
@@ -146,4 +151,5 @@ public class CardController {
         }
         hatchDeck.shuffleDeck();
     }
+    
 }
