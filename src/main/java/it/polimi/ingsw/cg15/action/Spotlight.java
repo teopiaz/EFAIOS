@@ -27,14 +27,14 @@ public class Spotlight extends Action {
 
     @Override
     public Event execute() {
-       Map<String,String> retValues;
-        
+        Map<String,String> retValues;
+
         if(e.getRetValues()==null){
             retValues = new HashMap<String, String>();
         }else{
-        retValues = e.getRetValues();
+            retValues = e.getRetValues();
         }
-        
+
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put("return", Event.FALSE);
@@ -48,7 +48,7 @@ public class Spotlight extends Action {
         }
         if(pc.hasCard(ItemCard.ITEM_SPOTLIGHT)){
             pc.removeCard(ItemCard.ITEM_SPOTLIGHT);
-
+            pc.setItemUsed();
             String strTarget = e.getArgs().get("target");
             Coordinate target = Coordinate.getByLabel(strTarget);
             Player currentPlayer = getGameController().getCurrentPlayer();
@@ -59,14 +59,16 @@ public class Spotlight extends Action {
             list.add(target);
             for (Coordinate coordinate : list) {
                 List<Player> playersInSector = fc.getPlayersInSector(coordinate);
-                for (Player player : playersInSector) {
-                    if(player!=currentPlayer){
-                        retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
+                if(playersInSector!=null){
+                    for (Player player : playersInSector) {
+                        if(player!=currentPlayer){
+                            retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
 
+                        }
                     }
                 }
             }
-            
+
 
             retValues.put("return", Event.TRUE);
             return new Event(e, retValues);

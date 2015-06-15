@@ -9,7 +9,6 @@ import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 /**
  * @author MMP - LMR
@@ -88,7 +87,12 @@ public class FieldController {
      * @return the list of the player in that particular sector.
      */
     public List<Player> getPlayersInSector(Coordinate coord){
-        return  field.getCell(coord).getPlayers();
+        if(existInMap(coord)){
+            return  field.getCell(coord).getPlayers();
+        }
+        else{
+            return null;
+        }
     }
 
     /**

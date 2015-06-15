@@ -16,10 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author MMP - LMR
- * This class extends the class action and is therefore one of the possible actions to be taken during a turn. 
- * In particular, it is the action that allows the player to move to a cell in the map. 
- * Also, if the selected cell is a dangerous sector it is concerned to call the functionality that allows you to draw a card sector.
+ * @author MMP - LMR This class extends the class action and is therefore one of
+ *         the possible actions to be taken during a turn. In particular, it is
+ *         the action that allows the player to move to a cell in the map. Also,
+ *         if the selected cell is a dangerous sector it is concerned to call
+ *         the functionality that allows you to draw a card sector.
  */
 public class Move extends Action {
 
@@ -30,51 +31,48 @@ public class Move extends Action {
     Event e;
 
     /**
-     * @param gc the Game Controller
-     * @param dest It is the cell that will be the destination for the player. 
+     * @param gc
+     *            the Game Controller
+     * @param dest
+     *            It is the cell that will be the destination for the player.
      */
     public Move(GameController gc, Event request) {
         super(gc);
-        this.e=request;
+        this.e = request;
 
     }
 
     @Override
     public Event execute() {
 
-
         PlayerController pc = getCurrentPlayerController();
-        
-        Map<String, String> retValues;
-		if(e.getRetValues()==null){
-            retValues = new HashMap<String, String>();
-        }else{
-        retValues = e.getRetValues();
-        }
 
+        Map<String, String> retValues;
+        if (e.getRetValues() == null) {
+            retValues = new HashMap<String, String>();
+        } else {
+            retValues = e.getRetValues();
+        }
 
         String destString = e.getArgs().get("destination").toUpperCase();
         this.dest = Coordinate.getByLabel(destString);
-        if(getGameController().getFieldController().existInMap(dest)){
-
-
+        if (getGameController().getFieldController().existInMap(dest)) {
 
             if (pc.moveIsPossible(dest)) {
                 pc.movePlayer(dest);
                 Event response;
-                if(!pc.isUnderSedatives()){
-                    Action draw = new DrawSectorCard(getGameController(),e);
+                if (!pc.isUnderSedatives()) {
+                    Action draw = new DrawSectorCard(getGameController(), e);
                     response = draw.execute();
-                }
-                else{
-                    Map<String,String> retVal = new HashMap<String, String>();
+                } else {
+                    Map<String, String> retVal = new HashMap<String, String>();
                     retVal.put("sedatives", Event.TRUE);
                     response = new Event(e, retVal);
                 }
 
                 retValues = response.getRetValues();
                 response = new Event(response, retValues);
-                Action escape = new Escape(getGameController(),response);
+                Action escape = new Escape(getGameController(), response);
                 response = escape.execute();
 
                 retValues = response.getRetValues();
@@ -83,26 +81,21 @@ public class Move extends Action {
                 retValues.put("return", Event.TRUE);
                 retValues.put("destination", dest.toString());
 
-
-
-
-
                 int currentPlayer = getGameController().getCurrentPlayer().getPlayerNumber();
 
-                Map<String,String> pubRet = new HashMap<String, String>();
+                Map<String, String> pubRet = new HashMap<String, String>();
                 pubRet.put("player", Integer.toString(currentPlayer));
-                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.WHITE){
-                    pubRet.put("move","safesector" );
+                if (getGameController().getCurrentPlayer().getPosition().getSectorType() == Sector.WHITE) {
+                    pubRet.put("move", "safesector");
                 }
-                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.GREY){
-                    pubRet.put("move","unsafesector" );
+                if (getGameController().getCurrentPlayer().getPosition().getSectorType() == Sector.GREY) {
+                    pubRet.put("move", "unsafesector");
                 }
-                if(getGameController().getCurrentPlayer().getPosition().getSectorType()==Sector.HATCH){
-                    pubRet.put("move","hatchsector" );
+                if (getGameController().getCurrentPlayer().getPosition().getSectorType() == Sector.HATCH) {
+                    pubRet.put("move", "hatchsector");
                 }
-                Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log",null, pubRet);
+                Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log", null, pubRet);
                 Broker.publish(e.getToken().getGameToken(), NetworkProxy.eventToJSON(toPublish));
-
 
                 return new Event(e, retValues);
             }

@@ -59,5 +59,9 @@ public class AlienPlayerController extends PlayerController {
         else
             return false;
     }
+    @Override
+    public boolean canUseCard(){
+        return false;
+    }
 
 }

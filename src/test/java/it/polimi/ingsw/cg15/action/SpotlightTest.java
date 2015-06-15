@@ -14,11 +14,13 @@ import it.polimi.ingsw.cg15.networking.Event;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class AdrenalineTest {
+public class SpotlightTest {
+
     static GameManager gm =GameManager.getInstance();
     static Map<String, String> args = new HashMap<String, String>();
 
@@ -53,13 +55,12 @@ public class AdrenalineTest {
         assertEquals("joined", response.getRetValues().get("return"));
 
 
-        response = gm.startGame(new Event(ctoken1, "startgame",null));
+        response = gm.eventHandler((new Event(ctoken1, "startgame",null)));
         assertEquals("game_started", response.getRetValues().get("return"));
 
 
         Map<String, GameBox> list = gm.getGameBoxList();
         gs = list.get(gameToken).getGameState();
-        // assertTrue();
 
 
 
@@ -73,34 +74,98 @@ public class AdrenalineTest {
         }
     }
 
-
     @Test
-    public final void test() throws RemoteException {
-        
-        
+    public final void testSpotlight() throws RemoteException {
+
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
-        currentPlayer.setPlayerType(PlayerType.HUMAN);
+        String target;
+        PlayerType type;
+        if(currentPlayer.getPlayerType()==PlayerType.HUMAN){
+            target = "N07";
+            type=PlayerType.HUMAN;
+        }
+        else{
+            target = "J07";
+            type=PlayerType.ALIEN;
+
+
+        }
+
+
         gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
+
+
         
-        currentPlayer.addCard(ItemCard.ITEM_ADRENALINE);
+        
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+
         
         args = new HashMap<String, String>();
-        args.put("itemcard", "adrenaline");
-        Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
-        Event result;
-        result = gm.dispatchMessage(adrenalineEvent);
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+
+        Event spotlightEvent = new Event(currentPlayerToken,"useitem",args);
+        Event result = gm.dispatchMessage(spotlightEvent);
+        System.out.println(result);
+        assertTrue(result.getRetValues().containsKey("error"));
+
         
-        Event response;
-        String destination = "L08";
-        Map<String,String> args = new HashMap<String,String>();
-        args.put("destination", destination);
-        Event eMove = new Event(currentPlayerToken,"move",args);
-        response = gm.dispatchMessage(eMove);
         
-        System.out.println(currentPlayer.getPosition().getLabel());
         
-        assertTrue(currentPlayer.getPosition().getLabel().equals("L08"));
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+
+        args = new HashMap<String, String>();
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+
+        spotlightEvent = new Event(currentPlayerToken,"useitem",args);
+        result = gm.dispatchMessage(spotlightEvent);
+        System.out.println(result);
+        assertTrue(result.getRetValues().containsKey("error"));
         
+        
+
+        currentPlayer.addCard(ItemCard.ITEM_SPOTLIGHT);
+
+        args = new HashMap<String, String>();
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+
+        spotlightEvent = new Event(currentPlayerToken,"useitem",args);
+        result = gm.dispatchMessage(spotlightEvent);
+        System.out.println(result);
+        result.getRetValues().remove("return");
+        boolean test=false;
+        for (Entry<String,String> ret : result.getRetValues().entrySet()) {
+            if(type==PlayerType.HUMAN && ret.getValue().equals("M07")){
+                test=true;
+            }
+            if(type==PlayerType.ALIEN && ret.getValue().equals("K07")){
+                test=true;
+            }
+        }
+        assertTrue(test);
+
+
+
+        args = new HashMap<String, String>();
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+
+        spotlightEvent = new Event(currentPlayerToken,"useitem",args);
+        result = gm.dispatchMessage(spotlightEvent);
+        System.out.println(result);
+        assertTrue(result.getRetValues().containsKey("error"));
+
+        currentPlayer.addCard(ItemCard.ITEM_SPOTLIGHT);
+
+
+
+
+
+
+
+
     }
 
 }

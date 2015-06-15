@@ -41,7 +41,6 @@ public class Defend extends Action {
 
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
-            
             retValues.put("defense", Event.TRUE);
             
             return new Event(e, retValues);

@@ -9,7 +9,13 @@ import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SocketCommunicator;
 import it.polimi.ingsw.cg15.networking.pubsub.SubscriberSocketThread;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.rmi.AlreadyBoundException;
@@ -39,7 +45,7 @@ public class NetworkHelper implements Observer {
     private final int RMI = 2;
     private int type;
     private static NetworkHelper instance = null;
-    private String gameToken=null;
+    private static int playerNumber;;
 
 
     //costruttore sock
@@ -76,7 +82,7 @@ public class NetworkHelper implements Observer {
 
 
     public static NetworkHelper getClientSocket(String ip, int port) {
-        
+
         instance =new NetworkHelper(ip,port);
 
         return instance;
@@ -85,34 +91,38 @@ public class NetworkHelper implements Observer {
     public static NetworkHelper getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
         instance =new NetworkHelper();
         return instance;
-        }
+    }
 
 
 
     public void requestClientToken() {
-        Event e = new Event(new ClientToken(null, null), "requesttoken");
-        Event result = null;
+        //if(!loadTokenFromFile()){
 
-        if(type==SOCKET){
-            result = send(e);
-            NetworkHelper.ctoken= result.getToken();
-        }
-        if(type==RMI){
-            try {
-                result = gmRemote.getClientToken();
-                NetworkHelper.ctoken = result.getToken();
 
-            } catch (RemoteException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } 
-        }
-      //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
 
+            Event e = new Event(new ClientToken(null, null), "requesttoken");
+            Event result = null;
+
+            if(type==SOCKET){
+                result = send(e);
+                NetworkHelper.ctoken= result.getToken();
+            }
+            if(type==RMI){
+                try {
+                    result = gmRemote.getClientToken();
+                    NetworkHelper.ctoken = result.getToken();
+
+                } catch (RemoteException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                } 
+            }
+            //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
+     //   }
 
     }
 
-    public Event send(Event e){
+    public synchronized Event send(Event e){
 
         Socket socket = null;
         try {
@@ -142,17 +152,16 @@ public class NetworkHelper implements Observer {
         args.put("gamename", gameName);
         args.put("mapname", mapName);
         Event e = new Event(ctoken,"creategame",args);
-        Event result;
+
 
         if(type==SOCKET){
-            result = send(e);
+            Event result = send(e);
         }
         if(type==RMI){
             try {
-                result = gmRemote.createGame(e);
+                Event result = gmRemote.createGame(e);
 
 
-                System.out.println();
             } catch (RemoteException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -184,13 +193,14 @@ public class NetworkHelper implements Observer {
             }
 
         }
-
+       // loadTokenFromFile();
+    
         return result.getRetValues();
 
     }
 
 
-    public void joinGame(String gameToken) {
+    public Event joinGame(String gameToken) {
         if(ctoken==null){
             requestClientToken();
         }
@@ -198,36 +208,39 @@ public class NetworkHelper implements Observer {
         ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
 
         Event e = new Event(ctoken,"joingame",args);
-        Event result;
+        Event response = null;
 
         if(type==SOCKET){
 
 
-            result = send(e);
+            response = send(e);
 
-            if(result.getRetValues().get("error")!=null){
-                System.out.println("ERRORE: " +result.getRetValues().get("error"));
+            if(response.getRetValues().get("error")!=null){
+                System.out.println("ERRORE: " +response.getRetValues().get("error"));
             }
             else{
                 subThread =  new Thread(new SubscriberSocketThread(gameToken));
                 subThread.start();
 
-                System.out.println(result.getRetValues().get("return"));
+                System.out.println(response.getRetValues().get("return"));
+                saveTokenToFile(ctoken);
 
             }
         }
         if(type==RMI){
             try {
-                result = gmRemote.joinGame(e);
-                if(result.getRetValues().get("error")!=null){
-                    System.out.println("ERRORE: " +result.getRetValues().get("error"));
+                response = gmRemote.joinGame(e);
+                if(response.getRetValues().get("error")!=null){
+                    System.out.println("ERRORE: " +response.getRetValues().get("error"));
                 }
                 else{
-                 //   setGameToken(gameToken);
+                    //   setGameToken(gameToken);
                     //TODO SUBSCRIBER RMI
                     subThread =  new Thread(new SubscriberSocketThread(gameToken));
                     subThread.start();
-                    System.out.println(result.getRetValues().get("return"));
+                    System.out.println(response.getRetValues().get("return"));
+                    saveTokenToFile(ctoken);
+
                 }
 
             } catch (RemoteException e1) {
@@ -236,8 +249,11 @@ public class NetworkHelper implements Observer {
             }
 
         }
+        return response;
 
     }
+
+
 
 
 
@@ -287,7 +303,7 @@ public class NetworkHelper implements Observer {
 
     public Event move(String destination) {
 
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("destination", destination);
         Event e = new Event(ctoken,"move",args);
         return eventHandler(e);  
@@ -298,7 +314,7 @@ public class NetworkHelper implements Observer {
 
     public Event askSector(String position) {
 
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("position", position);
         Event e = new Event(ctoken,"asksector",args);
         return eventHandler(e);  
@@ -308,7 +324,7 @@ public class NetworkHelper implements Observer {
 
     public Event useCard(String card) {
 
-        Map<String,String> args = new HashMap<String, String>();
+        args = new HashMap<String, String>();
         args.put("itemcard", card);
         Event e = new Event(ctoken,"useitem",args);
 
@@ -319,13 +335,13 @@ public class NetworkHelper implements Observer {
 
 
 
-    public void spotlight(String target) {
-       
-            Map<String,String> args = new HashMap<String, String>();
-            args.put("itemcard", "spotlight");
-            args.put("target", target); 
-            Event e = new Event(ctoken,"useitem",args);
-            eventHandler(e);
+    public Event spotlight(String target) {
+
+        args = new HashMap<String, String>();
+        args.put("itemcard", "spotlight");
+        args.put("target", target); 
+        Event e = new Event(ctoken,"useitem",args);
+        return eventHandler(e);
 
     }
 
@@ -349,11 +365,15 @@ public class NetworkHelper implements Observer {
 
 
     public Event getPlayerInfo() {        
-
-
+        if(ctoken==null){
+            requestClientToken();
+        }
         Event e = new Event(ctoken,"getplayerinfo",null);
-
-        return eventHandler(e);  
+        Event result = eventHandler(e);  
+        if(result.getRetValues().containsKey("playernumber")){
+            NetworkHelper.playerNumber=Integer.parseInt(result.getRetValues().get("playernumber"));
+        }
+        return result;
 
 
     }
@@ -401,9 +421,7 @@ public class NetworkHelper implements Observer {
         List<String> actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
 
-
         Event result = eventHandler(e);  
-
         if(result.actionResult()){
 
             for (String action : result.getRetValues().keySet()) {
@@ -425,7 +443,6 @@ public class NetworkHelper implements Observer {
         if(ctoken==null){
             requestClientToken();
         }
-        this.gameToken = gameToken;
         NetworkHelper.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
     }
 
@@ -434,7 +451,7 @@ public class NetworkHelper implements Observer {
     }
 
 
-  
+
     public String getPlayerToken() {
         if(ctoken==null){
             requestClientToken();
@@ -452,7 +469,7 @@ public class NetworkHelper implements Observer {
 
     private Event eventHandler(Event e){
 
-        
+
         Event result =null;
         if(type==SOCKET){
             result = send(e);
@@ -469,48 +486,166 @@ public class NetworkHelper implements Observer {
         }
         return result;
     }
-    
+
     public void registerGui(ViewClientInterface view){
-    	this.view = view;
+        this.view = view;
     }
 
 
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		Event e = (Event)arg1;
-		if(e.getCommand().equals("log")){
-			view.log(e);
-		}
-		if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
-			view.setStarted();
-		}
-		if(e.getCommand().equals("chat")){
-			view.chat(e);
-		}
-		view.stampa(e.getCommand());
-		
-	}
+    @Override
+    public void update(Observable arg0, Object arg1) {
+        Event e = (Event)arg1;
+        if(e.getCommand().equals("log")){
+            view.log(e);
+        }
+        if(e.getCommand().equals("pub") && e.getRetValues().containsKey("isstarted")){
+            view.setStarted();
+        }
+        if(e.getCommand().equals("pub") && e.getRetValues().containsKey("currentplayer")){
+            view.currentPlayer(Integer.parseInt(e.getRetValues().get("currentplayer")));
+        }
+        if(e.getCommand().equals("chat")){
+            view.chat(e);
+        }
+        view.stampa(e.toString());
+
+    }
 
 
 
-	public void sendChat(String message) {
-		
+    public void sendChat(String message) {
+
         if(ctoken==null){
             requestClientToken();
         }
         String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
-        Map<String,String> args = new HashMap<String,String>();
+        args = new HashMap<String,String>();
         args.put("message", sanitizedMessage);
         Event e = new Event(ctoken,"chat",args);
 
         Event result = eventHandler(e);  
-        System.err.println(result);
-
-		
-	}
 
 
+    }
+
+    public int getPlayerNumber(){
+        getPlayerInfo();
+        return NetworkHelper.playerNumber;
+    }
+
+    public boolean isMyTurn(){
+        getPlayerInfo();        
+        return NetworkHelper.playerNumber == getTurnInfo();
+
+    }
+
+
+
+    public String getCurrentPosition() {
+        Event response = getPlayerInfo();
+        return response.getRetValues().get("currentposition");
+
+    }
+
+
+
+
+    private void saveTokenToFile(ClientToken clientToken) {
+
+
+        FileOutputStream outputStream = null;
+        try {
+
+            File file = new File("efaios_token.txt");
+            outputStream = new FileOutputStream(file);
+
+            // if file doesnt exists, then create it
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            String content = clientToken.getPlayerToken()+","+clientToken.getGameToken();
+
+            byte[] contentInBytes = content.getBytes();
+
+            outputStream.write(contentInBytes);
+            outputStream.flush();
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private boolean loadTokenFromFile(){
+
+
+        File file = new File("efaios_token.txt");
+        FileInputStream inputStream = null;
+        String gameToken=null;
+        String playerToken=null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return false;
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        String line = null;
+
+        try {
+            line = reader.readLine();
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        while (line != null) {
+            String[] splitted = line.split(",");
+
+            gameToken =splitted[1];
+            playerToken = splitted[0];
+
+            System.out.println("LOADED:\n"+"PLAYER TOKEN: "+playerToken+"\nGAME TOKEN: "+gameToken);
+            // this.ctoken = new ClientToken(playerToken, gameToken);
+
+
+            try {
+                line = reader.readLine();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
+        
+        try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        //TODO: sistemare il resume del gioco (stesso file)
+        /*
+        if(playerToken !=null && gameToken != null){
+            this.ctoken = new ClientToken(playerToken, gameToken);
+            return true;
+        }
+        */
+        return false;
+
+
+    }
 
 
 

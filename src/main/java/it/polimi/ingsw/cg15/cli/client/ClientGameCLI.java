@@ -5,90 +5,74 @@ import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.GameManagerRemote;
-import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SocketCommunicator;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Map.Entry;
 
-public class ClientGameCLI implements ViewClientInterface{
+public class ClientGameCLI implements ViewClientInterface {
 
-	private static SocketCommunicator server;
-	private static GameManagerRemote gmRemote;
 	private static ClientToken ctoken;
 	private static boolean isStarted = false;
-	private String ip="127.0.0.1";
-	private int port = 1337;
-
 
 	private static int currentPlayerId;
-	private static boolean isEnded=false;
+	private static boolean isEnded = false;
 	private static NetworkHelper networkHelper;
 
 	String playerType;
 	String currentPosition;
 	int playerNumber;
 	int cardNumber;
-	private boolean myTurn;
-	private boolean hasMove=false;
+	private boolean hasMove = false;
 	private boolean init = true;
 	private Scanner scanner = new Scanner(System.in);
-	private List<String> actionList=new ArrayList<String>();
+	private List<String> actionList = new ArrayList<String>();
 	private boolean hasAttacked;
-	private List<String> cardList=new ArrayList<String>();
-	private int cardsSize;
+	private List<String> cardList = new ArrayList<String>();
 
-
-
-	public ClientGameCLI(ClientToken ctoken,NetworkHelper netHelper, SocketCommunicator server, GameManagerRemote gmRemote) {
+	public ClientGameCLI(ClientToken ctoken, NetworkHelper netHelper, SocketCommunicator server,GameManagerRemote gmRemote) {
 		ClientGameCLI.ctoken = ctoken;
-		ClientGameCLI.server = server;
-		ClientGameCLI.gmRemote = gmRemote;
+
 		ClientGameCLI.networkHelper = netHelper;
 		netHelper.registerGui(this);
 
-
 	}
 
-	public static void notifyStart(){
-		isStarted=true;
-	}
-	public static void notifyEnd(){
-		isStarted=false;
-		isEnded=true;
+	public static void notifyStart() {
+		isStarted = true;
 	}
 
+	public static void notifyEnd() {
+		isStarted = false;
+		isEnded = true;
+	}
 
-	public void start(){
-		while(!isEnded){
+	public void start() {
+		while (!isEnded) {
 
-			if(isStarted){
-				if(init){
+			if (isStarted) {
+				if (init) {
 					getMap();
 					getPlayerInfo();
 					getTurnInfo();
-					System.out.println("Game Started");
-					System.out.println("E' il mio turno? "+myTurn());
-					init=false;
+					printToScreen("Game Started");
+					printToScreen("E' il mio turno? " + myTurn());
+					init = false;
 				}
-				if(myTurn()){
-					System.out.println("E' il tuo turno");
+				if (myTurn()) {
+					printToScreen("E' il tuo turno");
 					getPlayerInfo();
 					debugPrintPlayerInfo();
 					getAvailableActionsList();
 					debugPrintActionList();
 					getAvailableCardList();
 					debugPrintCardList();
-					System.out.println("SELEZIONA UN AZIONE");
+					printToScreen("SELEZIONA UN AZIONE");
 					String choice = scanner.nextLine();
 
-					switch(choice){
+					switch (choice) {
 
 					case "m":
 						actionMove();
@@ -110,19 +94,12 @@ public class ClientGameCLI implements ViewClientInterface{
 						break;
 
 					default:
-						System.out.println("Azione Non Valida");
+						printToScreen("Azione Non Valida");
 					}
-
-
 
 				}
 
-
-
 			}
-
-
-
 
 			try {
 				Thread.sleep(1000);
@@ -135,18 +112,17 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	private void askSector() {
-		boolean validSector=false;
-		while(!validSector){
-			System.out.println("In quale settore vuoi fare rumore?");
+		boolean validSector = false;
+		while (!validSector) {
+			printToScreen("In quale settore vuoi fare rumore?");
 			String position = scanner.nextLine();
 
 			Event result = networkHelper.askSector(position);
 
-			System.out.println(result);
-			if(result.actionResult()){
-				validSector=true;
-			}else{
-				System.out.println(result.getRetValues().get("error"));
+			if (result.actionResult()) {
+				validSector = true;
+			} else {
+				printToScreen(result.getRetValues().get("error"));
 			}
 		}
 	}
@@ -156,7 +132,7 @@ public class ClientGameCLI implements ViewClientInterface{
 		debugPrintCardList();
 		String choice = scanner.nextLine();
 
-		switch(choice){
+		switch (choice) {
 
 		case "teleport":
 			actionUseCard("teleport");
@@ -175,112 +151,107 @@ public class ClientGameCLI implements ViewClientInterface{
 
 		}
 
-
-
-
-
-
 	}
 
 	private void spotlight() {
-		if(cardList.contains("spotlight")){
-			System.out.println("Inserisci un settore da illuminare");
+		if (cardList.contains("spotlight")) {
+			printToScreen("Inserisci un settore da illuminare");
 			String target = scanner.nextLine();
-			networkHelper.spotlight(target);
-		}
-		else{
-			System.out.println("Non possiedi questa carta");
+			Event response = networkHelper.spotlight(target);
+			if(response.actionResult()){
+				response.getRetValues().remove("return");
+				if(response.getRetValues().isEmpty()){
+					printToScreen("Nessun giocatore nei settori illuminati");
+				}else{
+					for (Entry<String,String> player : response.getRetValues().entrySet()) {
+						printToScreen("Il giocatore "+player.getKey()+" si trova nel settore "+player.getValue() );
+					}
+				}
+			}
+		} else {
+			printToScreen("Non possiedi questa carta");
 		}
 
 	}
 
 	private void actionUseCard(String card) {
-		if(cardList.contains(card)){
+		if (cardList.contains(card)) {
 
 			Event result = networkHelper.useCard(card);
 
-		}
-		else{
-			System.out.println("Non possiedi questa carta");
+		} else {
+			printToScreen("Non possiedi questa carta");
 		}
 		getAvailableCardList();
-
 
 	}
 
 	private void debugPrintCardList() {
-		System.out.println("CARTE DISPONIBILI "+cardNumber);
+		printToScreen("CARTE DISPONIBILI " + cardList.size());
 		for (String string : cardList) {
-			System.out.println(string);
+			printToScreen(string);
 		}
 
 	}
 
 	private void attack() {
-		if(!hasAttacked){
+		if (!hasAttacked) {
 
-
-			Event e = new Event(ctoken,"attack",null);
+			Event e = new Event(ctoken, "attack", null);
 			Event result;
 
 			result = networkHelper.attack();
-			System.out.println(result);
-			if(result.actionResult()){
-				int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
-				if(killedPlayer==0){
-					System.out.println("Nessuna Vittima");
+			if (result.actionResult()) {
+				int killedPlayer = Integer.parseInt(result.getRetValues().get("killcount"));
+				if (killedPlayer == 0) {
+					printToScreen("Nessuna Vittima");
+				} else {
+					printToScreen("Hai ucciso " + killedPlayer + " giocatori");
 				}
-				else{
-					System.out.println("Hai ucciso "+killedPlayer+" giocatori");
-				}
-				hasAttacked=true;
+				hasAttacked = true;
 
-			}else{
-				System.out.println("ERRORE: "+result.getRetValues().get("error"));
-				hasAttacked=false;
+			} else {
+				printToScreen("ERRORE: " + result.getRetValues().get("error"));
+				hasAttacked = false;
 			}
 		}
 	}
 
 	private void debugPrintActionList() {
-		System.out.println("AZIONI DISPONIBILI");
+		printToScreen("AZIONI DISPONIBILI");
 		for (String string : actionList) {
-			System.out.println(string);
+			printToScreen(string);
 		}
 
 	}
 
 	private void getAvailableActionsList() {
-		actionList =networkHelper.getAvailableActionsList();
+		actionList = networkHelper.getAvailableActionsList();
 	}
 
 	private void getAvailableCardList() {
 
-		cardList =networkHelper.getAvailableCardsList();
-		cardsSize = cardList.size();
+		cardList = networkHelper.getAvailableCardsList();
 	}
 
-
-	private void debugPrintPlayerInfo(){
-		System.out.println("player number: "+playerNumber+"\n"+
-				"player type: "+playerType+"\n"+
-				"num cards: "+cardNumber+"\n"+
-				"current position: "+currentPosition+"\n");
+	private void debugPrintPlayerInfo() {
+		printToScreen("player number: " + playerNumber + "\n" + "player type: " + playerType + "\n"
+				+ "num cards: " + cardList.size() + "\n" + "current position: " + currentPosition
+				+ "\n");
 
 	}
 
-	public static void debugPrint(String s){
-		System.out.println(s);
+	public static void debugPrint(String s) {
+		printToScreen(s);
 	}
 
 	private void endTurn() {
-		System.out.println("ENDTURN");
 		Event result = networkHelper.endTurn();
 
-		if(result.actionResult()){
-			System.out.println("FINTE TURNO");
+		if (result.actionResult()) {
+			printToScreen("FINE TURNO");
 			hasMove = false;
-			hasAttacked=false;
+			hasAttacked = false;
 		}
 
 	}
@@ -293,20 +264,16 @@ public class ClientGameCLI implements ViewClientInterface{
 		return currentPlayerId == playerNumber;
 	}
 
-	private void getPlayerInfo() {                
+	private void getPlayerInfo() {
 
 		Event result = networkHelper.getPlayerInfo();
-		this.playerNumber =Integer.parseInt( result.getRetValues().get("playernumber"));
+		this.playerNumber = Integer.parseInt(result.getRetValues().get("playernumber"));
 		this.currentPosition = result.getRetValues().get("currentposition");
-		this.cardNumber = Integer.parseInt( result.getRetValues().get("cardnumber"));
+		this.cardNumber = Integer.parseInt(result.getRetValues().get("cardnumber"));
 		this.playerType = result.getRetValues().get("playertype");
 
-
 		/*
-		 * numero 1
-		 * tipo Alien/Human/Superalien
-		 * currentposition A03
-		 * numcard = 2
+		 * numero 1 tipo Alien/Human/Superalien currentposition A03 numcard = 2
 		 */
 
 	}
@@ -318,95 +285,100 @@ public class ClientGameCLI implements ViewClientInterface{
 	}
 
 	private void actionMove() {
-		if(!hasMove){
-			System.out.println("CURRENT POSITION: "+currentPosition);
-			System.out.println("DESTINATION:");
-			String destination="";
+		if (!hasMove) {
+			printToScreen("POSIZIONE ATTUALE: " + currentPosition);
+			printToScreen("inserisci la destinazione:");
+			String destination = "";
 
 			destination = scanner.nextLine();
 
 			Event result = networkHelper.move(destination);
 
-			if(result.actionResult()){
-				currentPosition=result.getRetValues().get("destination");
-				System.out.println("DEST: "+currentPosition);
-				hasMove=true;
+			if (result.actionResult()) {
+				currentPosition = result.getRetValues().get("destination");
+				printToScreen("Nuova Posizione: " + currentPosition);
+				hasMove = true;
 
-				if(result.getRetValues().containsKey("asksector")){
+				if (result.getRetValues().containsKey("asksector")) {
 					askSector();
 				}
-				if(result.getRetValues().containsKey("item")){
-					if(result.getRetValues().get("item").equals("true")){
-						System.out.println("hai pescato la carta "+(result.getRetValues().get("card")));
+				if (result.getRetValues().containsKey("item")) {
+					if (result.getRetValues().get("item").equals("true")) {
+						printToScreen("hai pescato la carta " + (result.getRetValues().get("card")));
 					}
 				}
 
-			}else{
-				System.out.println("ERRORE: "+result.getRetValues().get("error"));
-				hasMove=false;
+			} else {
+				printToScreen("ERRORE: " + result.getRetValues().get("error"));
+				hasMove = false;
 			}
 		}
 	}
-
-
-
-
 
 	public static void setCurrentPlayer(int currentPlayer) {
 		currentPlayerId = currentPlayer;
 	}
 
-	public void stampa(String msg){
-		System.out.println("DIOCANEEE  "+msg);
+	public void stampa(String msg) {
+		printToScreen(msg);
 	}
 
-	public void log(Event e){
-	
-			if(  e.getRetValues().containsKey("move")){    
-				String player = e.getRetValues().get("player");
-				String sector = e.getRetValues().get("move");
-				System.out.println("Giocatore "+player+" si è mosso in "+sector);
+	public void log(Event e) {
+
+		if (e.getRetValues().containsKey("move")) {
+			String player = e.getRetValues().get("player");
+			String sector = e.getRetValues().get("move");
+			printToScreen("Giocatore " + player + " si è mosso in " + sector);
+		}
+		if (e.getRetValues().containsKey("attack")) {
+			String playerNum = e.getRetValues().get("player");
+			String position = e.getRetValues().get("attack");
+			printToScreen("Giocatore " + playerNum + ": attacca nel settore " + position);
+			int count = 0;
+			for (Entry<String, String> ret : e.getRetValues().entrySet()) {
+				if (ret.getValue().equals("killed")) {
+					printToScreen("Giocatore " + ret.getKey() + " ucciso dal giocatore " + playerNum);
+					count++;
+				}
 			}
-			if(  e.getRetValues().containsKey("attack")){ 
+			if (count == 0) {
+				printToScreen("Nessuna Vittima");
+			}
+
+		}
+		if (e.getRetValues().containsKey("noise")) {
+			if (e.getRetValues().get("noise").equals("true")) {
 				String playerNum = e.getRetValues().get("player");
-				String position = e.getRetValues().get("attack");
-				System.out.println("Giocatore "+playerNum+": attacca nel settore "+position);
-				int count =0;
-				for (Entry<String,String> ret : e.getRetValues().entrySet()) {
-					if(ret.getValue().equals("killed")){
-						System.out.println("Giocatore "+ret.getKey()+" ucciso dal giocatore "+ playerNum);
-						count++;
-					}
-				}
-				if(count==0){
-					System.out.println("Nessuna Vittima");
-				}
-
-			}
-			if(  e.getRetValues().containsKey("noise")){ 
-				if(e.getRetValues().get("noise").equals("true")){
-					String playerNum = e.getRetValues().get("player");
-					String position = e.getRetValues().get("position");
-					System.out.println("Giocatore "+playerNum+": rumore in settore "+position);
-				}
-			}
-			if(  e.getRetValues().containsKey("hatch")){ 
-				if(e.getRetValues().get("hatch").equals("false")){
-					System.out.println(e.getRetValues().get("message"));
-				}
-				else{
-					String player = e.getRetValues().get("player");
-
-					System.out.println("il giocatore" + player+" ha pescato una hatch card "+e.getRetValues().get("hatchcard"));
-				}
+				String position = e.getRetValues().get("position");
+				printToScreen("Giocatore " + playerNum + ": rumore in settore " + position);
 			}
 		}
-	public void chat(Event e){
-		System.out.println("Chat :"+"[Giocatore "+e.getRetValues().get("player")+"]"+" "+e.getRetValues().get("message"));
+		if (e.getRetValues().containsKey("hatch")) {
+			if (e.getRetValues().get("hatch").equals("false")) {
+				printToScreen(e.getRetValues().get("message"));
+			} else {
+				String player = e.getRetValues().get("player");
+
+				printToScreen("il giocatore" + player + " ha pescato una hatch card " + e.getRetValues().get("hatchcard"));
+			}
+		}
 	}
-	
-	public void setStarted(){
+
+	public void chat(Event e) {
+		printToScreen("Chat :" + "[Giocatore " + e.getRetValues().get("player") + "]" + " "+ e.getRetValues().get("message"));
+	}
+
+	public void setStarted() {
 		notifyStart();
+	}
+
+	public static void printToScreen(String s) {
+		System.out.println(s);
+	}
+
+	@Override
+	public void currentPlayer(int currentPlayer) {
+		this.currentPlayerId=currentPlayer;
 	}
 
 }

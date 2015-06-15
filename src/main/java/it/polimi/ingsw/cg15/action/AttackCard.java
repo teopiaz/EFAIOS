@@ -41,6 +41,7 @@ public class AttackCard extends Action {
         
         if(pc.hasCard(ItemCard.ITEM_ATTACK)){
             pc.removeCard(ItemCard.ITEM_ATTACK);
+            pc.setItemUsed();
             Action attack = new Attack(getGameController(),e);
             Event attackEvent = attack.execute();
             return attackEvent;

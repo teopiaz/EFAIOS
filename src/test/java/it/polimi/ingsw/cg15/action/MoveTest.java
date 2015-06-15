@@ -61,7 +61,6 @@ public class MoveTest {
 
         Map<String, GameBox> list = gm.getGameBoxList();
         gs = list.get(gameToken).getGameState();
-        // assertTrue();
 
 
 

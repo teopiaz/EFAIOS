@@ -62,8 +62,8 @@ public class TurnState {
     public boolean hasMoved() {
         return hasMoved;
     }
-    public void setUsedItemCard(boolean usedItemCard) {
-        this.usedItemCard = usedItemCard;
+    public void setUsedItemCard() {
+        this.usedItemCard = true;
 
     }
     public boolean usedItemCard() {
@@ -73,11 +73,7 @@ public class TurnState {
         return hasAttacked;
     }
     public void setHasAttacked() {
-        if(availableActionsList.contains(ActionEnum.ATTACK)){
-            availableActionsList.remove(ActionEnum.ATTACK);
             hasAttacked = true;
-
-        }
     }
 
 

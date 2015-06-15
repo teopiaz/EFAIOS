@@ -26,8 +26,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class TVeffect {
 
-    public static int W = 1280;
-    public static int H = W * 9/16;
+    private static int Width = 1280;
+    private static int Height = Width * 9/16;
 
     private final ClienLobbyGUI lobby;
     JFrame frame;
@@ -51,8 +51,8 @@ public class TVeffect {
                 W = device.getDisplayMode().getWidth();
                 H = device.getDisplayMode().getHeight();
                  */
-                W=1280;
-                H=720;
+                Width=1280;
+                Height=720;
                 //   System.out.println(device.getDisplayMode().getRefreshRate());
 
                 frame = new JFrame("Test");
@@ -88,20 +88,20 @@ public class TVeffect {
 
 
         public Pannello(){
-            setPreferredSize(new Dimension(W,H));
+            setPreferredSize(new Dimension(Width,Height));
             setBackground(Color.BLACK);
 
             image = ImageLoader.load("logo720alpha");
 
 
-            image = (BufferedImage) getScaledImage(image, W/3,H/3); 
-            image = (BufferedImage) getScaledImage(image, W,H );    
+            image = (BufferedImage) getScaledImage(image, Width/3,Height/3); 
+            image = (BufferedImage) getScaledImage(image, Width,Height );    
 
             scanline = ImageLoader.load("scanlines");
-            scanline = (BufferedImage) getScaledImage(scanline, W, H);
+            scanline = (BufferedImage) getScaledImage(scanline, Width, Height);
 
 
-            image = (BufferedImage) getScaledImage(image, W, H);
+            image = (BufferedImage) getScaledImage(image, Width, Height);
             image = colorShift(image,4);
 
             final Timer timershift = new Timer(10,new ActionListener() {
@@ -185,7 +185,7 @@ public class TVeffect {
 
 
 
-            g2d.drawImage(image, (W/2)-image.getWidth()/2, (H/2)-image.getHeight()/2, this);
+            g2d.drawImage(image, (Width/2)-image.getWidth()/2, (Height/2)-image.getHeight()/2, this);
             g2d.drawImage((Image)noise, 0,0,null);
             g2d.drawImage((Image)scanline, 0,0,null);
 

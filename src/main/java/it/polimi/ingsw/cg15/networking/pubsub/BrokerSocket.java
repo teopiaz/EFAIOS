@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class BrokerSocket extends Thread implements Server{
-    private static final int portNumber = 7331;
+    private static final int PORT = 7331;
     private static boolean listening = false;
     private static Map<String,List<BrokerSocketThread>> topicMap =  new HashMap<String,List<BrokerSocketThread>>();
     private static BrokerSocket instance = new BrokerSocket();
@@ -48,10 +48,10 @@ public class BrokerSocket extends Thread implements Server{
         
         while (true) {
             synchronized (lock) {
-                if (listening==true) {
+                if (listening) {
 
 
-        try(ServerSocket brokerSocket = new ServerSocket(portNumber)){
+        try(ServerSocket brokerSocket = new ServerSocket(PORT)){
             while(listening){
                 BrokerSocketThread brokerThread = new BrokerSocketThread(brokerSocket.accept());
                 String topic = brokerThread.getTopic();
@@ -60,8 +60,7 @@ public class BrokerSocket extends Thread implements Server{
                 System.out.println("Adding new subscriber");
             }
         }catch(IOException e){
-            System.err.println("Cannot listen on port: "+portNumber);
-            System.exit(-1);
+            System.err.println("Cannot listen on port: "+PORT);
         }
                 }
             }
@@ -91,12 +90,12 @@ public class BrokerSocket extends Thread implements Server{
 
         System.out.println(topicMap.containsKey(topic));
         for (Entry<String,List<BrokerSocketThread>> str : topicMap.entrySet()) {
-            System.out.println(str.getKey().equals("topic1"));
+            System.out.println("topic".equals(str.getKey().equals("topic1")));
         }
         if(topicMap.containsKey(topic)){
             List<BrokerSocketThread> subscribers = topicMap.get(topic);
             if(!subscribers.isEmpty()){
-                System.out.println("Publishing message");
+                System.out.println("Publishing message: TOPIC: "+topic+" MSG: "+msg);
                 for (BrokerSocketThread sub : subscribers) {
                     sub.dispatchMessage(msg);
                 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
+import it.polimi.ingsw.cg15.networking.Event;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -61,9 +62,9 @@ public class ClienLobbyGUI implements Runnable{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String gameName = JOptionPane.showInputDialog(frame, "Insert Game Name");
+                String gameName = JOptionPane.showInputDialog(frame, "Insert Game Name","1");
 
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name");
+                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name","test123");
 
                 networkHelper.createGame(gameName,mapName.toLowerCase());
                 updateGameList();
@@ -91,10 +92,15 @@ public class ClienLobbyGUI implements Runnable{
              gameToken = gameMap.get(selectedGame);
              networkHelper.setGameToken(gameToken);
             
-                networkHelper.joinGame(gameToken);
+              Event response =  networkHelper.joinGame(gameToken);
+                if(response.getRetValues().containsValue("joined")){
                 gui.showGUI();
                 frame.setVisible(false);
                 frame.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(frame, response.getRetValues().get(Event.ERROR));
+                }
+                
                 
             }
         });
@@ -109,7 +115,7 @@ public class ClienLobbyGUI implements Runnable{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                networkHelper.getClientSocket(host, port);
+                NetworkHelper.getClientSocket(host, port);
                 
             }
         });
@@ -119,7 +125,7 @@ public class ClienLobbyGUI implements Runnable{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    networkHelper.getClientRMI();
+                    NetworkHelper.getClientRMI();
                 } catch (RemoteException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

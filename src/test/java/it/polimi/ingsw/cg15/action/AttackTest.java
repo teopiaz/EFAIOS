@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15.action;
 
 import static org.junit.Assert.*;
-import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.model.ActionEnum;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AttackTest {
@@ -94,7 +92,10 @@ public class AttackTest {
 
         int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
         assertEquals(0, killedPlayer);
-      /*  
+      
+
+        
+        
         Event endEvent = new Event(currentPlayerToken,"endturn",null);
         response = gm.dispatchMessage(endEvent);
         System.out.println("Fine Turno"+response);
@@ -126,7 +127,7 @@ public class AttackTest {
         System.out.println(result);
 
         killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
-    */
+    
     }
     
     
