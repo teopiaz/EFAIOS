@@ -25,6 +25,7 @@ public class UseOrDiscard extends Action {
 
     /**
      * Method that execute the command in which the user have the ability to use or discard one of the item card.
+     * @return a message with the list of return values.
      * @see it.polimi.ingsw.cg15.action.Action#execute()
      */
     @Override

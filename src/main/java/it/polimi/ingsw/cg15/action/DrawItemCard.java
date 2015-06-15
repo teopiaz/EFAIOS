@@ -16,20 +16,28 @@ import it.polimi.ingsw.cg15.networking.Event;
  */
 public class DrawItemCard extends Action {
 
-    Event e;
     /**
-     * @param gc the game controller
+     * The event.
+     */
+    Event e;
+    
+    /**
+     * @param gc The game controller.
      */
     public DrawItemCard(GameController gc,Event e) {
         super(gc);
         this.e=e;
         }
 
+    /**
+     * The logic of drawing a item card. It has various possibility based on the type of card drawn.
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
         PlayerController pc = getCurrentPlayerController();
         Map<String, String> retValues = e.getRetValues();
-
         if(pc.canDrawItemCard()){
             ItemCard card = pc.drawItemCard();
             retValues.put("card", card.toString());
@@ -39,7 +47,6 @@ public class DrawItemCard extends Action {
             Action useOrDiscard = new UseOrDiscard(getGameController(),e);
             e= useOrDiscard.execute();
         }
-        
         return e;
     }
 

@@ -13,19 +13,28 @@ import java.util.Map;
  * The choice of the cell where the state noise is at the discretion of the player.
  */
 public class AskSector extends Action {
-    Event e;
+    
     /**
-     * @param gc the game controller
+     * The event.
+     */
+    Event e;
+    
+    /**
+     * @param gc The game controller.
      */
     public AskSector(GameController gc,Event e) {
         super(gc);
         this.e=e;
     }
 
+    /**
+     * The logic of the ask sector action that wait for the player to insert a sector in which make noise.
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
         Map<String,String> retValues = new HashMap<String,String>();
-
         String strTarget = e.getArgs().get("position").toUpperCase();
         Coordinate target = Coordinate.getByLabel(strTarget);
         if(target!=null){
@@ -33,7 +42,6 @@ public class AskSector extends Action {
                 getGameController().restoreActionList();
                 Action noise = new MakeNoise(getGameController(), e);
                 e = noise.execute();
-
                 if(e.getRetValues()==null){
                     retValues = new HashMap<String, String>();
                 }else{
@@ -48,8 +56,6 @@ public class AskSector extends Action {
         retValues.put(Event.ERROR,"settore non valido");
         e = new Event(e, retValues);
         return e;
-
-
     }
 
 }

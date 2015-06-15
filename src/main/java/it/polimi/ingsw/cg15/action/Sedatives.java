@@ -14,28 +14,33 @@ import it.polimi.ingsw.cg15.networking.Event;
  */
 public class Sedatives extends Action {
 
-    Event e;
     /**
-     * This class is the action of the paper object adrenaline. It takes the instance of the corresponding Gamecontroller.
-     * @param gc the game controller
+     * The event.
+     */
+    Event e;
+    
+    /**
+     * This class is the action of the item card sedatives. It takes the instance of the corresponding Game controller.
+     * @param gc The game controller.
      */
     public Sedatives(GameController gc,Event e) {
         super(gc);
         this.e=e;
     }
 
+    /**
+     * The action of the item card sedatives. 
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
-        
        Map<String,String> retValues;
-        
         if(e.getRetValues()==null){
             retValues = new HashMap<String, String>();
         }else{
         retValues = e.getRetValues();
         }
-        
-
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put("return", Event.FALSE);
@@ -47,7 +52,6 @@ public class Sedatives extends Action {
             retValues.put(Event.ERROR,"carta già usata in questo turno");
             return new Event(e, retValues);
         }
-        
         if(pc.hasCard(ItemCard.ITEM_SEDATIVES)){
             pc.removeCard(ItemCard.ITEM_SEDATIVES);
             pc.setOnAdrenaline();

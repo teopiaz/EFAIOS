@@ -13,11 +13,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author MMP - LMR
+ * This class specifies the logical card type object teleport.
+ * It allows you to make lights into a specific sector and reveale if there are any players.
+ */
 public class Spotlight extends Action {
 
-    Event e;
     /**
-     * @param gc the game controller
+     * The event.
+     */
+    Event e;
+    
+    /**
+     * @param gc The game controller.
      */
     public Spotlight(GameController gc,Event e) {
         super(gc);
@@ -25,16 +34,19 @@ public class Spotlight extends Action {
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * It contains the logic of the spotlight action.
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
         Map<String,String> retValues;
-
         if(e.getRetValues()==null){
             retValues = new HashMap<String, String>();
         }else{
             retValues = e.getRetValues();
         }
-
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put("return", Event.FALSE);
@@ -52,9 +64,7 @@ public class Spotlight extends Action {
             String strTarget = e.getArgs().get("target");
             Coordinate target = Coordinate.getByLabel(strTarget);
             Player currentPlayer = getGameController().getCurrentPlayer();
-
             FieldController fc =  getGameController().getFieldController();
-
             List<Coordinate> list = target.getNeighborsList();
             list.add(target);
             for (Coordinate coordinate : list) {
@@ -63,19 +73,16 @@ public class Spotlight extends Action {
                     for (Player player : playersInSector) {
                         if(player!=currentPlayer){
                             retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
-
                         }
                     }
                 }
             }
-
-
             retValues.put("return", Event.TRUE);
             return new Event(e, retValues);
         }
         retValues.put("return", Event.FALSE);
         retValues.put(Event.ERROR,"carta non posseduta");
         return new Event(e, retValues);
-
     }
+    
 }

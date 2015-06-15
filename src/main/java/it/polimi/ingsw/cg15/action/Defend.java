@@ -16,12 +16,20 @@ import java.util.Map;
  * This card is activated automatically can not be used by the player.
  */
 public class Defend extends Action {
+    
+    /**
+     * The player controller.
+     */
     PlayerController pc;
+    
+    /**
+     * The event.
+     */
     Event e;
     
     /**
-     * @param gc the game controller
-     * @param player the current player in use
+     * @param gc The game controller.
+     * @param player The current player in use.
      */
     public Defend(GameController gc,Player player,Event e) {
         super(gc);
@@ -29,27 +37,27 @@ public class Defend extends Action {
         this.e=e;
     }
 
+    /**
+     * The action for the defend item card. It allow a player to defend itself by an attack from an alien player.
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
        Map<String,String> retValues;
-        
         if(e.getRetValues()==null){
             retValues = new HashMap<String, String>();
         }else{
         retValues = e.getRetValues();
         }
-
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
             retValues.put("defense", Event.TRUE);
-            
             return new Event(e, retValues);
         }
         retValues.put("defense", Event.FALSE);
-
         return new Event(e, retValues);
     }
-
 
 }
 
