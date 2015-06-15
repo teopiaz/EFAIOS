@@ -20,7 +20,7 @@ public class AlienPlayerController extends PlayerController {
 
     /**
      * The constructor.
-     * @param gameState
+     * @param gameState The current game state.
      */
     public AlienPlayerController(GameState gameState) {
         super(gameState);
@@ -30,6 +30,7 @@ public class AlienPlayerController extends PlayerController {
     /**
      * A method that verify if a move is possible in that particular sector based on the type of the player.
      * @param coord Coordinate where you would verify if the move is possible.
+     * @see it.polimi.ingsw.cg15.controller.player.PlayerController#moveIsPossible(it.polimi.ingsw.cg15.model.field.Coordinate)
      */
     @Override
     public boolean moveIsPossible(Coordinate coord) {
@@ -59,7 +60,10 @@ public class AlienPlayerController extends PlayerController {
         else
             return false;
     }
-    @Override
+    
+    /**
+     * The possibility to use a card is false in the alien player.
+     */
     public boolean canUseCard(){
         return false;
     }
