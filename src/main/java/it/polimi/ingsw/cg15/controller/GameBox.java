@@ -31,9 +31,13 @@ public class GameBox {
     
     /**
      * A map with the players.
-     * The key is the playerToken and the value is the actual rappresentation of the player in the model
+     * The key is the playerToken and the value is the actual representation of the player in the model
      */
     private Map<String,Player> players;
+    
+    /**
+     * Boolean that says that if the game is over.
+     */
     private boolean ended = false;
 
     /**
@@ -50,7 +54,7 @@ public class GameBox {
 
     /**
      * A method that return a map of the current client in the game.
-     * The key is the playerToken and the value is the actual rappresentation of the player in the model
+     * The key is the playerToken and the value is the actual representation of the player in the model
      * @return the players 
      */
     public Map<String, Player> getPlayers() {
@@ -70,14 +74,19 @@ public class GameBox {
     public String getGameToken() {
         return gameToken;
     }    
+    
+    /**
+     * @return if the game is to remove from the list or not.
+     */
     public boolean toRemove(){
         return ended;
     }
     
+    /**
+     * Sets that the game is over.
+     */
     public void setToRemove(){
         this.ended=true;
     }
-
-
 
 }
