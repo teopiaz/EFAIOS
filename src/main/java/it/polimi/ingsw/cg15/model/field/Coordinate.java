@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The class that contains the cubic coordinates.
  * @author MMP - LMR
+ * The class that contains the cubic coordinates.
  */
 public class Coordinate {
 
@@ -27,12 +27,11 @@ public class Coordinate {
     }
 
     /**
-     * Trasforms the values of row and coloumn into a cubic coordinates.
-     * @param r
-     * @param c
+     * Turns the values of row and column into a cubic coordinates.
+     * @param r The row.
+     * @param c The column.
      */
     public Coordinate(int r, int c) {
-
         this(c - (r + (r & 1)) / 2, // x
                 -(c - (r + (r & 1)) / 2) - r, // y
                 r // z
@@ -41,8 +40,8 @@ public class Coordinate {
 
     /**
      * It allows to obtain the coordinates from a string that identifies the.
-     * @param str
-     * @return coordinate by row and coloumn.
+     * @param str The string.
+     * @return coordinate by row and column.
      */
     public static Coordinate getByLabel(String str) {
         int r = 1, c = 1;
@@ -56,7 +55,6 @@ public class Coordinate {
         if (charStr.length == 3) {
             c = (int)charStr[0]-64;
             r = (charStr[1]-48 )* 10 + (charStr[2]-48);
-
         }
         return new Coordinate(r, c);
         }
@@ -87,29 +85,34 @@ public class Coordinate {
     }
 
     /**
-     * @return the column
+     * @return The column.
      */
     public int getCol() {
         return x + (z + (z & 1)) / 2;
     }
 
     /**
-     * @return the row
+     * @return The row.
      */
     public int getRow() {
         return z;
     }
 
+    /**
+     * Turns into string.
+     */
     @Override
     public String toString() {
         String tmp;
         tmp = new String("" + ((char) (getCol() + 64)));
         if ((getRow()) < 10)
             tmp = new String(tmp + "0");
-
         return new String(tmp + (getRow()));
     }
 
+    /**
+     * TODO scrivere documentazione, non so cosa faccia.
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -120,6 +123,9 @@ public class Coordinate {
         return result;
     }
 
+    /**
+     * Check equality.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -138,7 +144,7 @@ public class Coordinate {
 
     /**
      * It allows you to get a list of the coordinates adjacent given a certain direction.
-     * @param direction
+     * @param direction The direction.
      * @return list of the coordinates adjacent.
      */
     public Coordinate getNeighbor(Direction direction) {
@@ -158,12 +164,11 @@ public class Coordinate {
         default:
             return null;
         }
-
     }
 
     /**
      * It allows you to get a list of the coordinates adjacent.
-     * @returnlist of the coordinates adjacent.
+     * @return list of the coordinates adjacent.
      */
     public List<Coordinate> getNeighborsList() {
         List<Coordinate> list = new LinkedList<Coordinate>();
@@ -171,7 +176,6 @@ public class Coordinate {
             list.add(getNeighbor(direction));
         }
         return list;
-
     }
 
 }
