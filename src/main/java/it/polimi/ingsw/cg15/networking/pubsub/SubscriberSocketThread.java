@@ -13,26 +13,54 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * @author MMP - LMR
+ * The socket subscriber.
+ */
 public class SubscriberSocketThread extends Observable implements Runnable {
+
+    /**
+     * The socket subscriber.
+     */
     private Socket subSocket;
+
+    /**
+     * The input buffer reader.
+     */
     private BufferedReader in;
+
+    /**
+     * The output buffer reader.
+     */
     private PrintWriter out;
+
+    /**
+     * The IP address.
+     */
     private final String address = "localhost";
+
+    /**
+     * The port for communication.
+     */
     private final int port = 7331;
 
+    /**
+     * @param topic The topic to subscribe to.
+     */
     public SubscriberSocketThread(String topic) {
         try {
             subscribe(topic);
             addObserver(NetworkHelper.getInstance());
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(SubscriberSocketThread.class.getName()).log(Level.SEVERE, "IO Exception", e);
         }
     }
 
     /**
-     * Dopo aver effettuato la sottoscrizione, questo metodo rimane in ascolto
-     * di messaggi da parte del publisher.
+     * After the subscription, this method listens for messages from the publisher.
      */
     @Override
     public void run() {
@@ -40,25 +68,24 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             String msg = receive();
             handleMessage(msg);
             try {
-                // aspetta 5ms per ridurre i cicli di clock
-                // soprattutto nel caso in cui il publisher vada in crash
-                Thread.sleep(5);
+                Thread.sleep(5); // aspetta 5ms per ridurre i cicli di clock nel caso in cui il pub vada in crash.
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Logger.getLogger(SubscriberSocketThread.class.getName()).log(Level.SEVERE, "InterruptedException", e);
             }
-
         }
     }
 
-    // TODO: pulire sta cosa!
+    // TODO: pulire sta cosa! Cioè?
 
+    /**
+     * @param msg The message to be managed.
+     */
     private void handleMessage(String msg) {
         if (msg != null) {
             Event e = NetworkProxy.JSONToEvent(msg);
             if (e.getRetValues().containsKey("isstarted")) {
                 if (e.getRetValues().get("isstarted").equals("true")) {
                     // ClientGameCLI.notifyStart();
-
                 }
             }
             if (e.getRetValues().containsKey("currentplayer")) {
@@ -70,22 +97,16 @@ public class SubscriberSocketThread extends Observable implements Runnable {
                     System.out.println("Player " + ele.getKey() + ": " + ele.getValue());
                 }
                 ClientGameCLI.notifyEnd();
-
             }
-
             // ClientGameCLI.debugPrint(msg);
-
             setChanged();
             notifyObservers(NetworkProxy.JSONToEvent(msg));
-
         }
-
     }
 
     /**
-     * Metodo che riceve eventuali messaggi di testo dal publisher
-     * 
-     * @return
+     * Method which receives any text messages from the publisher
+     * @return A message.
      */
     private String receive() {
         String msg = null;
@@ -95,33 +116,35 @@ public class SubscriberSocketThread extends Observable implements Runnable {
                 // System.out.println("Topic: "+"received message: "+msg);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(SubscriberSocketThread.class.getName()).log(Level.SEVERE, "IOException", e);
         }
         return msg;
     }
 
     /**
-     * Effettua la sottoscrizione al solo ed unico topic, i.e., crea la socket
-     * verso il subscriber e apre uno stream in ingresso per ricevere i messaggi
-     * del publisher.
-     * 
+     * Subscribes to the only topic. Create the socket to the subscriber and opens a stream input to receive messages of the publisher.
+     * @param topic The topic to manage.
      * @throws UnknownHostException
      * @throws IOException
      */
     private void subscribe(String topic) throws UnknownHostException, IOException {
         subSocket = new Socket(address, port);
         in = new BufferedReader(new InputStreamReader(subSocket.getInputStream()));
-
         out = new PrintWriter(subSocket.getOutputStream());
         send(topic);
-
     }
 
+    /**
+     * @param msg The message to send.
+     */
     private void send(String msg) {
         out.println(msg);
         out.flush();
     }
 
+    /**
+     * Close the communications.
+     */
     private void close() {
         try {
             subSocket.close();
@@ -130,6 +153,5 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             in = null;
             subSocket = null;
         }
-
     }
 }
