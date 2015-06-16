@@ -30,47 +30,104 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author MMP - LMR
+ * The network helper. Contains method for socket and RMI communication.
+ */
 public class NetworkHelper implements Observer {
 
+    /**
+     * The socket communicator.
+     */
     private SocketCommunicator server;
     
+    /**
+     * The Remote Game Manager.
+     */
     private GameManagerRemote gmRemote=null;
     
+    /**
+     * The token for the client.
+     */
     private static ClientToken ctoken=null;
     
+    /**
+     * TODO cosa sono io?
+     */
     private Map<String,String> args;
     
+    /**
+     * The Interface for the client view.
+     */
     private ViewClientInterface view;
 
+    /**
+     * A thread.
+     */
     private Thread subThread;
 
+    /**
+     * The IP for communication.
+     */
     private String ip;
     
+    /**
+     * The port.
+     */
     private int port;
     
+    /**
+     * Socket type.
+     */
     private final int SOCKET = 1;
     
+    /**
+     * RMI type.
+     */
     private final int RMI = 2;
     
+    /**
+     * Type of communication.
+     */
     private int type;
     
+    /**
+     * Instance of network helper.
+     */
     private static NetworkHelper instance = null;
     
+    /**
+     * The number of player.
+     */
     private static int playerNumber;;
 
-    //costruttore sock
+    /**
+     * The socket constructor.
+     * @param ip The IP for socket communication.
+     * @param port The port for socket communication.
+     */
     private NetworkHelper(String ip, int port){
         this.ip = ip;
         this.port = port;
         this.type=SOCKET;
     }
 
+    /**
+     * The RMI constructor.
+     * @throws RemoteException
+     * @throws AlreadyBoundException
+     * @throws MalformedURLException
+     * @throws NotBoundException
+     */
     private NetworkHelper() throws RemoteException, AlreadyBoundException,MalformedURLException, NotBoundException{
         ClientRMI clientRMI = new ClientRMI();
         gmRemote = clientRMI.connect();
         this.type=RMI;
     }
 
+    /**
+     * @return The current Network Helper instance.
+     */
     public static NetworkHelper getInstance(){
         //RMI di default se non costruito precedentemente
         if(instance==null){
@@ -85,16 +142,33 @@ public class NetworkHelper implements Observer {
         return instance;
     }
 
+    /**
+     * Return the Socket Client.
+     * @param ip The IP address.
+     * @param port the port.
+     * @return Client Socket.
+     */
     public static NetworkHelper getClientSocket(String ip, int port) {
-        instance =new NetworkHelper(ip,port);
+        instance = new NetworkHelper(ip,port);
         return instance;
     }
     
+    /**
+     * Return the RMI Client. 
+     * @return RMI Socket
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws AlreadyBoundException
+     * @throws NotBoundException
+     */
     public static NetworkHelper getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
         instance =new NetworkHelper();
         return instance;
     }
 
+    /**
+     * Request the current Client Token.
+     */
     public void requestClientToken() {
         //if(!loadTokenFromFile()){
         Event e = new Event(new ClientToken(null, null), "requesttoken");
@@ -112,10 +186,13 @@ public class NetworkHelper implements Observer {
             } 
         }
         //  view.stampa("TOKEN: "+result.getToken().getPlayerToken());
-        //   }
-
     }
 
+    /**
+     * Send a generic message called "event".
+     * @param e The event.
+     * @return response The response event.
+     */
     public synchronized Event send(Event e){
         Socket socket = null;
         try {
@@ -131,6 +208,11 @@ public class NetworkHelper implements Observer {
         return NetworkProxy.JSONToEvent(response);
     }
 
+    /**
+     * Create a new game.
+     * @param gameName The name of the new game.
+     * @param mapName The name of the game's map.
+     */
     public void createGame(String gameName, String mapName) {
         //TODO: gestione errori
         if(ctoken==null){
@@ -153,6 +235,10 @@ public class NetworkHelper implements Observer {
         System.out.println("Game Created: "+ gameName);
     }
 
+    /**
+     * Get the Game List.
+     * @return a list with the games.
+     */
     public Map<String, String> getGamesList() {
         if(ctoken==null){
             requestClientToken();
@@ -174,6 +260,11 @@ public class NetworkHelper implements Observer {
         return result.getRetValues();
     }
     
+    /**
+     * Method for joining a game.
+     * @param gameToken The game token.
+     * @return A message with the response for the action perform.
+     */
     public Event joinGame(String gameToken) {
         if(ctoken==null){
             requestClientToken();
@@ -214,6 +305,10 @@ public class NetworkHelper implements Observer {
         return response;
     }
 
+    /**
+     * @param gameToken The game token.
+     * @return An event with the indormation about the game.
+     */
     public Map<String, String> getGameInfo(String gameToken) {
         if(ctoken==null){
             requestClientToken();
@@ -234,6 +329,9 @@ public class NetworkHelper implements Observer {
         return result.getRetValues();
     }  
 
+    /**
+     * @return The map.
+     */
     public String getMap() {
         if(ctoken==null){
             requestClientToken();
@@ -245,6 +343,10 @@ public class NetworkHelper implements Observer {
         return result.getRetValues().get("map");
     }
 
+    /**
+     * @param destination The destination for the action move.
+     * @return an event with information about the action performed.
+     */
     public Event move(String destination) {
         args = new HashMap<String,String>();
         args.put("destination", destination);
@@ -252,6 +354,10 @@ public class NetworkHelper implements Observer {
         return eventHandler(e);  
     }
 
+    /**
+     * @param position The position in which make rumor.
+     * @return an event with information about the action performed.
+     */
     public Event askSector(String position) {
         args = new HashMap<String,String>();
         args.put("position", position);
@@ -259,6 +365,10 @@ public class NetworkHelper implements Observer {
         return eventHandler(e);  
     }
 
+    /**
+     * @param card The card to use.
+     * @return an event with information about the action performed.
+     */
     public Event useCard(String card) {
         args = new HashMap<String, String>();
         args.put("itemcard", card);
@@ -266,6 +376,10 @@ public class NetworkHelper implements Observer {
         return eventHandler(e);  
     }
 
+    /**
+     * @param target The sector in which check for other players.
+     * @return an event with information about the action performed.
+     */
     public Event spotlight(String target) {
         args = new HashMap<String, String>();
         args.put("itemcard", "spotlight");
@@ -274,16 +388,27 @@ public class NetworkHelper implements Observer {
         return eventHandler(e);
     }
 
+    /**
+     * Attack action.
+     * @return an event with information about the action performed.
+     */
     public Event  attack() {
         Event e = new Event(ctoken,"attack",null);
         return eventHandler(e);
     }
     
+    /**
+     * End the current turn.
+     * @return an event with information about the action performed.
+     */
     public Event endTurn() {
         Event e = new Event(ctoken,"endturn",null);
         return eventHandler(e);
     }
 
+    /**
+     * @return an event with information about the player.
+     */
     public Event getPlayerInfo() {        
         if(ctoken==null){
             requestClientToken();
@@ -296,6 +421,9 @@ public class NetworkHelper implements Observer {
         return result;
     }
 
+    /**
+     * @return an event with information about the turn.
+     */
     public int getTurnInfo() {
         if(ctoken==null){
             requestClientToken();
@@ -306,6 +434,9 @@ public class NetworkHelper implements Observer {
         return Integer.parseInt( result.getRetValues().get("currentplayer"));
     }
 
+    /**
+     * @return a list with the cards available.
+     */
     public List<String> getAvailableCardsList() {
         List<String> cardList = new ArrayList<String>();
         Event e = new Event(ctoken,"getcardlist",null);
@@ -321,6 +452,9 @@ public class NetworkHelper implements Observer {
         return cardList;
     }
 
+    /**
+     * @return a list with the available actions fot the player.
+     */
     public List<String> getAvailableActionsList() {
         List<String> actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
