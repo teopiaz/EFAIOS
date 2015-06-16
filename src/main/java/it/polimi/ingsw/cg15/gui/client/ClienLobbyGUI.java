@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -25,6 +27,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+
+//TODO c'è un errore nel nome della classe manta una T!
 
 public class ClienLobbyGUI implements Runnable{
 
@@ -127,16 +131,16 @@ public class ClienLobbyGUI implements Runnable{
                 try {
                     NetworkHelper.getClientRMI();
                 } catch (RemoteException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Error in the remote comunication", e1);
                     e1.printStackTrace();
                 } catch (MalformedURLException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Malformed URL exception", e1);
                     e1.printStackTrace();
                 } catch (AlreadyBoundException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Already Bound Exception", e1);
                     e1.printStackTrace();
                 } catch (NotBoundException e1) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Not bound exception", e1);
                     e1.printStackTrace();
                 }
                 

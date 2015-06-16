@@ -18,27 +18,33 @@ import java.util.Map;
  */
 public class Teleport extends Action {
 
-    Event e;
     /**
-     * @param gc the game controller
+     * The event.
      */
-    public Teleport(GameController gc,Event e) {
+    Event e;
+    
+    /**
+     * @param gc The game controller.
+     */
+    public Teleport(GameController gc, Event e) {
         super(gc);
         this.e=e;
     }
 
+    /**
+     * The action that perform the ability of the Teleport item card.
+     * @return a message with the list of return values.
+     * @see it.polimi.ingsw.cg15.action.Action#execute()
+     */
     @Override
     public Event execute() {
         Map<String,String> retValues;
-        
         if(e.getRetValues()==null){
             retValues = new HashMap<String, String>();
         }else{
         retValues = e.getRetValues();
         }
-
         PlayerController pc = getCurrentPlayerController();
-
         if(!pc.canUseCard()){
             retValues.put("return",Event.FALSE);
             retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");

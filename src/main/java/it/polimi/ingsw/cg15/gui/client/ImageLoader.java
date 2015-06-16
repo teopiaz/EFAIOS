@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
@@ -29,7 +31,7 @@ public class ImageLoader {
                     image = ImageIO.read(input);
                     imageCache.putIfAbsent(name, image);
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
+                    Logger.getLogger(ImageLoader.class.getName()).log(Level.SEVERE, "IO exception", e);
                     image = nullImage;
                 }
             }

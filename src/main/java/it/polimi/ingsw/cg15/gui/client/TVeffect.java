@@ -14,6 +14,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -150,7 +152,7 @@ public class TVeffect {
                                 try {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException e1) {
-                                    // TODO Auto-generated catch block
+                                    Logger.getLogger(TVeffect.class.getName()).log(Level.SEVERE, "Interrupt Exception", e1);
                                     e1.printStackTrace();
                                 }
                                 lobby.showGUI();

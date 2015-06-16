@@ -8,22 +8,45 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+/**
+ * @author MMP - LMR
+ * The RMI server class. It implements the connection through RMI.
+ */
 public class ServerRMI implements Server {
 
+    /**
+     * The port for communication.
+     */
     private final int PORT=1099;
+    
+    /**
+     * A registry.
+     */
     private Registry registry;
+    
+    /**
+     * TODO non so che cosa faccia.
+     */
     private final String REG = "gm";
     
-    
+    /**
+     * The RMI server. Here it is created the register.
+     * @throws RemoteException
+     * @throws AlreadyBoundException
+     */
     public ServerRMI() throws RemoteException, AlreadyBoundException{
-        
-        //creo il registro
         registry = LocateRegistry.createRegistry(PORT);
         System.out.println("CREO IL REGISTRO");
     }
     
-    
+    /**
+     * I create a new server RMI.
+     * @throws RemoteException
+     * @throws AlreadyBoundException
+     */
     public void startServerRMI() throws RemoteException, AlreadyBoundException{
         //creo un istanza dell'oggetto concreta
         GameManager gm = GameManager.getInstance();
@@ -35,31 +58,34 @@ public class ServerRMI implements Server {
         ServerLogger.log("bind remote registry");
     }
 
-
+    /**
+     * Run the RMI server.
+     */
     @Override
     public void run() {
         // TODO Auto-generated method stub
-        
     }
 
-
+    /**
+     * Start the RMI server.
+     */
     @Override
     public void startServer() {
         try {
             startServerRMI();
             ServerLogger.log("RMI Server Started");
         } catch (RemoteException | AlreadyBoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, "RemoteException | AlreadyBoundException", e);
         }
-        
     }
 
-
+    /**
+     * Stop the RMI server.
+     */
     @Override
     public void stopServer() {
         // TODO Auto-generated method stub
         ServerLogger.log("RMI Server Stopped");
-        
     }
+    
 }
