@@ -225,7 +225,6 @@ public class GameController {
                 }
             }
         }
-
         return response;
     }
 
@@ -455,7 +454,7 @@ public class GameController {
     }
 
     /**
-     * @return boolean if all human players have been eliminated.
+     * @return boolean that says if all players were eliminated.
      */
     private boolean allHumansGone() {
         boolean flag = true;
