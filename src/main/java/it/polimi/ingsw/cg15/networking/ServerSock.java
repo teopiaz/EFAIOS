@@ -11,21 +11,46 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author MMP - LMR
+ * The server socket class.
+ */
 public class ServerSock implements Server{
 
+    /**
+     * The port for communication.
+     */
     private final int PORT = 1337;
     
+    /**
+     * A variable that says if the server is started or not.
+     */
     private boolean isStarted = false;
     
+    /**
+     * TODO non so che cosa faccia.
+     */
     Object lock = new Object();
 
+    /**
+     * A new server socket.
+     */
     private ServerSocket serverSocket;
     
+    /**
+     * A new thread pool of executors.
+     */
     static ExecutorService executor = Executors.newCachedThreadPool();
     
+    /**
+     * The constructor.
+     */
     public ServerSock(){
     }
 
+    /**
+     * Run a new Server Socket.
+     */
     @Override
     public void run() {
         while (true) {
@@ -45,6 +70,9 @@ public class ServerSock implements Server{
         }
     }
 
+    /**
+     * Start a server socket.
+     */
     @Override
     public void startServer() {
         synchronized (lock) {
@@ -64,6 +92,9 @@ public class ServerSock implements Server{
         }
     }
 
+    /**
+     * Stop a server socket.
+     */
     @Override
     public void stopServer() {
             if (isStarted) {
