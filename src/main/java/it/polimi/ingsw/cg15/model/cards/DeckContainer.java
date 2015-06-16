@@ -1,12 +1,12 @@
 package it.polimi.ingsw.cg15.model.cards;
 
 /**
+ * @author MMP - LMR
  * This class contains the decks of the game and has methods to handle them. 
  * In particular types of decks are three: 
  * SectorCard: 4 red and covered with 6 normal, 4 green with item 6 and normal. 5 cards silence, without any objects. the back is a hexagon. 
  * ItemCard: 2 attack, teleportation 2, 2 adrenaline, 3 sedative, 2 lights, 1 defense, the back is a square. 
  * HatchCard: TODO: add as many cards as there are hatch
- * @author MMP - LMR
  */
 public class DeckContainer {
 

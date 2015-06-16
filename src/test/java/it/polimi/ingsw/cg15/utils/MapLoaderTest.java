@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class MapLoaderTest {
 
-
+/*
     @Test
     public void testMapLoadingFromLocalFile() {
         Field field = new Field();
@@ -23,5 +23,5 @@ public class MapLoaderTest {
         MapLoader.saveMap(field, "pippo");
         assertTrue(MapLoader.loadMap(field, "test123"));
     }
-
+*/
 }

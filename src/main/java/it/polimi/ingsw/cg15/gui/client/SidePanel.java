@@ -34,16 +34,18 @@ public class SidePanel extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     private DefaultListModel<String> selections = new DefaultListModel<>();
+	private static ClientGameGUI mainPanel;
 
     {
         selections.addElement("In attesa per l'inizio del match...");
 
     }
 
-    public SidePanel() {
+    public SidePanel(ClientGameGUI clientGameGUI) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
+        mainPanel = clientGameGUI;
+        
         setBackground(Color.black);
 
         logPanel = new LogPanel();
@@ -72,7 +74,7 @@ public class SidePanel extends JPanel {
 
         public LogPanel() {
 
-            setPreferredSize(new Dimension(350, 250));
+            setPreferredSize(new Dimension(310, 205));
             setMaximumSize(getPreferredSize());
             setMinimumSize(getPreferredSize());
 
@@ -89,11 +91,11 @@ public class SidePanel extends JPanel {
             Border emptyBorder = BorderFactory.createEmptyBorder();
             scrollPane.setBorder(emptyBorder);
 
-            /*
-             * scrollPane.setPreferredSize(new Dimension(300,200));
-             * scrollPane.setMaximumSize(getPreferredSize());
-             * scrollPane.setMinimumSize(getPreferredSize());
-             */
+           
+              scrollPane.setPreferredSize(new Dimension(300,200));
+              scrollPane.setMaximumSize(getPreferredSize());
+              scrollPane.setMinimumSize(getPreferredSize());
+             
             setBorder(BorderFactory.createLineBorder(Color.red));
             add(scrollPane, BorderLayout.EAST);
             setBackground(Color.black);
@@ -203,5 +205,9 @@ public class SidePanel extends JPanel {
         return cardPanel;
 
 	}
+	public static ClientGameGUI getMainPanel() {
+        return mainPanel;
+	}
+	
 
 }

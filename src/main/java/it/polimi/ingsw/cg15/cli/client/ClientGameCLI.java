@@ -324,12 +324,17 @@ public class ClientGameCLI implements ViewClientInterface {
 	}
 
 	public void log(Event e) {
-
 		if (e.getRetValues().containsKey("move")) {
 			String player = e.getRetValues().get("player");
 			String sector = e.getRetValues().get("move");
 			printToScreen("Giocatore " + player + " si è mosso in " + sector);
 		}
+		
+	      if (e.getRetValues().containsKey("card")) {
+	            String player = e.getRetValues().get("player");
+	            String card = e.getRetValues().get("card");
+	            printToScreen("Giocatore " + player + " ha usato la carta " + card);
+	        }
 		if (e.getRetValues().containsKey("attack")) {
 			String playerNum = e.getRetValues().get("player");
 			String position = e.getRetValues().get("attack");

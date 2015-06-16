@@ -3,7 +3,9 @@ package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -37,17 +39,21 @@ public class CardPanel extends JPanel{
     
     public CardPanel(){
         
-       
+        setPreferredSize(new Dimension(300, 110));
+        setMaximumSize(getPreferredSize());
+        setMinimumSize(getPreferredSize());
+        setBackground(Color.BLACK);
         
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        
-        
+       // setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+        setLayout(new FlowLayout());
+     
 
         BufferedImage defenseCard = ImageLoader.load("defenseItemCard");
         defenseCard = getScaledImage(defenseCard, 70, 95);
         ImageIcon defenseIcon = new ImageIcon(defenseCard);
         JLabel defenseLabel = new JLabel(defenseIcon);
-        defenseLabel.setPreferredSize(new Dimension(60,80));
+        defenseLabel.setPreferredSize(new Dimension(70,95));
+        defenseLabel.setToolTipText("Difesa");
         cardMap.put("defense",defenseLabel);
 
 
@@ -55,28 +61,78 @@ public class CardPanel extends JPanel{
         spotLightCard = getScaledImage(spotLightCard, 70, 95);
         ImageIcon spotLightIcon = new ImageIcon(spotLightCard);
         JLabel spotLightLabel = new JLabel(spotLightIcon);
-        spotLightLabel.setPreferredSize(new Dimension(60,80));
+        spotLightLabel.setPreferredSize(new Dimension(70,95));
+        spotLightLabel.setToolTipText("Spotlight");
         cardMap.put("spotlight",spotLightLabel);
+        
+        BufferedImage adrenalineCard = ImageLoader.load("defenseItemCard");
+        adrenalineCard = getScaledImage(adrenalineCard, 70, 95);
+        ImageIcon adrenalineIcon = new ImageIcon(adrenalineCard);
+        JLabel adrenalineLabel = new JLabel(adrenalineIcon);
+        adrenalineLabel.setPreferredSize(new Dimension(70,95));
+        adrenalineLabel.setToolTipText("Adrenalina");
+        cardMap.put("adrenaline",adrenalineLabel);
+        
+        BufferedImage sedativesCard = ImageLoader.load("spotlightItemCard");
+        sedativesCard = getScaledImage(sedativesCard, 70, 95);
+        ImageIcon sedativesIcon = new ImageIcon(sedativesCard);
+        JLabel sedativesLabel = new JLabel(sedativesIcon);
+        sedativesLabel.setPreferredSize(new Dimension(70,95));
+        sedativesLabel.setToolTipText("Sedativi");
+        cardMap.put("sedatives",sedativesLabel);
 
 
         
-        cardMap.put("defense",spotLightLabel);
-        cardMap.put("adrenaline",spotLightLabel);
-        cardMap.put("attack",spotLightLabel);
-        cardMap.put("sedatives",spotLightLabel);
+       // cardMap.put("defense",defenseLabel);
+        //cardMap.put("attack",spotLightLabel);
         
+   
+        add(sedativesLabel);
+        add(adrenalineLabel);
+        add(spotLightLabel);
+        add(defenseLabel);
+        
+        for (JLabel cardlabel : cardMap.values()) {
+        	cardlabel.setVisible(false);
+    }
 	
 
-		
+        adrenalineLabel.addMouseListener(new MouseAdapter() {
 
+            @Override
+          public void mouseClicked(MouseEvent me) {
+             
+              networkHelper.useCard("adrenaline");
+          	SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
+              revalidate();
+              
+            }
+          });
+        
+        sedativesLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+          public void mouseClicked(MouseEvent me) {
+             
+              networkHelper.useCard("sedatives");
+            	SidePanel.getActionPanel().printMsg("Hai usato la carta Sedativi");
+
+              revalidate();
+              
+            }
+          });
 
 
         spotLightLabel.addMouseListener(new MouseAdapter() {
 
               @Override
             public void mouseClicked(MouseEvent me) {
-                
-                revalidate();
+              	String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+
+                  networkHelper.spotlight(target);
+              	SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+
+                  revalidate();
                 
               }
             });
@@ -110,11 +166,14 @@ public class CardPanel extends JPanel{
      
         List<String> cardList = new ArrayList<String>();
 
-        for (JLabel	cardLabel : cardMap.values()) {
-        	cardLabel.setVisible(true);
-        }
-     
-        if(networkHelper.isMyTurn()){       
+        
+       
+        if(networkHelper.isMyTurn()){  
+        	
+        	 for (JLabel cardlabel : cardMap.values()) {
+             	cardlabel.setVisible(false);
+             }
+             revalidate();
 
             System.out.println("è il mio turno prendo la lista delle carte");
             cardList = networkHelper.getAvailableCardsList();
@@ -122,7 +181,8 @@ public class CardPanel extends JPanel{
             for (String card : cardList) {
                 System.out.println(card);
                 if(cardMap.containsKey(card))
-            		add(cardMap.get(card));
+                	System.out.println(cardMap.get(card));
+                cardMap.get(card).setVisible(true);
             }
             revalidate();
         }

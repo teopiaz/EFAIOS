@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class contains information about the sector cards and methods to access them.
  * @author MMP - LMR
+ * This class contains information about the sector cards and methods to access them.
  */
 public class SectorDeck {
 
@@ -58,8 +58,8 @@ public class SectorDeck {
     }
 
     /**
-     * @param selector
-     * @return the sector card deck involved
+     * @param selector The selector for the type of deck.
+     * @return the sector card deck involved.
      */
     public List<SectorCard> getSectorDeck(int selector) {
         if (selector == MAIN_DECK)
@@ -72,11 +72,10 @@ public class SectorDeck {
 
     /**
      * @param card to add to the deck
-     * @return 
+     * @return the card added.
      */
     public boolean insertCard(SectorCard card) {
         return sectorDeckMain.add(card);
-
     }
     
     /**
@@ -84,11 +83,10 @@ public class SectorDeck {
      */
     public void shuffleDeck() {
         Collections.shuffle(sectorDeckMain);
-
     }
 
     /**
-     * This function allows you to re-create the card deck setore if the current deck is empty.
+     * This function allows you to re-create the card deck if the current deck is empty.
      */
     private void swapDeck() {
         if (sectorDeckMain.isEmpty()) {
@@ -96,7 +94,6 @@ public class SectorDeck {
             sectorDeckDiscarded = new ArrayList<SectorCard>();
             shuffleDeck();
         }
-
     }
 
 }

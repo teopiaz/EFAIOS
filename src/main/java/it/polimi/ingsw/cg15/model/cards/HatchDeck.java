@@ -5,11 +5,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class contains information about the hatch cards and methods to access them.
  * @author MMP - LMR
+ * This class contains information about the hatch cards and methods to access them.
  */
 public class HatchDeck {
 
+    /**
+     * The main gatch deck.
+     */
     private List<HatchCard> hatchDeckMain = new ArrayList<HatchCard>();
 
     /**
@@ -27,7 +30,6 @@ public class HatchDeck {
      */
     public List<HatchCard> getHatchDeck() {
         return hatchDeckMain;
-
     }
 
     /**
@@ -35,12 +37,11 @@ public class HatchDeck {
      */
     public int getNumberOfCard() {
         return hatchDeckMain.size();
-
     }
 
     /**
      * @param card to add to the deck
-     * @return 
+     * @return the card added.
      */
     public boolean insertCard(HatchCard card) {
         return hatchDeckMain.add(card);

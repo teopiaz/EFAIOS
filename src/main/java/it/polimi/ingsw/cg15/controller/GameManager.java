@@ -19,10 +19,9 @@ import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * @author  MMP - LMR
- *  Class that contains methods to start a game, join a game already created, create a game.
+ *  Class that contains methods to start a game, join a game already created and create a new game.
  */
 public class GameManager implements GameManagerRemote {
 
@@ -41,8 +40,10 @@ public class GameManager implements GameManagerRemote {
      */
     private Map<String,GameBox> gameBoxList = new HashMap<String,GameBox>();
 
+    /**
+     * Enables or not the timer.
+     */
     private boolean gameTimer=true;;
-
 
     /**
      * The constructor.
@@ -58,7 +59,7 @@ public class GameManager implements GameManagerRemote {
     }
 
     /**
-     * Dispatch the event to the requested game instance
+     * Dispatch the event to the requested game instance.
      * @param e Received event.
      */
     @Override
@@ -68,8 +69,6 @@ public class GameManager implements GameManagerRemote {
             Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "Client" + e.getToken().getPlayerToken() + " tried to access an invalid game" );
             return new Event(e, "error game not avaible");
         }
-
-
         GameController controller = new GameController(gameBoxList.get(gameToken));
         return controller.eventHandler(e);
     }
@@ -126,40 +125,38 @@ public class GameManager implements GameManagerRemote {
                 removeGame(gameBox.getGameToken());
             }
         }
-
-                if(e.getToken().getPlayerToken()!=null){
-                    String command = e.getCommand().toLowerCase();
-                    switch(command){
-                    case "creategame": {
-                        response =createGame(e);
-                        break;
-                    }
-                    case "listgame": {
-                        response=getGameList(e);
-                        break;
-                    }
-                    case "joingame":{
-                        response =joinGame(e);
-                        break;
-                    }
-                    case "startgame":{
-                        response =startGame(e);
-                        break;
-                    }
-                    case "gameinfo":{
-                        response =getGameInfo(e);
-                        break;
-                    }
-                    default:{ 
-                        response=dispatchMessage(e);
-                        break;
-                    }
-                    }
-                }
-                else{
-                    response = getClientToken();
-                }
-            
+        if(e.getToken().getPlayerToken()!=null){
+            String command = e.getCommand().toLowerCase();
+            switch(command){
+            case "creategame": {
+                response =createGame(e);
+                break;
+            }
+            case "listgame": {
+                response=getGameList(e);
+                break;
+            }
+            case "joingame":{
+                response =joinGame(e);
+                break;
+            }
+            case "startgame":{
+                response =startGame(e);
+                break;
+            }
+            case "gameinfo":{
+                response =getGameInfo(e);
+                break;
+            }
+            default:{ 
+                response=dispatchMessage(e);
+                break;
+            }
+            }
+        }
+        else{
+            response = getClientToken();
+        }
         return response;
     }
 
@@ -183,7 +180,6 @@ public class GameManager implements GameManagerRemote {
             return new Event(e, "game_already_started");
         }
         gameBox.getGameState().setStarted();
-
         //prepara tutto per iniziare il primo turno
         GameController controller = new GameController(gameBoxList.get(gameToken));
         controller.initGame(gameBox.getGameState().getMapName());
@@ -203,7 +199,6 @@ public class GameManager implements GameManagerRemote {
     public Event getClientToken()  throws RemoteException{
         ClientToken ctoken = new ClientToken(SessionTokenGenerator.nextSessionId(), null);
         return new Event(ctoken,ctoken.getPlayerToken());
-
     }
 
     /** 
@@ -241,28 +236,23 @@ public class GameManager implements GameManagerRemote {
         //thread per timeout 
         if((gameBoxList.get(gameToken).getPlayers().size() >=2) && gameTimer==true ){
             Runnable timerThread = new Runnable() {
-
                 Timer timeout = new Timer();
-
                 @Override
                 public void run() {
                     timeout.schedule(new TimerTask() {
-
                         @Override
                         public void run() {
                             Event e = new Event(token,"startgame",null);
                             try {
                                 startGame(e);
                             } catch (RemoteException e1) {
-                                // TODO Auto-generated catch block
-                                e1.printStackTrace();
+                                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "There was an error in the creation of the game", e1);
                             }
                         }
                     }, 1000*5);
                 }
             };
             timerThread.run();
-
         }
         return new Event(e,"joined");
     }
@@ -290,8 +280,6 @@ public class GameManager implements GameManagerRemote {
         return event;
     }
 
-   
-
     /**
      * Method that returns a list of Game Box.
      * @return a list with the Game Box.
@@ -301,7 +289,7 @@ public class GameManager implements GameManagerRemote {
     }
 
     /**
-     * method that eliminates a match
+     * Method that eliminates a match by a game token.
      * @param gameToken The Game Token for the match to delete.
      */
     public void removeGame(String gameToken) {
@@ -311,12 +299,12 @@ public class GameManager implements GameManagerRemote {
         gameBoxList.remove(gameToken);
     }
 
-    
     /**
-     * enable or disable the timeout for game start
+     * Enable or disable the timeout for game start.
      * @param true or false
      */
-     public void setTimer(boolean value){
-     this.gameTimer=value;
-     }
+    public void setTimer(boolean value){
+        this.gameTimer=value;
+    }
+    
 }

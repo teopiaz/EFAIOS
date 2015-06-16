@@ -81,19 +81,15 @@ public class MoveTest {
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
         itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
-        for (ItemCard  itemCard : itemCardDeck) {
-            System.out.println(itemCard);
-        }
-
+  
 
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
         sectorCardDeck.add(SectorCard.SECTOR_RED_ITEM);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
-        }
 
-
+        
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
 
         Event response;
         String destination = "L07";
@@ -106,7 +102,6 @@ public class MoveTest {
             position = response.getRetValues().get("destination");
         }
 
-        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         position = currentPlayer.getPosition().getLabel();
         assertEquals(destination, position);
 

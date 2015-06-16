@@ -25,12 +25,13 @@ public class AttackTest {
 
     static String gameToken;
 
-    ClientToken currentPlayerToken;
     GameState gs;
     Player currentPlayer;
     ClientToken ctoken1 = new ClientToken("playertoken1",null);
     ClientToken ctoken2 = new ClientToken("playertoken2", null);
+    ClientToken currentPlayerToken = ctoken1;
 
+    
     @Before
     public void setup() throws RemoteException{
 
@@ -95,7 +96,7 @@ public class AttackTest {
       
 
         
-        
+       /* 
         Event endEvent = new Event(currentPlayerToken,"endturn",null);
         response = gm.dispatchMessage(endEvent);
         System.out.println("Fine Turno"+response);
@@ -127,8 +128,8 @@ public class AttackTest {
         System.out.println(result);
 
         killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
-    
-    }
+        */
+        }
     
     
 

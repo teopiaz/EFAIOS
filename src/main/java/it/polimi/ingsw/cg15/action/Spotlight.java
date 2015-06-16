@@ -7,7 +7,10 @@ import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +72,13 @@ public class Spotlight extends Action {
                 }
             }
 
+            
+            String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
+            Map<String,String> retPub = new HashMap<String, String>();
+            retPub.put("player", currentPlayerNumber);
+            retPub.put("card","spotlight");
+            Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
+            Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
 
             retValues.put("return", Event.TRUE);
             return new Event(e, retValues);

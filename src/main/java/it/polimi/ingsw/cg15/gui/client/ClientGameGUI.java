@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
+import it.polimi.ingsw.cg15.gui.client.SidePanel.LogPanel;
 import it.polimi.ingsw.cg15.networking.Event;
 
 import java.awt.BorderLayout;
@@ -31,7 +32,7 @@ import javax.swing.JPanel;
 public class ClientGameGUI implements Runnable, ViewClientInterface {
 
     int[][] board = new int[23][15];
-    MapPanel map;
+    static MapPanel map;
     private JFrame frame;
     SpotlightLayerUI spotlightLayerUI;
     JLayer<JPanel> jlayerSpot;
@@ -68,7 +69,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         map = new MapPanel(true, board);
         frame.setSize(1280, 720);
 
-        JPanel sidepanel = new SidePanel();
+        JPanel sidepanel = new SidePanel(this);
 
         frame.add(sidepanel, BorderLayout.EAST);
         frame.add(map, BorderLayout.WEST);
@@ -258,7 +259,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
     @Override
     public void stampa(String msg) {
-        SidePanel.getActionPanel().printMsg(msg);
+       /// SidePanel.getActionPanel().printMsg(msg);
     }
 
     public void addToLog(String s) {
@@ -279,6 +280,14 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             String sector = e.getRetValues().get("move");
             addToLog("Giocatore " + player + " si è mosso in " + sector);
         }
+        
+        if (e.getRetValues().containsKey("card")) {
+            String player = e.getRetValues().get("player");
+            String card = e.getRetValues().get("card");
+            addToLog("Giocatore " + player + " ha usato la carta " + card);
+        }
+        
+        
         if (e.getRetValues().containsKey("attack")) {
             String playerNum = e.getRetValues().get("player");
             String position = e.getRetValues().get("attack");
@@ -328,11 +337,17 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     @Override
     public void currentPlayer(int currentPlayer) {
     	System.out.println("È il turno del giocatore "+ currentPlayer);
+    	SidePanel.getActionPanel().printMsg("È il turno del giocatore "+ currentPlayer);
         addToLog("È il turno del giocatore "+ currentPlayer);
         SidePanel.getActionPanel().getActionsList();
         SidePanel.getCardPanel().getCardsList();
 
         
+    }
+    
+    public static MapPanel getMapPanel() {
+        return map;
+
     }
     
 
