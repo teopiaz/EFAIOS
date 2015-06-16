@@ -77,7 +77,10 @@ public class SpotlightTest {
     @Test
     public final void testSpotlight() throws RemoteException {
 
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        
         String target;
         PlayerType type;
         if(currentPlayer.getPlayerType()==PlayerType.HUMAN){

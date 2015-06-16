@@ -79,9 +79,12 @@ public class Player {
      */
     public Player(){
         cards = new ArrayList<ItemCard>(MAX_ITEMCARD);
+        
+        
         cards.add(ItemCard.ITEM_SEDATIVES);
         cards.add(ItemCard.ITEM_ADRENALINE);
         cards.add(ItemCard.ITEM_SPOTLIGHT);
+        
 }
 
     /**
