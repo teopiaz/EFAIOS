@@ -453,7 +453,7 @@ public class NetworkHelper implements Observer {
     }
 
     /**
-     * @return a list with the available actions fot the player.
+     * @return a list with the available actions for the player.
      */
     public List<String> getAvailableActionsList() {
         List<String> actionList = new ArrayList<String>();
@@ -470,6 +470,10 @@ public class NetworkHelper implements Observer {
         return actionList;
     }
 
+    /**
+     * Set the game token for the game.
+     * @param gameToken The game Token.
+     */
     public void setGameToken(String gameToken){
         if(ctoken==null){
             requestClientToken();
@@ -477,10 +481,16 @@ public class NetworkHelper implements Observer {
         NetworkHelper.ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
     }
 
+    /**
+     * @return The game token for the current game.
+     */
     public String getGameToken(){
         return NetworkHelper.ctoken.getGameToken();
     }
 
+    /**
+     * @return the current player token.
+     */
     public String getPlayerToken() {
         if(ctoken==null){
             requestClientToken();
@@ -488,10 +498,17 @@ public class NetworkHelper implements Observer {
         return ctoken.getPlayerToken();
     }
 
+    /**
+     * @param ctoken The client token.
+     */
     public void setToken(ClientToken ctoken) {
         NetworkHelper.ctoken=ctoken;
     }
 
+    /**
+     * @param e The event received.
+     * @return an event with information about the action performed.
+     */
     private Event eventHandler(Event e){
         Event result =null;
         if(type==SOCKET){
@@ -507,10 +524,17 @@ public class NetworkHelper implements Observer {
         return result;
     }
 
+    /**
+     * @param view The client view .
+     */
     public void registerGui(ViewClientInterface view){
         this.view = view;
     }
 
+    /** 
+     * The method for updating the list of games.
+     * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+     */
     @Override
     public void update(Observable arg0, Object arg1) {
         Event e = (Event)arg1;
@@ -529,6 +553,10 @@ public class NetworkHelper implements Observer {
         view.stampa(e.toString());
     }
 
+    /**
+     * Method for send chat messages.
+     * @param message The message to sent.
+     */
     public void sendChat(String message) {
         if(ctoken==null){
             requestClientToken();
@@ -540,21 +568,34 @@ public class NetworkHelper implements Observer {
         Event result = eventHandler(e);  
     }
 
+    /**
+     * @return The player number of the current player.
+     */
     public int getPlayerNumber(){
         getPlayerInfo();
         return NetworkHelper.playerNumber;
     }
 
+    /**
+     * @return if it's my turn or not.
+     */
     public boolean isMyTurn(){
         getPlayerInfo();        
         return NetworkHelper.playerNumber == getTurnInfo();
     }
 
+    /**
+     * @return The position of the current player.
+     */
     public String getCurrentPosition() {
         Event response = getPlayerInfo();
         return response.getRetValues().get("currentposition");
     }
 
+    /**
+     * Save a list of client token into a file.
+     * @param clientToken The client token.
+     */
     private void saveTokenToFile(ClientToken clientToken) {
         FileOutputStream outputStream = null;
         try {
@@ -582,6 +623,10 @@ public class NetworkHelper implements Observer {
         }
     }
 
+    /**
+     * Restore (load) the client token from a file.
+     * @return a Client token.
+     */
     private boolean loadTokenFromFile(){
         File file = new File("efaios_token.txt");
         FileInputStream inputStream = null;
