@@ -32,39 +32,43 @@ import java.util.logging.Logger;
 
 public class NetworkHelper implements Observer {
 
-
     private SocketCommunicator server;
+    
     private GameManagerRemote gmRemote=null;
+    
     private static ClientToken ctoken=null;
+    
     private Map<String,String> args;
+    
     private ViewClientInterface view;
 
     private Thread subThread;
 
     private String ip;
+    
     private int port;
+    
     private final int SOCKET = 1;
+    
     private final int RMI = 2;
+    
     private int type;
+    
     private static NetworkHelper instance = null;
+    
     private static int playerNumber;;
-
 
     //costruttore sock
     private NetworkHelper(String ip, int port){
         this.ip = ip;
         this.port = port;
         this.type=SOCKET;
-
     }
-
-
 
     private NetworkHelper() throws RemoteException, AlreadyBoundException,MalformedURLException, NotBoundException{
         ClientRMI clientRMI = new ClientRMI();
         gmRemote = clientRMI.connect();
         this.type=RMI;
-
     }
 
     public static NetworkHelper getInstance(){
@@ -81,30 +85,20 @@ public class NetworkHelper implements Observer {
         return instance;
     }
 
-
-
     public static NetworkHelper getClientSocket(String ip, int port) {
-
         instance =new NetworkHelper(ip,port);
-
         return instance;
     }
-
+    
     public static NetworkHelper getClientRMI() throws RemoteException, MalformedURLException, AlreadyBoundException, NotBoundException{
         instance =new NetworkHelper();
         return instance;
     }
 
-
-
     public void requestClientToken() {
         //if(!loadTokenFromFile()){
-
-
-
         Event e = new Event(new ClientToken(null, null), "requesttoken");
         Event result = null;
-
         if(type==SOCKET){
             result = send(e);
             NetworkHelper.ctoken= result.getToken();
@@ -113,7 +107,6 @@ public class NetworkHelper implements Observer {
             try {
                 result = gmRemote.getClientToken();
                 NetworkHelper.ctoken = result.getToken();
-
             } catch (RemoteException e1) {
                 Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
             } 
@@ -138,7 +131,6 @@ public class NetworkHelper implements Observer {
         return NetworkProxy.JSONToEvent(response);
     }
 
-
     public void createGame(String gameName, String mapName) {
         //TODO: gestione errori
         if(ctoken==null){
@@ -148,34 +140,26 @@ public class NetworkHelper implements Observer {
         args.put("gamename", gameName);
         args.put("mapname", mapName);
         Event e = new Event(ctoken,"creategame",args);
-
-
         if(type==SOCKET){
             Event result = send(e);
         }
         if(type==RMI){
             try {
                 Event result = gmRemote.createGame(e);
-
-
             } catch (RemoteException e1) {
                 Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
             }
-
         }
         System.out.println("Game Created: "+ gameName);
     }
 
     public Map<String, String> getGamesList() {
-
         if(ctoken==null){
             requestClientToken();
         }
-
         args=new HashMap<String, String>();
         Event e = new Event(ctoken,"listgame",args);
         Event result = null;
-
         if(type==SOCKET){
             result = send(e);
         }
@@ -187,37 +171,26 @@ public class NetworkHelper implements Observer {
             }
         }
         // loadTokenFromFile();
-
         return result.getRetValues();
-
     }
-
-
+    
     public Event joinGame(String gameToken) {
         if(ctoken==null){
             requestClientToken();
         }
-
         ctoken = new ClientToken(ctoken.getPlayerToken(), gameToken);
-
         Event e = new Event(ctoken,"joingame",args);
         Event response = null;
-
         if(type==SOCKET){
-
-
             response = send(e);
-
             if(response.getRetValues().get("error")!=null){
                 System.out.println("ERRORE: " +response.getRetValues().get("error"));
             }
             else{
                 subThread =  new Thread(new SubscriberSocketThread(gameToken));
                 subThread.start();
-
                 System.out.println(response.getRetValues().get("return"));
                 saveTokenToFile(ctoken);
-
             }
         }
         if(type==RMI){
@@ -233,22 +206,13 @@ public class NetworkHelper implements Observer {
                     subThread.start();
                     System.out.println(response.getRetValues().get("return"));
                     saveTokenToFile(ctoken);
-
                 }
-
             } catch (RemoteException e1) {
                 Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
             }
-
         }
         return response;
-
     }
-
-
-
-
-
 
     public Map<String, String> getGameInfo(String gameToken) {
         if(ctoken==null){
@@ -281,70 +245,44 @@ public class NetworkHelper implements Observer {
         return result.getRetValues().get("map");
     }
 
-
-
     public Event move(String destination) {
-
         args = new HashMap<String,String>();
         args.put("destination", destination);
         Event e = new Event(ctoken,"move",args);
         return eventHandler(e);  
-
     }
 
-
-
     public Event askSector(String position) {
-
         args = new HashMap<String,String>();
         args.put("position", position);
         Event e = new Event(ctoken,"asksector",args);
         return eventHandler(e);  
-
     }
 
-
     public Event useCard(String card) {
-
         args = new HashMap<String, String>();
         args.put("itemcard", card);
         Event e = new Event(ctoken,"useitem",args);
-
         return eventHandler(e);  
-
-
     }
 
-
-
     public Event spotlight(String target) {
-
         args = new HashMap<String, String>();
         args.put("itemcard", "spotlight");
         args.put("target", target); 
         Event e = new Event(ctoken,"useitem",args);
         return eventHandler(e);
-
     }
 
-
-
     public Event  attack() {
-
         Event e = new Event(ctoken,"attack",null);
         return eventHandler(e);
     }
-
-
-
+    
     public Event endTurn() {
         Event e = new Event(ctoken,"endturn",null);
-
         return eventHandler(e);
-
     }
-
-
 
     public Event getPlayerInfo() {        
         if(ctoken==null){
@@ -356,70 +294,47 @@ public class NetworkHelper implements Observer {
             NetworkHelper.playerNumber=Integer.parseInt(result.getRetValues().get("playernumber"));
         }
         return result;
-
-
     }
-
 
     public int getTurnInfo() {
         if(ctoken==null){
             requestClientToken();
         }
         Event e = new Event(ctoken,"getturninfo",null);
-
         Event result = eventHandler(e);  
         System.err.println(result);
-
         return Integer.parseInt( result.getRetValues().get("currentplayer"));
-
     }
-
 
     public List<String> getAvailableCardsList() {
         List<String> cardList = new ArrayList<String>();
         Event e = new Event(ctoken,"getcardlist",null);
-
         Event result = eventHandler(e);  
-
         if(result.actionResult()){
-
             String size =result.getRetValues().get("cardssize");
-
             for (String action : result.getRetValues().keySet()) {
                 if((!action.equals("return")) && (!action.equals("cardssize")) ){
                     cardList.add(action);  
                 }
-
-
             }
         }
         return cardList;
-
     }
-
-
 
     public List<String> getAvailableActionsList() {
         List<String> actionList = new ArrayList<String>();
         Event e = new Event(ctoken,"getactionlist",null);
-
         Event result = eventHandler(e);  
         if(result.actionResult()){
-
             for (String action : result.getRetValues().keySet()) {
                 if(!action.equals("return")){
                     actionList.add(action);  
                 }
-
-
             }
 
         }
         return actionList;
     }
-
-
-
 
     public void setGameToken(String gameToken){
         if(ctoken==null){
@@ -432,30 +347,21 @@ public class NetworkHelper implements Observer {
         return NetworkHelper.ctoken.getGameToken();
     }
 
-
-
     public String getPlayerToken() {
         if(ctoken==null){
             requestClientToken();
         }
-
         return ctoken.getPlayerToken();
     }
-
-
 
     public void setToken(ClientToken ctoken) {
         NetworkHelper.ctoken=ctoken;
     }
 
-
     private Event eventHandler(Event e){
-
-
         Event result =null;
         if(type==SOCKET){
             result = send(e);
-
         }
         if(type==RMI){
             try {
@@ -463,7 +369,6 @@ public class NetworkHelper implements Observer {
             } catch (RemoteException e1) {
                 Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
             }
-
         }
         return result;
     }
@@ -471,8 +376,6 @@ public class NetworkHelper implements Observer {
     public void registerGui(ViewClientInterface view){
         this.view = view;
     }
-
-
 
     @Override
     public void update(Observable arg0, Object arg1) {
@@ -490,13 +393,9 @@ public class NetworkHelper implements Observer {
             view.chat(e);
         }
         view.stampa(e.toString());
-
     }
 
-
-
     public void sendChat(String message) {
-
         if(ctoken==null){
             requestClientToken();
         }
@@ -504,10 +403,7 @@ public class NetworkHelper implements Observer {
         args = new HashMap<String,String>();
         args.put("message", sanitizedMessage);
         Event e = new Event(ctoken,"chat",args);
-
         Event result = eventHandler(e);  
-
-
     }
 
     public int getPlayerNumber(){
@@ -518,59 +414,41 @@ public class NetworkHelper implements Observer {
     public boolean isMyTurn(){
         getPlayerInfo();        
         return NetworkHelper.playerNumber == getTurnInfo();
-
     }
-
-
 
     public String getCurrentPosition() {
         Event response = getPlayerInfo();
         return response.getRetValues().get("currentposition");
-
     }
 
-
-
-
     private void saveTokenToFile(ClientToken clientToken) {
-
-
         FileOutputStream outputStream = null;
         try {
-
             File file = new File("efaios_token.txt");
             outputStream = new FileOutputStream(file);
-
             // if file doesnt exists, then create it
             if (!file.exists()) {
                 file.createNewFile();
             }
-
             String content = clientToken.getPlayerToken()+","+clientToken.getGameToken();
-
             byte[] contentInBytes = content.getBytes();
-
             outputStream.write(contentInBytes);
             outputStream.flush();
             outputStream.close();
-
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
         } finally {
             try {
                 if (outputStream != null) {
                     outputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
             }
         }
-
     }
 
     private boolean loadTokenFromFile(){
-
-
         File file = new File("efaios_token.txt");
         FileInputStream inputStream = null;
         String gameToken=null;
@@ -582,9 +460,7 @@ public class NetworkHelper implements Observer {
             return false;
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
         String line = null;
-
         try {
             line = reader.readLine();
         } catch (IOException e1) {
@@ -592,21 +468,16 @@ public class NetworkHelper implements Observer {
         }
         while (line != null) {
             String[] splitted = line.split(",");
-
             gameToken =splitted[1];
             playerToken = splitted[0];
-
             System.out.println("LOADED:\n"+"PLAYER TOKEN: "+playerToken+"\nGAME TOKEN: "+gameToken);
             // this.ctoken = new ClientToken(playerToken, gameToken);
-
-
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
                 Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e1);
             }
         }
-
         try {
             reader.close();
         } catch (IOException e) {
@@ -620,11 +491,6 @@ public class NetworkHelper implements Observer {
         }
          */
         return false;
-
-
     }
-
-
-
 
 }
