@@ -38,12 +38,12 @@ public class CardPanel extends JPanel{
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
     
     public CardPanel(){
-       /* 
+        
         setPreferredSize(new Dimension(300, 110));
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
         setBackground(Color.BLACK);
-        */
+        
        // setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setLayout(new FlowLayout());
      
@@ -92,6 +92,9 @@ public class CardPanel extends JPanel{
         add(spotLightLabel);
         add(defenseLabel);
         
+        for (JLabel cardlabel : cardMap.values()) {
+        	cardlabel.setVisible(false);
+    }
 	
 
         adrenalineLabel.addMouseListener(new MouseAdapter() {
@@ -100,6 +103,7 @@ public class CardPanel extends JPanel{
           public void mouseClicked(MouseEvent me) {
              
               networkHelper.useCard("adrenaline");
+          	SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
               revalidate();
               
             }
@@ -111,6 +115,8 @@ public class CardPanel extends JPanel{
           public void mouseClicked(MouseEvent me) {
              
               networkHelper.useCard("sedatives");
+            	SidePanel.getActionPanel().printMsg("Hai usato la carta Sedativi");
+
               revalidate();
               
             }
@@ -121,8 +127,11 @@ public class CardPanel extends JPanel{
 
               @Override
             public void mouseClicked(MouseEvent me) {
-                
-                  networkHelper.spotlight("L07");
+              	String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+
+                  networkHelper.spotlight(target);
+              	SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+
                   revalidate();
                 
               }
@@ -157,12 +166,14 @@ public class CardPanel extends JPanel{
      
         List<String> cardList = new ArrayList<String>();
 
-        for (String card : cardList) {
-        		cardMap.get(card).setVisible(false);
-        }
-        revalidate();
-
-        if(networkHelper.isMyTurn()){       
+        
+       
+        if(networkHelper.isMyTurn()){  
+        	
+        	 for (JLabel cardlabel : cardMap.values()) {
+             	cardlabel.setVisible(false);
+             }
+             revalidate();
 
             System.out.println("è il mio turno prendo la lista delle carte");
             cardList = networkHelper.getAvailableCardsList();

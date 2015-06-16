@@ -3,7 +3,10 @@ package it.polimi.ingsw.cg15.action;
 import it.polimi.ingsw.cg15.controller.GameController;
 import it.polimi.ingsw.cg15.controller.player.PlayerController;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
+import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
+import it.polimi.ingsw.cg15.networking.NetworkProxy;
+import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -50,6 +53,17 @@ public class Teleport extends Action {
             pc.removeCard(ItemCard.ITEM_TELEPORT);
             pc.setItemUsed();
             pc.movePlayer(getGameController().getFieldController().getHumanStartingPosition());
+            
+            String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
+            Map<String,String> retPub = new HashMap<String, String>();
+            retPub.put("player", currentPlayerNumber);
+            retPub.put("card","teleport");
+            Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
+            Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
+
+            
+            
+            
             retValues.put("return", Event.TRUE);
             return new Event(e, retValues);
         }

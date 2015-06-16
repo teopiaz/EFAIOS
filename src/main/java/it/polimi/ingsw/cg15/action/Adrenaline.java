@@ -60,7 +60,7 @@ public class Adrenaline extends Action {
             String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
             Map<String,String> retPub = new HashMap<String, String>();
             retPub.put("player", currentPlayerNumber);
-            retPub.put("card","spotlight");
+            retPub.put("card","adrenaline");
             Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
             Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
 

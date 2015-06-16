@@ -34,16 +34,18 @@ public class SidePanel extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     private DefaultListModel<String> selections = new DefaultListModel<>();
+	private static ClientGameGUI mainPanel;
 
     {
         selections.addElement("In attesa per l'inizio del match...");
 
     }
 
-    public SidePanel() {
+    public SidePanel(ClientGameGUI clientGameGUI) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-
+        mainPanel = clientGameGUI;
+        
         setBackground(Color.black);
 
         logPanel = new LogPanel();
@@ -203,5 +205,9 @@ public class SidePanel extends JPanel {
         return cardPanel;
 
 	}
+	public static ClientGameGUI getMainPanel() {
+        return mainPanel;
+	}
+	
 
 }

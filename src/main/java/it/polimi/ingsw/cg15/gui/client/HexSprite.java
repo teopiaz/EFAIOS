@@ -60,14 +60,13 @@ public class HexSprite {
 		return new Polygon(cx,cy,6);
 	}
 
-	public static void fillHex(int i, int j, String label, Graphics2D g2,int n) {
+	public static void fillHex( int i, int j, String label, Graphics2D g2,int n,boolean isSelected, int selectedSectorX,int selectedSectorY) {
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		g2.setFont(CFont.getFont("TopazPlus"));
 
 				if (n == 1) {
 			        g2.setColor(new Color(0,0,0,200));
-					//g2.setColor(Color.DARK_GRAY);
 					g2.fillPolygon(hex(x,y));
 					g2.setColor(Color.WHITE);
 					g2.drawString(""+label, x+r+BORDERS-label.length()*3, y+r+BORDERS+4); 
@@ -75,7 +74,6 @@ public class HexSprite {
 				}
 
                 if (n ==2 ) {
-                   // g2.setColor(Color.LIGHT_GRAY);
                     g2.setColor(new Color(192,192,192,200));
 
                     g2.fillPolygon(hex(x,y));
@@ -87,13 +85,11 @@ public class HexSprite {
                     //hatch
                     if(sectorHatchImage==null){
                         sectorHatchImage = ImageLoader.load("24");
-                     //   System.out.println(sectorHatchImage);
                     }
                     Polygon poly = hex(x,y);
                     
                   Rectangle2D rect = new Rectangle2D.Double(0,0, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
                     rect.setFrame(x-15,y-10, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
-                  //  System.out.println("x: "+x+" y "+y+"\n"+"i "+i+" j "+j);
                     TexturePaint tex = new TexturePaint(sectorHatchImage, rect);
                     
                     g2.setPaint(tex);
@@ -112,7 +108,6 @@ public class HexSprite {
                     
                   Rectangle2D rect = new Rectangle2D.Double(0,0, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
                     rect.setFrame(x-15,y-10, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
-                  //  System.out.println("x: "+x+" y "+y+"\n"+"i "+i+" j "+j);
                     TexturePaint tex = new TexturePaint(sectorHumanImage, rect);
                     
                     g2.setPaint(tex);
@@ -128,7 +123,6 @@ public class HexSprite {
                     
                   Rectangle2D rect = new Rectangle2D.Double(0,0, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
                     rect.setFrame(x-15,y-10, poly.getBounds2D().getWidth(), poly.getBounds2D().getHeight());
-                   // System.out.println("x: "+x+" y "+y+"\n"+"i "+i+" j "+j);
                     TexturePaint tex = new TexturePaint(sectorAlienImage, rect);
                     
                     g2.setPaint(tex);
@@ -136,6 +130,15 @@ public class HexSprite {
                      g2.fill(poly);
                     
               
+                }
+
+                if(isSelected && selectedSectorX == i && selectedSectorY==j){
+                    g2.setColor(new Color(0,255,0,100));
+					g2.fillPolygon(hex(x,y));
+				//  g2.setColor(Color.DARK_GRAY);
+				//	g2.drawString(""+label, x+r+BORDERS-label.length()*3, y+r+BORDERS+4); 
+
+				
                 }
                 
 					}
