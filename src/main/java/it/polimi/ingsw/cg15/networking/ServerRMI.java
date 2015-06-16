@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.networking;
 
-import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 

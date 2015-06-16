@@ -6,8 +6,6 @@ import it.polimi.ingsw.cg15.networking.Event;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
