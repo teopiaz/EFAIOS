@@ -10,19 +10,27 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+/**
+ * @author MMP - LMR
+ * The main Graphical User Interface Client.
+ */
 public class MainClientGUI {
+    
     private MainClientGUI() {
-
     }
 
+    /**
+     * The main of GUI.
+     * @param args
+     * @throws RemoteException
+     * @throws MalformedURLException
+     * @throws AlreadyBoundException
+     * @throws NotBoundException
+     */
     public static void main(String[] args) throws RemoteException, MalformedURLException,  AlreadyBoundException, NotBoundException {
-
         boolean intro = false;
         NetworkHelper netHelper = NetworkHelper.getClientSocket("localhost", 1337);
-
-
         Runnable clientTaskGUI = new ClientGameGUI(netHelper);
-
         Runnable taskLobby = new ClienLobbyGUI(netHelper, clientTaskGUI);
         EventQueue.invokeLater(clientTaskGUI);
         EventQueue.invokeLater(taskLobby);
@@ -31,7 +39,6 @@ public class MainClientGUI {
         } else {
             ((ClienLobbyGUI) taskLobby).showGUI();
         }
-
     }
 
 }
