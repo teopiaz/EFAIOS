@@ -35,10 +35,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author LMR - MMP The Game Controller class. It contains many methods to
- *         manage the game. The most important are the ones that make the game
- *         start, end, change the current turn. It also allow to obtain
- *         information on various aspects of the current game.
+ * @author MMP - LMR
+ * The Game Controller class. It contains many methods to
+ * manage the game. The most important are the ones that make the game
+ * start, end, change the current turn. It also allow to obtain
+ * information on various aspects of the current game.
  */
 public class GameController {
 
@@ -77,10 +78,7 @@ public class GameController {
 
     /**
      * The constructor of the class.
-     * 
-     * @param gameBox
-     *            A container which has the information required to the game
-     *            controller
+     * @param gameBox A container which has the information required to the game controller.
      */
     public GameController(GameBox gameBox) {
         this.gameState = gameBox.getGameState();
@@ -96,12 +94,10 @@ public class GameController {
      * starting position from which to begin the match.
      */
     public void popolateField() {
-
         int numPlayer = players.size();
         int numHumans = numPlayer / 2;
         int numAliens = numPlayer - numHumans;
         Field field = gameState.getField();
-
         Random ran = new Random();
         int playerNumber = 1;
         for (Player player : players.values()) {
@@ -130,42 +126,33 @@ public class GameController {
     }
 
     /**
-     * This is the method that is called when I want to start a game. Call the
-     * method that assigns to players a starting position. It generates the
-     * decks of cards required for each game.
-     * 
-     * @param mapName
-     *            the name of the map in which I want to play.
+     * This is the method that is called when I want to start a game. 
+     * Call the method that assigns to players a starting position. 
+     * It generates the decks of cards required for each game.
+     * @param mapName The name of the map in which I want to play.
      */
     public void initGame(String mapName) {
-
         fieldController.loadMap(mapName);
         popolateField(); // Give each player a starting position.
         PlayerController pc = new PlayerController(gameState);
         gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
         cardController.generateDecks();
         gameState.setInit();
-
-    
         nextTurn();
     }
 
     /**
-     * The manager of the turn of the game. Go to the next player who has to
-     * play.
+     * The manager of the turn of the game. Go to the next player who has to play.
      */
     public void nextTurn() {
-
         int turnNumber = gameState.getTurnNumber();
         if (!isGameEnded()) {
             TurnState turnState = null;
             PlayerController pc = new PlayerController(gameState);
             if (turnNumber == 1) {
                 turnState = gameState.newTurnState(pc.getPlayerById(PlayerController.FIRST_PLAYER));
-
             } else {
-                turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer()
-                        .getPlayerNumber()));
+                turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
             }
             if (turnState.getCurrentPlayer().isAlive() || !turnState.getCurrentPlayer().isEscaped()) {
                 gameState.setTurnNumber(turnNumber + 1);
@@ -186,7 +173,6 @@ public class GameController {
             String json = NetworkProxy.eventToJSON(new Event(new ClientToken("", gameToken), "pub",null, retValues));
             Broker.publish(gameToken, json);
         }
-
     }
 
     /**
@@ -197,18 +183,12 @@ public class GameController {
     }
 
     /**
-     * This event handler is concerned to translate the message received in some
-     * specific action to perform.
-     * 
-     * @param e
-     *            The event that I received and that I have to worry about
-     *            managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * This event handler is concerned to translate the message received in some specific action to perform.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     public Event eventHandler(Event e) {
         Event response = null;
-
         synchronized (gameState) {
             String playerToken = e.getToken().getPlayerToken();
             if (playerToken != null && (gameState.isStarted() && gameState.isInit())) {
@@ -232,7 +212,6 @@ public class GameController {
                 case "chat":
                     response = chat(e);
                     break;
-
                 default:
                     if (players.containsKey(playerToken)) {
                         Player thisPlayer = players.get(playerToken);
@@ -246,19 +225,15 @@ public class GameController {
                 }
             }
         }
-
         return response;
     }
 
     /**
      * The method that allows you to use one of the object card available.
-     * 
      * @param e The event that I received and that I have to worry about managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event useItemCard(Event e) {
-
         String strCard = e.getArgs().get("itemcard");
         ItemCard card = ItemCard.fromString(strCard);
         Event response = null;
@@ -291,16 +266,12 @@ public class GameController {
 
     /**
      * Method that allows to obtain the list of cards owned by a certain player.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *          managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event getCardList(Event e) {
         String playerToken = e.getToken().getPlayerToken();
         Player thisPlayer = players.get(playerToken);
-
         List<ItemCard> list = thisPlayer.getCardList();
         int cardsSize = thisPlayer.getCardListSize();
         Map<String, String> retValues = new HashMap<String, String>();
@@ -315,11 +286,8 @@ public class GameController {
     /**
      * Method that allows to obtain the list of actions available for a
      * particular player.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *            managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event getActionList(Event e) {
         List<ActionEnum> listAction = gameState.getTurnState().getActionList();
@@ -333,12 +301,9 @@ public class GameController {
 
     /**
      * The method that calls the respective actions to be performed depending on
-     * which is requested.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *           managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * which is requested. 
+     * @param e The event that I received and that I have to worry about managing.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event handleAction(Event e) {
         if (gameState.getTurnState().isActionInActionList(e.getCommand())) {
@@ -378,11 +343,8 @@ public class GameController {
 
     /**
      * It allows you to end the current turn.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *            managing.
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event endTurn(Event e) {
         Map<String, String> retValues = new HashMap<String, String>();
@@ -397,12 +359,9 @@ public class GameController {
 
     /**
      * A method that allows to receive various player information.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *            managing.
-     * @return various information about the players: the unique number, the
-     *         current position, the number of card owned by a player and the
-     *         type of the player.
+     * @param e The event that I received and that I have to worry about managing.
+     * @return various information about the players: the unique number, the current position, the number of card owned by a player and the
+     * type of the player.
      */
     private Event getPlayerInfo(Event e) {
         String playerToken = e.getToken().getPlayerToken();
@@ -418,9 +377,7 @@ public class GameController {
 
     /**
      * A method that lets you know what is the current player.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *            managing.
+     * @param e The event that I received and that I have to worry about managing.
      * @return the current player.
      */
     private Event getTurnInfo(Event e) {
@@ -433,7 +390,6 @@ public class GameController {
 
     /**
      * Method that allows to delete an action from the list of those available.
-     * 
      * @param action The action to be removed.
      */
     public void removeAction(ActionEnum action) {
@@ -447,16 +403,13 @@ public class GameController {
         gameState.setEnded();
         Map<String, String> retValues = new HashMap<String, String>();
         Event endEvent = new Event(new ClientToken("", getGameToken()), "endgame", null, retValues);
-
         for (Entry<String, Player> item : players.entrySet()) {
             Player player = item.getValue();
             if (player.getStatus() == Player.WIN) {
                 retValues.put(Integer.toString(player.getPlayerNumber()), "win");
             } else {
                 retValues.put(Integer.toString(player.getPlayerNumber()), "lose");
-
             }
-
         }
         Broker.publish(gameToken, NetworkProxy.eventToJSON(endEvent));
         GameManager.getInstance().getGameBoxList().get(gameToken).setToRemove();
@@ -464,18 +417,17 @@ public class GameController {
 
     /**
      * Method that lets you know if the game is over or not.
-     * 
-     * @return yes or no
+     * The various ways that a game can be ended are:
+     * - gone 39 rounds;
+     * - all humans have escaped;
+     * - all escape sectors are blocked;
+     * - aliens killed all humans.
+     * @return yes or no if the game is already ended.
      */
     public boolean isGameEnded() {
-        /*
-         * tot turni tutti umani scappati tutti settori bloccati alieni hanno
-         * ucciso l'ultimo umano
-         */
         if (fieldController.allHatchBlocked()) {
             gameState.setEnded();
         }
-
         if (gameState.getTurnNumber() >= MAX_TURN_NUMBER) {
             for (Entry<String, Player> item : players.entrySet()) {
                 Player player = item.getValue();
@@ -485,19 +437,15 @@ public class GameController {
             }
             gameState.setEnded();
         }
-
         if (allHumansGone()) {
-
             for (Entry<String, Player> item : players.entrySet()) {
                 Player player = item.getValue();
                 if (player.isAlive() && !(player.getPlayerType() == PlayerType.HUMAN)) {
                     player.setWin();
                 }
             }
-
             gameState.setEnded();
         }
-
         if (gameState.isEnded()) {
             endGame();
             return true;
@@ -505,8 +453,10 @@ public class GameController {
             return false;
     }
 
+    /**
+     * @return boolean that says if all players were eliminated.
+     */
     private boolean allHumansGone() {
-
         boolean flag = true;
         for (Entry<String, Player> item : players.entrySet()) {
             Player player = item.getValue();
@@ -520,9 +470,7 @@ public class GameController {
 
     /**
      * Method for returning the current map on which you are playing.
-     * 
-     * @param e The event that I received and that I have to worry about
-     *            managing.
+     * @param e The event that I received and that I have to worry about managing.
      * @return the map itself.
      */
     private Event getMap(Event e) {
@@ -535,7 +483,6 @@ public class GameController {
 
     /**
      * Method for returning the field controller.
-     * 
      * @return the field controller.
      */
     public FieldController getFieldController() {
@@ -543,12 +490,9 @@ public class GameController {
     }
 
     /**
-     * Return a new instance of a specific Player Controller from an enumeration
-     * value.
-     * 
-     * @param player the player
-     * @return Return a new instance of a specific Player Controller from an
-     *         enumeration value.
+     * Return a new instance of a specific Player Controller from an enumeration value.
+     * @param player The player.
+     * @return Return a new instance of a specific Player Controller from an enumeration value.
      */
     public PlayerController getPlayerInstance(Player player) {
         String className = ((new PlayerController(gameState)).getClass().getPackage() + "."
@@ -560,34 +504,27 @@ public class GameController {
             Constructor<?> costruttore = classe.getConstructor(GameState.class);
             object = costruttore.newInstance(gameState);
         } catch (ClassNotFoundException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "ClassNotFoundException",
-                    e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "ClassNotFoundException", e);
         } catch (NoSuchMethodException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "NoSuchMethodException",
-                    e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "NoSuchMethodException", e);
         } catch (SecurityException e) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "SecurityException", e);
         } catch (InstantiationException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "InstantiationException",
-                    e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "InstantiationException", e);
         } catch (IllegalAccessException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IllegalAccessException",
-                    e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IllegalAccessException", e);
         } catch (IllegalArgumentException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE,
-                    "IllegalArgumentException", e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IllegalArgumentException", e);
         } catch (InvocationTargetException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE,
-                    "InvocationTargetException", e);
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "InvocationTargetException", e);
         }
         return objectToPlayerController(object);
     }
 
     /**
-     * Cast an object to PlayerController to avoid compile time type checking errors
-     * 
-     * @param myObject
-     * @return
+     * Cast an object to PlayerController to avoid compile time type checking errors.
+     * @param myObject The object to cast.
+     * @return The Player Controller.
      */
     private PlayerController objectToPlayerController(Object myObject) {
         return (PlayerController) myObject;
@@ -604,7 +541,6 @@ public class GameController {
      * Removes all the actions available to the user and adds only ask sector.
      * This particular action allows to obtain an area in which is possible to make "noise". 
      * Is needed by NoiseGreen action allowing you to lie about your current position.
-     * 
      * @return true or false based on the success of the action list swap.
      */
     public boolean askForSector() {
@@ -628,32 +564,25 @@ public class GameController {
     }
 
     /**
-     * Method that publish the received message to all players
-     * 
+     * Method that publish the received message to all players. Implementation of the chat.
      * @param e The event that contains the message
-     * @return The response to the event that has the information to handle the
-     *         fact that action is successful or not.
+     * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
     private Event chat(Event e) {
         Map<String, String> retValues = new HashMap<String, String>();
         Map<String, String> retPub = new HashMap<String, String>();
-
         if (e.getArgs().containsKey("message")) {
             Player thisPlayer = players.get(e.getToken().getPlayerToken());
             String message = e.getArgs().get("message");
             String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
-
             retValues.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
             retValues.put("message", sanitizedMessage);
             retValues.put("return", Event.TRUE);
-
             retPub.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
             retPub.put("message", sanitizedMessage);
             Event toPublish = new Event(new ClientToken("", gameToken), "chat", null, retPub);
             Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
-
             return new Event(e, retValues);
-
         }
         retValues.put("return", Event.FALSE);
         retValues.put(Event.ERROR, "errore messaggio");

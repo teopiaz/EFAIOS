@@ -12,26 +12,33 @@ import it.polimi.ingsw.cg15.networking.pubsub.Broker;
 
 /**
  * @author MMP - LMR
- * This class contains the logic of "noise".
+ * This class contains the logic of "noise" in a particular sector..
  */
 public class MakeNoise extends Action {
 
-    Event e;
     /**
-     * @param gc the game controller
+     * The event.
+     */
+    Event e;
+    
+    /**
+     * @param gc The game controller.
      */
     public MakeNoise(GameController gc,Event e) {
         super(gc);
         this.e=e;
     }
 
-
+/**
+ * Perform the action of make noise in a particular sector.
+ * @return a message with the list of return values.
+ * @see it.polimi.ingsw.cg15.action.Action#execute()
+ */
     @Override
     public Event execute() {
         Coordinate position;
         if(e.getArgs().containsKey("position")){
             position = Coordinate.getByLabel(e.getArgs().get("position"));
-
         }else{
          position = getCurrentPlayerController().getPlayerPosition();
         }
@@ -44,7 +51,6 @@ public class MakeNoise extends Action {
         retValues.put("noise", Event.TRUE);
         retValues.put("position", position.toString());
         e = new Event(e, retValues);
-        
         String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
         Map<String,String> retPub = new HashMap<String, String>();
         retPub.put("player", currentPlayerNumber);
@@ -52,8 +58,6 @@ public class MakeNoise extends Action {
         retPub.put("position", position.toString());
         Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
         Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
-        
-        
         return e;
     }
 

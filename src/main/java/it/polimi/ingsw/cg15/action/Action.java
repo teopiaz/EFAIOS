@@ -11,12 +11,14 @@ import it.polimi.ingsw.cg15.networking.Event;
  */
 public abstract class Action {
 
+    /**
+     * The game controller.
+     */
     private GameController gameController;
 
-
     /**
-     * The constructor
-     * @param gc is the Game Controller
+     * The constructor.
+     * @param gc Is the Game Controller.
      */
     public Action(GameController gc) {
         this.gameController = gc;
@@ -38,10 +40,9 @@ public abstract class Action {
     }
 
     /**
-     * This is the method that will be override.
-     * @return
+     * This is the method that will be override by other classes to implements the TODO nome del patterne per le azioni.
+     * @return 
      */
     public abstract Event execute();
-
 
 }

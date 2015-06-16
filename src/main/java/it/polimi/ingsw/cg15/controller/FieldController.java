@@ -30,7 +30,7 @@ public class FieldController {
     }
 
     /**
-     * A method that return a field specified by the map name.
+     * A method that return a field specified by the name's map.
      * @param mapName The name of the map.
      * @return the field requested.
      */
@@ -129,6 +129,9 @@ public class FieldController {
         field.setHatchBroken(sector);
     }
 
+    /**
+     * @return true if all hatch sector are blocked.
+     */
     public boolean allHatchBlocked() {
         for (Coordinate hatchSector : field.getHatchSectorsList().keySet()) {
             if(field.getHatchSectorStatus(hatchSector)==true){
