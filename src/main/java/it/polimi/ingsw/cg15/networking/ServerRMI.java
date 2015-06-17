@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.networking;
 
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
+import it.polimi.ingsw.cg15.networking.pubsub.BrokerRMI;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
@@ -40,6 +41,8 @@ public class ServerRMI implements Server {
     public ServerRMI() throws RemoteException, AlreadyBoundException{
         registry = LocateRegistry.createRegistry(PORT);
         System.out.println("CREO IL REGISTRO");
+       
+        
     }
     
     /**
@@ -63,7 +66,11 @@ public class ServerRMI implements Server {
      */
     @Override
     public void run() {
-        // TODO Auto-generated method stub
+        
+
+    	
+    	
+    	
     }
 
     /**

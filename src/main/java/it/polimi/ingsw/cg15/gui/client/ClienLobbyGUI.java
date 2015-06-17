@@ -36,19 +36,11 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ClienLobbyGUI implements Runnable{
 
-    /**
-     * The frame.
-     */
+
     JFrame frame;
-    
-    /**
-     * The table.
-     */
+
     JTable table;
-    
-    /**
-     * TODO che roba è?
-     */
+  
     MyTableModel tableModel = new MyTableModel();
     
     /**
@@ -118,6 +110,7 @@ public class ClienLobbyGUI implements Runnable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+            	System.out.println(networkHelper.getType());
                 updateGameList();
             }
             

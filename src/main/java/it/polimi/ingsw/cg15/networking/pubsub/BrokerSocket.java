@@ -107,10 +107,6 @@ public class BrokerSocket extends Thread implements Server{
      * @param msg The message to send.
      */
     public static void publish(String topic,String msg){
-        System.out.println(topicMap.containsKey(topic));
-        for (Entry<String,List<BrokerSocketThread>> str : topicMap.entrySet()) {
-            System.out.println("topic".equals(str.getKey().equals("topic1")));
-        }
         if(topicMap.containsKey(topic)){
             List<BrokerSocketThread> subscribers = topicMap.get(topic);
             if(!subscribers.isEmpty()){
