@@ -1,5 +1,10 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
 /**
  * @author MMP - LMR
  * The broker class.
@@ -15,6 +20,8 @@ public class Broker {
      * The Broker Socket.
      */
     private static BrokerSocket brokerSocket;
+    
+    private static BrokerRMI brokerRMI;
 
     /**
      * Create a new broker.
@@ -23,6 +30,22 @@ public class Broker {
      brokerSocket = BrokerSocket.getInstance();
      Thread brokerSocketThread = new Thread(brokerSocket);
      brokerSocketThread.start();
+     
+ 
+		try {
+			brokerRMI = new BrokerRMI();
+			
+			Registry registry = LocateRegistry.createRegistry(7777);	
+			BrokerRMIInterface stub = (BrokerRMIInterface)UnicastRemoteObject.exportObject(brokerRMI, 0);
+			registry.rebind("Broker", stub);
+
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	
     }
 
     /**
@@ -39,6 +62,7 @@ public class Broker {
      */
     public static void publish(String topic,String msg){
         BrokerSocket.publish(topic, msg);
+        BrokerRMI.publish(topic,msg);
     }
 
     /**
