@@ -1,21 +1,27 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-//hex cell memorizzata con coordinate cubiche classe immutabile
-/*
- * 
- # convert cube to axial
- q = x
- r = z
-
- # convert axial to cube
- x = q
- z = r
- y = -q-z
+/**
+ * @author MMP - LMR
+ * The GUI information about the cell.
  */
 public class Cell {
+    
+    /**
+     * The cubic coordinate.
+     */
     private final int x, y, z;
+    
+    /**
+     * A label.
+     */
     private final String label;
 
+    /**
+     * The constructor by cubic coordinate.
+     * @param x
+     * @param y
+     * @param z
+     */
     public Cell(int x, int y, int z) {
         this.x = x;
         this.y = y;
@@ -27,36 +33,65 @@ public class Cell {
         label = new String(tmp + (z + 1));
     }
 
+    /**
+     * The constructor by row and column.
+     * @param r
+     * @param q
+     */
     public Cell(int r, int q) {
         this(q, -q - r, r);
     }
 
+    /**
+     * Distance
+     * @param b The cell.
+     * @return The distance between the cell.
+     */
     public int distance(Cell b) {
         return (Math.abs(this.x - b.getX()) + Math.abs(this.y - b.getY()) + Math.abs(this.z
                 - b.getZ())) / 2;
     }
 
+    /**
+     * @return The x cubic coordinate.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * @return The y cubic coordinate.
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * @return The z cubic coordinate.
+     */
     public int getZ() {
         return z;
     }
 
+    /**
+     * @return the label.
+     */
     public String getLabel() {
         return new String(this.label);
     }
 
+    /**
+     * Transform into a string.
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "{" + this.label + "} " + "[x=" + x + ", z=" + z + " y=" + y + "]";
     }
 
+    /**
+     * TODO non so che cosa faccia.
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -68,6 +103,10 @@ public class Cell {
         return result;
     }
 
+    /**
+     * Check equality.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         Cell b = (Cell) obj;
@@ -78,3 +117,16 @@ public class Cell {
     }
 
 }
+
+//hex cell memorizzata con coordinate cubiche classe immutabile
+/*
+* 
+# convert cube to axial
+q = x
+r = z
+
+# convert axial to cube
+x = q
+z = r
+y = -q-z
+*/
