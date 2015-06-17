@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+//TODO dobbiamo mettere per forza San Francisco come font!
+
 /**
  * @author MMP - LMR
  * The custom font.
