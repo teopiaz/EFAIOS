@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-
 import it.polimi.ingsw.cg15.NetworkHelper;
 
 import java.awt.Dimension;
@@ -20,70 +19,78 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * @author MMP - LMR
+ * The card panel GUI. It presents the user the three Item cards he has available.
+ */
 public class CardPanel extends JPanel{
+
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3787962420496021239L;
-	
-	ImageIcon icon;
-  //  List<JLabel> cardList = new ArrayList<JLabel>();
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -3787962420496021239L;
+
+    /**
+     * The image icon.
+     */
+    ImageIcon icon;
+
+    //  List<JLabel> cardList = new ArrayList<JLabel>();
+
+    /**
+     * TODO completare
+     */
     JLabel label2;
+
+    /**
+     * Defence item card label.
+     */
     JLabel labelDefenseItemCard;
-    
+
+    /**
+     * The network helper instance.
+     */
     NetworkHelper networkHelper = NetworkHelper.getInstance();
 
+    /**
+     * A table with the item card.
+     */
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
-    
-    public CardPanel(){
-        
-       
-        
-        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-        
-        
 
+    /**
+     * The constructor for the Card Panel.
+     */
+    public CardPanel(){
+        setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         BufferedImage defenseCard = ImageLoader.load("defenseItemCard");
         defenseCard = getScaledImage(defenseCard, 70, 95);
         ImageIcon defenseIcon = new ImageIcon(defenseCard);
         JLabel defenseLabel = new JLabel(defenseIcon);
         defenseLabel.setPreferredSize(new Dimension(60,80));
         cardMap.put("defense",defenseLabel);
-
-
         BufferedImage spotLightCard = ImageLoader.load("spotlightItemCard");
         spotLightCard = getScaledImage(spotLightCard, 70, 95);
         ImageIcon spotLightIcon = new ImageIcon(spotLightCard);
         JLabel spotLightLabel = new JLabel(spotLightIcon);
         spotLightLabel.setPreferredSize(new Dimension(60,80));
         cardMap.put("spotlight",spotLightLabel);
-
-
-        
         cardMap.put("defense",spotLightLabel);
         cardMap.put("adrenaline",spotLightLabel);
         cardMap.put("attack",spotLightLabel);
         cardMap.put("sedatives",spotLightLabel);
-        
-	
-
-		
-
-
 
         spotLightLabel.addMouseListener(new MouseAdapter() {
 
-              @Override
+            /**
+             * @param me The mouse event.
+             */
+            @Override
             public void mouseClicked(MouseEvent me) {
-                
                 revalidate();
-                
-              }
-            });
-            
-            
-            
-          /*  BufferedImage defenseItemCard = ImageLoader.load("defenseItemCard");
+            }
+        });
+        
+        /*  BufferedImage defenseItemCard = ImageLoader.load("defenseItemCard");
             defenseItemCard = getScaledImage(defenseItemCard, 60, 80);
                  icon = new ImageIcon(defenseItemCard);
                  labelDefenseItemCard.setPreferredSize(new Dimension(60,80));
@@ -94,45 +101,38 @@ public class CardPanel extends JPanel{
                     JLabel label = new JLabel(icon);
                     cardList.add(label);
                     revalidate();
-                    
                   }
                 });
-            
-            */
-            
-           
-            
-
-    
+         */
     }
-    
+
+    /**
+     * Return the card list.
+     */
     public void getCardsList() {
-     
         List<String> cardList = new ArrayList<String>();
-
         for (JLabel	cardLabel : cardMap.values()) {
-        	cardLabel.setVisible(true);
+            cardLabel.setVisible(true);
         }
-     
         if(networkHelper.isMyTurn()){       
-
             System.out.println("è il mio turno prendo la lista delle carte");
             cardList = networkHelper.getAvailableCardsList();
-
             for (String card : cardList) {
                 System.out.println(card);
                 if(cardMap.containsKey(card))
-            		add(cardMap.get(card));
+                    add(cardMap.get(card));
             }
             revalidate();
         }
     }
-    
 
-    
-    
-    
-    
+    /**
+     * Return a scaled card image.
+     * @param srcImg The source image
+     * @param w Width
+     * @param h Height
+     * @return The image resized.
+     */
     private BufferedImage getScaledImage(Image srcImg, int w, int h){
         BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = resizedImg.createGraphics();
@@ -143,9 +143,3 @@ public class CardPanel extends JPanel{
     }
 
 }
-
-
-
-
-
-
