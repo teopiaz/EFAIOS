@@ -11,20 +11,37 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-
-
+/**
+ * @author MMP - LMR
+ * Graphic implementation of the map.
+ */
 public class MapPanel extends JPanel {
 
     /**
-     * 
+     * The test game map.
      */
     GameMap test = new GameMap(15,23);
-    private int[][] board =new int[23][15];
+    
+    /**
+     * New board.
+     */
+    private int[][] board = new int[23][15];
+    
+    /**
+     * Editor mode that lets you edit or create new maps.
+     */
     private boolean editorMode = false;
 
+    /**
+     * The serial UID version.
+     */
     private static final long serialVersionUID = 1L;
 
-
+    /**
+     * The map panel.
+     * @param doublebuffer TODO scrivere a cosa servo
+     * @param board The board.
+     */
     public MapPanel(boolean doublebuffer,int[][] board){
         super(doublebuffer);
         this.board=board;
@@ -34,24 +51,18 @@ public class MapPanel extends JPanel {
         setBorder(BorderFactory.createLineBorder(Color.white));
         setBackground(Color.black);
         setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-
-        
-
         HexSprite.setHeight(40);
-
         repaint();
         MyMouseListener ml = new MyMouseListener();            
         addMouseListener(ml);
-
-
-  
-
     }
 
+    /**
+     * Paint the various component.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g.drawImage(ImageLoader.load("background_map"), 0, 0, null, null);
@@ -64,17 +75,21 @@ public class MapPanel extends JPanel {
         }
     }
 
-
+    /**
+     * @author MMP - LMR
+     * The mouse listener.
+     */
     class MyMouseListener extends MouseAdapter  {   //inner class inside DrawingPanel 
+        
+        /**
+         * The listener for mouse click.
+         */
         @Override
         public void mouseClicked(MouseEvent e) { 
-
             Point p = new Point( HexSprite.pxtoHex(e.getX(),e.getY()) );
             if (p.x < 0 || p.y < 0 || p.x >= 23 || p.y >= 15) {
                 return;
             }
-
-
             if(editorMode){
                 //What do you want to do when a hexagon is clicked?
                 if(board[p.x][p.y]+1==6){
@@ -82,18 +97,24 @@ public class MapPanel extends JPanel {
                 }
                 else{
                     board[p.x][p.y] +=1;
-
                 }
             }
             System.out.println("board["+p.x+"]["+p.y+"] = "+board[p.x][p.y]);
-
             repaint();
-        }        
+        }
+        
     } //end of MyMouseListener class 
 
+    /**
+     * @return The map editor mode.
+     */
     public boolean getEditorMode(){
         return editorMode;
     }
+    
+    /**
+     * @param mode Set the editor map mode.
+     */
     public void setEditorMode(boolean mode){
         this.editorMode = mode;
         if(mode){
@@ -101,13 +122,18 @@ public class MapPanel extends JPanel {
         }
     }
 
+    /**
+     * @return The current board.
+     */
     public int[][] getBoard() {
         return this.board;
     }
 
+    /**
+     * @param board The board to set.
+     */
     public void setBoard(int[][] board) {
         this.board=board;
     }
-
 
 }
