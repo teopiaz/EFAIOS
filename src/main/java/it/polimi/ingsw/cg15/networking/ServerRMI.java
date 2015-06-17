@@ -28,7 +28,7 @@ public class ServerRMI implements Server {
     private Registry registry;
     
     /**
-     * TODO non so che cosa faccia.
+     * A page of the register.
      */
     private final String REG = "gm";
     

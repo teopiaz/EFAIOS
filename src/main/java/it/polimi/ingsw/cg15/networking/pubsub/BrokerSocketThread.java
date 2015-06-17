@@ -40,7 +40,6 @@ public class BrokerSocketThread extends Thread {
      */
     private String topic;
 
-
     /**
      * When you subscribe to an external client you create a new thread that will represent the specific 
      * connection to the specific client / subscriber. 
@@ -106,7 +105,6 @@ public class BrokerSocketThread extends Thread {
             buffer.notify();
         }
     }
-
 
     /**
      * This method sends the message to the subscriber via the network.
