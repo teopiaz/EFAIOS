@@ -10,7 +10,7 @@ import org.json.simple.parser.ParseException;
 
 /**
  * @author MMP - LMR
- * The network Proxy. Transforms messages into JSON.
+ * The Network Proxy. Transforms messages into JSON.
  */
 public class NetworkProxy {
 

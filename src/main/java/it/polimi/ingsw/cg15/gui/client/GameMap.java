@@ -2,12 +2,26 @@ package it.polimi.ingsw.cg15.gui.client;
 
 //TODO INUTILE DA ELIMINARE
 
+/**
+ * @author MMP - LMR
+ * The game map.
+ */
 public class GameMap {
+    
     public static int r;
+    
     public static int q;
 
+    /**
+     * The map of cells.
+     */
     public Cell[][] map;
 
+    /**
+     * The game map.
+     * @param r
+     * @param q
+     */
     public GameMap(int r, int q) {
         GameMap.r = r;
         GameMap.q = q;
@@ -19,8 +33,12 @@ public class GameMap {
         }
     }
 
+    /**
+     * @param r
+     * @param q
+     * @return The cell.
+     */
     public Cell getCell(int r, int q) {
         return this.map[r][q];
-
     }
 }

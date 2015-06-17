@@ -103,7 +103,7 @@ public class ActionPanel extends JPanel {
 				if (response.actionResult()) {
 					int player = networkHelper.getTurnInfo();
 
-					actionLabel.setText("è il turno del giocatore: " + player);
+					actionLabel.setText("Ã¨ il turno del giocatore: " + player);
 				} else {
 					actionLabel.setText("Errore");
 
@@ -146,7 +146,7 @@ public class ActionPanel extends JPanel {
 		System.out.println(networkHelper.isMyTurn()+" ");
 		if(networkHelper.isMyTurn()){       
 
-			System.out.println("è il mio turno prendo la lista delle azioni");
+			System.out.println("Ã¨ il mio turno prendo la lista delle azioni");
 			actionList = networkHelper.getAvailableActionsList();
 
 			for (String action : actionList) {

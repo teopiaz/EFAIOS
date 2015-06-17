@@ -8,7 +8,7 @@ import java.util.List;
 //TODO: singleton
 /**
  * @author MMP - LMR
- * The class that contains the varius game state. It allows to group information on the various games.
+ * The class that contains the various game state. It allows to group information on the various games.
  */
 public class GameInstance {
     
@@ -58,7 +58,7 @@ public class GameInstance {
     /**
      * Remove a game state from the instance list.
      * @param gameState The game state to remove.
-     * @return a boolean if tha game state has been removed.
+     * @return a boolean if the game state has been removed.
      */
     public boolean removeGameInstace(GameState gameState){
         if(instanceList.remove(gameState)){

@@ -39,7 +39,7 @@ public class BrokerSocket extends Thread implements Server{
     private static BrokerSocket instance = new BrokerSocket();
 
     /**
-     * TODO non ho capito cosa serve
+     * Lock an object.
      */
     private static Object lock = new Object();
 

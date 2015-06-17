@@ -10,7 +10,7 @@ public enum ActionEnum {
     
     /**
      * @see java.lang.Enum#toString()
-     * Trasform the enumeration into a string.
+     * Transform the enumeration into a string.
      */
     @Override
     public String toString() {

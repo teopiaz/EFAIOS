@@ -133,10 +133,10 @@ public class HexSprite {
                 }
 
                 if(isSelected && selectedSectorX == i && selectedSectorY==j){
-                    g2.setColor(new Color(0,255,0,100));
+                    g2.setColor(new Color(0,255,0,128));
 					g2.fillPolygon(hex(x,y));
-				//  g2.setColor(Color.DARK_GRAY);
-				//	g2.drawString(""+label, x+r+BORDERS-label.length()*3, y+r+BORDERS+4); 
+					g2.setColor(Color.DARK_GRAY);
+					g2.drawString(""+label, x+r+BORDERS-label.length()*3, y+r+BORDERS+4); 
 
 				
                 }

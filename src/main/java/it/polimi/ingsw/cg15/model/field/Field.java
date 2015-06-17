@@ -74,9 +74,9 @@ public class Field {
     }
 
     /**
+     * Get a coordinate.
      * @param coords The coordinate of the sector.
-     * @return The coordinate???
-     * TODO sistemare doc, che senso ha questo?
+     * @return The coordinate
      */
     public Cell getCell(Coordinate coords) {
         return map.get(coords);
@@ -181,9 +181,7 @@ public class Field {
                 }
             }
         }
-
         return reachable;
-
     }
 
     /**

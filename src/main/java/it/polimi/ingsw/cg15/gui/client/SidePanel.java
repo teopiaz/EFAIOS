@@ -207,6 +207,7 @@ public class SidePanel extends JPanel {
 	}
 	public static ClientGameGUI getMainPanel() {
         return mainPanel;
+
 	}
 	
 

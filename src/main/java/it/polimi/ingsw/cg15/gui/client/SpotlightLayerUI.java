@@ -15,9 +15,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.LayerUI;
 
+//TODO la documentazione qui non è completa. RICONTROLLARE.
+
+/**
+ * @author MMP - LMR
+ * A visual effect that illuminates the map in a certain way when you use the card spotlight.
+ */
 public class SpotlightLayerUI extends LayerUI<JPanel> {
+    
     private boolean mActive;
+    
     private int mX, mY;
+    
     private boolean enabled = false;
 
     @Override
@@ -37,13 +46,14 @@ public class SpotlightLayerUI extends LayerUI<JPanel> {
       super.uninstallUI(c);
     }
 
+    /**
+     * Paint the frame.
+     */
     @Override
     public void paint (Graphics g, JComponent c) {
       Graphics2D g2 = (Graphics2D)g;
-
       // Paint the view.
       super.paint (g2, c);
-
       if (mActive && enabled) {
         // Create a radial gradient, transparent in the middle.
         java.awt.geom.Point2D center = new java.awt.geom.Point2D.Float(mX, mY);
@@ -57,10 +67,12 @@ public class SpotlightLayerUI extends LayerUI<JPanel> {
             AlphaComposite.SRC_OVER, .85f));
         g2.fillRect(0, 0, c.getWidth(), c.getHeight());
       }
-
       g2.dispose();
     }
 
+    /**
+     * Process the mouse event.
+     */
     @Override
     protected void processMouseEvent(MouseEvent e, JLayer l) {
        if(enabled){
@@ -70,6 +82,9 @@ public class SpotlightLayerUI extends LayerUI<JPanel> {
        }
     }
 
+    /**
+     * Process the mouse motion.
+     */
     @Override
     protected void processMouseMotionEvent(MouseEvent e, JLayer l) {
       Point p = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), l);
@@ -78,14 +93,19 @@ public class SpotlightLayerUI extends LayerUI<JPanel> {
       l.repaint();
     }
     
+    /**
+     * Enable the spotlight visual effect.
+     */
     public void enableSpot(){
         System.out.println("enabled");
         this.enabled=true;
     }
     
+    /**
+     * Disable the spotlight visual effect.
+     */
     public void disableSpot(){
         System.out.println("disabled");
-
         this.enabled=false;
     }
     

@@ -10,21 +10,34 @@ import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+/**
+ * @author MMP - LMR
+ * The class for loading the images.
+ */
 public class ImageLoader {
+    
+    /**
+     * A buffer with the immages.
+     */
     private static BufferedImage nullImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+    
+    /**
+     * The image cache.
+     */
     private static ConcurrentMap<String, BufferedImage> imageCache = new ConcurrentHashMap<String, BufferedImage>();
 
+    /**
+     * @param name The name of the image.
+     * @return The image.
+     */
     public static BufferedImage load(String name) {
         BufferedImage image = nullImage;
-
         if (name == null) {
             return nullImage;
         }
-
         image = imageCache.get(name);
         if (image == null) {
             String fName = "/" + name + ".png";
-
             InputStream input = ImageLoader.class.getResourceAsStream(fName);
             if (input != null) {
                 try {
@@ -38,4 +51,5 @@ public class ImageLoader {
         }
         return image;
     }
+    
 }
