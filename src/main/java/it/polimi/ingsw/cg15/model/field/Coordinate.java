@@ -30,13 +30,16 @@ public class Coordinate {
      * Turns the values of row and column into a cubic coordinates.
      * @param r The row.
      * @param c The column.
-     */
+   */
+    
     public Coordinate(int r, int c) {
-        this(c - (r + (r & 1)) / 2, // x
-                -(c - (r + (r & 1)) / 2) - r, // y
-                r // z
+        this(c, // x
+               -c-(r-(c+(c&1))/2), // y
+                r-(c+(c&1))/2 // z
         );
     }
+    
+    
 
     /**
      * It allows to obtain the coordinates from a string that identifies the.
@@ -88,14 +91,16 @@ public class Coordinate {
      * @return The column.
      */
     public int getCol() {
-        return x + (z + (z & 1)) / 2;
+       // return x + (z + (z & 1)) / 2;
+    	return x;
     }
+    
 
     /**
      * @return The row.
      */
     public int getRow() {
-        return z;
+        return z + (x + (x&1)) / 2;
     }
 
     /**

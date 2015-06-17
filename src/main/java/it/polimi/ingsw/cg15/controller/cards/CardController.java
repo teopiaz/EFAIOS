@@ -60,7 +60,7 @@ public class CardController {
     /**
      * The number of the Defense Item Card.
      */
-    private static int itemDefense = 100;
+    private static int itemDefense = 1;
     
     /**
      * The number of the Green Hatch Card.

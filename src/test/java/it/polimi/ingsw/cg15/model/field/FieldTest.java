@@ -24,7 +24,7 @@ public class FieldTest {
         Cell cell1 = map.getCell(new Coordinate(1, 1));
         Cell cell2 = map.getCell(new Coordinate(2, 3));
 
-        assertFalse(map.isReachable(cell1, cell2, 2));
+        assertFalse(map.isReachable(cell1, cell2, 1));
         assertTrue(map.isReachable(cell1, cell2, 3));
     }
     

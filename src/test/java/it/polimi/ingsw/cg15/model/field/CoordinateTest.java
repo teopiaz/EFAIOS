@@ -19,11 +19,13 @@ public class CoordinateTest {
     @Before
     public void setUp() throws Exception {
         coord = new Coordinate(1, 2);
+        
+        System.out.println("X:" + coord.getX() +"Y" + coord.getY() +" Z" + coord.getZ());
     }
 
     @Test
     public final void testHashCode() {
-        assertEquals(coord.hashCode(),30691);
+    	assertEquals(coord.hashCode(),31651);
     }
 
     @Test

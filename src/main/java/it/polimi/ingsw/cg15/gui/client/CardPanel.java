@@ -55,6 +55,7 @@ public class CardPanel extends JPanel{
         defenseLabel.setPreferredSize(new Dimension(70,95));
         defenseLabel.setToolTipText("Difesa");
         cardMap.put("defense",defenseLabel);
+        add(defenseLabel);
 
 
         BufferedImage spotLightCard = ImageLoader.load("spotlightItemCard");
@@ -64,6 +65,9 @@ public class CardPanel extends JPanel{
         spotLightLabel.setPreferredSize(new Dimension(70,95));
         spotLightLabel.setToolTipText("Spotlight");
         cardMap.put("spotlight",spotLightLabel);
+        add(spotLightLabel);
+
+        
         
         BufferedImage adrenalineCard = ImageLoader.load("defenseItemCard");
         adrenalineCard = getScaledImage(adrenalineCard, 70, 95);
@@ -72,6 +76,8 @@ public class CardPanel extends JPanel{
         adrenalineLabel.setPreferredSize(new Dimension(70,95));
         adrenalineLabel.setToolTipText("Adrenalina");
         cardMap.put("adrenaline",adrenalineLabel);
+        add(adrenalineLabel);
+        
         
         BufferedImage sedativesCard = ImageLoader.load("spotlightItemCard");
         sedativesCard = getScaledImage(sedativesCard, 70, 95);
@@ -80,17 +86,19 @@ public class CardPanel extends JPanel{
         sedativesLabel.setPreferredSize(new Dimension(70,95));
         sedativesLabel.setToolTipText("Sedativi");
         cardMap.put("sedatives",sedativesLabel);
-
-
-        
-       // cardMap.put("defense",defenseLabel);
-        //cardMap.put("attack",spotLightLabel);
-        
-   
         add(sedativesLabel);
-        add(adrenalineLabel);
-        add(spotLightLabel);
-        add(defenseLabel);
+
+        
+        BufferedImage attackCard = ImageLoader.load("spotlightItemCard");
+        attackCard = getScaledImage(attackCard, 70, 95);
+        ImageIcon attackIcon = new ImageIcon(attackCard);
+        JLabel attackLabel = new JLabel(attackIcon);
+        attackLabel.setPreferredSize(new Dimension(70,95));
+        attackLabel.setToolTipText("Attacco");
+        cardMap.put("attack",attackLabel);
+        add(attackLabel);
+
+
         
         for (JLabel cardlabel : cardMap.values()) {
         	cardlabel.setVisible(false);
@@ -104,6 +112,18 @@ public class CardPanel extends JPanel{
              
               networkHelper.useCard("adrenaline");
           	SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
+              revalidate();
+              
+            }
+          });
+        
+        attackLabel.addMouseListener(new MouseAdapter() {
+
+            @Override
+          public void mouseClicked(MouseEvent me) {
+             
+              networkHelper.useCard("attack");
+          	SidePanel.getActionPanel().printMsg("Hai usato la carta Attacco");
               revalidate();
               
             }
