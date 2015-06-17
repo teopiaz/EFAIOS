@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 //TODO dobbiamo mettere per forza San Francisco come font!
+// https://github.com/supermarin/YosemiteSanFranciscoFont/archive/master.zip
+// https://github.com/supermarin/YosemiteSanFranciscoFont
 
 /**
  * @author MMP - LMR
