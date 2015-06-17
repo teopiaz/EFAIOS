@@ -17,23 +17,43 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * @author MMP - LMR
+ * The GUI for the action panel.
+ */
 public class ActionPanel extends JPanel {
 
     /**
-     * 
+     * The serial version UID.
      */
     private static final long serialVersionUID = -8240130326507614510L;
+    
+    /**
+     * The action label.
+     */
     JLabel actionLabel;
+    
+    /**
+     * The network helper.
+     */
     NetworkHelper networkHelper = NetworkHelper.getInstance();
+    
+    /**
+     * The buttons.
+     */
     Map<String,JButton> buttonMap = new HashMap<String,JButton>();
+    
+	/**
+	 * TODO cosa è?
+	 */
 	static int a = 0;
 
-
+    /**
+     * The constructor for the action panel.
+     */
     public ActionPanel() {
-
         setBackground(Color.BLACK);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setBackground(Color.BLACK);
@@ -41,35 +61,35 @@ public class ActionPanel extends JPanel {
         JButton btnAttack = new JButton("ATTACK");
         JButton btnCard = new JButton("USE CARD");
         JButton btnEndTurn = new JButton("END TURN");
-
         btnCard.setEnabled(false);
-
         buttonMap.put("move", btnMove);
         buttonMap.put("attack", btnAttack);
         buttonMap.put("endturn", btnEndTurn);
         buttonMap.put("usecard", btnCard);
-
-
-
         
         btnAttack.addActionListener(new ActionListener() {
 
-
+            /**
+             * @param e The action event.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                
                 Event response = networkHelper.attack();
                 if(response.actionResult()){
                     actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
                     getActionsList();
                 }else{
                     actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
-
                 }
             }
+            
         });
         
         btnMove.addActionListener(new ActionListener() {
+            
+            /**
+             * @param e The action event.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
             	Event result=null;
@@ -77,41 +97,39 @@ public class ActionPanel extends JPanel {
             	result = networkHelper.move("L07");
             	}else{
                 result =	networkHelper.move("L08");
-
             	}
             	if (result.getRetValues().containsKey("asksector")) {
             		result = networkHelper.askSector("L07");
             	}
-            	
-            	
             	a++;
             }
+            
         });
 
         btnEndTurn.addActionListener(new ActionListener() {
 
+            /**
+             * @param e The action event.
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 Event response = networkHelper.endTurn();
                 if (response.actionResult()) {
                     int player = networkHelper.getTurnInfo();
-
                     actionLabel.setText("è il turno del giocatore: " + player);
                 } else {
                     actionLabel.setText("Errore");
-
                 }
             }
+            
         });
 
         for (JButton btn : buttonMap.values()) {
             btn.setFont(CFont.getFont("TopazPlus"));
             btn.setEnabled(false);
             buttonPanel.add(btn);
-
         }
         add(buttonPanel);
-
         JPanel actionLabelPanel = new JPanel();
         actionLabel = new JLabel();
         actionLabelPanel.setBackground(Color.BLACK);
@@ -120,28 +138,29 @@ public class ActionPanel extends JPanel {
         actionLabelPanel.setPreferredSize(new Dimension(100, 40));
         actionLabelPanel.setMaximumSize(getPreferredSize());
         actionLabelPanel.add(actionLabel);
-
         add(actionLabelPanel);
     }
 
+    /**
+     * @param msg The message to print.
+     */
     public void printMsg(String msg) {
         actionLabel.setText(msg);
     }
 
+    /**
+     * Return the available action list.
+     */
     public void getActionsList() {
         System.out.println("SONO IL GIOCATORE: "+networkHelper.getPlayerNumber() );
         List<String> actionList = new ArrayList<String>();
-
         for (JButton btn : buttonMap.values()) {
             btn.setEnabled(false);
         }
-     
         System.out.println(networkHelper.isMyTurn()+" ");
         if(networkHelper.isMyTurn()){       
-
             System.out.println("è il mio turno prendo la lista delle azioni");
             actionList = networkHelper.getAvailableActionsList();
-
             for (String action : actionList) {
                 System.out.println(action);
                 if(buttonMap.containsKey(action))
