@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR
- * The server logger class.
+ * The class with the server logger.
  */
 public class ServerLogger {
     
