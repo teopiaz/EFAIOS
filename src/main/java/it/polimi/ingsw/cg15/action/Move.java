@@ -100,7 +100,6 @@ public class Move extends Action {
             }
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
-        retValues = e.getRetValues();
         retValues.put(Event.ERROR, "impossibile eseguire lo spostamento");
         retValues.put("return", Event.FALSE);
         return new Event(e, retValues);

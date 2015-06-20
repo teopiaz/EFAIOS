@@ -83,26 +83,28 @@ public class ActionPanel extends JPanel {
 		btnMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Event result=null;
-				/*	if(a%2==0){
-            	result = networkHelper.move("L07");
-            	}else{
-                result =	networkHelper.move("L08");
+				Event response=null;
 
-            	}
-				 */
 				if(SidePanel.getMainPanel().getMapPanel().isSelected()){
 					String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
-					result = networkHelper.move(target);
-					if (result.getRetValues().containsKey("asksector")) {
-						result = networkHelper.askSector(target);
-					}
+					response = networkHelper.move(target);
+					if (response.actionResult()) {
+	
 					SidePanel.getMainPanel().getMapPanel().setSelected(false);
+					if (response.getRetValues().containsKey("asksector")) {
+						response = networkHelper.askSector(target);
+					}
 				}else{
-					actionLabel.setText("Seleziona un settore");
+					actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
+					
 				}
+				
+				}
+				else{
+					actionLabel.setText("Seleziona un settore");
 
-				a++;
+				}
+				
 			}
 		});
 
@@ -114,7 +116,7 @@ public class ActionPanel extends JPanel {
 					@Override
 					public void run() {
 						Event response = networkHelper.endTurn();
-						/*if (response.actionResult()) {
+						if (response.actionResult()) {
 							int player = networkHelper.getTurnInfo();
 							System.out.println(response);
 							actionLabel.setText("E' il turno del giocatore: " + player);
@@ -122,7 +124,7 @@ public class ActionPanel extends JPanel {
 						} else {
 							actionLabel.setText("Errore");
 						}
-*/
+
 						
 					}
 				}).start();
