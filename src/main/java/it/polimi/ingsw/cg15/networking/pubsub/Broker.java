@@ -35,7 +35,7 @@ public class Broker {
 		try {
 			brokerRMI = new BrokerRMI();
 			
-			Registry registry = LocateRegistry.createRegistry(7777);	
+			Registry registry = LocateRegistry.createRegistry(7700);	
 			BrokerRMIInterface stub = (BrokerRMIInterface)UnicastRemoteObject.exportObject(brokerRMI, 0);
 			registry.rebind("Broker", stub);
 

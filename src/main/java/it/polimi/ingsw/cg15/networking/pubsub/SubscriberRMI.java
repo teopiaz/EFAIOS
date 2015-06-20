@@ -23,13 +23,28 @@ public class SubscriberRMI extends Observable implements SubscriberRMIInterface 
 	
 	/**
 	 * @param msg is the message sent by the broker by invoking subscriber's remote interface
-	 * the method simply prints the message received by the broker
+	 * the method simply prints the message received by the broker in other thread
 	 */
 	@Override
 	public void dispatchMessage(String msg) {
-		System.out.println("Subscriber-"+name+" received message: "+msg);
-		 setChanged();
-         notifyObservers(NetworkProxy.JSONToEvent(msg));
+		
+		Thread t = new Thread(new Runnable() {
+			String msg;
+			
+			@Override
+			public void run() {
+				System.out.println("Subscriber-"+name+" received message: "+msg);
+				 setChanged();
+		         notifyObservers(NetworkProxy.JSONToEvent(msg));
+				
+			}
+			private Runnable init(String msg){
+				this.msg=msg;
+				return this;
+			}
+		}.init(msg) ) ;
+		
+		t.start();
 	}
 
 }

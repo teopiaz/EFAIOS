@@ -307,7 +307,7 @@ public class NetworkHelper implements Observer {
 
 					try {
 
-						Registry registry = LocateRegistry.getRegistry(7777);
+						Registry registry = LocateRegistry.getRegistry(7700);
 
 						broker = (BrokerRMIInterface) registry.lookup("Broker");
 						SubscriberRMIInterface remoteSub = (SubscriberRMIInterface)UnicastRemoteObject.exportObject(subRMI,0);
@@ -535,6 +535,10 @@ public class NetworkHelper implements Observer {
 	 * @return an event with information about the action performed.
 	 */
 	private synchronized Event eventHandler(Event e){
+		System.out.println("ENTRO" +e);
+		if(e.getCommand().equals("endturn")){
+		System.out.println("ENDTURN");
+		}
 		Event result =null;
 		if(type==SOCKET){
 			result = send(e);
@@ -546,6 +550,8 @@ public class NetworkHelper implements Observer {
 				Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
 			}
 		}
+		System.out.println("------ESCO"+result);
+
 		return result;
 	}
 

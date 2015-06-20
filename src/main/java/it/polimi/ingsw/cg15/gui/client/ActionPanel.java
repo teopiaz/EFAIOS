@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class ActionPanel extends JPanel {
 
@@ -58,14 +59,24 @@ public class ActionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Event response = networkHelper.attack();
-				if(response.actionResult()){
-					actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
-					getActionsList();
-				}else{
-					actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
+				new Thread(new Runnable() 
+				{
+					public void run()
+					{
 
-				}
+						Event response = networkHelper.attack();
+						if(response.actionResult()){
+							actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
+							getActionsList();
+						}else{
+							actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
+
+						}
+					}
+				}).start();
+
+
+
 			}
 		});
 
@@ -96,18 +107,27 @@ public class ActionPanel extends JPanel {
 		});
 
 		btnEndTurn.addActionListener(new ActionListener() {
-
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				Event response = networkHelper.endTurn();
-				if (response.actionResult()) {
-					int player = networkHelper.getTurnInfo();
+			public void actionPerformed(ActionEvent arg0) {
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						Event response = networkHelper.endTurn();
+						/*if (response.actionResult()) {
+							int player = networkHelper.getTurnInfo();
+							System.out.println(response);
+							actionLabel.setText("E' il turno del giocatore: " + player);
+							//getActionsList();
+						} else {
+							actionLabel.setText("Errore");
+						}
+*/
+						
+					}
+				}).start();
+				
 
-					actionLabel.setText("Ã¨ il turno del giocatore: " + player);
-				} else {
-					actionLabel.setText("Errore");
-
-				}
 			}
 		});
 
@@ -146,7 +166,7 @@ public class ActionPanel extends JPanel {
 		System.out.println(networkHelper.isMyTurn()+" ");
 		if(networkHelper.isMyTurn()){       
 
-			System.out.println("Ã¨ il mio turno prendo la lista delle azioni");
+			System.out.println("E' il mio turno prendo la lista delle azioni");
 			actionList = networkHelper.getAvailableActionsList();
 
 			for (String action : actionList) {

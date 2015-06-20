@@ -354,6 +354,8 @@ public class GameController {
         Event toPublish = new Event(new ClientToken("", gameToken), "pub", retValues);
         Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
         nextTurn();
+		System.out.println(response);
+
         return response;
     }
 

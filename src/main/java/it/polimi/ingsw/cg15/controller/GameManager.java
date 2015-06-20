@@ -116,7 +116,7 @@ public class GameManager implements GameManagerRemote {
      * @return event The event with the info.
      */
     @Override
-    public Event eventHandler(Event e) throws RemoteException {
+    public synchronized Event eventHandler(Event e) throws RemoteException {
         Event response=null;
 
         if(gameBoxList.containsKey(e.getToken().getGameToken()) ){
