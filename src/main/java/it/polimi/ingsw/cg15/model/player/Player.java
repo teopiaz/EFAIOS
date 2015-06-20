@@ -58,10 +58,6 @@ public class Player {
      */
     private int status = INGAME;
 
-    /**
-     * Variable that determines if a player was able to reach an hatch sector and escape.
-     */
-    private boolean escaped = false;
 
     /**
      * The constructor.
@@ -80,11 +76,11 @@ public class Player {
     public Player(){
         cards = new ArrayList<ItemCard>(MAX_ITEMCARD);
         
-      /*  
+        
         cards.add(ItemCard.ITEM_SEDATIVES);
         cards.add(ItemCard.ITEM_ADRENALINE);
         cards.add(ItemCard.ITEM_SPOTLIGHT);
-        */
+        
         
 }
 

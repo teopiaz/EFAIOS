@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,7 +36,6 @@ public class CardPanel extends JPanel{
      */
     ImageIcon icon;
 
-    //  List<JLabel> cardList = new ArrayList<JLabel>();
 
     /**
      * TODO completare
@@ -59,6 +57,11 @@ public class CardPanel extends JPanel{
      */
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
 
+	private final static int SPOT_STATE = 3;
+	private final static int WAITING_STATE = 2;
+	private final static int SELECT_STATE = 1;
+	
+	private static int state =WAITING_STATE;
     
 
     /**
@@ -71,7 +74,6 @@ public class CardPanel extends JPanel{
         setMinimumSize(getPreferredSize());
         setBackground(Color.BLACK);
         
-       // setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
         setLayout(new FlowLayout());
      
         BufferedImage defenseCard = ImageLoader.load("defenseItemCard");
@@ -96,7 +98,7 @@ public class CardPanel extends JPanel{
 
         
         
-        BufferedImage adrenalineCard = ImageLoader.load("defenseItemCard");
+        BufferedImage adrenalineCard = ImageLoader.load("adrenalineItemCard");
         adrenalineCard = getScaledImage(adrenalineCard, 70, 95);
         ImageIcon adrenalineIcon = new ImageIcon(adrenalineCard);
         JLabel adrenalineLabel = new JLabel(adrenalineIcon);
@@ -106,7 +108,7 @@ public class CardPanel extends JPanel{
         add(adrenalineLabel);
         
         
-        BufferedImage sedativesCard = ImageLoader.load("spotlightItemCard");
+        BufferedImage sedativesCard = ImageLoader.load("sedativesItemCard");
         sedativesCard = getScaledImage(sedativesCard, 70, 95);
         ImageIcon sedativesIcon = new ImageIcon(sedativesCard);
         JLabel sedativesLabel = new JLabel(sedativesIcon);
@@ -116,7 +118,7 @@ public class CardPanel extends JPanel{
         add(sedativesLabel);
 
         
-        BufferedImage attackCard = ImageLoader.load("spotlightItemCard");
+        BufferedImage attackCard = ImageLoader.load("attackItemCard");
         attackCard = getScaledImage(attackCard, 70, 95);
         ImageIcon attackIcon = new ImageIcon(attackCard);
         JLabel attackLabel = new JLabel(attackIcon);
@@ -173,20 +175,38 @@ public class CardPanel extends JPanel{
 
         spotLightLabel.addMouseListener(new MouseAdapter() {
 
-            /**
-             * @param me The mouse event.
-             */
-            @Override
+
+			@Override
             public void mouseClicked(MouseEvent me) {
+            
 
-              	String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
-
+			switch(state){
+				
+			case WAITING_STATE:	
+				state=SELECT_STATE;
+            
+            case SELECT_STATE:
+            	
+            	SidePanel.getMainPanel().getSpotLayer().enableSpot();
+            	state=SPOT_STATE;
+            	break;
+          
+            case SPOT_STATE:
+            	
+              	if(SidePanel.getMainPanel().getMapPanel().isSelected()){
+					String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
                   networkHelper.spotlight(target);
               	SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+              	state =WAITING_STATE;
+            	SidePanel.getMainPanel().getSpotLayer().disableSpot();
 
+              	}else{
+				 	SidePanel.getActionPanel().printMsg("Seleziona un settore");
+              	}
                   revalidate();
                 
               }
+        }
             });
             
     

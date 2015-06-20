@@ -16,9 +16,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class ActionPanel extends JPanel {
+
+	private final static int ASKSECTOR_STATE = 2;
+	private final static int WAITING_STATE = 1;
+
+	private int state =WAITING_STATE;
+
 
 	/**
 	 * 
@@ -48,7 +53,6 @@ public class ActionPanel extends JPanel {
 		buttonMap.put("move", btnMove);
 		buttonMap.put("attack", btnAttack);
 		buttonMap.put("endturn", btnEndTurn);
-		buttonMap.put("usecard", btnCard);
 
 
 
@@ -59,23 +63,14 @@ public class ActionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				new Thread(new Runnable() 
-				{
-					public void run()
-					{
+				Event response = networkHelper.attack();
+				if(response.actionResult()){
+					actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
+					getActionsList();
+				}else{
+					actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
 
-						Event response = networkHelper.attack();
-						if(response.actionResult()){
-							actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
-							getActionsList();
-						}else{
-							actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
-
-						}
-					}
-				}).start();
-
-
+				}
 
 			}
 		});
@@ -83,28 +78,71 @@ public class ActionPanel extends JPanel {
 		btnMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int pippo = state;
+
+				switch(state){
+
+				case WAITING_STATE : 
+					actionMove();
+					SidePanel.getMainPanel().getMapPanel().setSelected(false);
+					break;
+
+				case ASKSECTOR_STATE:
+					actionAsk();
+					SidePanel.getMainPanel().getMapPanel().setSelected(false);
+					break;
+
+				}
+
+			}
+
+			private void actionAsk() {
 				Event response=null;
 
+				String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+				if(SidePanel.getMainPanel().getMapPanel().isSelected()){
+
+
+					response = networkHelper.askSector(target);
+					if (response.actionResult()) {
+						actionLabel.setText("Hai fatto rumore nel settore "+ target);
+						state=WAITING_STATE;
+					}else{
+						actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
+					}
+
+				}else{
+					actionLabel.setText("Seleziona un settore");
+
+				}
+
+			}
+
+			private void actionMove() {
+				Event response=null;
 				if(SidePanel.getMainPanel().getMapPanel().isSelected()){
 					String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
 					response = networkHelper.move(target);
 					if (response.actionResult()) {
-	
-					SidePanel.getMainPanel().getMapPanel().setSelected(false);
-					if (response.getRetValues().containsKey("asksector")) {
-						response = networkHelper.askSector(target);
+						actionLabel.setText("Ti sei spostato nel settore "+ networkHelper.getCurrentPosition());
+
+						SidePanel.getMainPanel().getMapPanel().setSelected(false);
+						if (response.getRetValues().containsKey("asksector")) {
+							state=ASKSECTOR_STATE;
+							actionLabel.setText("Seleziona un settore dove fare rumore");
+
+						}
+					}else{
+						actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
+
 					}
-				}else{
-					actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
-					
-				}
-				
+
 				}
 				else{
 					actionLabel.setText("Seleziona un settore");
 
 				}
-				
+
 			}
 		});
 
@@ -112,7 +150,7 @@ public class ActionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				new Thread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						Event response = networkHelper.endTurn();
@@ -125,10 +163,10 @@ public class ActionPanel extends JPanel {
 							actionLabel.setText("Errore");
 						}
 
-						
+
 					}
 				}).start();
-				
+
 
 			}
 		});
@@ -175,6 +213,13 @@ public class ActionPanel extends JPanel {
 				System.out.println(action);
 				if(buttonMap.containsKey(action))
 					buttonMap.get(action).setEnabled(true);
+			}
+			if(actionList.contains("asksector")){
+				state=ASKSECTOR_STATE;
+				for (JButton btn : buttonMap.values()) {
+					btn.setEnabled(false);
+				}
+				buttonMap.get("move").setEnabled(true);
 			}
 		}
 	}

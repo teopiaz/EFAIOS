@@ -37,7 +37,7 @@ public class SidePanel extends JPanel {
 	private static ClientGameGUI mainPanel;
 
     {
-        selections.addElement("In attesa per l'inizio del match...");
+        selections.addElement("Waiting for the beginning of the match...");
 
     }
 

@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
-import it.polimi.ingsw.cg15.gui.client.SidePanel.LogPanel;
 import it.polimi.ingsw.cg15.networking.Event;
 
 import java.awt.BorderLayout;
@@ -54,7 +53,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     /**
      * The spotlight effect layer.
      */
-    SpotlightLayerUI spotlightLayerUI;
+    static SpotlightLayerUI spotlightLayerUI;
 
     /**
      * The panel for spotlight layer.
@@ -337,6 +336,15 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             String player = e.getRetValues().get("player");
             String card = e.getRetValues().get("card");
             addToLog("Giocatore " + player + " ha usato la carta " + card);
+            
+            if("spotlight".equals(card)){
+            	e.getRetValues().remove("card");
+            	e.getRetValues().remove("player");
+            	for (Entry<String,String> ret : e.getRetValues().entrySet()) {
+                    addToLog("Giocatore " + ret.getKey() + " rivelato nel settore " + ret.getValue());
+
+				}
+            }
         }
         
         
@@ -411,6 +419,11 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     
     public static MapPanel getMapPanel() {
         return map;
+
+    }
+    
+    public static SpotlightLayerUI getSpotLayer() {
+        return spotlightLayerUI;
 
     }
     

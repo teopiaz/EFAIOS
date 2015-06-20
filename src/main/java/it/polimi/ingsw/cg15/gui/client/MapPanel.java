@@ -150,6 +150,7 @@ public class MapPanel extends JPanel {
 	 */
 	public void setSelected(boolean isSelected) {
 		this.isSelected = isSelected;
+		repaint();
 	}
 
 	/**

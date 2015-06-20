@@ -62,6 +62,7 @@ public class Spotlight extends Action {
             return new Event(e, retValues);
         }
         if(pc.hasCard(ItemCard.ITEM_SPOTLIGHT)){
+            Map<String,String> retPub = new HashMap<String, String>();
             pc.removeCard(ItemCard.ITEM_SPOTLIGHT);
             pc.setItemUsed();
             String strTarget = e.getArgs().get("target");
@@ -76,6 +77,7 @@ public class Spotlight extends Action {
                     for (Player player : playersInSector) {
                         if(player!=currentPlayer){
                             retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
+                            retPub.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
                         }
                     }
                 }
@@ -83,7 +85,6 @@ public class Spotlight extends Action {
 
             
             String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
-            Map<String,String> retPub = new HashMap<String, String>();
             retPub.put("player", currentPlayerNumber);
             retPub.put("card","spotlight");
             Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);

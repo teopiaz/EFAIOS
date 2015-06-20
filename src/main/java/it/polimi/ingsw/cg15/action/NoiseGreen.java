@@ -28,12 +28,10 @@ public class NoiseGreen extends Action {
      * @param e The event.
      */
     public NoiseGreen(GameController gc, Event e) {
-        // TODO Auto-generated constructor stub
         super(gc);
         this.e=e;
     }
 
-    //TODO: SISTEMARE switchare le azioni possibili permettendo solo la selezione del settore
     /**
      * Execute method that allows the player to select a cell of the game in which pretend to disclose its position.
      * @return a message with the list of return values.
