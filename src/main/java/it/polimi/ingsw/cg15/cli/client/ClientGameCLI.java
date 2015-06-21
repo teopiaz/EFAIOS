@@ -490,4 +490,10 @@ public class ClientGameCLI implements ViewClientInterface {
 		this.currentPlayerId=currentPlayer;
 	}
 
+	@Override
+	public void endGame(Event e) {
+		notifyEnd();
+		
+	}
+
 }

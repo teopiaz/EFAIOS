@@ -82,23 +82,6 @@ public class SubscriberSocketThread extends Observable implements Runnable {
      */
     private void handleMessage(String msg) {
         if (msg != null) {
-            Event e = NetworkProxy.JSONToEvent(msg);
-            if (e.getRetValues().containsKey("isstarted")) {
-                if (e.getRetValues().get("isstarted").equals("true")) {
-                    // ClientGameCLI.notifyStart();
-                }
-            }
-            if (e.getRetValues().containsKey("currentplayer")) {
-                int currentPlayer = Integer.parseInt(e.getRetValues().get("currentplayer"));
-                ClientGameCLI.setCurrentPlayer(currentPlayer);
-            }
-            if (e.getCommand().equals("endgame")) {
-                for (Entry<String, String> ele : e.getRetValues().entrySet()) {
-                    System.out.println("Player " + ele.getKey() + ": " + ele.getValue());
-                }
-                ClientGameCLI.notifyEnd();
-            }
-            // ClientGameCLI.debugPrint(msg);
             setChanged();
             notifyObservers(NetworkProxy.JSONToEvent(msg));
         }

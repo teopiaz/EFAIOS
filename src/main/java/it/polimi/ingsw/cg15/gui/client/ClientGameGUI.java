@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
+import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.Event;
 
@@ -74,6 +75,8 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * The Network Helper.
      */
     NetworkHelper netHelper;
+    
+    int playerNumber;
 
     /**
      * Run the Client Game GUI.
@@ -92,7 +95,6 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         this.netHelper = netHelper;
         netHelper.registerGui(this);
         prepareFrame();
-        System.out.println("GUI creato");
     }
 
     /**
@@ -242,7 +244,6 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                     fop.write(contentInBytes);
                     fop.flush();
                     fop.close();
-                    System.out.println("Done");
                 } catch (IOException e) {
                     Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO Exception", e);
                 } finally {
@@ -330,6 +331,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             String player = e.getRetValues().get("player");
             String sector = e.getRetValues().get("move");
             addToLog("Player " + player + " has moved in: " + sector);
+
         }
         
         if (e.getRetValues().containsKey("card")) {
@@ -346,6 +348,8 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 				}
             }
         }
+        
+       
         
         
         if (e.getRetValues().containsKey("attack")) {
@@ -397,6 +401,18 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     public void setStarted() {
         loadMap();
         addToLog("The game started now!");
+        if(netHelper.isHuman()){
+            addToLog("You are Human and you have to escape");
+
+        }else{
+            addToLog("You are an Alien. Good hunting!");
+
+        }
+        playerNumber = netHelper.getPlayerNumber();
+        
+        String position = netHelper.getPlayerPosition();
+        SidePanel.getMainPanel().getMapPanel().setPosition(position);
+        
         SidePanel.getActionPanel().getActionsList();
     }
 
@@ -408,12 +424,14 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     @Override
     public void currentPlayer(int currentPlayer) {
 
-    	System.out.println("È il turno del giocatore "+ currentPlayer);
     	SidePanel.getActionPanel().printMsg("È il turno del giocatore "+ currentPlayer);
 
         addToLog("È il turno del giocatore "+ currentPlayer);
         SidePanel.getActionPanel().getActionsList();
         SidePanel.getCardPanel().getCardsList();
+        String position = netHelper.getPlayerPosition();
+        SidePanel.getMainPanel().getMapPanel().setPosition(position);
+        
     }
 
     
@@ -426,6 +444,25 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         return spotlightLayerUI;
 
     }
+
+	@Override
+	public void endGame(Event e) {
+    	boolean winner = false;
+        for (Entry<String, String> ele : e.getRetValues().entrySet()) {
+        	addToLog("Player " + ele.getKey() + ": " + ele.getValue());
+        	if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
+        		winner=true;
+        	}
+        }
+        if(winner){
+        	JOptionPane.showMessageDialog(frame,  "You Win the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+        	JOptionPane.showMessageDialog(frame,  "You Lose the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        }
+		
+	}
+
     
 
 

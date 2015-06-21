@@ -85,6 +85,8 @@ public class ActionPanel extends JPanel {
 				case WAITING_STATE : 
 					actionMove();
 					SidePanel.getMainPanel().getMapPanel().setSelected(false);
+			        String position = networkHelper.getPlayerPosition();
+			        SidePanel.getMainPanel().getMapPanel().setPosition(position);
 					break;
 
 				case ASKSECTOR_STATE:
@@ -155,10 +157,7 @@ public class ActionPanel extends JPanel {
 					public void run() {
 						Event response = networkHelper.endTurn();
 						if (response.actionResult()) {
-							int player = networkHelper.getTurnInfo();
-							System.out.println(response);
-							actionLabel.setText("E' il turno del giocatore: " + player);
-							//getActionsList();
+							actionLabel.setText("Turno Terminato");
 						} else {
 							actionLabel.setText("Errore");
 						}
@@ -196,21 +195,18 @@ public class ActionPanel extends JPanel {
 	}
 
 	public void getActionsList() {
-		System.out.println("SONO IL GIOCATORE: "+networkHelper.getPlayerNumber() );
 		List<String> actionList = new ArrayList<String>();
 
 		for (JButton btn : buttonMap.values()) {
 			btn.setEnabled(false);
 		}
 
-		System.out.println(networkHelper.isMyTurn()+" ");
 		if(networkHelper.isMyTurn()){       
-
-			System.out.println("E' il mio turno prendo la lista delle azioni");
+			int player = networkHelper.getTurnInfo();
+			actionLabel.setText("E' il turno del giocatore: " + player);
 			actionList = networkHelper.getAvailableActionsList();
 
 			for (String action : actionList) {
-				System.out.println(action);
 				if(buttonMap.containsKey(action))
 					buttonMap.get(action).setEnabled(true);
 			}

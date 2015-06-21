@@ -35,10 +35,8 @@ public class HexSprite {
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		Polygon poly = hex(x,y);
-		//g2.setColor(Color.BLACK);
 		g2.setColor(new Color(255,255,255,100));
 		g2.fillPolygon(poly);
-		//g2.setColor(Color.GRAY);
 		g2.drawPolygon(poly);
 
 	}
@@ -48,19 +46,18 @@ public class HexSprite {
 		int y = y0 + BORDERS;
 		int x = x0 + BORDERS; 
 		if (s == 0  || h == 0) {
-			System.out.println("ERROR: size of hex has not been set");
 			return new Polygon();
 		}
 
 		int[] cx,cy;
 
-		cx = new int[] {x+t,x+s+t,x+s+t+t,x+s+t,x+t,x};	//this is for the whole hexagon to be below and to the right of this point
+		cx = new int[] {x+t,x+s+t,x+s+t+t,x+s+t,x+t,x};	
 
 		cy = new int[] {y,y,y+r,y+r+r,y+r+r,y+r};
 		return new Polygon(cx,cy,6);
 	}
 
-	public static void fillHex( int i, int j, String label, Graphics2D g2,int n,boolean isSelected, int selectedSectorX,int selectedSectorY) {
+	public static void fillHex( int i, int j, String label, Graphics2D g2,int n,boolean isSelected, int selectedSectorX,int selectedSectorY, boolean isStarted, int posX, int posY) {
 		int x = i * (s+t);
 		int y = j * h + (i%2) * h/2;
 		g2.setFont(CFont.getFont("TopazPlus"));
@@ -102,7 +99,6 @@ public class HexSprite {
                 if (n ==4 ) {
                     if(sectorHumanImage==null){
                         sectorHumanImage = ImageLoader.load("18");
-                       // System.out.println(sectorHumanImage);
                     }
                     Polygon poly = hex(x,y);
                     
@@ -141,6 +137,11 @@ public class HexSprite {
 				
                 }
                 
+                if(isStarted && posX == i && posY==j){
+                    g2.setColor(new Color(255,178,0,128));
+					g2.fillPolygon(hex(x,y));
+                }
+                
 					}
 		public static Point pxtoHex(int mx, int my) {
 			Point p = new Point(-1,-1);
@@ -153,14 +154,13 @@ public class HexSprite {
 			int x = (int) (mx / (s+t)); //this gives a quick value for x. It works only on odd cols and doesn't handle the triangle sections. It assumes that the hexagon is a rectangle with width s+t (=1.5*s).
 			int y = (int) ((my - (x%2)*r)/h); //this gives the row easily. It needs to be offset by h/2 (=r)if it is in an even column
 
-			/******FIX for clicking in the triangle spaces (on the left side only)*******/
-			//dx,dy are the number of pixels from the hex boundary. (ie. relative to the hex clicked in)
+			
+			
 			int dx = mx - x*(s+t);
 			int dy = my - y*h;
 
 			if (my - (x%2)*r < 0) return p; // prevent clicking in the open halfhexes at the top of the screen
 
-			//System.out.println("dx=" + dx + " dy=" + dy + "  > " + dx*r/t + " <");
 
 			//even columns
 			if (x%2==0) {
@@ -183,7 +183,6 @@ public class HexSprite {
 					}
 				}
 				if (dy < h) {	//top half of hexes
-					//System.out.println("" + (t- dx)*r/t +  " " + (dy - r));
 					if ((t - dx)*r/t > dy - r) {
 						x--;
 					}

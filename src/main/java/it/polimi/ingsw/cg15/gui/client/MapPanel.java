@@ -22,6 +22,9 @@ public class MapPanel extends JPanel {
 	private int selectedSectorY;
 	private boolean isSelected = false;
 
+	private int posY;
+	private int posX;
+	
     /**
      * The test game map.
      */
@@ -36,6 +39,8 @@ public class MapPanel extends JPanel {
      * Editor mode that lets you edit or create new maps.
      */
     private boolean editorMode = false;
+	private boolean isStarted = false;
+
 
 
 
@@ -81,7 +86,7 @@ public class MapPanel extends JPanel {
         for (int i=0;i<23;i++) {
             for (int j=0;j<14;j++) {
                 HexSprite.drawHex(i,j,g2);
-				HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],isSelected,selectedSectorX,selectedSectorY);
+				HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],isSelected,selectedSectorX,selectedSectorY,isStarted,posX,posY);
             }
         }
     }
@@ -171,6 +176,12 @@ public class MapPanel extends JPanel {
 		if(isSelected)
 		return test.getCell(selectedSectorY,selectedSectorX).getLabel();
 		return "";
+	}
+	
+	public void setPosition(String s){
+		isStarted =true;
+		this.posY = Cell.getRowByLabel(s);
+		this.posX = Cell.getColByLabel(s);
 	}
 
 

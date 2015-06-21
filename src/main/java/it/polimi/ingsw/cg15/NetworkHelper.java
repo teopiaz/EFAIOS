@@ -33,8 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JOptionPane;
+import javax.swing.text.Position;
 
 /**
  * @author MMP - LMR
@@ -92,6 +96,8 @@ public class NetworkHelper implements Observer {
 	 */
 	private final int RMI = 2;
 
+	private static String position;
+
 	/**
 	 * Type of communication.
 	 */
@@ -105,7 +111,9 @@ public class NetworkHelper implements Observer {
 	/**
 	 * The number of player.
 	 */
-	private static int playerNumber;;
+	private static int playerNumber;
+	
+	private static boolean isHuman = false;
 
 	/**
 	 * The socket constructor.
@@ -442,6 +450,12 @@ public class NetworkHelper implements Observer {
 		Event result = eventHandler(e);  
 		if(result.getRetValues().containsKey("playernumber")){
 			NetworkHelper.playerNumber=Integer.parseInt(result.getRetValues().get("playernumber"));
+			if("Human".equals(result.getRetValues().get("playertype"))){
+				isHuman=true;
+			}else{
+				isHuman=false;
+			}
+			position = result.getRetValues().get("currentposition");
 		}
 		return result;
 	}
@@ -535,7 +549,6 @@ public class NetworkHelper implements Observer {
 	 * @return an event with information about the action performed.
 	 */
 	private synchronized Event eventHandler(Event e){
-		System.out.println("ENTRO" +e);
 		if(e.getCommand().equals("endturn")){
 		System.out.println("ENDTURN");
 		}
@@ -550,7 +563,6 @@ public class NetworkHelper implements Observer {
 				Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e);
 			}
 		}
-		System.out.println("------ESCO"+result);
 
 		return result;
 	}
@@ -581,6 +593,9 @@ public class NetworkHelper implements Observer {
 		if(e.getCommand().equals("chat")){
 			view.chat(e);
 		}
+		 if (e.getCommand().equals("endgame")) {
+			 view.endGame(e);
+	        }
 		view.stampa(e.toString());
 	}
 
@@ -706,5 +721,16 @@ public class NetworkHelper implements Observer {
 	public int getType() {
 		return type;
 	}
+
+	public boolean isHuman() {
+		getPlayerInfo();
+		return isHuman;
+	}
+
+	public String getPlayerPosition() {
+		getPlayerInfo();
+		System.out.println(position);
+		return position;
+}
 
 }

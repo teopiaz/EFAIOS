@@ -226,13 +226,9 @@ public class CardPanel extends JPanel{
              }
              revalidate();
 
-
-            System.out.println("è il mio turno prendo la lista delle carte");
             cardList = networkHelper.getAvailableCardsList();
             for (String card : cardList) {
-                System.out.println(card);
                 if(cardMap.containsKey(card))
-                	System.out.println(cardMap.get(card));
                 cardMap.get(card).setVisible(true);
 
             }

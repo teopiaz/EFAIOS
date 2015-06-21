@@ -33,7 +33,6 @@ public class SubscriberRMI extends Observable implements SubscriberRMIInterface 
 			
 			@Override
 			public void run() {
-				System.out.println("Subscriber-"+name+" received message: "+msg);
 				 setChanged();
 		         notifyObservers(NetworkProxy.JSONToEvent(msg));
 				

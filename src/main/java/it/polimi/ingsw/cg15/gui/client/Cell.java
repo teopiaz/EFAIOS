@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg15.gui.client;
 
+import it.polimi.ingsw.cg15.model.field.Coordinate;
+
 /**
  * @author MMP - LMR
  * The GUI information about the cell.
@@ -115,6 +117,46 @@ public class Cell {
         else
             return false;
     }
+    
+    
+
+    public static int getRowByLabel(String str) {
+        int r = 1;
+        str=str.toUpperCase();
+        if(str.matches("^[A-Z][0-9]?[0-9]$")){
+        char[] charStr = str.toCharArray();
+        if (charStr.length < 3) {
+            r = charStr[1]-48;
+        }
+        if (charStr.length == 3) {
+            r = (charStr[1]-48 )* 10 + (charStr[2]-48);
+        }
+
+        }
+		return r-1;
+        
+    }
+    
+    public static int getColByLabel(String str) {
+        int  c = 1;
+        str=str.toUpperCase();
+        if(str.matches("^[A-Z][0-9]?[0-9]$")){
+        char[] charStr = str.toCharArray();
+        if (charStr.length < 3) {
+            c = (int)charStr[0]-64;
+          
+        }
+        if (charStr.length == 3) {
+            c = (int)charStr[0]-64;
+           
+        }
+
+        }
+		return c-1;
+        
+    }
+    
+
 
 }
 
