@@ -124,7 +124,7 @@ public class ClientLobbyCLI {
         ctoken = new ClientToken(networkHelper.getPlayerToken(), gameToken);
         networkHelper.setToken(ctoken);
         networkHelper.joinGame(gameToken);
-        ClientGameCLI gameCLI = new ClientGameCLI(ctoken,networkHelper);
+        ClientGameCLI gameCLI = new ClientGameCLI(networkHelper);
         gameCLI.start();
     }
 

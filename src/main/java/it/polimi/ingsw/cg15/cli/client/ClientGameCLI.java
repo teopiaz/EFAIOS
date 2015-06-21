@@ -18,10 +18,6 @@ import java.util.logging.Logger;
  */
 public class ClientGameCLI implements ViewClientInterface {
 
-    /**
-     * The client token.
-     */
-    private static ClientToken ctoken;
 
     /**
      * Variable that says if the game has started or not.
@@ -99,8 +95,7 @@ public class ClientGameCLI implements ViewClientInterface {
      * @param server The Socket communicator.
      * @param gmRemote The Remote Game Manager.
      */
-    public ClientGameCLI(ClientToken ctoken, NetworkHelper netHelper) {
-        ClientGameCLI.ctoken = ctoken;
+    public ClientGameCLI(NetworkHelper netHelper) {
         ClientGameCLI.networkHelper = netHelper;
         netHelper.registerGui(this);
     }
@@ -127,49 +122,57 @@ public class ClientGameCLI implements ViewClientInterface {
     public void start() {
         while (!isEnded) {
             if (isStarted) {
-                if (init) {
-                    getMap();
-                    getPlayerInfo();
-                    getTurnInfo();
-                    printToScreen("Game Started");
-                    printToScreen("E' il mio turno? " + myTurn());
-                    init = false;
-                }
-                if (myTurn()) {
-                    printToScreen("E' il tuo turno");
-                    getPlayerInfo();
-                    debugPrintPlayerInfo();
-                    getAvailableActionsList();
-                    debugPrintActionList();
-                    getAvailableCardList();
-                    debugPrintCardList();
-                    printToScreen("SELEZIONA UN AZIONE");
-                    String choice = scanner.nextLine();
-                    switch (choice) {
-                    case "m":
-                        actionMove();
-                        break;
-                    case "a":
-                        attack();
-                        break;
-                    case "e":
-                        endTurn();
-                        break;
-                    case "c":
-                        useCardMenu();
-                        break;
-                    case "ask":
-                        askSector();
-                        break;
-                    default:
-                        printToScreen("Azione Non Valida");
-                    }
-                }
+                gameInit();
+                myTurnMenu();
             }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Logger.getLogger(ClientGameCLI.class.getName()).log(Level.SEVERE, "Timer interrupted", e);
+            }
+        }
+    }
+    
+    private void gameInit(){
+        if (init) {
+            getMap();
+            getPlayerInfo();
+            getTurnInfo();
+            printToScreen("Game Started");
+            printToScreen("E' il mio turno? " + myTurn());
+            init = false;
+        }
+    }
+
+    private void myTurnMenu(){
+        if (myTurn()) {
+            printToScreen("E' il tuo turno");
+            getPlayerInfo();
+            debugPrintPlayerInfo();
+            getAvailableActionsList();
+            debugPrintActionList();
+            getAvailableCardList();
+            debugPrintCardList();
+            printToScreen("SELEZIONA UN AZIONE");
+            String choice = scanner.nextLine();
+            switch (choice) {
+            case "m":
+                actionMove();
+                break;
+            case "a":
+                attack();
+                break;
+            case "e":
+                endTurn();
+                break;
+            case "c":
+                useCardMenu();
+                break;
+            case "ask":
+                askSector();
+                break;
+            default:
+                printToScreen("Azione Non Valida");
             }
         }
     }
@@ -195,7 +198,7 @@ public class ClientGameCLI implements ViewClientInterface {
      * The menu that allows you to use an item card.
      */
     private void useCardMenu() {
-        if(cardList.size()>0){
+        if(!cardList.isEmpty()){
             getAvailableCardList();
             debugPrintCardList();
             String choice = scanner.nextLine();
@@ -445,9 +448,8 @@ public class ClientGameCLI implements ViewClientInterface {
                     count++;
                 }
             }
-            if (count == 0) {
-                printToScreen("No one was killed.");
-            }
+            
+                printToScreen(count +" killed.");
         }
         if ( e.getRetValues().containsKey("noise") &&  Event.TRUE.equals(e.getRetValues().get("noise"))   ) {
             String playerNum = e.getRetValues().get(Event.PLAYER);

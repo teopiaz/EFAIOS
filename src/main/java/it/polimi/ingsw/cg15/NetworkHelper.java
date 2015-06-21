@@ -572,8 +572,7 @@ public class NetworkHelper implements Observer {
      * @return an event with information about the action performed.
      */
     private synchronized Event eventHandler(Event e) {
-        if ("return".equals(e.getCommand())) {
-        }
+
         Event result = null;
         if (type == SOCKET) {
             result = send(e);
