@@ -22,6 +22,11 @@ import javax.swing.plaf.LayerUI;
  */
 public class SpotlightLayerUI extends LayerUI<JPanel> {
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4020458722057607364L;
+
     private boolean mActive;
     
     private int mX, mY;

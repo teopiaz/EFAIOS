@@ -21,10 +21,7 @@ public class Cell {
      */
     private final Sector sectorType;
     
-    /**
-     * The game board, within the field in which they move the players.
-     */
-    private final Field map;
+
     
     /**
      * The list of players.
@@ -37,9 +34,8 @@ public class Cell {
      * @param map The map
      * @param sectorType The type of the sector.
      */
-    public Cell(Coordinate coords, Field map, Sector sectorType) {
+    public Cell(Coordinate coords, Sector sectorType) {
         this.coords = coords;
-        this.map = map;
         this.sectorType = sectorType;
     }
 

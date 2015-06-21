@@ -2,7 +2,6 @@ package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
-import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 import java.util.ArrayList;
 import java.util.List;

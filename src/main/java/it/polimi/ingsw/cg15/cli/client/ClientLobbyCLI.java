@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.ClientToken;
-import it.polimi.ingsw.cg15.networking.GameManagerRemote;
-import it.polimi.ingsw.cg15.networking.SocketCommunicator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,15 +13,7 @@ import java.util.Scanner;
  */
 public class ClientLobbyCLI {
 
-    /**
-     * The server socket communicator.
-     */
-    private SocketCommunicator server;
-    
-    /**
-     * The remote game manager.
-     */
-    private GameManagerRemote gmRemote=null;
+
     
     /**
      * The client token.

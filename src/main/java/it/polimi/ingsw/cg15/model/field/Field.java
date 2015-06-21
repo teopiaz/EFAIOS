@@ -56,7 +56,7 @@ public class Field {
      * @param sector, The sector.
      */
     public void addCell(Coordinate coord, Sector sector) {
-        map.put(coord, new Cell(coord, this, sector));
+        map.put(coord, new Cell(coord, sector));
     }
 
     /**

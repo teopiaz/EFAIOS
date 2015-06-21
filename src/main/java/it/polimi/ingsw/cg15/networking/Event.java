@@ -11,6 +11,11 @@ import java.util.Map;
 public class Event implements Serializable {
     
     /**
+     * 
+     */
+    private static final long serialVersionUID = -2656351448801661553L;
+
+    /**
      * The client token.
      */
     private final ClientToken token;
@@ -93,7 +98,7 @@ public class Event implements Serializable {
         this.command = null;
         this.args = null;
         Map<String, String> retmap = new HashMap<String, String>();
-        retmap.put("return", retValue);
+        retmap.put(RETURN, retValue);
         this.retValues = retmap;
     }
 
@@ -138,7 +143,7 @@ public class Event implements Serializable {
         this.command = e.command;
         this.args = e.args;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("return", value);
+        map.put(RETURN, value);
         this.retValues = map;
     }
     
@@ -199,8 +204,8 @@ public class Event implements Serializable {
      * @return The result of the current action.
      */
     public boolean actionResult(){
-        if(this.retValues.containsKey("return")){
-            if(this.retValues.get("return").equals("true")){
+        if(this.retValues.containsKey(RETURN)){
+            if(TRUE.equals(this.retValues.get(RETURN))){
                 return true;
             }
         }

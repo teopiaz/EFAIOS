@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.action;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import it.polimi.ingsw.cg15.controller.GameController;

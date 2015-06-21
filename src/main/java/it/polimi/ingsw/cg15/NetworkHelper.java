@@ -330,7 +330,7 @@ public class NetworkHelper implements Observer {
 
     private void joinRMI(String gameToken) {
 
-        SubscriberRMI subRMI = new SubscriberRMI(gameToken);
+        SubscriberRMI subRMI = new SubscriberRMI();
 
         try {
 
