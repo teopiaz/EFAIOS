@@ -43,7 +43,7 @@ public class GameManager implements GameManagerRemote {
     /**
      * Enables or not the timer.
      */
-    private boolean gameTimer=true;;
+    private boolean gameTimer=true;
 
     /**
      * The constructor.
