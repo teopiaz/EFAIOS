@@ -1,14 +1,10 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -63,27 +59,14 @@ public class TVeffect {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 }
-                GraphicsDevice device = GraphicsEnvironment
-                        .getLocalGraphicsEnvironment().getScreenDevices()[0];
-                DisplayMode dm = device.getDisplayMode();
-                //device.setDisplayMode(dm); 
-                /*device.setDisplayMode(new DisplayMode(1280, 800,dm.getBitDepth(),dm.getRefreshRate()));
-                W = device.getDisplayMode().getWidth();
-                H = device.getDisplayMode().getHeight();
-                 */
                 Width=1280;
                 Height=720;
-                //   System.out.println(device.getDisplayMode().getRefreshRate());
-                frame = new JFrame("Test");
+                frame = new JFrame("Escape From Alien In Outer Space");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new BorderLayout());
-                //frame.setPreferredSize(new Dimension(W,H));
-                Pannello pannello = new Pannello();
-                frame.add(pannello);
+                frame.add(new Pannello());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setVisible(true);
-                // device.setFullScreenWindow(frame);
             }
         });
     }
@@ -93,7 +76,10 @@ public class TVeffect {
      * Another panel.
      */
     private class Pannello extends JPanel {
-        private int x=0;
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -8454735757922056844L;
         float lerpAmount = 0;
         float lerpScale = 0;
         float lerpShrink = 0;
@@ -104,21 +90,22 @@ public class TVeffect {
         Timer timer ;
         BufferedImage image,scanline,noise;
         Random ran = new Random();
+        Random ran2 = new Random();
         boolean endIntro=false;
         public Pannello(){
             setPreferredSize(new Dimension(Width,Height));
             setBackground(Color.BLACK);
             image = ImageLoader.load("logo720alpha");
-            image = (BufferedImage) getScaledImage(image, Width/3,Height/3); 
-            image = (BufferedImage) getScaledImage(image, Width,Height );    
+            image = getScaledImage(image, Width/3,Height/3); 
+            image = getScaledImage(image, Width,Height );    
             scanline = ImageLoader.load("scanlines");
-            scanline = (BufferedImage) getScaledImage(scanline, Width, Height);
-            image = (BufferedImage) getScaledImage(image, Width, Height);
+            scanline = getScaledImage(scanline, Width, Height);
+            image = getScaledImage(image, Width, Height);
             image = colorShift(image,4);
             final Timer timershift = new Timer(10,new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    image = colorShift(image,ran.nextInt(2)-ran.nextInt(2));
+                    image = colorShift(image,ran.nextInt(2)-ran2.nextInt(2));
                     noise = noise(image);
                     repaint();
                 }
@@ -136,12 +123,12 @@ public class TVeffect {
                         public void actionPerformed(ActionEvent e) {
                             //ogni volta che termina il timer
                             if (tvstate)
-                                scaleIt(0.02F,0.2F,156,0,2,image.getHeight());  // turning on
+                                scaleIt(0.02F,0.2F,2,image.getHeight());  // turning on
                             else
-                                scaleIt(0.1F,0.2F,0,-400,image.getHeight(),1);   // turning off
+                                scaleIt(0.1F,0.2F,image.getHeight(),1);   // turning off
                             image= getScaledImage(image,tvwidth,tvheight);
                             repaint();
-                            if(image.getWidth() < 100 && image.getHeight()<10 && endIntro==false){
+                            if(image.getWidth() < 100 && image.getHeight()<10 && !endIntro){
                                 try {
                                     Thread.sleep(2000);
                                 } catch (InterruptedException e1) {
@@ -171,7 +158,8 @@ public class TVeffect {
             g2d.drawImage((Image)scanline, 0,0,null);
         }
 
-        public BufferedImage colorShift(BufferedImage image,int offset){
+        public BufferedImage colorShift(BufferedImage image,int offsetArg){
+            int offset = offsetArg;
             BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
             int i,j;
             boolean negative = false;
@@ -198,7 +186,7 @@ public class TVeffect {
             return tmp;
         }
 
-        public void scaleIt(float amountA, float amountB, int valueA, int valueB, int valueC, int valueD){
+        public void scaleIt(float amountA, float amountB, int valueC, int valueD){
             if (lerpAmount < 1)
             {
                 lerpAmount += amountA;
@@ -218,10 +206,10 @@ public class TVeffect {
         private BufferedImage noise(BufferedImage image){
             BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
             int i,j;
-            Random ran = new Random();
+            Random ran3 = new Random();
             for(i=0;i<image.getHeight();i+=3){
                 for(j=0;j<image.getWidth();j+=2){
-                    tmp.setRGB(j, i, new Color( image.getRGB(j, i) + (ran.nextInt(30))).getRGB() <<ran.nextInt(25));
+                    tmp.setRGB(j, i, new Color( image.getRGB(j, i) + (ran3.nextInt(30))).getRGB() <<ran3.nextInt(25));
                 }
             }
             return tmp;
@@ -240,6 +228,15 @@ public class TVeffect {
         {
             return a + f * (b - a);
         }
+        
+        private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
+            throw new java.io.NotSerializableException( getClass().getName() );
+        }
+
+        private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException {
+            throw new java.io.NotSerializableException( getClass().getName() );
+        }
+
     }
 
 }

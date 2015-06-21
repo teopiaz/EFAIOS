@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 
 public class ActionPanel extends JPanel {
 
-	private final static int ASKSECTOR_STATE = 2;
-	private final static int WAITING_STATE = 1;
+    private static final int ASKSECTOR_STATE = 2;
+	private static final int WAITING_STATE = 1;
 
 	private int state =WAITING_STATE;
 
@@ -78,23 +78,20 @@ public class ActionPanel extends JPanel {
 		btnMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int pippo = state;
 
-				switch(state){
+                if(state==WAITING_STATE){
+                    actionMove();
+                       SidePanel.getMainPanel().getMapPanel().setSelected(false);
+                       String position = networkHelper.getPlayerPosition();
+                       SidePanel.getMainPanel().getMapPanel().setPosition(position);
+               }
+                
+                if(state==ASKSECTOR_STATE){
+                    actionAsk();
+                    SidePanel.getMainPanel().getMapPanel().setSelected(false);
+               }
+			    
 
-				case WAITING_STATE : 
-					actionMove();
-					SidePanel.getMainPanel().getMapPanel().setSelected(false);
-			        String position = networkHelper.getPlayerPosition();
-			        SidePanel.getMainPanel().getMapPanel().setPosition(position);
-					break;
-
-				case ASKSECTOR_STATE:
-					actionAsk();
-					SidePanel.getMainPanel().getMapPanel().setSelected(false);
-					break;
-
-				}
 
 			}
 

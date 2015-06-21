@@ -28,13 +28,14 @@ public class MainClientGUI {
      * @throws NotBoundException
      */
     public static void main(String[] args) throws RemoteException, MalformedURLException,  AlreadyBoundException, NotBoundException {
-        boolean intro = false;
+        boolean intro = true;
         NetworkHelper netHelper = NetworkHelper.getClientSocket("localhost", 1337);
         Runnable clientTaskGUI = new ClientGameGUI(netHelper);
         Runnable taskLobby = new ClientLobbyGUI(netHelper, clientTaskGUI);
         EventQueue.invokeLater(clientTaskGUI);
         EventQueue.invokeLater(taskLobby);
         if (intro) {
+            @SuppressWarnings("unused")
             TVeffect tvEffect = new TVeffect(taskLobby);
         } else {
             ((ClientLobbyGUI) taskLobby).showGUI();
