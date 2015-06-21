@@ -28,16 +28,16 @@ public class MapLoader {
     /**
      * List of maps already created.
      */
-    private static final List<String> localMapList = new ArrayList<String>() ;
+    private static final List<String> LOCALMAPLIST = new ArrayList<String>() ;
     
 
     /**
      * The constructor.
      */
     private MapLoader() {
-        localMapList.add("galvani"); 
-        localMapList.add("galilei"); 
-        localMapList.add("fermi"); 
+        LOCALMAPLIST.add("galvani"); 
+        LOCALMAPLIST.add("galilei"); 
+        LOCALMAPLIST.add("fermi"); 
     }
     
     /**
@@ -52,7 +52,7 @@ public class MapLoader {
             return false;
         }
         String fName ="maps/"+ mapName + ".txt";
-        if(localMapList.contains(mapName)){
+        if(LOCALMAPLIST.contains(mapName)){
             fName =mapName + ".txt";
             fin = MapLoader.class.getClassLoader().getResourceAsStream(fName);
             if (fin == null) {
@@ -75,36 +75,46 @@ public class MapLoader {
         } catch (IOException e1) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IO exception", e1);
         }
-        while (line != null) {
-            String[] splitted = line.split(",");
-            int c = Integer.valueOf(splitted[1]);
-            int r = Integer.valueOf(splitted[0]);
-            int type = Integer.valueOf(splitted[2]);
-            if (type!=0) {
-                Coordinate coord = new Coordinate(r, c);
-                field.addCell(coord, Sector.valueOf(type));
-                if(type==3){
-                    field.addHatchToList(coord);
-                }
-                if(type==4){
-                    field.setHumanStartingPosition(field.getCell(coord));
-                }
-                if(type==5){
-                    field.setAlienStartingPosition(field.getCell(coord));
-                }   
-            }
-            try {
-                line = reader.readLine();
-            } catch (IOException e1) {
-                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad readline IOException", e1);
-            }
-        }
+        splitLineAndAdd(field,line, reader);
         try {
             reader.close();
         } catch (IOException e) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad close IOException", e);
         }
         return true;
+    }
+
+    private static void splitLineAndAdd(Field field, String line, BufferedReader reader ) {
+        while (line != null) {
+            String[] splitted = line.split(",");
+            int c = Integer.valueOf(splitted[1]);
+            int r = Integer.valueOf(splitted[0]);
+            int type = Integer.valueOf(splitted[2]);
+                addToField(field,r,c,type);
+            try {
+                line = reader.readLine();
+            } catch (IOException e1) {
+                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad readline IOException", e1);
+            }
+        }
+        
+    }
+
+    private static void addToField(Field field, int r, int c, int type) {
+        if (type!=0) {
+            Coordinate coord = new Coordinate(r, c);
+            field.addCell(coord, Sector.valueOf(type));
+            if(type==3){
+                field.addHatchToList(coord);
+            }
+            if(type==4){
+                field.setHumanStartingPosition(field.getCell(coord));
+            }
+            if(type==5){
+                field.setAlienStartingPosition(field.getCell(coord));
+            }   
+        }
+        
     }
 
     /**

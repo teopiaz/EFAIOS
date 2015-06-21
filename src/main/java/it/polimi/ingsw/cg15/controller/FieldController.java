@@ -8,6 +8,7 @@ import it.polimi.ingsw.cg15.model.field.Sector;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.utils.MapLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,7 +92,7 @@ public class FieldController {
             return  field.getCell(coord).getPlayers();
         }
         else{
-            return null;
+            return new ArrayList<Player>();
         }
     }
 
@@ -113,12 +114,7 @@ public class FieldController {
      * @return true or false if the sector is blocked.
      */
     public boolean isHatchBlocked(Coordinate coord) {
-        if(field.getHatchSectorStatus(coord)){
-            return false;
-        }
-        else{
-            return true;
-        }
+        return (!field.getHatchSectorStatus(coord));
     }
 
     /**
@@ -134,7 +130,7 @@ public class FieldController {
      */
     public boolean allHatchBlocked() {
         for (Coordinate hatchSector : field.getHatchSectorsList().keySet()) {
-            if(field.getHatchSectorStatus(hatchSector)==true){
+            if(field.getHatchSectorStatus(hatchSector)){
                 return false;
             }
         }

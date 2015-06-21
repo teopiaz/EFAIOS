@@ -72,7 +72,7 @@ public class Spotlight extends Action {
             list.add(target);
             for (Coordinate coordinate : list) {
                 List<Player> playersInSector = fc.getPlayersInSector(coordinate);
-                if(playersInSector!=null){
+                if(playersInSector.size()>0){
                     for (Player player : playersInSector) {
                         if(player!=currentPlayer){
                             retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());
