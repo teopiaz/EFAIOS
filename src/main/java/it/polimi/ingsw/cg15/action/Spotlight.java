@@ -50,16 +50,14 @@ public class Spotlight extends Action {
             retValues = e.getRetValues();
         }
         PlayerController pc = getCurrentPlayerController();
-        if(!pc.canUseCard()){
-            retValues.put(Event.RETURN, Event.FALSE);
-            retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
-            return new Event(e, retValues);
+        
+        
+        Event checkCardEvent = checkCardUse(e,retValues);
+        if(checkCardEvent!=null){
+            return checkCardEvent;
         }
-        if(pc.itemCardUsed()){
-            retValues.put(Event.RETURN, Event.FALSE);
-            retValues.put(Event.ERROR,"carta già usata in questo turno");
-            return new Event(e, retValues);
-        }
+        
+ 
         if(pc.hasCard(ItemCard.ITEM_SPOTLIGHT)){
             Map<String,String> retPub = new HashMap<String, String>();
             pc.removeCard(ItemCard.ITEM_SPOTLIGHT);
@@ -72,7 +70,7 @@ public class Spotlight extends Action {
             list.add(target);
             for (Coordinate coordinate : list) {
                 List<Player> playersInSector = fc.getPlayersInSector(coordinate);
-                if(playersInSector.size()>0){
+                if(!playersInSector.isEmpty()){
                     for (Player player : playersInSector) {
                         if(player!=currentPlayer){
                             retValues.put(Integer.toString(player.getPlayerNumber()), player.getPosition().getLabel());

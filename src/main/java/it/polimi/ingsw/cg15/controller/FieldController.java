@@ -114,7 +114,7 @@ public class FieldController {
      * @return true or false if the sector is blocked.
      */
     public boolean isHatchBlocked(Coordinate coord) {
-        return (!field.getHatchSectorStatus(coord));
+        return !field.getHatchSectorStatus(coord);
     }
 
     /**

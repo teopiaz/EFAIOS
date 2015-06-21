@@ -84,7 +84,8 @@ public class MapLoader {
         return true;
     }
 
-    private static void splitLineAndAdd(Field field, String line, BufferedReader reader ) {
+    private static void splitLineAndAdd(Field field, String lineArg, BufferedReader reader ) {
+        String line = lineArg;
         while (line != null) {
             String[] splitted = line.split(",");
             int c = Integer.valueOf(splitted[1]);

@@ -45,16 +45,13 @@ public class Teleport extends Action {
         retValues = e.getRetValues();
         }
         PlayerController pc = getCurrentPlayerController();
-        if(!pc.canUseCard()){
-            retValues.put(Event.RETURN,Event.FALSE);
-            retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
-            return new Event(e, retValues);
+
+        
+        Event checkCardEvent = checkCardUse(e,retValues);
+        if(checkCardEvent!=null){
+            return checkCardEvent;
         }
-        if(pc.itemCardUsed()){
-            retValues.put(Event.RETURN, Event.FALSE);
-            retValues.put(Event.ERROR,"carta già usata in questo turno");
-            return new Event(e, retValues);
-        }
+
         if(pc.hasCard(ItemCard.ITEM_TELEPORT)){
             pc.removeCard(ItemCard.ITEM_TELEPORT);
             pc.setItemUsed();
