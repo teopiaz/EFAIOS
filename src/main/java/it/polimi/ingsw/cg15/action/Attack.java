@@ -54,7 +54,7 @@ public class Attack extends Action {
             retValues = e.getRetValues();
         }
         if(pc.hasAttacked()){
-            retValues.put("return", Event.FALSE);
+            retValues.put(Event.RETURN, Event.FALSE);
             retValues.put(Event.ERROR, "attacco già effettuato");
             System.err.println("ERRORE"+retValues.toString());
             return new Event(e, retValues);
@@ -92,7 +92,7 @@ public class Attack extends Action {
         pubRet.put("attack", currentPlayer.getPosition().getLabel());
         Event toPublish = new Event(new ClientToken("", gameToken),"log",null, pubRet);
         Broker.publish(gameToken,NetworkProxy.eventToJSON(toPublish));
-        retValues.put("return",Event.TRUE);
+        retValues.put(Event.RETURN,Event.TRUE);
         retValues.put("killcount", Integer.toString(killcount));
         return new Event(e, retValues);
     }

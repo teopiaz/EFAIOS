@@ -47,12 +47,12 @@ public class AskSector extends Action {
                 }else{
                     retValues = e.getRetValues();
                 }
-                retValues.put("return", Event.TRUE);    
+                retValues.put(Event.RETURN, Event.TRUE);    
                 e = new Event(e, retValues);
                 return e;
             }
         }
-        retValues.put("return", Event.FALSE);
+        retValues.put(Event.RETURN, Event.FALSE);
         retValues.put(Event.ERROR,"settore non valido");
         e = new Event(e, retValues);
         return e;

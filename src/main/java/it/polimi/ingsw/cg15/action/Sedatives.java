@@ -46,12 +46,12 @@ public class Sedatives extends Action {
         }
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
-            retValues.put("return", Event.FALSE);
+            retValues.put(Event.RETURN, Event.FALSE);
             retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
             return new Event(e, retValues);
         }
         if(pc.itemCardUsed()){
-            retValues.put("return", Event.FALSE);
+            retValues.put(Event.RETURN, Event.FALSE);
             retValues.put(Event.ERROR,"carta già usata in questo turno");
             return new Event(e, retValues);
         }
@@ -70,11 +70,11 @@ public class Sedatives extends Action {
             
             
             
-            retValues.put("return", Event.TRUE);
+            retValues.put(Event.RETURN, Event.TRUE);
             retValues.put("state", "sedatives");
             return new Event(e, retValues);
         }
-        retValues.put("return", Event.FALSE);
+        retValues.put(Event.RETURN, Event.FALSE);
         retValues.put(Event.ERROR,"carta non posseduta");
         return new Event(e, retValues);
     }

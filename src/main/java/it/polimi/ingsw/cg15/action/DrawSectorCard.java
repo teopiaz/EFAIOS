@@ -30,7 +30,6 @@ public class DrawSectorCard extends Action {
     public DrawSectorCard(GameController gc, Event request) {
         super(gc);
         this.e = request;
-        // TODO Auto-generated constructor stub
     }
 
 /**
@@ -78,11 +77,11 @@ public class DrawSectorCard extends Action {
                 afterItemDraw =  draw.execute();
                 noise = new NoiseGreen(gc,afterItemDraw);
                 retValues = afterItemDraw.getRetValues();
-                retValues.put("return", Event.TRUE);
+                retValues.put(Event.RETURN, Event.TRUE);
             }
             if(card==SectorCard.SECTOR_RED_ITEM){
                 retValues.put("sectorcard", "sectorred");
-                retValues.put("item", "true");
+                retValues.put("item", Event.TRUE);
                 Event beforeDrawEvent = new Event(e, retValues);
                 Action draw = new DrawItemCard(gc,beforeDrawEvent);
                 afterItemDraw =  draw.execute();
@@ -91,10 +90,10 @@ public class DrawSectorCard extends Action {
             }
             if(card==SectorCard.SECTOR_SILENCE){
                 retValues.put("sectorcard", "silence");
-                retValues.put("noise", "false");
+                retValues.put("noise", Event.FALSE);
                 return new Event(e, retValues);
             }
-            retValues.put("return", "true");
+            retValues.put(Event.RETURN, Event.TRUE);
             //faccio rumore
             //TODO: publish noise
             e = noise.execute();
@@ -105,7 +104,7 @@ public class DrawSectorCard extends Action {
         }else{
         retValues.put("sectortype", "safe");
         }
-        retValues.put("noise", "false");
+        retValues.put("noise",Event.FALSE);
         return new Event(e, retValues);
     }
 

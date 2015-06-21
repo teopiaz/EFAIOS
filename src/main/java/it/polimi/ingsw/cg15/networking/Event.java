@@ -33,22 +33,22 @@ public class Event implements Serializable {
     /**
      * False.
      */
-    public final static String FALSE = "false";
+    public static final String FALSE = "false";
     
     /**
      * True.
      */
-    public final static String TRUE = "true";
+    public static final String TRUE = "true";
     
     /**
      * Error.
      */
-    public final static String ERROR = "error";
+    public static final String ERROR = "error";
     
     /**
      * Return.
      */
-    public final static String RETURN = "return";
+    public static final String RETURN = "return";
 
     /**
      * A constructor.

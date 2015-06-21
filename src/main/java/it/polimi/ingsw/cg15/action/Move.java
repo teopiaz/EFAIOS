@@ -80,7 +80,7 @@ public class Move extends Action {
                 retValues = response.getRetValues();
                 getGameController().removeAction(ActionEnum.MOVE);
                 retValues = response.getRetValues();
-                retValues.put("return", Event.TRUE);
+                retValues.put(Event.RETURN, Event.TRUE);
                 retValues.put("destination", dest.toString());
                 int currentPlayer = getGameController().getCurrentPlayer().getPlayerNumber();
                 Map<String, String> pubRet = new HashMap<String, String>();
@@ -101,7 +101,7 @@ public class Move extends Action {
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
         retValues.put(Event.ERROR, "impossibile eseguire lo spostamento");
-        retValues.put("return", Event.FALSE);
+        retValues.put(Event.RETURN, Event.FALSE);
         return new Event(e, retValues);
     }
 
