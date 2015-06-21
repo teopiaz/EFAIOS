@@ -34,7 +34,6 @@ public class BrokerRMI implements BrokerRMIInterface{
             List<SubscriberRMIInterface> subscribers = topicMap.get(topic);
             
         	if(!subscribers.isEmpty()){
-    			System.out.println("Publishing message on topic "+topic);
     			for (SubscriberRMIInterface sub : subscribers) {
     				try {
     					sub.dispatchMessage(msg);
@@ -42,8 +41,6 @@ public class BrokerRMI implements BrokerRMIInterface{
     					e.printStackTrace();
     				}
     			}
-    		}else{
-    			System.err.println("No subscribers!!");
     		}
             
 		}
@@ -61,7 +58,6 @@ public class BrokerRMI implements BrokerRMIInterface{
 	 */
 	@Override
 	public void subscribe(String topic, SubscriberRMIInterface r) {
-		System.out.println("SOTTOSCRITTO");
 		addToMap(topic,r);
 		subscribers.add(r);
 	}

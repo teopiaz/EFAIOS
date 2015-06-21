@@ -14,6 +14,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.JOptionPane;
+
 /**
  * @author MMP - LMR
  * The class that contains method for the Client CLI Game.
@@ -492,7 +494,23 @@ public class ClientGameCLI implements ViewClientInterface {
 
 	@Override
 	public void endGame(Event e) {
+		
+    	boolean winner = false;
+        for (Entry<String, String> ele : e.getRetValues().entrySet()) {
+        	printToScreen("Player " + ele.getKey() + ": " + ele.getValue());
+        	if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
+        		winner=true;
+        	}
+        }
+        if(winner){
+        	printToScreen("You Win the match");
+        }
+        else{
+        	printToScreen("You Lose the match");
+        }
+			
 		notifyEnd();
+		
 		
 	}
 

@@ -59,11 +59,11 @@ public class ClientLobbyCLI {
      */
     public void printGameList(Map<String, String> gameList){
         if(gameList==null || gameList.isEmpty()){
-            System.out.println("No games available. Create a new game!");
+        	printToScreen("No games available. Create a new game!");
         }else{
             for (Entry<String,String> game : gameList.entrySet()) {
                 Map<String, String> retValues = networkHelper.getGameInfo(game.getValue());
-                System.out.println(
+                printToScreen(
                         "GameName: "+retValues.get("name")+
                         "\tMap: "+retValues.get("mapName") +
                         "\t"+retValues.get("playercount")+"/8"
@@ -80,13 +80,13 @@ public class ClientLobbyCLI {
         scanner = new Scanner(System.in);
         String action=null;
         boolean exit = false;
-        System.out.println(
+        printToScreen(
                 "1)Create game"+"\n"
                         + "2)List Game"+"\n"
                         + "3)Join Game"+"\n"
                         + "4)Exit");
         while(scanner.hasNextLine() && !exit){
-            System.out.println(
+        	printToScreen(
                     "1)Create game"+"\n"
                             + "2)List Game"+"\n"
                             + "3)Join Game"+"\n"
@@ -118,7 +118,7 @@ public class ClientLobbyCLI {
      */
     private void actionJoinGame() {
         gameList = networkHelper.getGamesList();
-        System.out.println("Insert game name:");
+        printToScreen("Insert game name:");
         String gameName = scanner.nextLine();
         String gameToken = gameList.get(gameName);
         ctoken = new ClientToken(networkHelper.getPlayerToken(), gameToken);
@@ -132,9 +132,9 @@ public class ClientLobbyCLI {
      * The method that allows you to create a new game.
      */
     private void actionCreateGame() {
-        System.out.println("Insert game name:");
+    	printToScreen("Insert game name:");
         String gameName = scanner.nextLine();
-        System.out.println("Insert map name:");
+        printToScreen("Insert map name:");
         String mapName = scanner.nextLine();
         networkHelper.createGame(gameName,mapName.toLowerCase());
     }
@@ -142,7 +142,7 @@ public class ClientLobbyCLI {
     /**
      * @param messaggio A message to print.
      */
-    public void stampa(String messaggio) {
+    public void printToScreen(String messaggio) {
         System.out.println(messaggio);
     }
 

@@ -56,9 +56,9 @@ public class NetworkHelper implements Observer {
 	 */
 	private static GameManagerRemote gmRemote=null;
 
-	
+
 	private static BrokerRMIInterface broker=null;
-	
+
 	/**
 	 * The token for the client.
 	 */
@@ -112,7 +112,7 @@ public class NetworkHelper implements Observer {
 	 * The number of player.
 	 */
 	private static int playerNumber;
-	
+
 	private static boolean isHuman = false;
 
 	/**
@@ -124,8 +124,6 @@ public class NetworkHelper implements Observer {
 		this.ip = ip;
 		this.port = port;
 		NetworkHelper.type=SOCKET;
-		System.out.println("CREATA SOCKET");
-
 	}
 
 	/**
@@ -139,7 +137,6 @@ public class NetworkHelper implements Observer {
 		ClientRMI clientRMI = new ClientRMI();
 		gmRemote = clientRMI.connect();
 		NetworkHelper.type=RMI;
-		System.out.println("CREATA RMI");
 	}
 
 	/**
@@ -197,7 +194,6 @@ public class NetworkHelper implements Observer {
 		if(type==RMI){
 			try {
 				result = gmRemote.getClientToken();
-				System.out.println(result);
 				NetworkHelper.ctoken = result.getToken();
 			} catch (RemoteException e1) {
 				Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
@@ -249,7 +245,6 @@ public class NetworkHelper implements Observer {
 				Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Remote Exception", e1);
 			}
 		}
-		System.out.println("Game Created: "+ gameName);
 	}
 
 	/**
@@ -292,12 +287,10 @@ public class NetworkHelper implements Observer {
 		if(type==SOCKET){
 			response = send(e);
 			if(response.getRetValues().get("error")!=null){
-				System.out.println("ERRORE: " +response.getRetValues().get("error"));
 			}
 			else{
 				subThread =  new Thread(new SubscriberSocketThread(gameToken));
 				subThread.start();
-				System.out.println(response.getRetValues().get("return"));
 				saveTokenToFile(ctoken);
 			}
 		}
@@ -305,7 +298,6 @@ public class NetworkHelper implements Observer {
 			try {
 				response = gmRemote.joinGame(e);
 				if(response.getRetValues().get("error")!=null){
-					System.out.println("ERRORE: " +response.getRetValues().get("error"));
 				}
 				else{
 					//   setGameToken(gameToken);
@@ -320,13 +312,10 @@ public class NetworkHelper implements Observer {
 						broker = (BrokerRMIInterface) registry.lookup("Broker");
 						SubscriberRMIInterface remoteSub = (SubscriberRMIInterface)UnicastRemoteObject.exportObject(subRMI,0);
 						broker.subscribe(gameToken,remoteSub);
-						System.out.println(response.getRetValues().get("return"));
 
 					} catch (NotBoundException| RemoteException e1) {
 						e1.printStackTrace();
 					}
-
-					System.out.println(response.getRetValues().get("return"));
 
 
 					saveTokenToFile(ctoken);
@@ -469,7 +458,6 @@ public class NetworkHelper implements Observer {
 		}
 		Event e = new Event(ctoken,"getturninfo",null);
 		Event result = eventHandler(e);  
-		System.err.println(result);
 		return Integer.parseInt( result.getRetValues().get("currentplayer"));
 	}
 
@@ -550,7 +538,6 @@ public class NetworkHelper implements Observer {
 	 */
 	private synchronized Event eventHandler(Event e){
 		if(e.getCommand().equals("endturn")){
-		System.out.println("ENDTURN");
 		}
 		Event result =null;
 		if(type==SOCKET){
@@ -593,10 +580,9 @@ public class NetworkHelper implements Observer {
 		if(e.getCommand().equals("chat")){
 			view.chat(e);
 		}
-		 if (e.getCommand().equals("endgame")) {
-			 view.endGame(e);
-	        }
-		view.stampa(e.toString());
+		if (e.getCommand().equals("endgame")) {
+			view.endGame(e);
+		}
 	}
 
 	/**
@@ -695,7 +681,6 @@ public class NetworkHelper implements Observer {
 			String[] splitted = line.split(",");
 			gameToken =splitted[1];
 			playerToken = splitted[0];
-			System.out.println("LOADED:\n"+"PLAYER TOKEN: "+playerToken+"\nGAME TOKEN: "+gameToken);
 			// this.ctoken = new ClientToken(playerToken, gameToken);
 			try {
 				line = reader.readLine();
@@ -729,8 +714,7 @@ public class NetworkHelper implements Observer {
 
 	public String getPlayerPosition() {
 		getPlayerInfo();
-		System.out.println(position);
 		return position;
-}
+	}
 
 }

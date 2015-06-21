@@ -95,9 +95,6 @@ public class SubscriberSocketThread extends Observable implements Runnable {
         String msg = null;
         try {
             msg = in.readLine();
-            if (msg != null) {
-                // System.out.println("Topic: "+"received message: "+msg);
-            }
         } catch (IOException e) {
             Logger.getLogger(SubscriberSocketThread.class.getName()).log(Level.SEVERE, "IOException", e);
         }

@@ -75,7 +75,6 @@ public class BrokerSocket extends Thread implements Server{
                             String topic = brokerThread.getTopic();
                             addToMap(topic,brokerThread);
                             brokerThread.start();
-                            System.out.println("Adding new subscriber");
                         }
                     }catch(IOException e){
                         Logger.getLogger(BrokerSocket.class.getName()).log(Level.SEVERE, "Cannot listen on port 7331", e);
@@ -110,14 +109,11 @@ public class BrokerSocket extends Thread implements Server{
         if(topicMap.containsKey(topic)){
             List<BrokerSocketThread> subscribers = topicMap.get(topic);
             if(!subscribers.isEmpty()){
-                System.out.println("Publishing message: TOPIC: "+topic+" MSG: "+msg);
                 for (BrokerSocketThread sub : subscribers) {
                     sub.dispatchMessage(msg);
                 }
             }
-            else{
-                System.err.println("No subscribers!!");
-            }
+
         }
     }
 
