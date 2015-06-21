@@ -213,16 +213,24 @@ public class GameController {
                     response = chat(e);
                     break;
                 default:
-                    if (players.containsKey(playerToken)) {
-                        Player thisPlayer = players.get(playerToken);
-                        if (gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)) {
-                            response = handleAction(e);
-                        } else {
-                            response = getTurnInfo(e);
-                        }
-                    }
+                    response = defaultAction(e,playerToken);
                     break;
                 }
+            }
+        }
+        return response;
+    }
+    
+    
+    private Event defaultAction(Event e, String playerToken){
+        Event response = null;
+        if (players.containsKey(playerToken)) {
+
+            Player thisPlayer = players.get(playerToken);
+            if (gameState.getTurnState().getCurrentPlayer().equals(thisPlayer)) {
+                response = handleAction(e);
+            } else {
+                response = getTurnInfo(e);
             }
         }
         return response;
@@ -422,6 +430,16 @@ public class GameController {
         if (fieldController.allHatchBlocked()) {
             gameState.setEnded();
         }
+        setEndCondition();
+        if (gameState.isEnded()) {
+            endGame();
+            return true;
+        } else
+            return false;
+    }
+    
+    
+    private void setEndCondition(){
         if (gameState.getTurnNumber() >= MAX_TURN_NUMBER) {
             for (Entry<String, Player> item : players.entrySet()) {
                 Player player = item.getValue();
@@ -439,11 +457,6 @@ public class GameController {
             }
             gameState.setEnded();
         }
-        if (gameState.isEnded()) {
-            endGame();
-            return true;
-        } else
-            return false;
     }
 
     /**
