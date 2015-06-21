@@ -28,6 +28,8 @@ public class Move extends Action {
      * It is the cell that will be the destination for the player.
      */
     private Coordinate dest;
+    
+
 
     /**
      * The event.
@@ -61,8 +63,7 @@ public class Move extends Action {
         }
         String destString = e.getArgs().get("destination").toUpperCase();
         this.dest = Coordinate.getByLabel(destString);
-        if (getGameController().getFieldController().existInMap(dest)) {
-            if (pc.moveIsPossible(dest)) {
+        if (getGameController().getFieldController().existInMap(dest) && pc.moveIsPossible(dest)) {
                 pc.movePlayer(dest);
                 Event response;
                 if (!pc.isUnderSedatives()) {
@@ -97,7 +98,7 @@ public class Move extends Action {
                 Event toPublish = new Event(new ClientToken("", e.getToken().getGameToken()),"log", null, pubRet);
                 Broker.publish(e.getToken().getGameToken(), NetworkProxy.eventToJSON(toPublish));
                 return new Event(e, retValues);
-            }
+            
         }
         Logger.getLogger(Move.class.getName()).log(Level.INFO, "Action Move:  impossible to move");
         retValues.put(Event.ERROR, "impossibile eseguire lo spostamento");

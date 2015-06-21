@@ -18,7 +18,7 @@ public enum ItemCard implements Card {
     }
 
     /**
-     * Next. TODO si può essere più specifici? A che serve?
+     * string rappresentation of ItemCard enumeration value
      */
     private String text;
 

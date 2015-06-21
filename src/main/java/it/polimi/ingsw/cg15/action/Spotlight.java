@@ -34,7 +34,6 @@ public class Spotlight extends Action {
     public Spotlight(GameController gc,Event e) {
         super(gc);
         this.e=e;
-        // TODO Auto-generated constructor stub
     }
 
     /**

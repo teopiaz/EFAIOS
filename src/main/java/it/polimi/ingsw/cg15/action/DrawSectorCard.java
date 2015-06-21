@@ -22,6 +22,9 @@ public class DrawSectorCard extends Action {
      * The event.
      */
     Event e;
+    public static final String SECTORTYPE = "sectortype";
+    public static final String SECTORCARD = "sectorcard";
+
 
     /**
      * @param gc The game controller.
@@ -50,7 +53,7 @@ public class DrawSectorCard extends Action {
         retValues = e.getRetValues();
         }
         if(fc.isDangerousSector(pc.getPlayerPosition())){
-            retValues.put("sectortype", "dangerous");           
+            retValues.put(SECTORTYPE, "dangerous");           
             e=new Event(e, retValues);
             SectorCard card = pc.drawSectorCard();
             Action noise=null;
@@ -58,20 +61,20 @@ public class DrawSectorCard extends Action {
             //NON PESCO L'ITEM CARD
             if(card==SectorCard.SECTOR_GREEN){
                 noise = new NoiseGreen(gc,e);
-                retValues.put("item", Event.FALSE);
-                retValues.put("sectorcard", "sectorgreen");
+                retValues.put(Event.ITEM, Event.FALSE);
+                retValues.put(SECTORCARD, "sectorgreen");
                 e = new Event(e, retValues);
             }
             if(card==SectorCard.SECTOR_RED){
                 noise = new NoiseRed(gc,e);
-                retValues.put("item", Event.FALSE);
-                retValues.put("sectorcard", "sectorred");
+                retValues.put(Event.ITEM, Event.FALSE);
+                retValues.put(SECTORCARD, "sectorred");
                 e = new Event(e, retValues);
             }
             //PESCO L'ITEM CARD
             if(card==SectorCard.SECTOR_GREEN_ITEM){
-                retValues.put("sectorcard", "sectorgreen");
-                retValues.put("item", Event.TRUE);
+                retValues.put(SECTORCARD, "sectorgreen");
+                retValues.put(Event.ITEM, Event.TRUE);
                 Event beforeDrawEvent = new Event(e, retValues);
                 Action draw = new DrawItemCard(gc,beforeDrawEvent);
                 afterItemDraw =  draw.execute();
@@ -80,8 +83,8 @@ public class DrawSectorCard extends Action {
                 retValues.put(Event.RETURN, Event.TRUE);
             }
             if(card==SectorCard.SECTOR_RED_ITEM){
-                retValues.put("sectorcard", "sectorred");
-                retValues.put("item", Event.TRUE);
+                retValues.put(SECTORCARD, "sectorred");
+                retValues.put(Event.ITEM, Event.TRUE);
                 Event beforeDrawEvent = new Event(e, retValues);
                 Action draw = new DrawItemCard(gc,beforeDrawEvent);
                 afterItemDraw =  draw.execute();
@@ -89,20 +92,19 @@ public class DrawSectorCard extends Action {
                 retValues = afterItemDraw.getRetValues();
             }
             if(card==SectorCard.SECTOR_SILENCE){
-                retValues.put("sectorcard", "silence");
+                retValues.put(SECTORCARD, "silence");
                 retValues.put("noise", Event.FALSE);
                 return new Event(e, retValues);
             }
             retValues.put(Event.RETURN, Event.TRUE);
-            //faccio rumore
-            //TODO: publish noise
+
             e = noise.execute();
             return e;
         }
         if(fc.isHatchSector(pc.getPlayerPosition())){
-            retValues.put("sectortype", "hatch");
+            retValues.put(SECTORTYPE, "hatch");
         }else{
-        retValues.put("sectortype", "safe");
+        retValues.put(SECTORTYPE, "safe");
         }
         retValues.put("noise",Event.FALSE);
         return new Event(e, retValues);

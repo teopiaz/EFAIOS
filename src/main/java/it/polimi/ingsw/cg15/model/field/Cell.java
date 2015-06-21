@@ -66,12 +66,6 @@ public class Cell {
         return coords.toString();
     }
 
-    /**
-     * @return the map.
-     */
-    public Field getMap() {
-        return map;
-    }
 
     /**
      * @return The list of the players.
@@ -92,9 +86,7 @@ public class Cell {
      * @param player The player to be removed.
      */
     public void removePlayer(Player player){
-        if(players.contains(player)){
             players.remove(player);
-        }
     }
 
 }

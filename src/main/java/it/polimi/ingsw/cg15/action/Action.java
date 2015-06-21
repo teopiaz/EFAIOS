@@ -40,8 +40,8 @@ public abstract class Action {
     }
 
     /**
-     * This is the method that will be override by other classes to implements the TODO nome del patterne per le azioni.
-     * @return 
+     * This is the method that will be override by other classes to implements the Command pattern per le azioni.
+     * @return Event
      */
     public abstract Event execute();
 

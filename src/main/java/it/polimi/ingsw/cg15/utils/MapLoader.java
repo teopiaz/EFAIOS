@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,18 +28,16 @@ public class MapLoader {
     /**
      * List of maps already created.
      */
-    private static final ArrayList<String> localMapList = new ArrayList<String>() ;
+    private static final List<String> localMapList = new ArrayList<String>() ;
     
-    static{
-        localMapList.add("galvani"); 
-        localMapList.add("galilei"); 
-        localMapList.add("fermi"); 
-    }
 
     /**
      * The constructor.
      */
     private MapLoader() {
+        localMapList.add("galvani"); 
+        localMapList.add("galilei"); 
+        localMapList.add("fermi"); 
     }
     
     /**
@@ -75,7 +74,6 @@ public class MapLoader {
             line = reader.readLine();
         } catch (IOException e1) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IO exception", e1);
-            e1.printStackTrace();
         }
         while (line != null) {
             String[] splitted = line.split(",");
@@ -114,9 +112,10 @@ public class MapLoader {
      * @param field The field.
      * @param mapName The name of the map.
      */
-    public static void saveMap(Field field,String mapName) {
+    public static void saveMap(Field field,String strMapName) {
         FileOutputStream fop = null;
         File file;
+        String mapName = strMapName;
         if(mapName==""){
             mapName="map";
         }

@@ -275,7 +275,7 @@ public class GameController {
         List<ItemCard> list = thisPlayer.getCardList();
         int cardsSize = thisPlayer.getCardListSize();
         Map<String, String> retValues = new HashMap<String, String>();
-        retValues.put("return", "true");
+        retValues.put(Event.RETURN, Event.TRUE);
         retValues.put("cardssize", Integer.toString(cardsSize));
         for (ItemCard actionEnum : list) {
             retValues.put(actionEnum.toString(), "");
@@ -292,7 +292,7 @@ public class GameController {
     private Event getActionList(Event e) {
         List<ActionEnum> listAction = gameState.getTurnState().getActionList();
         Map<String, String> retValues = new HashMap<String, String>();
-        retValues.put("return", "true");
+        retValues.put(Event.RETURN, Event.TRUE);
         for (ActionEnum actionEnum : listAction) {
             retValues.put(actionEnum.toString(), "");
         }
@@ -305,7 +305,8 @@ public class GameController {
      * @param e The event that I received and that I have to worry about managing.
      * @return The response to the event that has the information to handle the fact that action is successful or not.
      */
-    private Event handleAction(Event e) {
+    private Event handleAction(Event event) {
+        Event e = event;
         if (gameState.getTurnState().isActionInActionList(e.getCommand())) {
             switch (e.getCommand()) {
             case "move":
@@ -319,11 +320,6 @@ public class GameController {
             case "useitem":
                 e = useItemCard(e);
                 break;
-            case "discarditem":
-                // e = discarditem(e);
-            case "escape":
-                // Action escape = new Escape(this,e);
-                // e = escape.execute();
             case "asksector":
                 Action asksector = new AskSector(this, e);
                 e = asksector.execute();
@@ -333,8 +329,8 @@ public class GameController {
                 break;
             default:
                 Map<String, String> retValues = new HashMap<String, String>();
-                retValues.put("return", "false");
-                retValues.put("errore", "azione non valida");
+                retValues.put(Event.RETURN, Event.FALSE);
+                retValues.put(Event.ERROR, "azione non valida");
                 e = new Event(e, retValues);
             }
         }
@@ -348,8 +344,8 @@ public class GameController {
      */
     private Event endTurn(Event e) {
         Map<String, String> retValues = new HashMap<String, String>();
-        retValues.put("endturn", "true");
-        retValues.put("return", "true");
+        retValues.put("endturn", Event.TRUE);
+        retValues.put(Event.RETURN, Event.TRUE);
         Event response = new Event(e, retValues);
         Event toPublish = new Event(new ClientToken("", gameToken), "pub", retValues);
         Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
@@ -371,8 +367,7 @@ public class GameController {
         retValues.put("currentposition", thisPlayer.getPosition().getCoordinate().toString());
         retValues.put("cardnumber", Integer.toString(thisPlayer.getCardListSize()));
         retValues.put("playertype", thisPlayer.getPlayerType().toClassName());
-        Event response = new Event(e, retValues);
-        return response;
+        return new Event(e, retValues);
     }
 
     /**
@@ -384,8 +379,7 @@ public class GameController {
         int currentPlayer = gameState.getTurnState().getCurrentPlayer().getPlayerNumber();
         Map<String, String> retValues = new HashMap<String, String>();
         retValues.put("currentplayer", Integer.toString(currentPlayer));
-        Event response = new Event(e, retValues);
-        return response;
+        return new Event(e, retValues);
     }
 
     /**
@@ -432,8 +426,7 @@ public class GameController {
             for (Entry<String, Player> item : players.entrySet()) {
                 Player player = item.getValue();
                 if (player.isAlive() && (player.getPlayerType() == PlayerType.HUMAN))
-                    ;
-                player.killPlayer();
+                    player.killPlayer();
             }
             gameState.setEnded();
         }
@@ -477,8 +470,7 @@ public class GameController {
         Field field = gameState.getField();
         Map<String, String> retValues = new HashMap<String, String>();
         retValues.put("map", field.getPrintableMap());
-        Event result = new Event(e, retValues);
-        return result;
+        return new Event(e, retValues);
     }
 
     /**
@@ -571,20 +563,20 @@ public class GameController {
     private Event chat(Event e) {
         Map<String, String> retValues = new HashMap<String, String>();
         Map<String, String> retPub = new HashMap<String, String>();
-        if (e.getArgs().containsKey("message")) {
+        if (e.getArgs().containsKey(Event.MESSAGE)) {
             Player thisPlayer = players.get(e.getToken().getPlayerToken());
-            String message = e.getArgs().get("message");
+            String message = e.getArgs().get(Event.MESSAGE);
             String sanitizedMessage = message.replaceAll("[^a-zA-Z0-9\\s]", "");
             retValues.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
-            retValues.put("message", sanitizedMessage);
-            retValues.put("return", Event.TRUE);
+            retValues.put(Event.MESSAGE, sanitizedMessage);
+            retValues.put(Event.RETURN, Event.TRUE);
             retPub.put("player", Integer.toString(thisPlayer.getPlayerNumber()));
-            retPub.put("message", sanitizedMessage);
+            retPub.put(Event.MESSAGE, sanitizedMessage);
             Event toPublish = new Event(new ClientToken("", gameToken), "chat", null, retPub);
             Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
             return new Event(e, retValues);
         }
-        retValues.put("return", Event.FALSE);
+        retValues.put(Event.RETURN, Event.FALSE);
         retValues.put(Event.ERROR, "errore messaggio");
         return new Event(e, retValues);
     }

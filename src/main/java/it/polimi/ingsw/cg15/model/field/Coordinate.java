@@ -4,8 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author MMP - LMR
- * The class that contains the cubic coordinates.
+ * @author MMP - LMR The class that contains the cubic coordinates.
  */
 public class Coordinate {
 
@@ -16,6 +15,7 @@ public class Coordinate {
 
     /**
      * The values of the cubics coordinate.
+     * 
      * @param x
      * @param y
      * @param z
@@ -28,40 +28,43 @@ public class Coordinate {
 
     /**
      * Turns the values of row and column into a cubic coordinates.
-     * @param r The row.
-     * @param c The column.
-   */
-    
+     * 
+     * @param r
+     *            The row.
+     * @param c
+     *            The column.
+     */
+
     public Coordinate(int r, int c) {
         this(c, // x
-               -c-(r-(c+(c&1))/2), // y
-                r-(c+(c&1))/2 // z
+                -c - (r - (c + (c & 1)) / 2), // y
+                r - (c + (c & 1)) / 2 // z
         );
     }
-    
-    
 
     /**
      * It allows to obtain the coordinates from a string that identifies the.
-     * @param str The string.
+     * 
+     * @param label The string.
      * @return coordinate by row and column.
      */
-    public static Coordinate getByLabel(String str) {
+    public static Coordinate getByLabel(String label) {
         int r = 1, c = 1;
-        str=str.toUpperCase();
-        if(str.matches("^[A-Z][0-9]?[0-9]$")){
-        char[] charStr = str.toCharArray();
-        if (charStr.length < 3) {
-            c = (int)charStr[0]-64;
-            r = charStr[1]-48;
-        }
-        if (charStr.length == 3) {
-            c = (int)charStr[0]-64;
-            r = (charStr[1]-48 )* 10 + (charStr[2]-48);
-        }
-        return new Coordinate(r, c);
-        }
-        else{
+
+        String str = label;
+        str = str.toUpperCase();
+        if (str.matches("^[A-Z][0-9]?[0-9]$")) {
+            char[] charStr = str.toCharArray();
+            if (charStr.length < 3) {
+                c = (int) charStr[0] - 64;
+                r = charStr[1] - 48;
+            }
+            if (charStr.length == 3) {
+                c = (int) charStr[0] - 64;
+                r = (charStr[1] - 48) * 10 + (charStr[2] - 48);
+            }
+            return new Coordinate(r, c);
+        } else {
             return null;
         }
     }
@@ -72,14 +75,14 @@ public class Coordinate {
     public int getX() {
         return x;
     }
-    
+
     /**
      * @return the y cubic coordinate.
      */
     public int getY() {
         return y;
     }
-    
+
     /**
      * @return the z cubic coordinate.
      */
@@ -91,16 +94,14 @@ public class Coordinate {
      * @return The column.
      */
     public int getCol() {
-       // return x + (z + (z & 1)) / 2;
-    	return x;
+        return x;
     }
-    
 
     /**
      * @return The row.
      */
     public int getRow() {
-        return z + (x + (x&1)) / 2;
+        return z + (x + (x & 1)) / 2;
     }
 
     /**
@@ -116,7 +117,7 @@ public class Coordinate {
     }
 
     /**
-     * TODO scrivere documentazione, non so cosa faccia.
+     * hash function
      */
     @Override
     public int hashCode() {
@@ -135,20 +136,19 @@ public class Coordinate {
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         Coordinate other = (Coordinate) obj;
-        if (x != other.x)
+        if (x != other.x || y != other.y || z != other.z)
             return false;
-        if (y != other.y)
-            return false;
+
         return true;
     }
 
     /**
-     * It allows you to get a list of the coordinates adjacent given a certain direction.
+     * It allows you to get a list of the coordinates adjacent given a certain
+     * direction.
+     * 
      * @param direction The direction.
      * @return list of the coordinates adjacent.
      */
@@ -173,6 +173,7 @@ public class Coordinate {
 
     /**
      * It allows you to get a list of the coordinates adjacent.
+     * 
      * @return list of the coordinates adjacent.
      */
     public List<Coordinate> getNeighborsList() {

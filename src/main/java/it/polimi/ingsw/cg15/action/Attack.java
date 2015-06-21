@@ -20,7 +20,6 @@ import java.util.Map;
  * It can be done only by a player-type alien or super alien. 
  * Once a player has declared attack dates back to its current location on the map and check if there are players (both human and alien) in the corresponding cell. 
  * If there are they are eliminated then the variable isAlive the model is set to false. 
- * TODO You can attack even before moving or just after?
  */
 public class Attack extends Action {
 
@@ -37,7 +36,6 @@ public class Attack extends Action {
         this.e=e;
     }
 
-    //TODO: Evolution
     /**
      * Logic of the attack action that only an alien player can do.
      * @return a message with the list of return values.
@@ -56,7 +54,6 @@ public class Attack extends Action {
         if(pc.hasAttacked()){
             retValues.put(Event.RETURN, Event.FALSE);
             retValues.put(Event.ERROR, "attacco già effettuato");
-            System.err.println("ERRORE"+retValues.toString());
             return new Event(e, retValues);
         }
         pc.setHasAttacked();
@@ -72,14 +69,14 @@ public class Attack extends Action {
             if(player != currentPlayer){
                 Action defend = new Defend(gc, player,e);
                 Event defenseEvent = defend.execute();
-                if(defenseEvent.getRetValues().containsKey("defense") ){
-                    if(defenseEvent.getRetValues().get("defense").equals(Event.FALSE) ){
+                if(defenseEvent.getRetValues().containsKey(Event.DEFENSE) ){
+                    if(defenseEvent.getRetValues().get(Event.DEFENSE).equals(Event.FALSE) ){
                         getCurrentPlayerController().killPlayer(player);
                         killcount++;
                         pubRet.put(Integer.toString(player.getPlayerNumber()),"killed");
                     }
                     else{
-                        pubRet.put(Integer.toString(player.getPlayerNumber()),"defense");
+                        pubRet.put(Integer.toString(player.getPlayerNumber()),Event.DEFENSE);
                     }
                 }
                 pc.setHasAttacked();

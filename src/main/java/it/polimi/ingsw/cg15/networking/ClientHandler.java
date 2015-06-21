@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.networking;
 
+import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
@@ -7,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR
@@ -52,6 +55,7 @@ public class ClientHandler implements Runnable{
             socketOut.close();
             socket.close();
         } catch (IOException e) {
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IOException in ClientHandler", e);
             ServerLogger.log("EXCEPTION: "+e.getMessage()+"\n");
 
         }

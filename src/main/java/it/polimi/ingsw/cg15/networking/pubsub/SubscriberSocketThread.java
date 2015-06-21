@@ -40,12 +40,12 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     /**
      * The IP address.
      */
-    private final String address = "localhost";
+    private static final String address = "localhost";
 
     /**
      * The port for communication.
      */
-    private final int port = 7331;
+    private static final int port = 7331;
 
     /**
      * @param topic The topic to subscribe to.
@@ -74,8 +74,6 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             }
         }
     }
-
-    // TODO: pulire sta cosa! Cioè?
 
     /**
      * @param msg The message to be managed.

@@ -43,7 +43,7 @@ public class TVeffect {
     /**
      * The lobby for client.
      */
-    private final ClienLobbyGUI lobby;
+    private final ClientLobbyGUI lobby;
     
     /**
      * The frame.
@@ -55,7 +55,7 @@ public class TVeffect {
      * @param taskLobby The lobby of tasks.
      */
     public TVeffect(Runnable taskLobby){
-        this.lobby =(ClienLobbyGUI) taskLobby;
+        this.lobby =(ClientLobbyGUI) taskLobby;
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

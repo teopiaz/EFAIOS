@@ -6,7 +6,7 @@ package it.polimi.ingsw.cg15.model.cards;
  * In particular types of decks are three: 
  * SectorCard: 4 red and covered with 6 normal, 4 green with item 6 and normal. 5 cards silence, without any objects. the back is a hexagon. 
  * ItemCard: 2 attack, teleportation 2, 2 adrenaline, 3 sedative, 2 lights, 1 defense, the back is a square. 
- * HatchCard: TODO: add as many cards as there are hatch
+ * HatchCard: 3 broken hatch (red) 3 working hatch (green)
  */
 public class DeckContainer {
 

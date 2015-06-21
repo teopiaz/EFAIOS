@@ -92,7 +92,7 @@ public class Cell {
     }
 
     /**
-     * TODO non so che cosa faccia.
+     * Hashcode function
      */
     @Override
     public int hashCode() {

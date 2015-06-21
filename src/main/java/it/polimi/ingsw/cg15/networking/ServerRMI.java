@@ -1,5 +1,6 @@
 package it.polimi.ingsw.cg15.networking;
 
+import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.gui.server.ServerLogger;
 
@@ -56,8 +57,9 @@ public class ServerRMI implements Server {
         try {
             registry.bind(registerName, gameManagerRemote);
         } catch (AlreadyBoundException e) {
-            // TODO Auto-generated catch block
             ServerLogger.log("EXCEPTION"+e.getMessage());
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "AlreadyBoundException in ServerRMI", e);
+
         }
         ServerLogger.log("bind remote registry");
     }

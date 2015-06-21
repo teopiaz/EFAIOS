@@ -5,7 +5,6 @@ import it.polimi.ingsw.cg15.model.field.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: singleton
 /**
  * @author MMP - LMR
  * The class that contains the various game state. It allows to group information on the various games.

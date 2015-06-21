@@ -50,6 +50,21 @@ public class Event implements Serializable {
      */
     public static final String RETURN = "return";
 
+    
+    public static final String DEFENSE = "defense";
+
+    public static final String ITEM = "item";
+
+    public static final String ATTACK = "attack";
+
+    public static final String PLAYER = "player";
+
+    public static final String CURRENTPLAYER = "currentplayer";
+
+    public static final String MESSAGE = "message";
+
+    
+
     /**
      * A constructor.
      * @param token The client token.

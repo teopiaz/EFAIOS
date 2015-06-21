@@ -38,11 +38,6 @@ public class CardPanel extends JPanel{
 
 
     /**
-     * TODO completare
-     */
-    JLabel label2;
-
-    /**
      * Defence item card label.
      */
     JLabel labelDefenseItemCard;
@@ -179,12 +174,12 @@ public class CardPanel extends JPanel{
 			@Override
             public void mouseClicked(MouseEvent me) {
             
-
+            if(state==WAITING_STATE){ 
+                state=SELECT_STATE;
+            }
+                
 			switch(state){
-				
-			case WAITING_STATE:	
-				state=SELECT_STATE;
-            
+			    
             case SELECT_STATE:
             	
             	SidePanel.getMainPanel().getSpotLayer().enableSpot();
