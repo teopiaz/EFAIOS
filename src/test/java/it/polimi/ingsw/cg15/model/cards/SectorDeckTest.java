@@ -18,8 +18,7 @@ public class SectorDeckTest {
 
     @Test
     public void testGetSectorDeck() {
-        List<SectorCard> ritornato = sectorDeckTest
-                .getSectorDeck(SectorDeck.DISCARTED_DECK);
+        List<SectorCard> ritornato = sectorDeckTest.getSectorDeck();
         assertTrue(ritornato.isEmpty());
     }
 
@@ -34,13 +33,12 @@ public class SectorDeckTest {
      */
     @Test
     public void swapDeck() {
-        
+
+
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
-        sectorDeckTest.getSectorDeck(1);
+        sectorDeckTest.getSectorDeck();
         assertEquals(1, sectorDeckTest.getNumberOfCard());
-        sectorDeckTest.removeCard(SectorCard.SECTOR_GREEN);
-        sectorDeckTest.getSectorDeck(2);
-        assertEquals(0, sectorDeckTest.getNumberOfCard());
+        
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
         sectorDeckTest.drawCard();
     }
@@ -65,7 +63,7 @@ public class SectorDeckTest {
     public void testDrawCardEmpty() {
         
         
-        sectorDeckTest.getSectorDeck(1);
+        sectorDeckTest.getSectorDeck();
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         assertEquals(1, sectorDeckTest.getNumberOfCard());
         sectorDeckTest.drawCard();
@@ -78,5 +76,8 @@ public class SectorDeckTest {
 
         
     }
+
+
+
 
 }

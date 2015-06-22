@@ -57,18 +57,6 @@ public class SectorDeck {
         return sectorDeckMain;
     }
 
-    /**
-     * @param selector The selector for the type of deck.
-     * @return the sector card deck involved.
-     */
-    public List<SectorCard> getSectorDeck(int selector) {
-        if (selector == MAIN_DECK)
-            return getSectorDeck();
-        else if (selector == DISCARTED_DECK) {
-            return sectorDeckDiscarded;
-        }
-        return null;
-    }
 
     /**
      * @param card to add to the deck
@@ -77,13 +65,7 @@ public class SectorDeck {
     public boolean insertCard(SectorCard card) {
         return sectorDeckMain.add(card);
     }
-
     
-    public boolean removeCard(SectorCard card) {
-        return sectorDeckMain.remove(card);
-    }
-
-
     /**
      * Method that shuffles the cards.
      */
