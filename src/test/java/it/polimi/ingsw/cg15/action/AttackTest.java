@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.model.ActionEnum;
+import it.polimi.ingsw.cg15.model.GameInstance;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.player.Player;
@@ -30,14 +31,18 @@ public class AttackTest {
     ClientToken ctoken1 = new ClientToken("playertoken1",null);
     ClientToken ctoken2 = new ClientToken("playertoken2", null);
     ClientToken currentPlayerToken = ctoken1;
+    Map<String, GameBox> list;
 
     
     @Before
     public void setup() throws RemoteException{
+        
 
 
+        GameInstance gameInstance = GameInstance.getInstance();
+        gameInstance.removeAllGames();
         args=new HashMap<String, String>();
-        args.put("gamename", "testmove");
+        args.put("gamename", "testattack");
         args.put("mapname", "test123");
         Event response = gm.createGame(new Event(ctoken1,"creategame",args,null));
         String gameToken = response.getRetValues().get("gameToken");
@@ -59,8 +64,9 @@ public class AttackTest {
         assertEquals("game_started", response.getRetValues().get("return"));
 
 
-        Map<String, GameBox> list = gm.getGameBoxList();
+        list = gm.getGameBoxList();
         gs = list.get(gameToken).getGameState();
+        
         // assertTrue();
 
 
@@ -135,13 +141,15 @@ public class AttackTest {
 
     
     private void getCurrentPlayer() throws RemoteException{
-
-        currentPlayerToken = ctoken1;
-        Event eventoTest = new Event(currentPlayerToken,"getturninfo",null);
+        
+        
+        String player1number;
+        
+        Event eventoTest = new Event(ctoken1,"getplayerinfo",null);
         Event response = gm.dispatchMessage(eventoTest);
-        System.out.println("TURN INFO:"+response);
-        int playerNumber = Integer.parseInt( response.getRetValues().get("currentplayer"));
-        if(playerNumber == 1){
+        player1number = response.getRetValues().get("playernumber");
+        
+        if("1".equals(player1number)){
             currentPlayerToken = ctoken1;
         }else{
             currentPlayerToken = ctoken2;
