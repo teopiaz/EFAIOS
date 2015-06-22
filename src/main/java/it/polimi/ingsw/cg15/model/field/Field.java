@@ -141,7 +141,7 @@ public class Field {
      */
     public boolean isReachable(Cell src, Cell dest, int distance) {
         int k;
-           
+
         Coordinate start = src.getCoordinate();
         // creo l'array con la lista di nodi vuoto
         List<List<Coordinate>> fringes = new ArrayList<List<Coordinate>>();
@@ -188,8 +188,7 @@ public class Field {
                 stringBuilder.append(line);
             }
         }
-        String result = stringBuilder.toString();
-        return result;
+        return stringBuilder.toString();
     }
 
 }

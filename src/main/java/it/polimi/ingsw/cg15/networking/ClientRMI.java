@@ -35,9 +35,7 @@ public class ClientRMI {
         //scarico il registro dal server
         Registry registry = LocateRegistry.getRegistry(HOST,PORT);
         //cerco nel registro remoto l'oggetto che ha un certo nome
-        GameManagerRemote serverStubRemoto = (GameManagerRemote) registry.lookup(NOMEOGGETTO);
-        //ora posso chiamare su serverStubRemoto i metodi 
-        return serverStubRemoto;
+        return (GameManagerRemote) registry.lookup(NOMEOGGETTO);
     }
 
 }
