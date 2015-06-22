@@ -213,6 +213,10 @@ public class CardPanel extends JPanel{
                         SidePanel.getActionPanel().printMsg("Seleziona un settore");
                     }
                     revalidate();
+                    
+                default:
+                    revalidate();
+
 
                 }
             }
