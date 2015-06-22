@@ -52,7 +52,7 @@ public class CFont {
                     font = Font.createFont(Font.TRUETYPE_FONT, input).deriveFont(14f);
                     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     ge.registerFont(font);
-                    fontCache.putIfAbsent(name, font);
+                    fontCache.put(name, font);
                 } catch (Exception ex) {
                     Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Exception", ex);
 

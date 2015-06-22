@@ -30,7 +30,13 @@ public class ItemCardTest {
       
         String text = "teleport";
         ItemCard test2 = ItemCard.fromString(text);
+        assertEquals(test, test2); test2.getText();
         assertEquals(test, test2);
+        ItemCard.valueOf("ITEM_TELEPORT");
+        
+        
+        
+        
         
     }
     
