@@ -440,11 +440,17 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     }
 
 
+    /**
+     * @return The map panel.
+     */
     public static MapPanel getMapPanel() {
         return map;
 
     }
 
+    /**
+     * @return The spotlight layer.
+     */
     public static SpotlightLayerUI getSpotLayer() {
         return spotlightLayerUI;
 

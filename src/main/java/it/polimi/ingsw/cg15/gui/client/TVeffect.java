@@ -79,8 +79,9 @@ public class TVeffect {
      * Another panel.
      */
     private class Pannello extends JPanel {
+        
         /**
-         * 
+         * The serial version UID.
          */
         private static final long serialVersionUID = -8454735757922056844L;
         float lerpAmount = 0;
@@ -161,6 +162,11 @@ public class TVeffect {
             g2d.drawImage((Image)scanline, 0,0,null);
         }
 
+        /**
+         * @param image A image.
+         * @param offsetArg A offset.
+         * @return color shift on the image.
+         */
         public BufferedImage colorShift(BufferedImage image,int offsetArg){
             int offset = offsetArg;
             BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -189,6 +195,13 @@ public class TVeffect {
             return tmp;
         }
 
+        /**
+         * Scal eth egui.
+         * @param amountA Form factor parameter.
+         * @param amountB Form factor parameter.
+         * @param valueC Form factor parameter.
+         * @param valueD Form factor parameter.
+         */
         public void scaleIt(float amountA, float amountB, int valueC, int valueD){
             if (lerpAmount < 1)
             {
@@ -206,6 +219,10 @@ public class TVeffect {
             }
         }
 
+        /**
+         * @param image The image.
+         * @return Noise.
+         */
         private BufferedImage noise(BufferedImage image){
             BufferedImage tmp = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
             int i,j;
@@ -218,6 +235,13 @@ public class TVeffect {
             return tmp;
         }
         
+        /**
+         * Return scaled image.
+         * @param srcImg The source image.
+         * @param w Form factor parameter.
+         * @param h Form factor parameter.
+         * @return The scaled image.
+         */
         private BufferedImage getScaledImage(Image srcImg, int w, int h){
             BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = resizedImg.createGraphics();
@@ -227,15 +251,30 @@ public class TVeffect {
             return resizedImg;
         }
         
+        /**
+         * @param a Form factor parameter.
+         * @param b Form factor parameter.
+         * @param f Form factor parameter.
+         * @return Lerp.
+         */
         float lerp(float a, float b, float f)
         {
             return a + f * (b - a);
         }
         
+        /**
+         * @param stream The output stream.
+         * @throws java.io.IOException
+         */
         private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
             throw new java.io.NotSerializableException( getClass().getName() );
         }
 
+        /**
+         * @param stream The input stream.
+         * @throws java.io.IOException
+         * @throws ClassNotFoundException
+         */
         private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException {
             throw new java.io.NotSerializableException( getClass().getName() );
         }
