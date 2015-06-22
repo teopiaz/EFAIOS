@@ -54,7 +54,7 @@ public class MainClientCLI {
        }
         client = new ClientLobbyCLI(netHelper);
         while(isRunning){
-            if(joined == false)
+            if(!joined)
                 client.menu();
         }
         scanner.close();

@@ -102,7 +102,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
      * @throws UnknownHostException
      * @throws IOException
      */
-    private void subscribe(String topic) throws UnknownHostException, IOException {
+    private void subscribe(String topic) throws IOException {
         subSocket = new Socket(address, port);
         in = new BufferedReader(new InputStreamReader(subSocket.getInputStream()));
         out = new PrintWriter(subSocket.getOutputStream());

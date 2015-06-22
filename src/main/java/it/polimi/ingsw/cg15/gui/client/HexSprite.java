@@ -156,12 +156,12 @@ public class HexSprite {
         mx -= BORDERS;
         my -= BORDERS;
 
-        int x = (int) (mx / (s + t)); // this gives a quick value for x. It
+        int x = (mx / (s + t)); // this gives a quick value for x. It
         // works only on odd cols and doesn't
         // handle the triangle sections. It
         // assumes that the hexagon is a rectangle
         // with width s+t (=1.5*s).
-        int y = (int) ((my - (x % 2) * r) / h); // this gives the row easily. It
+        int y = ((my - (x % 2) * r) / h); // this gives the row easily. It
         // needs to be offset by h/2
         // (=r)if it is in an even
         // column
