@@ -18,11 +18,29 @@ import javax.swing.JPanel;
 public class MapPanel extends JPanel {
 
 
+    /**
+     * Selected sector X.
+     */
     private int selectedSectorX;
+    
+    /**
+     * Selected sector Y.
+     */
     private int selectedSectorY;
+    
+    /**
+     * Cell is selected.
+     */
     private boolean isSelected = false;
 
+    /**
+     * The Y position.
+     */
     private int posY;
+    
+    /**
+     * The X position.
+     */
     private int posX;
 
     /**
@@ -102,6 +120,10 @@ public class MapPanel extends JPanel {
 
 
 
+    /**
+     * @author MMP - LMR
+     * The mouse listener.
+     */
     class MyMouseListener extends MouseAdapter  {   //inner class inside DrawingPanel 
         @Override
         public void mouseClicked(MouseEvent e) { 
@@ -134,9 +156,17 @@ public class MapPanel extends JPanel {
         }        
     } //end of MyMouseListener class 
 
+    /**
+     * @return The editor mode.
+     */
     public boolean getEditorMode(){
         return editorMode;
     }
+    
+    /**
+     * Set editor mode.
+     * @param mode The editor mode to set.
+     */
     public void setEditorMode(boolean mode){
         this.editorMode = mode;
         if(mode){
@@ -144,10 +174,16 @@ public class MapPanel extends JPanel {
         }
     }
 
+    /**
+     * @return The game board.
+     */
     public int[][] getBoard() {
         return this.board;
     }
 
+    /**
+     * @param board The board to set.
+     */
     public void setBoard(int[][] board) {
         this.board=board;
     }
@@ -181,12 +217,18 @@ public class MapPanel extends JPanel {
         return selectedSectorY;
     }
 
+    /**
+     * @return The selected sector label.
+     */
     public String getSelectedSectorLabel(){
         if(isSelected)
             return test.getCell(selectedSectorY,selectedSectorX).getLabel();
         return "";
     }
 
+    /**
+     * @param s The position to set.
+     */
     public void setPosition(String s){
         isStarted =true;
         this.posY = Cell.getRowByLabel(s);

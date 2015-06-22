@@ -17,24 +17,57 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * @author MMP - LMR
+ * The action panel GUI.
+ */
 public class ActionPanel extends JPanel {
 
+    /**
+     * Ask sector state.
+     */
     private static final int ASKSECTOR_STATE = 2;
+    
+    /**
+     * Waiting state.
+     */
     private static final int WAITING_STATE = 1;
 
+    /**
+     * The waiting state.
+     */
     private int state =WAITING_STATE;
 
 
     /**
-     * 
+     * Serial Version UID.
      */
     private static final long serialVersionUID = -8240130326507614510L;
+    
+    /**
+     * The action label.
+     */
     JLabel actionLabel;
+    
+    /**
+     * The network helper.
+     */
     transient NetworkHelper networkHelper = NetworkHelper.getInstance();
+    
+    /**
+     * The map button.
+     */
     transient Map<String,JButton> buttonMap = new HashMap<String,JButton>();
+    
+    /**
+     * Variable.
+     */
     static int a = 0;
 
 
+    /**
+     * The action panel GUI.
+     */
     public ActionPanel() {
 
         setBackground(Color.BLACK);
@@ -195,10 +228,17 @@ public class ActionPanel extends JPanel {
         add(actionLabelPanel);
     }
 
+    /**
+     * Print messages.
+     * @param msg The message to print.
+     */
     public void printMsg(String msg) {
         actionLabel.setText(msg);
     }
 
+    /**
+     * Get the action list.
+     */
     public void getActionsList() {
         List<String> actionList = new ArrayList<String>();
 
