@@ -3,6 +3,7 @@ package it.polimi.ingsw.cg15.cli.client;
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.Event;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -429,6 +430,7 @@ public class ClientGameCLI implements ViewClientInterface {
      * The logger. It contains information and things to show to various users.
      * @see it.polimi.ingsw.cg15.gui.ViewClientInterface#log(it.polimi.ingsw.cg15.networking.Event)
      */
+    @Override
     public void log(Event e) {
         if (e.getRetValues().containsKey("move")) {
             String player = e.getRetValues().get(Event.PLAYER);

@@ -25,7 +25,7 @@ public class PlayerController {
     /**
      * The first player of the turn.
      */
-    public static int FIRST_PLAYER = 1;
+    public static final int FIRST_PLAYER = 1;
 
     /**
      * The constructor.

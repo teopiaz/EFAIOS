@@ -64,6 +64,7 @@ public class HumanPlayerController extends PlayerController {
      * The escape method that only a human player can do.
      * @see it.polimi.ingsw.cg15.controller.player.PlayerController#escape()
      */
+    @Override
     public boolean escape() {
         Player currentPlayer = gameState.getTurnState().getCurrentPlayer();
         if(currentPlayer.isAlive()){

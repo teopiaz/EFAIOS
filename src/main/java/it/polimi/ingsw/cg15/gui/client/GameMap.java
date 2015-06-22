@@ -7,14 +7,14 @@ package it.polimi.ingsw.cg15.gui.client;
  */
 public class GameMap {
     
-    public static int r;
+    private static int r;
     
-    public static int q;
+    private static int q;
 
     /**
      * The map of cells.
      */
-    public Cell[][] map;
+    private Cell[][] map;
 
     /**
      * The game map.
@@ -39,5 +39,23 @@ public class GameMap {
      */
     public Cell getCell(int r, int q) {
         return this.map[r][q];
+    }
+    
+    
+    /**
+     * 
+     * @return r row number
+     */
+    public static int getR(){
+        return r;
+    }
+    
+    
+    /**
+     * 
+     * @return q column number
+     */
+    public static int getQ(){
+        return q;
     }
 }

@@ -124,6 +124,8 @@ public class SubscriberSocketThread extends Observable implements Runnable {
         try {
             subSocket.close();
         } catch (Exception e) {
+            Logger.getLogger(SubscriberSocketThread.class.getName()).log(Level.SEVERE, "Exception", e);
+
         } finally {
             in = null;
             subSocket = null;

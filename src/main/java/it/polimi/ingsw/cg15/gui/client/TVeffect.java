@@ -1,5 +1,7 @@
 package it.polimi.ingsw.cg15.gui.client;
 
+import it.polimi.ingsw.cg15.networking.pubsub.SubscriberSocketThread;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -58,6 +60,8 @@ public class TVeffect {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(TVeffect.class.getName()).log(Level.SEVERE, "Exception", ex);
+
                 }
                 Width=1280;
                 Height=720;

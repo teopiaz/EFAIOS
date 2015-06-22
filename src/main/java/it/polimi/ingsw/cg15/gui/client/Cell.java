@@ -27,7 +27,7 @@ public class Cell {
         this.y = y;
         this.z = z;
         String tmp;
-        tmp = new String("" + ((char) (x + 65 + GameMap.r / 2)));
+        tmp = new String("" + ((char) (x + 65 + GameMap.getR() / 2)));
         if ((z + 1) < 10)
             tmp = new String(tmp + "0");
         label = new String(tmp + (z + 1));

@@ -63,6 +63,7 @@ public class AlienPlayerController extends PlayerController {
     /**
      * The possibility to use a card is false in the alien player.
      */
+    @Override
     public boolean canUseCard(){
         return false;
     }
