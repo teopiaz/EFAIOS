@@ -84,18 +84,70 @@ public class TVeffect {
          * The serial version UID.
          */
         private static final long serialVersionUID = -8454735757922056844L;
+        
+        /**
+         * The linear interpolation amount.
+         */
         float lerpAmount = 0;
+        
+        /**
+         * The linear interpolation Scale.
+         */
         float lerpScale = 0;
+        
+        /**
+         * The linear interpolation shrink.
+         */
         float lerpShrink = 0;
+        
+        /**
+         * The Tv Height.
+         */
         int tvheight=0;
+        
+        /**
+         * The Tv Width.
+         */
         int tvwidth=0;
+        
+        /**
+         * The Tv activation.
+         */
         boolean tvstate = false;
+        
+        /**
+         * Width.
+         */
         int width;
+        
+        /**
+         * A timer.
+         */
         Timer timer ;
+        
+        /**
+         * Image, Scanline and Noise.
+         */
         BufferedImage image,scanline,noise;
+        
+        /**
+         * A random number.
+         */
         Random ran = new Random();
+        
+        /**
+         * Second random number.
+         */
         Random ran2 = new Random();
+        
+        /**
+         * End intro.
+         */
         boolean endIntro=false;
+        
+        /**
+         * The panel.
+         */
         public Pannello(){
             setPreferredSize(new Dimension(Width,Height));
             setBackground(Color.BLACK);
@@ -153,6 +205,11 @@ public class TVeffect {
             timer1.start();
         }
 
+        /**
+         * Paint the component.
+         * @param g The graphics.
+         * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -196,7 +253,7 @@ public class TVeffect {
         }
 
         /**
-         * Scal eth egui.
+         * Scale the gui.
          * @param amountA Form factor parameter.
          * @param amountB Form factor parameter.
          * @param valueC Form factor parameter.

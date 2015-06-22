@@ -11,17 +11,23 @@ import java.awt.image.BufferedImage;
 public class HexSprite {
     
     /**
-     * H.
+     * TODO doc
      */
     private static int h;
     
     /**
-     * 
+     * TODO doc
      */
     private static int r;
     
+    /**
+     * TODO doc
+     */
     private static int s;
     
+    /**
+     * TODO doc
+     */
     private static int t;
     
     /**
