@@ -8,6 +8,10 @@ import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * @author MMP - LMR
+ * The sprite for the hexagon.
+ */
 public class HexSprite {
     
     /**
