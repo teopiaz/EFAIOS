@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-import it.polimi.ingsw.cg15.networking.pubsub.SubscriberSocketThread;
 
 import java.awt.Color;
 import java.awt.Dimension;

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.cg15.networking;
-import it.polimi.ingsw.cg15.networking.pubsub.BrokerSocketThread;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
