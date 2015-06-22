@@ -49,26 +49,15 @@ public class ItemDeck {
     public List<ItemCard> getItemDeck() {
         return itemDeckMain;
     }
-
+    
     /**
-     * @param selector of the deck involved.
-     * @return the item card deck involved.
+     * @return the card deck object involved.
      */
-    public List<ItemCard> getItemDeck(int selector) {
-        if (selector == MAIN_DECK)
-            return getItemDeck();
-        else if (selector == DISCARTED_DECK) {
-            return itemDeckDiscarded;
-        }
-        return null;
+    public List<ItemCard> getDiscardedItemDeck() {
+        return itemDeckDiscarded;
     }
 
-    /**
-     * @return the number of cards still in the deck item.
-     */
-    public int getNumberOfCard() {
-        return itemDeckMain.size();
-    }
+
 
     /**
      * @param card The card to add to the deck.
@@ -89,12 +78,17 @@ public class ItemDeck {
      * This function allows you to re-create the Item deck if the current deck is empty.
      */
     private void swapDeck() {
-        if (itemDeckMain.isEmpty()) {
             itemDeckMain = itemDeckDiscarded;
             itemDeckDiscarded = new ArrayList<ItemCard>();
             Collections.shuffle(itemDeckMain);
-        }
     }
+    
+    /**
+     * @return the number of cards still in the deck item.
+     */
+     public int getNumberOfCard() {
+     return itemDeckMain.size();
+     }
 
     /**
      * @param card to add to the discarded deck

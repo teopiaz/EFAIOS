@@ -1,17 +1,39 @@
 package it.polimi.ingsw.cg15.model.field;
 
 import static org.junit.Assert.*;
+
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 public class FieldTest {
+    
+    
+Field map;
 
-    Field map;
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+    }
 
     @Before
     public void setUp() throws Exception {
         map = new Field();
+    }
+
+    @Test
+    public final void testSetHatchBroken() {
+        Coordinate coord = new Coordinate(1, 1);
+        map.addCell(coord, Sector.HATCH);
+        map.setHatchBroken(coord);
+        assertFalse(map.getHatchSectorStatus(coord));
+
+        map.addHatchToList(coord);
+        
+        assertTrue(map.getHatchSectorStatus(coord));
+        map.setHatchBroken(coord);
+        assertFalse(map.getHatchSectorStatus(coord));
+
+        
     }
 
     @Test
@@ -38,9 +60,7 @@ public class FieldTest {
         map.addCell(new Coordinate(2, 4), Sector.WHITE);
                 
         assertEquals(testPrintMap, map.getPrintableMap());
+
     }
     
-    
-
-
 }

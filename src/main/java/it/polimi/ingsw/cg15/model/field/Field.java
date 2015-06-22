@@ -19,15 +19,6 @@ public class Field {
      */
     private Map<Coordinate, Cell> map = new ConcurrentHashMap<Coordinate, Cell>();
 
-    /**
-     * The row.
-     */
-    private int r;
-
-    /**
-     * The column.
-     */
-    private int c;
 
     /**
      * The location of the field from where the human players.
@@ -59,19 +50,7 @@ public class Field {
         map.put(coord, new Cell(coord, sector));
     }
 
-    /**
-     * @return the column.
-     */
-    public int getC() {
-        return c;
-    }
 
-    /**
-     * @return the row.
-     */
-    public int getR() {
-        return r;
-    }
 
     /**
      * Get a coordinate.
@@ -151,38 +130,7 @@ public class Field {
         this.alienStartingPosition = alienStartingPosition;
     }
 
-    /**
-     * Method that returns a list of cells within a given cell of origin and a certain distance.
-     * @param src A source cell.
-     * @param distance the distance where verify the reachability.
-     * @return list of cells from a source reachable given a distance.
-     */
-    public List<Cell> getReachableCellsList(Cell src, int distance) {
-        int k;
-        Coordinate start = src.getCoordinate();
-        List<Cell> reachable = new ArrayList<Cell>();
-        // creo l'array con la lista di nodi vuoto
-        List<List<Coordinate>> fringes = new ArrayList<List<Coordinate>>();
-        List<Coordinate> visited = new LinkedList<Coordinate>();
-        // creo la prima lista a distanza 0 e ci metto il nodo di partenza
-        fringes.add(0, new LinkedList<Coordinate>());
-        fringes.get(0).add(start);
-        for (k = 1; k <= distance; k++) {
-            fringes.add(k, new LinkedList<Coordinate>());
-            // prendo la lista dei nodi a k-1
-            List<Coordinate> nodikmenouno = fringes.get(k - 1);
-            for (Coordinate nodo : nodikmenouno) {
-                for (Coordinate coordinate : nodo.getNeighborsList()) {
-                    if (map.containsKey(coordinate) && !visited.contains(coordinate)) {
-                        fringes.get(k).add(coordinate);
-                        reachable.add(map.get(coordinate));
-                        visited.add(nodo);
-                    }
-                }
-            }
-        }
-        return reachable;
-    }
+
 
     /**
      * Method that determines whether a cell is accessible by the player.

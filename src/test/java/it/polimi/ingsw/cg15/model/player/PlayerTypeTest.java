@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15.model.player;
 
 import static org.junit.Assert.*;
-
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Sector;
@@ -25,4 +24,9 @@ public class PlayerTypeTest {
         assertEquals("Alien", playerTest.getPlayerType().toClassName());
     }
 
+    @Test
+    public void testValue(){
+        assertEquals(PlayerType.SUPERALIEN, PlayerType.valueOf("SUPERALIEN"));
+
+    }
 }
