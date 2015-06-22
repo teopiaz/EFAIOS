@@ -113,8 +113,7 @@ public class ServerGUI implements Runnable {
                 serverSocket.startServer();
                 serverRMI.startServer();
                 broker.startServer();
-               /*  logTextArea.append("Server Started\n");
-                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
+
                  frame.setTitle(strTitle+" STARTED");
             } });
         btnStop.addActionListener(new ActionListener() {
@@ -123,8 +122,7 @@ public class ServerGUI implements Runnable {
                 serverSocket.stopServer();
                 serverRMI.startServer();
                 broker.stopServer();
-                /* logTextArea.append("Server Stopped\n");
-                 logTextArea.setCaretPosition(logTextArea.getDocument().getLength());*/
+
                  frame.setTitle(strTitle+" STOPPED");
             } });
     }

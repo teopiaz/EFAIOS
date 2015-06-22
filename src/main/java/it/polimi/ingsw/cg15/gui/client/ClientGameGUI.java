@@ -273,9 +273,6 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         menuBar.add(debugMenu);
         frame.setJMenuBar(menuBar);
         frame.pack();
-        // GraphicsDevice device =
-        // GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-        // device.setFullScreenWindow(frame);
     }
 
     /**
@@ -342,13 +339,13 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         if (e.getRetValues().containsKey("card")) {
             String player = e.getRetValues().get(Event.PLAYER);
             String card = e.getRetValues().get("card");
-            addToLog("Giocatore " + player + " ha usato la carta " + card);
+            addToLog(PLAYER + player + " use " + card + " card.");
 
             if("spotlight".equals(card)){
                 e.getRetValues().remove("card");
                 e.getRetValues().remove(Event.PLAYER);
                 for (Entry<String,String> ret : e.getRetValues().entrySet()) {
-                    addToLog("Giocatore " + ret.getKey() + " rivelato nel settore " + ret.getValue());
+                    addToLog(PLAYER + ret.getKey() + " spotted in sector: " + ret.getValue());
 
                 }
             }
@@ -363,7 +360,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             addToLog(PLAYER + playerNum + ": attacks in the sector: " + position);
             int count = 0;
             for (Entry<String, String> ret : e.getRetValues().entrySet()) {
-                if (ret.getValue().equals("killed")) {
+                if ("killed".equals(ret.getValue())) {
                     addToLog(PLAYER + ret.getKey() + " killed by the player: " + playerNum);
                     count++;
                 }
@@ -380,7 +377,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         }
 
         if (e.getRetValues().containsKey("hatch")) {
-            if (e.getRetValues().get("hatch").equals("false")) {
+            if (Event.FALSE.equals(e.getRetValues().get("hatch"))) {
                 addToLog(e.getRetValues().get("message"));
             } else {
                 String player = e.getRetValues().get(Event.PLAYER);
@@ -394,6 +391,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * @param e The event to add as chat.
      * @see it.polimi.ingsw.cg15.gui.ViewClientInterface#chat(it.polimi.ingsw.cg15.networking.Event)
      */
+    @Override
     public void chat(Event e) {
         String message = "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get("message");
         SidePanel.getChatPanel().addToChat(message);
@@ -403,6 +401,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * Set the game as started.
      * @see it.polimi.ingsw.cg15.gui.ViewClientInterface#setStarted()
      */
+    @Override
     public void setStarted() {
         loadMap();
         addToLog("The game started now!");
@@ -425,14 +424,13 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     /**
      * The current player turn.
      * @see it.polimi.ingsw.cg15.gui.ViewClientInterface#currentPlayer(int)
-     * TODO scrivere le println in inglese!
      */
     @Override
     public void currentPlayer(int currentPlayer) {
 
-        SidePanel.getActionPanel().printMsg("È il turno del giocatore "+ currentPlayer);
+        SidePanel.getActionPanel().printMsg(PLAYER+ currentPlayer +" turn.");
 
-        addToLog("È il turno del giocatore "+ currentPlayer);
+        addToLog(PLAYER+ currentPlayer +" turn.");
         SidePanel.getActionPanel().getActionsList();
         SidePanel.getCardPanel().getCardsList();
         String position = netHelper.getPlayerPosition();
