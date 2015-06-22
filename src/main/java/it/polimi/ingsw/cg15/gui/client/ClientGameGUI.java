@@ -74,7 +74,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * The Network Helper.
      */
     NetworkHelper netHelper;
-    
+
     int playerNumber;
 
     /**
@@ -125,7 +125,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         JMenuItem spotDebugMenu = new JMenuItem("Spotlight");
         JMenuItem editorDebugMenu = new JMenuItem("Editor Mode");
         JMenuItem loadmapDebugMenu = new JMenuItem("Load game map");
-        
+
         loadmapDebugMenu.addActionListener(new ActionListener() {
 
             /**
@@ -148,7 +148,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             public void actionPerformed(ActionEvent e) {
                 map.setEditorMode(!map.getEditorMode());
             }
-            
+
         });
 
         spotDebugMenu.addActionListener(new ActionListener() {
@@ -166,7 +166,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                     spotlightEnable = true;
                 }
             }
-            
+
         });
 
         loadMenu.addActionListener(new ActionListener() {
@@ -206,7 +206,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 }
                 map.repaint();
             }
-            
+
         });
 
         saveMenu.addActionListener(new ActionListener() {
@@ -253,9 +253,9 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                     }
                 }
             }
-            
+
         });
-        
+
         debugMenu.add(spotDebugMenu);
         debugMenu.add(editorDebugMenu);
         debugMenu.add(loadmapDebugMenu);
@@ -305,7 +305,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      */
     @Override
     public void stampa(String msg) {
-       SidePanel.getActionPanel().printMsg(msg);
+        SidePanel.getActionPanel().printMsg(msg);
     }
 
     /**
@@ -330,25 +330,25 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             addToLog("Player " + player + " has moved in: " + sector);
 
         }
-        
+
         if (e.getRetValues().containsKey("card")) {
             String player = e.getRetValues().get(Event.PLAYER);
             String card = e.getRetValues().get("card");
             addToLog("Giocatore " + player + " ha usato la carta " + card);
-            
+
             if("spotlight".equals(card)){
-            	e.getRetValues().remove("card");
-            	e.getRetValues().remove(Event.PLAYER);
-            	for (Entry<String,String> ret : e.getRetValues().entrySet()) {
+                e.getRetValues().remove("card");
+                e.getRetValues().remove(Event.PLAYER);
+                for (Entry<String,String> ret : e.getRetValues().entrySet()) {
                     addToLog("Giocatore " + ret.getKey() + " rivelato nel settore " + ret.getValue());
 
-				}
+                }
             }
         }
-        
-       
-        
-        
+
+
+
+
         if (e.getRetValues().containsKey("attack")) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get("attack");
@@ -364,13 +364,13 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 addToLog("No player killed.");
             }
         }
-      
-            if (Event.TRUE.equals(e.getRetValues().get("noise")) && e.getRetValues().containsKey("noise")  ) {
-                String playerNum = e.getRetValues().get(Event.PLAYER);
-                String position = e.getRetValues().get("position");
-                addToLog("Player " + playerNum + ": make noise in sector: " + position);
-            }
-        
+
+        if (Event.TRUE.equals(e.getRetValues().get("noise")) && e.getRetValues().containsKey("noise")  ) {
+            String playerNum = e.getRetValues().get(Event.PLAYER);
+            String position = e.getRetValues().get("position");
+            addToLog("Player " + playerNum + ": make noise in sector: " + position);
+        }
+
         if (e.getRetValues().containsKey("hatch")) {
             if (e.getRetValues().get("hatch").equals("false")) {
                 addToLog(e.getRetValues().get("message"));
@@ -406,11 +406,11 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
         }
         playerNumber = netHelper.getPlayerNumber();
-        
+
         String position = netHelper.getPlayerPosition();
         SidePanel.getMainPanel();
         ClientGameGUI.getMapPanel().setPosition(position);
-        
+
         SidePanel.getActionPanel().getActionsList();
     }
 
@@ -422,7 +422,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     @Override
     public void currentPlayer(int currentPlayer) {
 
-    	SidePanel.getActionPanel().printMsg("È il turno del giocatore "+ currentPlayer);
+        SidePanel.getActionPanel().printMsg("È il turno del giocatore "+ currentPlayer);
 
         addToLog("È il turno del giocatore "+ currentPlayer);
         SidePanel.getActionPanel().getActionsList();
@@ -430,39 +430,39 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         String position = netHelper.getPlayerPosition();
         SidePanel.getMainPanel();
         ClientGameGUI.getMapPanel().setPosition(position);
-        
+
     }
 
-    
+
     public static MapPanel getMapPanel() {
         return map;
 
     }
-    
+
     public static SpotlightLayerUI getSpotLayer() {
         return spotlightLayerUI;
 
     }
 
-	@Override
-	public void endGame(Event e) {
-    	boolean winner = false;
+    @Override
+    public void endGame(Event e) {
+        boolean winner = false;
         for (Entry<String, String> ele : e.getRetValues().entrySet()) {
-        	addToLog("Player " + ele.getKey() + ": " + ele.getValue());
-        	if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
-        		winner=true;
-        	}
+            addToLog("Player " + ele.getKey() + ": " + ele.getValue());
+            if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
+                winner=true;
+            }
         }
         if(winner){
-        	JOptionPane.showMessageDialog(frame,  "You Win the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,  "You Win the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-        	JOptionPane.showMessageDialog(frame,  "You Lose the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,  "You Lose the match",  "Game Over", JOptionPane.INFORMATION_MESSAGE);
         }
-		
-	}
 
-    
+    }
+
+
 
 
 }

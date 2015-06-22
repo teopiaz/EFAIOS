@@ -33,6 +33,6 @@ public interface ViewClientInterface {
      */
     public void currentPlayer(int currentPlayer);
 
-	public void endGame(Event e);
+    public void endGame(Event e);
 
 }

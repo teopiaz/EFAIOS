@@ -5,12 +5,12 @@ package it.polimi.ingsw.cg15.gui.client;
  * The GUI information about the cell.
  */
 public class Cell {
-    
+
     /**
      * The cubic coordinate.
      */
     private final int x, y, z;
-    
+
     /**
      * A label.
      */
@@ -115,52 +115,52 @@ public class Cell {
         else
             return false;
     }
-    
-    
+
+
 
     public static int getRowByLabel(String str) {
         int r = 1;
         str=str.toUpperCase();
         if(str.matches("^[A-Z][0-9]?[0-9]$")){
-        char[] charStr = str.toCharArray();
-        if (charStr.length < 3) {
-            r = charStr[1]-48;
-        }
-        if (charStr.length == 3) {
-            r = (charStr[1]-48 )* 10 + (charStr[2]-48);
-        }
+            char[] charStr = str.toCharArray();
+            if (charStr.length < 3) {
+                r = charStr[1]-48;
+            }
+            if (charStr.length == 3) {
+                r = (charStr[1]-48 )* 10 + (charStr[2]-48);
+            }
 
         }
-		return r-1;
-        
+        return r-1;
+
     }
-    
+
     public static int getColByLabel(String str) {
         int  c = 1;
         str=str.toUpperCase();
         if(str.matches("^[A-Z][0-9]?[0-9]$")){
-        char[] charStr = str.toCharArray();
-        if (charStr.length < 3) {
-            c = (int)charStr[0]-64;
-          
-        }
-        if (charStr.length == 3) {
-            c = (int)charStr[0]-64;
-           
-        }
+            char[] charStr = str.toCharArray();
+            if (charStr.length < 3) {
+                c = (int)charStr[0]-64;
+
+            }
+            if (charStr.length == 3) {
+                c = (int)charStr[0]-64;
+
+            }
 
         }
-		return c-1;
-        
+        return c-1;
+
     }
-    
+
 
 
 }
 
 //hex cell memorizzata con coordinate cubiche classe immutabile
 /*
-* 
+ * 
 # convert cube to axial
 q = x
 r = z
@@ -169,4 +169,4 @@ r = z
 x = q
 z = r
 y = -q-z
-*/
+ */

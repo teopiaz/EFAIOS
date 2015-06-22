@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class ClientLobbyCLI {
 
 
-    
+
     /**
      * The client token.
      */
@@ -29,7 +29,7 @@ public class ClientLobbyCLI {
      * The network helper for the communications.
      */
     private NetworkHelper networkHelper;
-    
+
     /**
      * A scanner for IO.
      */
@@ -49,7 +49,7 @@ public class ClientLobbyCLI {
      */
     public void printGameList(Map<String, String> gameList){
         if(gameList==null || gameList.isEmpty()){
-        	printToScreen("No games available. Create a new game!");
+            printToScreen("No games available. Create a new game!");
         }else{
             for (Entry<String,String> game : gameList.entrySet()) {
                 Map<String, String> retValues = networkHelper.getGameInfo(game.getValue());
@@ -76,7 +76,7 @@ public class ClientLobbyCLI {
                         + "3)Join Game"+"\n"
                         + "4)Exit");
         while(scanner.hasNextLine() && !exit){
-        	printToScreen(
+            printToScreen(
                     "1)Create game"+"\n"
                             + "2)List Game"+"\n"
                             + "3)Join Game"+"\n"
@@ -122,7 +122,7 @@ public class ClientLobbyCLI {
      * The method that allows you to create a new game.
      */
     private void actionCreateGame() {
-    	printToScreen("Insert game name:");
+        printToScreen("Insert game name:");
         String gameName = scanner.nextLine();
         printToScreen("Insert map name:");
         String mapName = scanner.nextLine();

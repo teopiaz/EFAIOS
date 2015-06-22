@@ -34,29 +34,29 @@ public class ClientLobbyGUI implements Runnable{
     JFrame frame;
 
     JTable table;
-  
+
     MyTableModel tableModel = new MyTableModel();
-    
+
     /**
      * The network helper.
      */
     NetworkHelper netHelper;
-    
+
     /**
      * The client game GUI.
      */
     private ClientGameGUI gui;
-    
+
     /**
      * The table wit the games.
      */
     private Map<String, String> gameMap;
-    
+
     /**
      * The IP address for communication.
      */
     private String host = "localhost";
-    
+
     /**
      * The port for communication.
      */
@@ -68,7 +68,7 @@ public class ClientLobbyGUI implements Runnable{
      * @param clientTaskGUI The tasks for the client GUI.
      */
     public ClientLobbyGUI(final NetworkHelper networkHelper, Runnable clientTaskGUI){
-        
+
         this.netHelper=networkHelper;
         this.gui = (ClientGameGUI)clientTaskGUI;
         frame = new JFrame("Escape from Aliens in Outer Space - LOBBY");
@@ -81,7 +81,7 @@ public class ClientLobbyGUI implements Runnable{
         JButton btnCreate = new JButton("Crea Partita");
         JButton btnJoin = new JButton("Entra in una Partita");
         JButton btnRefreshList = new JButton("Aggiorna La Lista");
-        
+
         btnCreate.addActionListener(new ActionListener() {
 
             /**
@@ -94,7 +94,7 @@ public class ClientLobbyGUI implements Runnable{
                 networkHelper.createGame(gameName,mapName.toLowerCase());
                 updateGameList();
             }
-            
+
         });
 
         btnRefreshList.addActionListener(new ActionListener() {
@@ -104,12 +104,12 @@ public class ClientLobbyGUI implements Runnable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-            	System.out.println(networkHelper.getType());
+                System.out.println(networkHelper.getType());
                 updateGameList();
             }
-            
+
         });
-        
+
         btnJoin.addActionListener(new ActionListener() {
 
             /**
@@ -117,30 +117,30 @@ public class ClientLobbyGUI implements Runnable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-              int rowNum =  table.getSelectedRow();
-             String selectedGame = (String) table.getModel().getValueAt(rowNum, 0);
-             String gameToken="";
-             gameToken = gameMap.get(selectedGame);
-             networkHelper.setGameToken(gameToken);
-              Event response =  networkHelper.joinGame(gameToken);
+                int rowNum =  table.getSelectedRow();
+                String selectedGame = (String) table.getModel().getValueAt(rowNum, 0);
+                String gameToken="";
+                gameToken = gameMap.get(selectedGame);
+                networkHelper.setGameToken(gameToken);
+                Event response =  networkHelper.joinGame(gameToken);
                 if(response.getRetValues().containsValue("joined")){
-                gui.showGUI();
-                frame.setVisible(false);
-                frame.dispose();
+                    gui.showGUI();
+                    frame.setVisible(false);
+                    frame.dispose();
                 }else{
                     JOptionPane.showMessageDialog(frame, response.getRetValues().get(Event.ERROR));
                 }
             }
-            
+
         });
 
         ButtonGroup radioGroup = new ButtonGroup();
         JRadioButton radioSock = new JRadioButton("Socket");
         JRadioButton radioRMI = new JRadioButton("RMI");
         radioSock.setSelected(true);   
-        
+
         radioSock.addActionListener(new ActionListener() {
-            
+
             /**
              * @param e The action event.
              */
@@ -148,11 +148,11 @@ public class ClientLobbyGUI implements Runnable{
             public void actionPerformed(ActionEvent e) {
                 NetworkHelper.getClientSocket(host, port);
             }
-            
+
         });
-        
+
         radioRMI.addActionListener(new ActionListener() {
-            
+
             /**
              * @param e The action event.
              */
@@ -164,9 +164,9 @@ public class ClientLobbyGUI implements Runnable{
                     Logger.getLogger(ClientLobbyGUI.class.getName()).log(Level.SEVERE, "Error in the remote comunication", e1);
                 }
             }
-            
+
         });
-        
+
         radioGroup.add(radioSock);
         radioGroup.add(radioRMI);
         sidePanel.add(radioRMI,  BoxLayout.X_AXIS);
@@ -181,7 +181,7 @@ public class ClientLobbyGUI implements Runnable{
         frame.setLocationRelativeTo(null);
         frame.setVisible(false);
     }
-    
+
     /**
      * Method for show he GUI.
      */
@@ -225,7 +225,7 @@ public class ClientLobbyGUI implements Runnable{
          * Name of columns.
          */
         private String[] columnNames = { "NOME PARTITA", "MAPPA", "GIOCATORI","STATO" };
-        
+
         /**
          * Rows of table.
          */

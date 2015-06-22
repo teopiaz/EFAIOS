@@ -18,28 +18,28 @@ import javax.swing.JPanel;
 public class MapPanel extends JPanel {
 
 
-	private int selectedSectorX;
-	private int selectedSectorY;
-	private boolean isSelected = false;
+    private int selectedSectorX;
+    private int selectedSectorY;
+    private boolean isSelected = false;
 
-	private int posY;
-	private int posX;
-	
+    private int posY;
+    private int posX;
+
     /**
      * The test game map.
      */
     GameMap test = new GameMap(15,23);
-    
+
     /**
      * New board.
      */
     private int[][] board = new int[23][15];
-    
+
     /**
      * Editor mode that lets you edit or create new maps.
      */
     private boolean editorMode = false;
-	private boolean isStarted = false;
+    private boolean isStarted = false;
 
 
 
@@ -86,103 +86,103 @@ public class MapPanel extends JPanel {
         for (int i=0;i<23;i++) {
             for (int j=0;j<14;j++) {
                 HexSprite.drawHex(i,j,g2);
-				HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],isSelected,selectedSectorX,selectedSectorY,isStarted,posX,posY);
+                HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],isSelected,selectedSectorX,selectedSectorY,isStarted,posX,posY);
             }
         }
     }
 
 
 
-	class MyMouseListener extends MouseAdapter  {   //inner class inside DrawingPanel 
-		@Override
-		public void mouseClicked(MouseEvent e) { 
+    class MyMouseListener extends MouseAdapter  {   //inner class inside DrawingPanel 
+        @Override
+        public void mouseClicked(MouseEvent e) { 
 
-			Point p = new Point( HexSprite.pxtoHex(e.getX(),e.getY()) );
-			if (p.x < 0 || p.y < 0 || p.x >= 23 || p.y >= 15) {
-				return;
-			}
+            Point p = new Point( HexSprite.pxtoHex(e.getX(),e.getY()) );
+            if (p.x < 0 || p.y < 0 || p.x >= 23 || p.y >= 15) {
+                return;
+            }
 
 
-			if(editorMode){
-				//What do you want to do when a hexagon is clicked?
-				if(board[p.x][p.y]+1==6){
-					board[p.x][p.y] = 0;
-				}
-				else{
-					board[p.x][p.y] +=1;
+            if(editorMode){
+                //What do you want to do when a hexagon is clicked?
+                if(board[p.x][p.y]+1==6){
+                    board[p.x][p.y] = 0;
+                }
+                else{
+                    board[p.x][p.y] +=1;
 
-				}
-			}else{
-				if(board[p.x][p.y]!=0){
-					isSelected=true;
-					selectedSectorX = p.x;
-					selectedSectorY = p.y;
-				}else{
-					isSelected=false;
-				}
-			}
-			repaint();
-		}        
-	} //end of MyMouseListener class 
+                }
+            }else{
+                if(board[p.x][p.y]!=0){
+                    isSelected=true;
+                    selectedSectorX = p.x;
+                    selectedSectorY = p.y;
+                }else{
+                    isSelected=false;
+                }
+            }
+            repaint();
+        }        
+    } //end of MyMouseListener class 
 
-	public boolean getEditorMode(){
-		return editorMode;
-	}
-	public void setEditorMode(boolean mode){
-		this.editorMode = mode;
-		if(mode){
-			board = new int[23][15];
-		}
-	}
+    public boolean getEditorMode(){
+        return editorMode;
+    }
+    public void setEditorMode(boolean mode){
+        this.editorMode = mode;
+        if(mode){
+            board = new int[23][15];
+        }
+    }
 
-	public int[][] getBoard() {
-		return this.board;
-	}
+    public int[][] getBoard() {
+        return this.board;
+    }
 
-	public void setBoard(int[][] board) {
-		this.board=board;
-	}
+    public void setBoard(int[][] board) {
+        this.board=board;
+    }
 
-	/**
-	 * @return the isSelected
-	 */
-	public boolean isSelected() {
-		return isSelected;
-	}
+    /**
+     * @return the isSelected
+     */
+    public boolean isSelected() {
+        return isSelected;
+    }
 
-	/**
-	 * @param isSelected the isSelected to set
-	 */
-	public void setSelected(boolean isSelected) {
-		this.isSelected = isSelected;
-		repaint();
-	}
+    /**
+     * @param isSelected the isSelected to set
+     */
+    public void setSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+        repaint();
+    }
 
-	/**
-	 * @return the selectedSectorX
-	 */
-	public int getSelectedSectorX() {
-		return selectedSectorX;
-	}
+    /**
+     * @return the selectedSectorX
+     */
+    public int getSelectedSectorX() {
+        return selectedSectorX;
+    }
 
-	/**
-	 * @return the selectedSectorY
-	 */
-	public int getSelectedSectorY() {
-		return selectedSectorY;
-	}
+    /**
+     * @return the selectedSectorY
+     */
+    public int getSelectedSectorY() {
+        return selectedSectorY;
+    }
 
-	public String getSelectedSectorLabel(){
-		if(isSelected)
-		return test.getCell(selectedSectorY,selectedSectorX).getLabel();
-		return "";
-	}
-	
-	public void setPosition(String s){
-		isStarted =true;
-		this.posY = Cell.getRowByLabel(s);
-		this.posX = Cell.getColByLabel(s);
-	}
+    public String getSelectedSectorLabel(){
+        if(isSelected)
+            return test.getCell(selectedSectorY,selectedSectorX).getLabel();
+        return "";
+    }
+
+    public void setPosition(String s){
+        isStarted =true;
+        this.posY = Cell.getRowByLabel(s);
+        this.posX = Cell.getColByLabel(s);
+    }
 
 
 }

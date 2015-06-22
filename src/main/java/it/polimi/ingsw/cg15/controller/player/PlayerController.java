@@ -21,7 +21,7 @@ public class PlayerController {
      *  The state of the game.
      */
     private GameState gameState;
-    
+
     /**
      * The first player of the turn.
      */
@@ -115,9 +115,9 @@ public class PlayerController {
         if (player.killPlayer()) {
             player.getPosition().removePlayer(player);
             for (ItemCard card : player.getCardList()) {
-				removeCard(card);
-				gameState.getDeckContainer().getItemDeck().addToDiscardedDeck(card);
-			}
+                removeCard(card);
+                gameState.getDeckContainer().getItemDeck().addToDiscardedDeck(card);
+            }
             return true;
         }
         return false;
@@ -211,7 +211,7 @@ public class PlayerController {
     public boolean isUnderSedatives() {
         return gameState.getTurnState().isUnderSedatives();
     }
-    
+
     /**
      * @return if a player is under sedatives.
      */

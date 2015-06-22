@@ -14,7 +14,7 @@ public class ItemDeck {
      *  The main deck of cards, the one where fishing for players. It is identified by the number 1.
      */
     public static final int MAIN_DECK = 1;
-    
+
     /**
      * The discard deck because already used. It can be recovered via the selector value of 2.
      */
@@ -24,7 +24,7 @@ public class ItemDeck {
      * This is the deck of cards that is item that are in use that have yet to be drawn.
      */
     private List<ItemCard> itemDeckMain = new ArrayList<ItemCard>();
-    
+
     /**
      * This is the deck of cards that have been discarded by the players. 
      * They are those that will be used to create a new deck in case the cards in the deck main runs out.
@@ -49,7 +49,7 @@ public class ItemDeck {
     public List<ItemCard> getItemDeck() {
         return itemDeckMain;
     }
-    
+
     /**
      * @return the card deck object involved.
      */
@@ -78,24 +78,24 @@ public class ItemDeck {
      * This function allows you to re-create the Item deck if the current deck is empty.
      */
     private void swapDeck() {
-            itemDeckMain = itemDeckDiscarded;
-            itemDeckDiscarded = new ArrayList<ItemCard>();
-            Collections.shuffle(itemDeckMain);
+        itemDeckMain = itemDeckDiscarded;
+        itemDeckDiscarded = new ArrayList<ItemCard>();
+        Collections.shuffle(itemDeckMain);
     }
-    
+
     /**
      * @return the number of cards still in the deck item.
      */
-     public int getNumberOfCard() {
-     return itemDeckMain.size();
-     }
+    public int getNumberOfCard() {
+        return itemDeckMain.size();
+    }
 
     /**
      * @param card to add to the discarded deck
      * @return the card that has just been inserted into the deck
      */
-	public void addToDiscardedDeck(ItemCard card) {
-		itemDeckDiscarded.add(card);	
-	}
+    public void addToDiscardedDeck(ItemCard card) {
+        itemDeckDiscarded.add(card);	
+    }
 
 }

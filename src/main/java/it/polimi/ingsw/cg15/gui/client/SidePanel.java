@@ -36,7 +36,7 @@ public class SidePanel extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     private DefaultListModel<String> selections = new DefaultListModel<>();
-	private static ClientGameGUI mainPanel;
+    private static ClientGameGUI mainPanel;
 
     {
         selections.addElement("Waiting for the beginning of the match...");
@@ -47,7 +47,7 @@ public class SidePanel extends JPanel {
         super();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         mainPanel = clientGameGUI;
-        
+
         setBackground(Color.black);
 
         logPanel = new LogPanel();
@@ -93,11 +93,11 @@ public class SidePanel extends JPanel {
             Border emptyBorder = BorderFactory.createEmptyBorder();
             scrollPane.setBorder(emptyBorder);
 
-           
-              scrollPane.setPreferredSize(new Dimension(300,200));
-              scrollPane.setMaximumSize(getPreferredSize());
-              scrollPane.setMinimumSize(getPreferredSize());
-             
+
+            scrollPane.setPreferredSize(new Dimension(300,200));
+            scrollPane.setMaximumSize(getPreferredSize());
+            scrollPane.setMinimumSize(getPreferredSize());
+
             setBorder(BorderFactory.createLineBorder(Color.red));
             add(scrollPane, BorderLayout.EAST);
             setBackground(Color.black);
@@ -157,15 +157,15 @@ public class SidePanel extends JPanel {
         public void addToChat(String msg) {
             char[] msgArray = msg.toCharArray();
             for(int i=0;i<msgArray.length;i++){
-            textArea.append(msgArray[i]+"");
-            textArea.updateUI();
-            textArea.setCaretPosition(textArea.getDocument().getLength());
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException e) {
-                Logger.getLogger(SidePanel.class.getName()).log(Level.SEVERE, "InterruptedException", e);
+                textArea.append(msgArray[i]+"");
+                textArea.updateUI();
+                textArea.setCaretPosition(textArea.getDocument().getLength());
+                try {
+                    Thread.sleep(30);
+                } catch (InterruptedException e) {
+                    Logger.getLogger(SidePanel.class.getName()).log(Level.SEVERE, "InterruptedException", e);
 
-            }
+                }
             }
             textArea.append("\n");
             textArea.updateUI();
@@ -219,14 +219,14 @@ public class SidePanel extends JPanel {
         return chatPanel;
     }
 
-	public static CardPanel getCardPanel() {
+    public static CardPanel getCardPanel() {
         return cardPanel;
 
-	}
-	public static ClientGameGUI getMainPanel() {
+    }
+    public static ClientGameGUI getMainPanel() {
         return mainPanel;
 
-	}
-	
+    }
+
 
 }

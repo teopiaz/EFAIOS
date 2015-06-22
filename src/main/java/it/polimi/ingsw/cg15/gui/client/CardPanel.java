@@ -52,25 +52,25 @@ public class CardPanel extends JPanel{
      */
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
 
-	private final static int SPOT_STATE = 3;
-	private final static int WAITING_STATE = 2;
-	private final static int SELECT_STATE = 1;
-	
-	private static int state =WAITING_STATE;
-    
+    private final static int SPOT_STATE = 3;
+    private final static int WAITING_STATE = 2;
+    private final static int SELECT_STATE = 1;
+
+    private static int state =WAITING_STATE;
+
 
     /**
      * The constructor for the Card Panel.
      */
     public CardPanel(){
-        
+
         setPreferredSize(new Dimension(300, 110));
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
         setBackground(Color.BLACK);
-        
+
         setLayout(new FlowLayout());
-     
+
         BufferedImage defenseCard = ImageLoader.load("defenseItemCard");
         defenseCard = getScaledImage(defenseCard, 70, 95);
         ImageIcon defenseIcon = new ImageIcon(defenseCard);
@@ -91,8 +91,8 @@ public class CardPanel extends JPanel{
         cardMap.put("spotlight",spotLightLabel);
         add(spotLightLabel);
 
-        
-        
+
+
         BufferedImage adrenalineCard = ImageLoader.load("adrenalineItemCard");
         adrenalineCard = getScaledImage(adrenalineCard, 70, 95);
         ImageIcon adrenalineIcon = new ImageIcon(adrenalineCard);
@@ -101,8 +101,8 @@ public class CardPanel extends JPanel{
         adrenalineLabel.setToolTipText("Adrenalina");
         cardMap.put("adrenaline",adrenalineLabel);
         add(adrenalineLabel);
-        
-        
+
+
         BufferedImage sedativesCard = ImageLoader.load("sedativesItemCard");
         sedativesCard = getScaledImage(sedativesCard, 70, 95);
         ImageIcon sedativesIcon = new ImageIcon(sedativesCard);
@@ -112,7 +112,7 @@ public class CardPanel extends JPanel{
         cardMap.put("sedatives",sedativesLabel);
         add(sedativesLabel);
 
-        
+
         BufferedImage attackCard = ImageLoader.load("attackItemCard");
         attackCard = getScaledImage(attackCard, 70, 95);
         ImageIcon attackIcon = new ImageIcon(attackCard);
@@ -123,88 +123,88 @@ public class CardPanel extends JPanel{
         add(attackLabel);
 
 
-        
+
         for (JLabel cardlabel : cardMap.values()) {
-        	cardlabel.setVisible(false);
-    }
-	
+            cardlabel.setVisible(false);
+        }
+
 
         adrenalineLabel.addMouseListener(new MouseAdapter() {
 
             @Override
-          public void mouseClicked(MouseEvent me) {
-             
-              networkHelper.useCard("adrenaline");
-          	SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
-              revalidate();
-              
+            public void mouseClicked(MouseEvent me) {
+
+                networkHelper.useCard("adrenaline");
+                SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
+                revalidate();
+
             }
-          });
-        
+        });
+
         attackLabel.addMouseListener(new MouseAdapter() {
 
             @Override
-          public void mouseClicked(MouseEvent me) {
-             
-              networkHelper.useCard("attack");
-          	SidePanel.getActionPanel().printMsg("Hai usato la carta Attacco");
-              revalidate();
-              
+            public void mouseClicked(MouseEvent me) {
+
+                networkHelper.useCard("attack");
+                SidePanel.getActionPanel().printMsg("Hai usato la carta Attacco");
+                revalidate();
+
             }
-          });
-        
+        });
+
         sedativesLabel.addMouseListener(new MouseAdapter() {
 
             @Override
-          public void mouseClicked(MouseEvent me) {
-             
-              networkHelper.useCard("sedatives");
-            	SidePanel.getActionPanel().printMsg("Hai usato la carta Sedativi");
+            public void mouseClicked(MouseEvent me) {
 
-              revalidate();
-              
+                networkHelper.useCard("sedatives");
+                SidePanel.getActionPanel().printMsg("Hai usato la carta Sedativi");
+
+                revalidate();
+
             }
-          });
+        });
 
 
 
         spotLightLabel.addMouseListener(new MouseAdapter() {
 
 
-			@Override
+            @Override
             public void mouseClicked(MouseEvent me) {
-            
-            if(state==WAITING_STATE){ 
-                state=SELECT_STATE;
-            }
-                
-			switch(state){
-			    
-            case SELECT_STATE:
-            	
-            	SidePanel.getMainPanel().getSpotLayer().enableSpot();
-            	state=SPOT_STATE;
-            	break;
-          
-            case SPOT_STATE:
-            	
-              	if(SidePanel.getMainPanel().getMapPanel().isSelected()){
-					String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
-                  networkHelper.spotlight(target);
-              	SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
-              	state =WAITING_STATE;
-            	SidePanel.getMainPanel().getSpotLayer().disableSpot();
 
-              	}else{
-				 	SidePanel.getActionPanel().printMsg("Seleziona un settore");
-              	}
-                  revalidate();
-                
-              }
-        }
-            });
-            
-    
+                if(state==WAITING_STATE){ 
+                    state=SELECT_STATE;
+                }
+
+                switch(state){
+
+                case SELECT_STATE:
+
+                    SidePanel.getMainPanel().getSpotLayer().enableSpot();
+                    state=SPOT_STATE;
+                    break;
+
+                case SPOT_STATE:
+
+                    if(SidePanel.getMainPanel().getMapPanel().isSelected()){
+                        String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+                        networkHelper.spotlight(target);
+                        SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+                        state =WAITING_STATE;
+                        SidePanel.getMainPanel().getSpotLayer().disableSpot();
+
+                    }else{
+                        SidePanel.getActionPanel().printMsg("Seleziona un settore");
+                    }
+                    revalidate();
+
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -213,18 +213,18 @@ public class CardPanel extends JPanel{
     public void getCardsList() {
         List<String> cardList = new ArrayList<String>();
 
-       
+
         if(networkHelper.isMyTurn()){  
-        	
-        	 for (JLabel cardlabel : cardMap.values()) {
-             	cardlabel.setVisible(false);
-             }
-             revalidate();
+
+            for (JLabel cardlabel : cardMap.values()) {
+                cardlabel.setVisible(false);
+            }
+            revalidate();
 
             cardList = networkHelper.getAvailableCardsList();
             for (String card : cardList) {
                 if(cardMap.containsKey(card))
-                cardMap.get(card).setVisible(true);
+                    cardMap.get(card).setVisible(true);
 
             }
             revalidate();
