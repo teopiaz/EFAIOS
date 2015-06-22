@@ -2,6 +2,8 @@ package it.polimi.ingsw.cg15.cli.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.ClientToken;
+
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -133,7 +135,8 @@ public class ClientLobbyCLI {
      * @param messaggio A message to print.
      */
     public void printToScreen(String messaggio) {
-        System.out.println(messaggio);
+        PrintStream stream = System.out;
+        stream.println(messaggio);
     }
 
 }
