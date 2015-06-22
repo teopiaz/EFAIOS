@@ -8,8 +8,11 @@ import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.networking.pubsub.BrokerSocketThread;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR
@@ -83,9 +86,10 @@ public class PlayerController {
 
     /**
      * @param dest The destination in which i want to check if the move is possible.
-     * @return true ???
+     * @return a boolean
      */
     public boolean moveIsPossible(Coordinate dest) {
+        Logger.getLogger(PlayerController.class.getName()).log(Level.SEVERE, "Error in function overriding!");
         return true;
     }
 

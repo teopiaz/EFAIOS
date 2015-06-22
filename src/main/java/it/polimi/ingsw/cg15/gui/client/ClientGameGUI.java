@@ -455,7 +455,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         boolean winner = false;
         for (Entry<String, String> ele : e.getRetValues().entrySet()) {
             addToLog(PLAYER + ele.getKey() + ": " + ele.getValue());
-            if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
+            if(ele.getKey().equals(Integer.toString(playerNumber)) && "win".equals(ele.getValue())){
                 winner=true;
             }
         }

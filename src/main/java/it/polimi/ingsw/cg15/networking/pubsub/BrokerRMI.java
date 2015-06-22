@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 public class BrokerRMI implements BrokerRMIInterface {
 
-    private ArrayList<SubscriberRMIInterface> subscribers = new ArrayList<SubscriberRMIInterface>();
     private static Map<String, List<SubscriberRMIInterface>> topicMap = new HashMap<String, List<SubscriberRMIInterface>>();
 
     public BrokerRMI() throws RemoteException {
@@ -52,7 +51,6 @@ public class BrokerRMI implements BrokerRMIInterface {
     @Override
     public void subscribe(String topic, SubscriberRMIInterface r) {
         addToMap(topic, r);
-        subscribers.add(r);
     }
 
     private void addToMap(String topic, SubscriberRMIInterface subscriber) {

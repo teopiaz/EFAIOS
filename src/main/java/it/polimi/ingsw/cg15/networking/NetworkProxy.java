@@ -18,7 +18,7 @@ public class NetworkProxy {
      * The constructor.
      */
     private NetworkProxy(){
-    };
+    }
 
     /**
      * Transforms messages into JASON.

@@ -76,7 +76,7 @@ public class GameState {
     public GameState(Field field, DeckContainer deckContainer) {
         this.field = field;
         this.deckContainer = deckContainer;
-        this.players = new ArrayList<Player>();;
+        this.players = new ArrayList<Player>();
         turnState = new TurnState();
     }
 

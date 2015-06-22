@@ -110,10 +110,7 @@ public class Cell {
     @Override
     public boolean equals(Object obj) {
         Cell b = (Cell) obj;
-        if (this.x == b.getX() && this.y == b.getY() && this.z == b.getZ())
-            return true;
-        else
-            return false;
+        return this.x == b.getX() && this.y == b.getY() && this.z == b.getZ();
     }
 
 

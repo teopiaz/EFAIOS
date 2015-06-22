@@ -95,7 +95,7 @@ public class ItemDeck {
      * @return the card that has just been inserted into the deck
      */
     public void addToDiscardedDeck(ItemCard card) {
-        itemDeckDiscarded.add(card);	
+        itemDeckDiscarded.add(card);
     }
 
 }

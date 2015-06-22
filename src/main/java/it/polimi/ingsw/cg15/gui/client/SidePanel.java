@@ -38,10 +38,6 @@ public class SidePanel extends JPanel {
     private DefaultListModel<String> selections = new DefaultListModel<>();
     private static ClientGameGUI mainPanel;
 
-    {
-        selections.addElement("Waiting for the beginning of the match...");
-
-    }
 
     public SidePanel(ClientGameGUI clientGameGUI) {
         super();
@@ -49,6 +45,8 @@ public class SidePanel extends JPanel {
         mainPanel = clientGameGUI;
 
         setBackground(Color.black);
+        selections.addElement("Waiting for the beginning of the match...");
+
 
         logPanel = new LogPanel();
         chatPanel = new ChatPanel();

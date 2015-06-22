@@ -80,8 +80,10 @@ public class SpotlightLayerUI extends LayerUI<JPanel> {
     @Override
     protected void processMouseEvent(MouseEvent e, JLayer l) {
        if(enabled){
-      if (e.getID() == MouseEvent.MOUSE_ENTERED) mActive = true;
-      if (e.getID() == MouseEvent.MOUSE_EXITED) mActive = false;
+      if (e.getID() == MouseEvent.MOUSE_ENTERED)
+          mActive = true;
+      if (e.getID() == MouseEvent.MOUSE_EXITED)
+          mActive = false;
       l.repaint();
        }
     }

@@ -19,16 +19,16 @@ public class MainClientCLI {
      */
     private static boolean joined = false;
 
+    
+    private MainClientCLI(){
+        
+    }
+    
     /**
      * Set joined as true.
      */
     public static void join(){
         joined = true;
-    }
-    
-    
-    private MainClientCLI(){
-        
     }
 
     /**

@@ -134,13 +134,7 @@ public class NetworkHelper implements Observer {
      */
     private NetworkHelper() throws RemoteException {
         ClientRMI clientRMI = new ClientRMI();
-        try {
-            gmRemote = clientRMI.connect();
-        } catch (NotBoundException e) {
-            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE,
-                    "Not Bound Exception in NetworkHelper", e);
-
-        }
+        gmRemote = clientRMI.connect();
         NetworkHelper.type = RMI;
     }
 

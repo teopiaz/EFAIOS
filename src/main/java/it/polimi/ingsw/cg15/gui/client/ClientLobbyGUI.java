@@ -264,7 +264,7 @@ public class ClientLobbyGUI implements Runnable{
 
 
         @Override
-        public Class<?> getColumnClass(int columnIndex) {
+        public Class<String> getColumnClass(int columnIndex) {
             return String.class;
         }
 

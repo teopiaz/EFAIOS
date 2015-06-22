@@ -8,15 +8,18 @@ import java.security.SecureRandom;
  * The token generator for the current session.
  */
 public final class SessionTokenGenerator {
+   
+    
+    /**
+     * Generate a new random.
+     */
+    private static SecureRandom random = new SecureRandom();
+
     
     private SessionTokenGenerator(){
         
     }
 
-    /**
-     * Generate a new random.
-     */
-    private static SecureRandom random = new SecureRandom();
 
     /**
      * The ID for the session.

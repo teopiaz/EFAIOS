@@ -9,7 +9,7 @@ import java.util.Map;
  * The event class.
  */
 public class Event implements Serializable {
-    
+
     /**
      * 
      */
@@ -19,43 +19,43 @@ public class Event implements Serializable {
      * The client token.
      */
     private final ClientToken token;
-    
+
     /**
      * A new command.
      */
     private final String command;
-    
+
     /**
      * Arguments.
      */
     private final Map<String, String> args;
-    
+
     /**
      * The return values.
      */
     private final Map<String, String> retValues;
-    
+
     /**
      * False.
      */
     public static final String FALSE = "false";
-    
+
     /**
      * True.
      */
     public static final String TRUE = "true";
-    
+
     /**
      * Error.
      */
     public static final String ERROR = "error";
-    
+
     /**
      * Return.
      */
     public static final String RETURN = "return";
 
-    
+
     public static final String DEFENSE = "defense";
 
     public static final String ITEM = "item";
@@ -68,7 +68,7 @@ public class Event implements Serializable {
 
     public static final String MESSAGE = "message";
 
-    
+
 
     /**
      * A constructor.
@@ -81,13 +81,13 @@ public class Event implements Serializable {
             this.token = new ClientToken(null, null);
         }
         else{
-        this.token = token;
+            this.token = token;
         }
         this.command = command;
         this.args = args;
         retValues=null;
     }
-    
+
     /**
      * A constructor.
      * @param token The Client Token.
@@ -114,7 +114,7 @@ public class Event implements Serializable {
             this.token = new ClientToken(null, null);
         }
         else{
-        this.token = token;
+            this.token = token;
         }
         this.command = command;
         this.args = args;
@@ -146,7 +146,7 @@ public class Event implements Serializable {
         map.put(RETURN, value);
         this.retValues = map;
     }
-    
+
     /**
      * A constructor.
      * @param e The event.
@@ -161,7 +161,7 @@ public class Event implements Serializable {
         map.put(retKey, retValue);
         this.retValues = map;
     }
-    
+
     /**
      * @return the Client Token.
      */
@@ -199,17 +199,13 @@ public class Event implements Serializable {
         return "Event [tokenPlayer=" + token.getPlayerToken()+" tokenGame="+ token.getGameToken() + ", command=" + command + ", args=" + args + ", retValues="
                 + retValues + "]";
     }
-    
+
     /**
      * @return The result of the current action.
      */
-    public boolean actionResult(){
-        if(this.retValues.containsKey(RETURN)){
-            if(TRUE.equals(this.retValues.get(RETURN))){
-                return true;
-            }
-        }
-        return false;
+    public boolean actionResult(){  
+
+        return this.retValues.containsKey(RETURN) && TRUE.equals(this.retValues.get(RETURN));
     }
 
 }
