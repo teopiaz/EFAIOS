@@ -46,7 +46,7 @@ public class GameState {
     /**
      * The max number of players in a current game.
      */
-    public final int MAX_PLAYERS = 8;
+    public static final int MAX_PLAYERS = 8;
     
     /**
      * The turn number.

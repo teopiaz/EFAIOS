@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -120,12 +122,15 @@ public class SidePanel extends JPanel {
             netHelper = NetworkHelper.getInstance();
             textArea = new JTextArea(5, 30);
             JScrollPane scrollPane = new JScrollPane(textArea);
-            // scrollPane.setPreferredSize(new Dimension(380, 100));
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
             textArea.setEditable(false);
             scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             textArea.setFont(CFont.getFont("TopazPlus"));
+
+            textArea.setBackground(Color.BLACK);
+            textArea.setForeground(Color.GREEN);
+
 
             textArea.setText("");
 
@@ -150,9 +155,22 @@ public class SidePanel extends JPanel {
         }
 
         public void addToChat(String msg) {
-            textArea.append(msg + "\n");
+            char[] msgArray = msg.toCharArray();
+            for(int i=0;i<msgArray.length;i++){
+            textArea.append(msgArray[i]+"");
             textArea.updateUI();
             textArea.setCaretPosition(textArea.getDocument().getLength());
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                Logger.getLogger(SidePanel.class.getName()).log(Level.SEVERE, "InterruptedException", e);
+
+            }
+            }
+            textArea.append("\n");
+            textArea.updateUI();
+            textArea.setCaretPosition(textArea.getDocument().getLength());
+
         }
 
     }

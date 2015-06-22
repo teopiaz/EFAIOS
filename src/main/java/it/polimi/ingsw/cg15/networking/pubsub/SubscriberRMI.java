@@ -11,14 +11,12 @@ public class SubscriberRMI extends Observable implements SubscriberRMIInterface 
 	 * 
 	 * @param name The name of the subscriber
 	 */
-	public SubscriberRMI(String name) {
+	public SubscriberRMI() {
 		super();
-		this.name = name;
 		addObserver(NetworkHelper.getInstance());
 		
 	}
 
-	private String name;
 	
 	
 	/**

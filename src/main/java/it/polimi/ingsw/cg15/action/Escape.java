@@ -25,6 +25,9 @@ public class Escape extends Action {
      * The event.
      */
     Event e;
+    public static final String HATCHCARD = "hatchcard";
+
+    public static final String HATCH = "hatch";
 
     /**
      * @param gc The game controller.
@@ -56,22 +59,22 @@ public class Escape extends Action {
             return e;
         }
         if(fc.isHatchBlocked(sector)){
-            pubRet.put("hatch", Event.FALSE);
+            pubRet.put(HATCH, Event.FALSE);
             pubRet.put("message", "il giocatore "+currentPlayer.getPlayerNumber()+" prova a scappare ma il settore "+sector.toString()+" è bloccato");
-            retValues.put("hatch", Event.FALSE);
+            retValues.put(HATCH, Event.FALSE);
             pubRet.put(Event.ERROR, "il settore "+ sector.toString() +" è bloccato");
         }else{
-            pubRet.put("hatch", Event.TRUE);
-            retValues.put("hatch", Event.TRUE);
+            pubRet.put(HATCH, Event.TRUE);
+            retValues.put(HATCH, Event.TRUE);
             HatchCard card = pc.drawHatchCard();
             if(card == HatchCard.HATCH_RED){
-                retValues.put("hatchcard", "red");
-                pubRet.put("hatchcard", "red");
+                retValues.put(HATCHCARD, "red");
+                pubRet.put(HATCHCARD, "red");
             }
             if(card == HatchCard.HATCH_GREEN){
                 pc.escape();
-                retValues.put("hatchcard", "green");
-                pubRet.put("hatchcard", "green");
+                retValues.put(HATCHCARD, "green");
+                pubRet.put(HATCHCARD, "green");
                 }
             //blocco il settore
             fc.blockHatchSector(sector);

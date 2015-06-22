@@ -20,7 +20,7 @@ public class ServerSock implements Server{
     /**
      * The port for communication.
      */
-    private final int PORT = 1337;
+    private static final int port = 1337;
     
     /**
      * A variable that says if the server is started or not.
@@ -28,7 +28,7 @@ public class ServerSock implements Server{
     private boolean isStarted = false;
     
     /**
-     * TODO non so che cosa faccia.
+     * Object needed as mutex
      */
     Object lock = new Object();
 
@@ -55,14 +55,13 @@ public class ServerSock implements Server{
     public void run() {
         while (true) {
             synchronized (lock) {
-                if (isStarted==true) {
+                if (isStarted) {
                     Logger.getLogger(MainServer.class.getName()).log(Level.INFO, "start server==" + isStarted);
                     try {
                         Socket socket = serverSocket.accept();
-                        System.out.println(socket);
-                       // Submits a Runnable task for execution
                         executor.submit(new ClientHandler(socket));
                     } catch (IOException e) {
+                        Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "Io Exception", e);
                         break;
                     }
                 }
@@ -77,14 +76,14 @@ public class ServerSock implements Server{
     public void startServer() {
         synchronized (lock) {
             if (!isStarted) {
-                ServerLogger.log("Starting Socket Server on port" + PORT);
+                ServerLogger.log("Starting Socket Server on port" + port);
                 try {
-                    serverSocket = new ServerSocket(PORT);
+                    serverSocket = new ServerSocket(port);
                 } catch (IOException e) {
                     Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "Io Exception", e);
                 }
                 isStarted = true;
-                ServerLogger.log("start server==" + isStarted);
+                ServerLogger.log("Server Started");
             }
             else{
                 ServerLogger.log("Socket Server already up");

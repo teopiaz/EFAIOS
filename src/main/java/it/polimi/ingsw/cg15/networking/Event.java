@@ -11,6 +11,11 @@ import java.util.Map;
 public class Event implements Serializable {
     
     /**
+     * 
+     */
+    private static final long serialVersionUID = -2656351448801661553L;
+
+    /**
      * The client token.
      */
     private final ClientToken token;
@@ -33,22 +38,37 @@ public class Event implements Serializable {
     /**
      * False.
      */
-    public final static String FALSE = "false";
+    public static final String FALSE = "false";
     
     /**
      * True.
      */
-    public final static String TRUE = "true";
+    public static final String TRUE = "true";
     
     /**
      * Error.
      */
-    public final static String ERROR = "error";
+    public static final String ERROR = "error";
     
     /**
      * Return.
      */
-    public final static String RETURN = "return";
+    public static final String RETURN = "return";
+
+    
+    public static final String DEFENSE = "defense";
+
+    public static final String ITEM = "item";
+
+    public static final String ATTACK = "attack";
+
+    public static final String PLAYER = "player";
+
+    public static final String CURRENTPLAYER = "currentplayer";
+
+    public static final String MESSAGE = "message";
+
+    
 
     /**
      * A constructor.
@@ -78,7 +98,7 @@ public class Event implements Serializable {
         this.command = null;
         this.args = null;
         Map<String, String> retmap = new HashMap<String, String>();
-        retmap.put("return", retValue);
+        retmap.put(RETURN, retValue);
         this.retValues = retmap;
     }
 
@@ -123,7 +143,7 @@ public class Event implements Serializable {
         this.command = e.command;
         this.args = e.args;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("return", value);
+        map.put(RETURN, value);
         this.retValues = map;
     }
     
@@ -184,8 +204,8 @@ public class Event implements Serializable {
      * @return The result of the current action.
      */
     public boolean actionResult(){
-        if(this.retValues.containsKey("return")){
-            if(this.retValues.get("return").equals("true")){
+        if(this.retValues.containsKey(RETURN)){
+            if(TRUE.equals(this.retValues.get(RETURN))){
                 return true;
             }
         }

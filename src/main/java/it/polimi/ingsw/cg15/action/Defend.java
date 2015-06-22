@@ -55,19 +55,19 @@ public class Defend extends Action {
         }
         if(pc.hasCard(ItemCard.ITEM_DEFENSE)){
             pc.removeCard(ItemCard.ITEM_DEFENSE);
-            retValues.put("defense", Event.TRUE);
+            retValues.put(Event.DEFENSE, Event.TRUE);
             
             String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
             Map<String,String> retPub = new HashMap<String, String>();
             retPub.put("player", currentPlayerNumber);
-            retPub.put("card","defense");
+            retPub.put("card",Event.DEFENSE);
             Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
             Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
             
 
             return new Event(e, retValues);
         }
-        retValues.put("defense", Event.FALSE);
+        retValues.put(Event.DEFENSE, Event.FALSE);
         return new Event(e, retValues);
     }
 

@@ -30,8 +30,6 @@ public class UseOrDiscard extends Action {
      */
     @Override
     public Event execute() {
-        // TODO Auto-generated method stub
-        //ask player
         return e;
     }
 

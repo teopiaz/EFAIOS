@@ -1,7 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-import it.polimi.ingsw.cg15.model.field.Coordinate;
-
 /**
  * @author MMP - LMR
  * The GUI information about the cell.
@@ -92,7 +90,7 @@ public class Cell {
     }
 
     /**
-     * TODO non so che cosa faccia.
+     * Hashcode function
      */
     @Override
     public int hashCode() {

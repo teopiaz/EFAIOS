@@ -119,12 +119,7 @@ public class Player {
      * @return a boolean that says if the player is still alive or not.
      */
     public boolean isAlive() {
-        if(status==INGAME){
-            return true;
-        }
-        else{
-            return false;
-        }
+       return status==INGAME;
     }
 
     /**
@@ -209,12 +204,7 @@ public class Player {
      * @return A boolean indicating whether or not the win.
      */
     public boolean isEscaped() {
-        if(status==WIN){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return status==WIN;
     }
 
     /**

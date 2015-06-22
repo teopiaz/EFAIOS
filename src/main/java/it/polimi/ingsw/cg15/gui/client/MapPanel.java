@@ -53,7 +53,7 @@ public class MapPanel extends JPanel {
 
     /**
      * The map panel.
-     * @param doublebuffer TODO scrivere a cosa servo
+     * @param doublebuffer 
      * @param board The board.
      */
     public MapPanel(boolean doublebuffer,int[][] board){

@@ -9,6 +9,11 @@ import java.io.Serializable;
 public class ClientToken implements Serializable{
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -7528688004158261459L;
+
+    /**
      * The player token.
      */
     private final String playerToken;

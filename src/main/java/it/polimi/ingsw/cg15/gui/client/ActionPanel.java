@@ -19,8 +19,8 @@ import javax.swing.JPanel;
 
 public class ActionPanel extends JPanel {
 
-	private final static int ASKSECTOR_STATE = 2;
-	private final static int WAITING_STATE = 1;
+    private static final int ASKSECTOR_STATE = 2;
+	private static final int WAITING_STATE = 1;
 
 	private int state =WAITING_STATE;
 
@@ -78,31 +78,33 @@ public class ActionPanel extends JPanel {
 		btnMove.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int pippo = state;
 
-				switch(state){
+                if(state==WAITING_STATE){
+                    actionMove();
+                       SidePanel.getMainPanel();
+                    ClientGameGUI.getMapPanel().setSelected(false);
+                       String position = networkHelper.getPlayerPosition();
+                       SidePanel.getMainPanel();
+                    ClientGameGUI.getMapPanel().setPosition(position);
+               }
+                
+                if(state==ASKSECTOR_STATE){
+                    actionAsk();
+                    SidePanel.getMainPanel();
+                    ClientGameGUI.getMapPanel().setSelected(false);
+               }
+			    
 
-				case WAITING_STATE : 
-					actionMove();
-					SidePanel.getMainPanel().getMapPanel().setSelected(false);
-			        String position = networkHelper.getPlayerPosition();
-			        SidePanel.getMainPanel().getMapPanel().setPosition(position);
-					break;
-
-				case ASKSECTOR_STATE:
-					actionAsk();
-					SidePanel.getMainPanel().getMapPanel().setSelected(false);
-					break;
-
-				}
 
 			}
 
 			private void actionAsk() {
 				Event response=null;
 
-				String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
-				if(SidePanel.getMainPanel().getMapPanel().isSelected()){
+				SidePanel.getMainPanel();
+                String target = ClientGameGUI.getMapPanel().getSelectedSectorLabel();
+				SidePanel.getMainPanel();
+                if(ClientGameGUI.getMapPanel().isSelected()){
 
 
 					response = networkHelper.askSector(target);
@@ -122,13 +124,16 @@ public class ActionPanel extends JPanel {
 
 			private void actionMove() {
 				Event response=null;
-				if(SidePanel.getMainPanel().getMapPanel().isSelected()){
-					String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+				SidePanel.getMainPanel();
+                if(ClientGameGUI.getMapPanel().isSelected()){
+					SidePanel.getMainPanel();
+                    String target = ClientGameGUI.getMapPanel().getSelectedSectorLabel();
 					response = networkHelper.move(target);
 					if (response.actionResult()) {
 						actionLabel.setText("Ti sei spostato nel settore "+ networkHelper.getCurrentPosition());
 
-						SidePanel.getMainPanel().getMapPanel().setSelected(false);
+						SidePanel.getMainPanel();
+                        ClientGameGUI.getMapPanel().setSelected(false);
 						if (response.getRetValues().containsKey("asksector")) {
 							state=ASKSECTOR_STATE;
 							actionLabel.setText("Seleziona un settore dove fare rumore");

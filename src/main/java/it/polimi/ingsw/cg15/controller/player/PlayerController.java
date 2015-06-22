@@ -80,8 +80,7 @@ public class PlayerController {
         return false;
     }
 
-    // TODO: testare se può essere mai chiamato (per design NON deve essere mai chiamato)
-    // TOTO ritorna sempre vero?!
+
     /**
      * @param dest The destination in which i want to check if the move is possible.
      * @return true ???

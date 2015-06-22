@@ -13,12 +13,12 @@ public class ClientRMI {
     /**
      * The port for communication.
      */
-    private final int PORT = 1099;
+    private static final int PORT = 1099;
 
     /**
      * The IP address.
      */
-    private final String HOST="127.0.0.1";
+    private static final String HOST="127.0.0.1";
 
     /**
      * The name of the RMI object.
@@ -32,7 +32,6 @@ public class ClientRMI {
      * @throws NotBoundException
      */
     public GameManagerRemote connect() throws RemoteException, NotBoundException {
-        System.out.println("CLIENT: mi connetto al registro:");
         //scarico il registro dal server
         Registry registry = LocateRegistry.getRegistry(HOST,PORT);
         //cerco nel registro remoto l'oggetto che ha un certo nome

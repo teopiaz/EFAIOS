@@ -21,6 +21,9 @@ public class MakeNoise extends Action {
      */
     Event e;
     
+    public static final String POSITION = "position";
+
+    
     /**
      * @param gc The game controller.
      */
@@ -37,8 +40,8 @@ public class MakeNoise extends Action {
     @Override
     public Event execute() {
         Coordinate position;
-        if(e.getArgs().containsKey("position")){
-            position = Coordinate.getByLabel(e.getArgs().get("position"));
+        if(e.getArgs().containsKey(POSITION)){
+            position = Coordinate.getByLabel(e.getArgs().get(POSITION));
         }else{
          position = getCurrentPlayerController().getPlayerPosition();
         }
@@ -49,13 +52,13 @@ public class MakeNoise extends Action {
         retValues = e.getRetValues();
         }
         retValues.put("noise", Event.TRUE);
-        retValues.put("position", position.toString());
+        retValues.put(POSITION, position.toString());
         e = new Event(e, retValues);
         String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
         Map<String,String> retPub = new HashMap<String, String>();
         retPub.put("player", currentPlayerNumber);
         retPub.put("noise", Event.TRUE);
-        retPub.put("position", position.toString());
+        retPub.put(POSITION, position.toString());
         Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
         Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
         return e;

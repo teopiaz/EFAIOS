@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR
@@ -66,7 +68,7 @@ public class SocketCommunicator implements Communicator {
         try {
             socket.close();
         } catch (IOException e) {
-            System.out.println("IO error on socket " + e.getMessage());
+            Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "IO error on socket ", e);
         } finally {
             socket = null;
         }

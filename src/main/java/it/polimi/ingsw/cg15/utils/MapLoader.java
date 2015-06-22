@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,18 +28,16 @@ public class MapLoader {
     /**
      * List of maps already created.
      */
-    private static final ArrayList<String> localMapList = new ArrayList<String>() ;
+    private static final List<String> LOCALMAPLIST = new ArrayList<String>() ;
     
-    static{
-        localMapList.add("galvani"); 
-        localMapList.add("galilei"); 
-        localMapList.add("fermi"); 
-    }
 
     /**
      * The constructor.
      */
     private MapLoader() {
+        LOCALMAPLIST.add("galvani"); 
+        LOCALMAPLIST.add("galilei"); 
+        LOCALMAPLIST.add("fermi"); 
     }
     
     /**
@@ -53,7 +52,7 @@ public class MapLoader {
             return false;
         }
         String fName ="maps/"+ mapName + ".txt";
-        if(localMapList.contains(mapName)){
+        if(LOCALMAPLIST.contains(mapName)){
             fName =mapName + ".txt";
             fin = MapLoader.class.getClassLoader().getResourceAsStream(fName);
             if (fin == null) {
@@ -75,32 +74,8 @@ public class MapLoader {
             line = reader.readLine();
         } catch (IOException e1) {
             Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "IO exception", e1);
-            e1.printStackTrace();
         }
-        while (line != null) {
-            String[] splitted = line.split(",");
-            int c = Integer.valueOf(splitted[1]);
-            int r = Integer.valueOf(splitted[0]);
-            int type = Integer.valueOf(splitted[2]);
-            if (type!=0) {
-                Coordinate coord = new Coordinate(r, c);
-                field.addCell(coord, Sector.valueOf(type));
-                if(type==3){
-                    field.addHatchToList(coord);
-                }
-                if(type==4){
-                    field.setHumanStartingPosition(field.getCell(coord));
-                }
-                if(type==5){
-                    field.setAlienStartingPosition(field.getCell(coord));
-                }   
-            }
-            try {
-                line = reader.readLine();
-            } catch (IOException e1) {
-                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad readline IOException", e1);
-            }
-        }
+        splitLineAndAdd(field,line, reader);
         try {
             reader.close();
         } catch (IOException e) {
@@ -109,14 +84,49 @@ public class MapLoader {
         return true;
     }
 
+    private static void splitLineAndAdd(Field field, String lineArg, BufferedReader reader ) {
+        String line = lineArg;
+        while (line != null) {
+            String[] splitted = line.split(",");
+            int c = Integer.valueOf(splitted[1]);
+            int r = Integer.valueOf(splitted[0]);
+            int type = Integer.valueOf(splitted[2]);
+                addToField(field,r,c,type);
+            try {
+                line = reader.readLine();
+            } catch (IOException e1) {
+                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "MapLoad readline IOException", e1);
+            }
+        }
+        
+    }
+
+    private static void addToField(Field field, int r, int c, int type) {
+        if (type!=0) {
+            Coordinate coord = new Coordinate(r, c);
+            field.addCell(coord, Sector.valueOf(type));
+            if(type==3){
+                field.addHatchToList(coord);
+            }
+            if(type==4){
+                field.setHumanStartingPosition(field.getCell(coord));
+            }
+            if(type==5){
+                field.setAlienStartingPosition(field.getCell(coord));
+            }   
+        }
+        
+    }
+
     /**
      * Save a map.
      * @param field The field.
      * @param mapName The name of the map.
      */
-    public static void saveMap(Field field,String mapName) {
+    public static void saveMap(Field field,String strMapName) {
         FileOutputStream fop = null;
         File file;
+        String mapName = strMapName;
         if(mapName==""){
             mapName="map";
         }

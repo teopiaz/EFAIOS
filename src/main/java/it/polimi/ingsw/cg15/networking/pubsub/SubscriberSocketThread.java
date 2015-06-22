@@ -1,8 +1,6 @@
 package it.polimi.ingsw.cg15.networking.pubsub;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
-import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
-import it.polimi.ingsw.cg15.networking.Event;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 
 import java.io.BufferedReader;
@@ -12,7 +10,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Observable;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,12 +37,12 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     /**
      * The IP address.
      */
-    private final String address = "localhost";
+    private static final String address = "localhost";
 
     /**
      * The port for communication.
      */
-    private final int port = 7331;
+    private static final int port = 7331;
 
     /**
      * @param topic The topic to subscribe to.
@@ -74,8 +71,6 @@ public class SubscriberSocketThread extends Observable implements Runnable {
             }
         }
     }
-
-    // TODO: pulire sta cosa! Cioè?
 
     /**
      * @param msg The message to be managed.
@@ -125,7 +120,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     /**
      * Close the communications.
      */
-    private void close() {
+    public void close() {
         try {
             subSocket.close();
         } catch (Exception e) {

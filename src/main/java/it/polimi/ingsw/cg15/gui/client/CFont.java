@@ -1,17 +1,19 @@
 package it.polimi.ingsw.cg15.gui.client;
 
+import it.polimi.ingsw.cg15.NetworkHelper;
+
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-//TODO dobbiamo mettere per forza San Francisco come font!
-// https://github.com/supermarin/YosemiteSanFranciscoFont/archive/master.zip
-// https://github.com/supermarin/YosemiteSanFranciscoFont
+
 
 /**
- * @author MMP - LMR
+ * @author Matteo Michele Piazzolla
  * The custom font.
  */
 public class CFont {
@@ -29,7 +31,7 @@ public class CFont {
     /**
      * The font cache.
      */
-    private static ConcurrentMap<String, Font> fontCache = new ConcurrentHashMap<String, Font>();
+    private static Map<String, Font> fontCache = new ConcurrentHashMap<String, Font>();
 
     /**
      * Get the font.
@@ -52,6 +54,8 @@ public class CFont {
                     ge.registerFont(font);
                     fontCache.putIfAbsent(name, font);
                 } catch (Exception ex) {
+                    Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "Exception", ex);
+
                     font = SERIF_FONT;
                 }
             }

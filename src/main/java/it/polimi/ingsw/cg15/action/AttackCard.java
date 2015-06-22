@@ -41,16 +41,12 @@ public class AttackCard extends Action {
     public Event execute() {
         Map<String,String> retValues = e.getRetValues();
         PlayerController pc = getCurrentPlayerController();
-        if(!pc.canUseCard()){
-            retValues.put("return", Event.FALSE);
-            retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
-            return new Event(e, retValues);
+        
+        Event checkCardEvent = checkCardUse(e,retValues);
+        if(checkCardEvent!=null){
+            return checkCardEvent;
         }
-        if(pc.itemCardUsed()){
-            retValues.put("return", Event.FALSE);
-            retValues.put(Event.ERROR,"carta già usata in questo turno");
-            return new Event(e, retValues);
-        }
+        
         if(pc.hasCard(ItemCard.ITEM_ATTACK)){
             pc.removeCard(ItemCard.ITEM_ATTACK);
             pc.setItemUsed();
@@ -67,7 +63,7 @@ public class AttackCard extends Action {
             
             return attackEvent;
         }
-        retValues.put("return", Event.FALSE);
+        retValues.put(Event.RETURN, Event.FALSE);
         retValues.put(Event.ERROR,"carta non posseduta");
         return new Event(e, retValues);
         }

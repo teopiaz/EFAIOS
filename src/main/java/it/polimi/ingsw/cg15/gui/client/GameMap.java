@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-//TODO INUTILE DA ELIMINARE
 
 /**
  * @author MMP - LMR

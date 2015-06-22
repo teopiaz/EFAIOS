@@ -1,7 +1,7 @@
 package it.polimi.ingsw.cg15;
 
 import it.polimi.ingsw.cg15.gui.client.ClientGameGUI;
-import it.polimi.ingsw.cg15.gui.client.ClienLobbyGUI;
+import it.polimi.ingsw.cg15.gui.client.ClientLobbyGUI;
 import it.polimi.ingsw.cg15.gui.client.TVeffect;
 
 import java.awt.EventQueue;
@@ -28,16 +28,17 @@ public class MainClientGUI {
      * @throws NotBoundException
      */
     public static void main(String[] args) throws RemoteException, MalformedURLException,  AlreadyBoundException, NotBoundException {
-        boolean intro = false;
+        boolean intro = true;
         NetworkHelper netHelper = NetworkHelper.getClientSocket("localhost", 1337);
         Runnable clientTaskGUI = new ClientGameGUI(netHelper);
-        Runnable taskLobby = new ClienLobbyGUI(netHelper, clientTaskGUI);
+        Runnable taskLobby = new ClientLobbyGUI(netHelper, clientTaskGUI);
         EventQueue.invokeLater(clientTaskGUI);
         EventQueue.invokeLater(taskLobby);
         if (intro) {
-            new TVeffect(taskLobby);
+            @SuppressWarnings("unused")
+            TVeffect tvEffect = new TVeffect(taskLobby);
         } else {
-            ((ClienLobbyGUI) taskLobby).showGUI();
+            ((ClientLobbyGUI) taskLobby).showGUI();
         }
     }
 

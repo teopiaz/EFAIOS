@@ -18,10 +18,6 @@ public class NoiseGreen extends Action {
      */
     Event e;
 
-    /**
-     * The icon of the item present in the sector card.
-     * TODO questo da dove esce?
-     */
 
     /**
      * @param gc The game controller.

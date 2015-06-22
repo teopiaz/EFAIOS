@@ -1,7 +1,6 @@
 package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
-import it.polimi.ingsw.cg15.cli.client.ClientGameCLI;
 import it.polimi.ingsw.cg15.gui.ViewClientInterface;
 import it.polimi.ingsw.cg15.networking.Event;
 
@@ -84,14 +83,13 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     @Override
     public void run() {
         frame.setLocationRelativeTo(null);
-        // frame.setVisible(true);
     }
 
     /**
      * The constructor.
      * @param netHelper The network helper.
      */
-    public ClientGameGUI(NetworkHelper netHelper) {
+    public ClientGameGUI(NetworkHelper netHelper){
         this.netHelper = netHelper;
         netHelper.registerGui(this);
         prepareFrame();
@@ -160,7 +158,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (spotlightEnable == true) {
+                if (spotlightEnable) {
                     spotlightLayerUI.enableSpot();
                     spotlightEnable = false;
                 } else {
@@ -221,8 +219,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 board = map.getBoard();
                 FileOutputStream fop = null;
                 File file;
-                String content = "";// ="version,0.1"+"\n"+"mapname,prova"+"\n"+
-                // "row,column,sector value,\n";
+                String content = "";
                 String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name to save");
                 if (mapName == "") {
                     mapName = "map";
@@ -308,7 +305,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      */
     @Override
     public void stampa(String msg) {
-       /// SidePanel.getActionPanel().printMsg(msg);
+       SidePanel.getActionPanel().printMsg(msg);
     }
 
     /**
@@ -328,20 +325,20 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         SidePanel.getActionPanel().getActionsList();
         SidePanel.getCardPanel().getCardsList();
         if (e.getRetValues().containsKey("move")) {
-            String player = e.getRetValues().get("player");
+            String player = e.getRetValues().get(Event.PLAYER);
             String sector = e.getRetValues().get("move");
             addToLog("Player " + player + " has moved in: " + sector);
 
         }
         
         if (e.getRetValues().containsKey("card")) {
-            String player = e.getRetValues().get("player");
+            String player = e.getRetValues().get(Event.PLAYER);
             String card = e.getRetValues().get("card");
             addToLog("Giocatore " + player + " ha usato la carta " + card);
             
             if("spotlight".equals(card)){
             	e.getRetValues().remove("card");
-            	e.getRetValues().remove("player");
+            	e.getRetValues().remove(Event.PLAYER);
             	for (Entry<String,String> ret : e.getRetValues().entrySet()) {
                     addToLog("Giocatore " + ret.getKey() + " rivelato nel settore " + ret.getValue());
 
@@ -353,7 +350,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         
         
         if (e.getRetValues().containsKey("attack")) {
-            String playerNum = e.getRetValues().get("player");
+            String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get("attack");
             addToLog("Player " + playerNum + ": attacks in the sector: " + position);
             int count = 0;
@@ -367,18 +364,18 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
                 addToLog("No player killed.");
             }
         }
-        if (e.getRetValues().containsKey("noise")) {
-            if (e.getRetValues().get("noise").equals("true")) {
-                String playerNum = e.getRetValues().get("player");
+      
+            if (Event.TRUE.equals(e.getRetValues().get("noise")) && e.getRetValues().containsKey("noise")  ) {
+                String playerNum = e.getRetValues().get(Event.PLAYER);
                 String position = e.getRetValues().get("position");
                 addToLog("Player " + playerNum + ": make noise in sector: " + position);
             }
-        }
+        
         if (e.getRetValues().containsKey("hatch")) {
             if (e.getRetValues().get("hatch").equals("false")) {
                 addToLog(e.getRetValues().get("message"));
             } else {
-                String player = e.getRetValues().get("player");
+                String player = e.getRetValues().get(Event.PLAYER);
                 addToLog("Player" + player + " has drawn a hatch card: "
                         + e.getRetValues().get("hatchcard"));
             }
@@ -390,7 +387,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * @see it.polimi.ingsw.cg15.gui.ViewClientInterface#chat(it.polimi.ingsw.cg15.networking.Event)
      */
     public void chat(Event e) {
-        String message = "[Player " + e.getRetValues().get("player") + "]" + " "+ e.getRetValues().get("message");
+        String message = "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get("message");
         SidePanel.getChatPanel().addToChat(message);
     }
 
@@ -411,7 +408,8 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         playerNumber = netHelper.getPlayerNumber();
         
         String position = netHelper.getPlayerPosition();
-        SidePanel.getMainPanel().getMapPanel().setPosition(position);
+        SidePanel.getMainPanel();
+        ClientGameGUI.getMapPanel().setPosition(position);
         
         SidePanel.getActionPanel().getActionsList();
     }
@@ -430,7 +428,8 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         SidePanel.getActionPanel().getActionsList();
         SidePanel.getCardPanel().getCardsList();
         String position = netHelper.getPlayerPosition();
-        SidePanel.getMainPanel().getMapPanel().setPosition(position);
+        SidePanel.getMainPanel();
+        ClientGameGUI.getMapPanel().setPosition(position);
         
     }
 

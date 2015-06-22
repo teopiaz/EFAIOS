@@ -5,6 +5,5 @@ import java.rmi.RemoteException;
 
 public interface BrokerRMIInterface extends Remote {
 
-	public void subscribe(String topic, SubscriberRMIInterface r) throws RemoteException;
-	
+    public void subscribe(String topic, SubscriberRMIInterface r) throws RemoteException;
 }

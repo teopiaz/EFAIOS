@@ -2,13 +2,9 @@ package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.Event;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +17,18 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-//TODO c'è un errore nel nome della classe manca una T!
 
 /**
  * @author MMP - LMR
  * The client lobby GUI.
  */
-public class ClienLobbyGUI implements Runnable{
+public class ClientLobbyGUI implements Runnable{
 
 
     JFrame frame;
@@ -73,7 +67,7 @@ public class ClienLobbyGUI implements Runnable{
      * @param networkHelper The network helper.
      * @param clientTaskGUI The tasks for the client GUI.
      */
-    public ClienLobbyGUI(final NetworkHelper networkHelper, Runnable clientTaskGUI){
+    public ClientLobbyGUI(final NetworkHelper networkHelper, Runnable clientTaskGUI){
         
         this.netHelper=networkHelper;
         this.gui = (ClientGameGUI)clientTaskGUI;
@@ -140,7 +134,6 @@ public class ClienLobbyGUI implements Runnable{
             
         });
 
-        JLabel lblSock = new JLabel("Socket");
         ButtonGroup radioGroup = new ButtonGroup();
         JRadioButton radioSock = new JRadioButton("Socket");
         JRadioButton radioRMI = new JRadioButton("RMI");
@@ -168,13 +161,7 @@ public class ClienLobbyGUI implements Runnable{
                 try {
                     NetworkHelper.getClientRMI();
                 } catch (RemoteException e1) {
-                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Error in the remote comunication", e1);
-                } catch (MalformedURLException e1) {
-                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Malformed URL exception", e1);
-                } catch (AlreadyBoundException e1) {
-                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Already Bound Exception", e1);
-                } catch (NotBoundException e1) {
-                    Logger.getLogger(ClienLobbyGUI.class.getName()).log(Level.SEVERE, "Not bound exception", e1);
+                    Logger.getLogger(ClientLobbyGUI.class.getName()).log(Level.SEVERE, "Error in the remote comunication", e1);
                 }
             }
             
@@ -207,7 +194,8 @@ public class ClienLobbyGUI implements Runnable{
      */
     @Override
     public void run() {
-        // TODO Auto-generated method stub
+        Logger.getLogger(ClientLobbyGUI.class.getName()).log(Level.INFO, "Client Lobby Gui");
+
     }
 
     /**
@@ -227,6 +215,11 @@ public class ClienLobbyGUI implements Runnable{
      * Table with the list of games.
      */
     public class MyTableModel extends AbstractTableModel {
+
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 341537634814025241L;
 
         /**
          * Name of columns.
@@ -269,9 +262,7 @@ public class ClienLobbyGUI implements Runnable{
             return columnNames[col];
         }
 
-        /**
-         * TODO cosa faccio?
-         */
+
         @Override
         public Class<?> getColumnClass(int columnIndex) {
             return String.class;

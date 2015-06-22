@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class BrokerSocketThread extends Thread {
     /**
      * A queue that contains the messages specific to each subscriber
      */
-    private ConcurrentLinkedQueue<String> buffer;
+    private Queue<String> buffer;
 
     /**
      * A string representing the topic.
@@ -87,7 +88,7 @@ public class BrokerSocketThread extends Thread {
                         buffer.wait();
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Logger.getLogger(BrokerSocketThread.class.getName()).log(Level.SEVERE, "InterruptedException", e);
                 }
             }
         }
@@ -122,6 +123,8 @@ public class BrokerSocketThread extends Thread {
         try {
             socket.close();
         } catch (IOException e) {
+            Logger.getLogger(BrokerSocketThread.class.getName()).log(Level.SEVERE, "IOException in BrokerSocketThread", e);
+
         } finally {
             out = null;
             socket = null;
