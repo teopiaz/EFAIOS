@@ -68,8 +68,7 @@ public class SectorDeckTest {
         assertEquals(1, sectorDeckTest.getNumberOfCard());
         sectorDeckTest.drawCard();
         
-        
-        sectorDeckTest.removeCard(SectorCard.SECTOR_GREEN_ITEM);
+        sectorDeckTest.getSectorDeck().remove(SectorCard.SECTOR_GREEN_ITEM);
         assertEquals(0, sectorDeckTest.getNumberOfCard());
         
         sectorDeckTest.drawCard();
