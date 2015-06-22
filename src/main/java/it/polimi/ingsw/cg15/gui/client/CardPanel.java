@@ -52,10 +52,24 @@ public class CardPanel extends JPanel{
      */
     Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
 
-    private final static int SPOT_STATE = 3;
-    private final static int WAITING_STATE = 2;
-    private final static int SELECT_STATE = 1;
+    /**
+     * Constant for the spotlight state.
+     */
+    private static final int SPOT_STATE = 3;
+    
+    /**
+     * Constant for the waiting state.
+     */
+    private static final int WAITING_STATE = 2;
+    
+    /**
+     * Constant for the select state.
+     */
+    private static final int SELECT_STATE = 1;
 
+    /**
+     * Value for the spotlight finite state machine.
+     */
     private static int state =WAITING_STATE;
 
 
