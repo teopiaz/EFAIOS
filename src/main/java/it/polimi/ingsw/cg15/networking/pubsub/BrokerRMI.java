@@ -8,10 +8,21 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author MMP - LMR
+ * The RMI broker.
+ */
 public class BrokerRMI implements BrokerRMIInterface {
 
+    /**
+     * The topic map.
+     */
     private static Map<String, List<SubscriberRMIInterface>> topicMap = new HashMap<String, List<SubscriberRMIInterface>>();
 
+    /**
+     * The constructor.
+     * @throws RemoteException
+     */
     public BrokerRMI() throws RemoteException {
 
     }
@@ -53,6 +64,11 @@ public class BrokerRMI implements BrokerRMIInterface {
         addToMap(topic, r);
     }
 
+    /**
+     * Add a topic to a subscriber.
+     * @param topic The topic to add.
+     * @param subscriber The subscriber.
+     */
     private void addToMap(String topic, SubscriberRMIInterface subscriber) {
         if (!topicMap.containsKey(topic)) {
             List<SubscriberRMIInterface> subThreads = new ArrayList<SubscriberRMIInterface>();
