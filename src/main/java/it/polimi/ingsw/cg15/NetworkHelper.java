@@ -684,7 +684,7 @@ public class NetworkHelper implements Observer {
             outputStream.flush();
             outputStream.close();
         } catch (IOException e) {
-            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in saveTokenToFile", e);
         } finally {
             try {
                 if (outputStream != null) {
@@ -692,7 +692,7 @@ public class NetworkHelper implements Observer {
                 }
             } catch (IOException e) {
                 Logger.getLogger(NetworkHelper.class.getName())
-                        .log(Level.SEVERE, "IO Exception", e);
+                        .log(Level.SEVERE, "IO Exception in saveTokenToFile2", e);
             }
         }
     }
@@ -719,7 +719,7 @@ public class NetworkHelper implements Observer {
         try {
             line = reader.readLine();
         } catch (IOException e1) {
-            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e1);
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile", e1);
         }
         while (line != null) {
             String[] splitted = line.split(",");
@@ -729,14 +729,14 @@ public class NetworkHelper implements Observer {
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
-                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception",
+                Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile read",
                         e1);
             }
         }
         try {
             reader.close();
         } catch (IOException e) {
-            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception", e);
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile close", e);
         }
         // TODO: sistemare il resume del gioco (stesso file)
         /*

@@ -88,7 +88,7 @@ public class SidePanel extends JPanel {
             list.setBorder(BorderFactory.createLineBorder(Color.black));
             JScrollPane scrollPane = new JScrollPane(list);
             scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            list.setFont(CFont.getFont("TopazPlus"));
+            list.setFont(CFont.getFont(CFont.TOPAZPLUS));
 
             Border emptyBorder = BorderFactory.createEmptyBorder();
             scrollPane.setBorder(emptyBorder);
@@ -126,7 +126,7 @@ public class SidePanel extends JPanel {
             textArea.setWrapStyleWord(true);
             textArea.setEditable(false);
             scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            textArea.setFont(CFont.getFont("TopazPlus"));
+            textArea.setFont(CFont.getFont(CFont.TOPAZPLUS));
 
             textArea.setBackground(Color.BLACK);
             textArea.setForeground(Color.GREEN);
@@ -135,7 +135,7 @@ public class SidePanel extends JPanel {
             textArea.setText("");
 
             final JTextField userInputField = new JTextField(30);
-            userInputField.setFont(CFont.getFont("TopazPlus"));
+            userInputField.setFont(CFont.getFont(CFont.TOPAZPLUS));
             userInputField.setMaximumSize(new Dimension(350, 50));
 
             userInputField.addActionListener(new ActionListener() {

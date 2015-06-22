@@ -74,7 +74,15 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * The Network Helper.
      */
     NetworkHelper netHelper;
-
+    
+    /**
+     * Player constant string
+     */
+    public static final String PLAYER = "Player ";
+    
+    /**
+     * the number of the player
+     */
     int playerNumber;
 
     /**
@@ -327,7 +335,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         if (e.getRetValues().containsKey("move")) {
             String player = e.getRetValues().get(Event.PLAYER);
             String sector = e.getRetValues().get("move");
-            addToLog("Player " + player + " has moved in: " + sector);
+            addToLog(PLAYER + player + " has moved in: " + sector);
 
         }
 
@@ -352,11 +360,11 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         if (e.getRetValues().containsKey("attack")) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get("attack");
-            addToLog("Player " + playerNum + ": attacks in the sector: " + position);
+            addToLog(PLAYER + playerNum + ": attacks in the sector: " + position);
             int count = 0;
             for (Entry<String, String> ret : e.getRetValues().entrySet()) {
                 if (ret.getValue().equals("killed")) {
-                    addToLog("Player " + ret.getKey() + " killed by the player: " + playerNum);
+                    addToLog(PLAYER + ret.getKey() + " killed by the player: " + playerNum);
                     count++;
                 }
             }
@@ -368,7 +376,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         if (Event.TRUE.equals(e.getRetValues().get("noise")) && e.getRetValues().containsKey("noise")  ) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get("position");
-            addToLog("Player " + playerNum + ": make noise in sector: " + position);
+            addToLog(PLAYER + playerNum + ": make noise in sector: " + position);
         }
 
         if (e.getRetValues().containsKey("hatch")) {
@@ -448,7 +456,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     public void endGame(Event e) {
         boolean winner = false;
         for (Entry<String, String> ele : e.getRetValues().entrySet()) {
-            addToLog("Player " + ele.getKey() + ": " + ele.getValue());
+            addToLog(PLAYER + ele.getKey() + ": " + ele.getValue());
             if(ele.getKey().equals(Integer.toString(playerNumber)) && ele.getValue().equals("win")){
                 winner=true;
             }

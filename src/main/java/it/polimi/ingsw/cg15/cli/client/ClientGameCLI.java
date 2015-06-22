@@ -87,6 +87,11 @@ public class ClientGameCLI implements ViewClientInterface {
      * A list of cards.
      */
     private List<String> cardList = new ArrayList<String>();
+    
+    /**
+     * Player constant string
+     */
+    public static final String PLAYER = "Player ";
 
     /**
      * @param ctoken The client token.
@@ -428,7 +433,7 @@ public class ClientGameCLI implements ViewClientInterface {
         if (e.getRetValues().containsKey("move")) {
             String player = e.getRetValues().get(Event.PLAYER);
             String sector = e.getRetValues().get("move");
-            printToScreen("Player " + player + " has moved in: " + sector);
+            printToScreen(PLAYER + player + " has moved in: " + sector);
         }
 
         if (e.getRetValues().containsKey("card")) {
@@ -439,11 +444,11 @@ public class ClientGameCLI implements ViewClientInterface {
         if (e.getRetValues().containsKey(Event.ATTACK)) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get(Event.ATTACK);
-            printToScreen("Player " + playerNum + ": attacks in the sector: " + position);
+            printToScreen(PLAYER + playerNum + ": attacks in the sector: " + position);
             int count = 0;
             for (Entry<String, String> ret : e.getRetValues().entrySet()) {
                 if ( "killed".equals(ret.getValue())) {
-                    printToScreen("Player " + ret.getKey() + " was killed by the player " + playerNum);
+                    printToScreen(PLAYER + ret.getKey() + " was killed by the player " + playerNum);
                     count++;
                 }
             }
@@ -453,7 +458,7 @@ public class ClientGameCLI implements ViewClientInterface {
         if ( e.getRetValues().containsKey("noise") &&  Event.TRUE.equals(e.getRetValues().get("noise"))   ) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get("position");
-            printToScreen("Player " + playerNum + ": noise in the sector " + position);
+            printToScreen(PLAYER + playerNum + ": noise in the sector " + position);
         }
 
         if (e.getRetValues().containsKey("hatch")) {
@@ -499,7 +504,7 @@ public class ClientGameCLI implements ViewClientInterface {
 
         boolean winner = false;
         for (Entry<String, String> ele : e.getRetValues().entrySet()) {
-            printToScreen("Player " + ele.getKey() + ": " + ele.getValue());
+            printToScreen(PLAYER + ele.getKey() + ": " + ele.getValue());
             if(ele.getKey().equals(Integer.toString(playerNumber)) && "win".equals(ele.getValue())){
                 winner=true;
             }

@@ -29,6 +29,12 @@ public class CFont {
     private static final Font SERIF_FONT = new Font("serif", Font.PLAIN, 14);
     
     /**
+     * Topaz plus string constant
+     */
+    public static final String TOPAZPLUS = "TopazPlus";
+
+    
+    /**
      * The font cache.
      */
     private static Map<String, Font> fontCache = new ConcurrentHashMap<String, Font>();
