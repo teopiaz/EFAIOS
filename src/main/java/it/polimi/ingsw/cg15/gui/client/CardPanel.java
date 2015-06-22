@@ -195,30 +195,34 @@ public class CardPanel extends JPanel{
                 switch(state){
 
                 case SELECT_STATE:
-
                     SidePanel.getMainPanel().getSpotLayer().enableSpot();
                     state=SPOT_STATE;
                     break;
 
                 case SPOT_STATE:
-
-                    if(SidePanel.getMainPanel().getMapPanel().isSelected()){
-                        String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
-                        networkHelper.spotlight(target);
-                        SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
-                        state =WAITING_STATE;
-                        SidePanel.getMainPanel().getSpotLayer().disableSpot();
-
-                    }else{
-                        SidePanel.getActionPanel().printMsg("Seleziona un settore");
-                    }
-                    revalidate();
+                    spotStateSwitchCase();
                     
                 default:
                     revalidate();
 
 
                 }
+            }
+
+            private void spotStateSwitchCase() {
+
+                if(SidePanel.getMainPanel().getMapPanel().isSelected()){
+                    String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
+                    networkHelper.spotlight(target);
+                    SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+                    state =WAITING_STATE;
+                    SidePanel.getMainPanel().getSpotLayer().disableSpot();
+
+                }else{
+                    SidePanel.getActionPanel().printMsg("Seleziona un settore");
+                }
+                revalidate();
+                
             }
         });
 

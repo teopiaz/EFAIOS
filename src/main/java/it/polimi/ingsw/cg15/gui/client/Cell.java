@@ -118,8 +118,9 @@ public class Cell {
 
 
 
-    public static int getRowByLabel(String str) {
+    public static int getRowByLabel(String strArg) {
         int r = 1;
+        String str=strArg;
         str=str.toUpperCase();
         if(str.matches("^[A-Z][0-9]?[0-9]$")){
             char[] charStr = str.toCharArray();
@@ -135,8 +136,9 @@ public class Cell {
 
     }
 
-    public static int getColByLabel(String str) {
+    public static int getColByLabel(String strArg) {
         int  c = 1;
+        String str=strArg;
         str=str.toUpperCase();
         if(str.matches("^[A-Z][0-9]?[0-9]$")){
             char[] charStr = str.toCharArray();
