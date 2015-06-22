@@ -8,6 +8,10 @@ import java.security.SecureRandom;
  * The token generator for the current session.
  */
 public final class SessionTokenGenerator {
+    
+    private SessionTokenGenerator(){
+        
+    }
 
     /**
      * Generate a new random.

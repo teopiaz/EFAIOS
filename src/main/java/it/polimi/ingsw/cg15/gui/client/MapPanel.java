@@ -28,12 +28,12 @@ public class MapPanel extends JPanel {
     /**
      * The test game map.
      */
-    GameMap test = new GameMap(15,23);
+    transient GameMap test = new GameMap(15,23);
 
     /**
      * New board.
      */
-    private int[][] board = new int[23][15];
+    private transient int[][] board = new int[23][15];
 
     /**
      * Editor mode that lets you edit or create new maps.

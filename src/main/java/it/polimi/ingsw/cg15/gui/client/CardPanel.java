@@ -45,12 +45,12 @@ public class CardPanel extends JPanel{
     /**
      * The network helper instance.
      */
-    NetworkHelper networkHelper = NetworkHelper.getInstance();
+    transient NetworkHelper networkHelper = NetworkHelper.getInstance();
 
     /**
      * A table with the item card.
      */
-    Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
+    transient Map<String,JLabel> cardMap = new HashMap<String, JLabel>();
 
     /**
      * Constant for the spotlight state.

@@ -26,6 +26,12 @@ public class ImageLoader {
      */
     private static ConcurrentMap<String, BufferedImage> imageCache = new ConcurrentHashMap<String, BufferedImage>();
 
+    
+    private ImageLoader(){
+        
+    }
+    
+    
     /**
      * @param name The name of the image.
      * @return The image.

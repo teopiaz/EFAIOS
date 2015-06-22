@@ -21,6 +21,11 @@ import javax.swing.SwingUtilities;
  */
 public class MainServer {
 
+    
+    private MainServer(){
+        
+    }
+    
     /**
      * The main method.
      * @param args
@@ -29,7 +34,7 @@ public class MainServer {
      */
     public static void main(String[] args) throws IOException, AlreadyBoundException {
         ServerGUI serverGUI = new ServerGUI();
-        ServerLogger logger = new ServerLogger(serverGUI);
+        ServerLogger logger = ServerLogger.getServerLogger(serverGUI);
         Server serverSocket = new ServerSock();
         Server serverRMI = new ServerRMI();
         Broker broker = Broker.getInstance();

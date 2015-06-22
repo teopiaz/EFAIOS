@@ -18,6 +18,10 @@ public class HexSprite {
     private static BufferedImage sectorHumanImage = null;
     private static BufferedImage sectorHatchImage = null;
 
+    private HexSprite(){
+        
+    }
+    
     public static void setHeight(int height) {
         h = height; // h = basic dimension: height (distance between two adj
         // centresr aka size)
@@ -56,7 +60,6 @@ public class HexSprite {
         return new Polygon(cx, cy, 6);
     }
     
-    //                HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],position,selectedPosition);
 
 
     public static void fillHex(int i, int j, String label, Graphics2D g2, int n,Point position, Point selectedPosition){

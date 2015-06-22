@@ -13,14 +13,23 @@ public class ServerLogger {
      * GUI of server.
      */
     private static ServerGUI gui;
+    
+
+    
      
     /**
      * The constructor.
      * @param gui The server GUI.
      */
-    public ServerLogger(ServerGUI gui){
+    private ServerLogger(ServerGUI gui){
         ServerLogger.gui=gui;
     }
+    
+    public static ServerLogger getServerLogger(ServerGUI gui){
+        return new ServerLogger(gui);
+    }
+    
+    
     
     /**
      * @param message The message to send as log.

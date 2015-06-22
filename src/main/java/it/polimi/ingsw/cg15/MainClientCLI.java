@@ -25,6 +25,11 @@ public class MainClientCLI {
     public static void join(){
         joined = true;
     }
+    
+    
+    private MainClientCLI(){
+        
+    }
 
     /**
      * The main of CLI.

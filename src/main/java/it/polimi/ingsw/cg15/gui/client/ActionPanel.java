@@ -30,8 +30,8 @@ public class ActionPanel extends JPanel {
      */
     private static final long serialVersionUID = -8240130326507614510L;
     JLabel actionLabel;
-    NetworkHelper networkHelper = NetworkHelper.getInstance();
-    Map<String,JButton> buttonMap = new HashMap<String,JButton>();
+    transient NetworkHelper networkHelper = NetworkHelper.getInstance();
+    transient Map<String,JButton> buttonMap = new HashMap<String,JButton>();
     static int a = 0;
 
 

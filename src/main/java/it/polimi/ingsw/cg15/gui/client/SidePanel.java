@@ -115,7 +115,7 @@ public class SidePanel extends JPanel {
          * 
          */
         private static final long serialVersionUID = 1L;
-        private NetworkHelper netHelper;
+        private transient NetworkHelper netHelper;
         final JTextArea textArea;
 
         public ChatPanel() {

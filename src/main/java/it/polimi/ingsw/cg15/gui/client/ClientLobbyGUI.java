@@ -229,7 +229,7 @@ public class ClientLobbyGUI implements Runnable{
         /**
          * Rows of table.
          */
-        private List<String[]> rows;
+        private transient List<String[]> rows;
 
         /**
          * The constructor.
