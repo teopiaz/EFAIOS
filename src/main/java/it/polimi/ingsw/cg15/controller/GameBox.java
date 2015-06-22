@@ -11,13 +11,6 @@ import java.util.Map;
  */
 public class GameBox {
 
-    /** 
-     * A method that transforms to a string the game box information.
-     */
-    @Override
-    public String toString() {
-        return "GameBox [gameState=" + gameState + ", gameToken=" + gameToken + ", players=" + players + "]";
-    }
 
     /**
      * The Game State.
@@ -87,6 +80,15 @@ public class GameBox {
      */
     public void setToRemove(){
         this.ended=true;
+    }
+    
+
+    /** 
+     * A method that transforms to a string the game box information.
+     */
+    @Override
+    public String toString() {
+        return "GameBox [gameState=" + gameState + ", gameToken=" + gameToken + ", players=" + players + "]";
     }
 
 }

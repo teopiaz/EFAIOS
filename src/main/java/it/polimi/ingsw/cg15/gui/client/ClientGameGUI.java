@@ -78,14 +78,6 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
     int playerNumber;
 
     /**
-     * Run the Client Game GUI.
-     */
-    @Override
-    public void run() {
-        frame.setLocationRelativeTo(null);
-    }
-
-    /**
      * The constructor.
      * @param netHelper The network helper.
      */
@@ -93,6 +85,14 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         this.netHelper = netHelper;
         netHelper.registerGui(this);
         prepareFrame();
+    }
+    
+    /**
+     * Run the Client Game GUI.
+     */
+    @Override
+    public void run() {
+        frame.setLocationRelativeTo(null);
     }
 
     /**
