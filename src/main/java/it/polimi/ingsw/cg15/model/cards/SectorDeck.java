@@ -14,7 +14,7 @@ public class SectorDeck {
      * The main deck of cards, the one where fishing for players. It is identified by the number 1.
      */
     public static final int MAIN_DECK = 1;
-    
+
     /**
      * The discard deck because already used. It can be recovered via the selector value of 2.
      */
@@ -24,7 +24,7 @@ public class SectorDeck {
      * This is the deck of cards that is sector that are in use that have yet to be drawn.
      */
     private List<SectorCard> sectorDeckMain = new ArrayList<SectorCard>();
-    
+
     /**
      * This is the deck of cards that have been discarded by the players. 
      * They are those that will be used to create a new deck in case the cards in the deck main runs out.
@@ -77,7 +77,13 @@ public class SectorDeck {
     public boolean insertCard(SectorCard card) {
         return sectorDeckMain.add(card);
     }
+
     
+    public boolean removeCard(SectorCard card) {
+        return sectorDeckMain.remove(card);
+    }
+
+
     /**
      * Method that shuffles the cards.
      */
@@ -89,11 +95,9 @@ public class SectorDeck {
      * This function allows you to re-create the card deck if the current deck is empty.
      */
     private void swapDeck() {
-        if (sectorDeckMain.isEmpty()) {
             sectorDeckMain = sectorDeckDiscarded;
             sectorDeckDiscarded = new ArrayList<SectorCard>();
             shuffleDeck();
-        }
     }
 
 }

@@ -102,6 +102,7 @@ public class TeleportTest {
         args.put("itemcard", "teleport");
         teleportEvent = new Event(currentPlayerToken, "useitem", args);
         result = gm.dispatchMessage(teleportEvent);
+        System.out.println(result);
 
         assertTrue(result.getRetValues().containsKey("error"));
 

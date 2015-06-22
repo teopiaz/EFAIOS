@@ -66,5 +66,13 @@ public class GameInstance {
         }
         return false;
     }
+    
+    public void removeAllGames(){
+        for (GameState gameState : instanceList) {
+            gameState = null;
+            
+        }
+           instanceList.clear();
+    }
 
 }
