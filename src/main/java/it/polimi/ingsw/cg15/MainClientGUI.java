@@ -35,8 +35,8 @@ public class MainClientGUI {
         EventQueue.invokeLater(clientTaskGUI);
         EventQueue.invokeLater(taskLobby);
         if (intro) {
-            @SuppressWarnings("unused")
             TVeffect tvEffect = new TVeffect(taskLobby);
+            tvEffect.hashCode();
         } else {
             ((ClientLobbyGUI) taskLobby).showGUI();
         }

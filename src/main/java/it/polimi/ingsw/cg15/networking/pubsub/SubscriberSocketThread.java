@@ -37,12 +37,12 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     /**
      * The IP address.
      */
-    private static final String address = "localhost";
+    private static final String HOST = "localhost";
 
     /**
      * The port for communication.
      */
-    private static final int port = 7331;
+    private static final int PORT = 7331;
 
     /**
      * @param topic The topic to subscribe to.
@@ -103,7 +103,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
      * @throws IOException
      */
     private void subscribe(String topic) throws IOException {
-        subSocket = new Socket(address, port);
+        subSocket = new Socket(HOST, PORT);
         in = new BufferedReader(new InputStreamReader(subSocket.getInputStream()));
         out = new PrintWriter(subSocket.getOutputStream());
         send(topic);

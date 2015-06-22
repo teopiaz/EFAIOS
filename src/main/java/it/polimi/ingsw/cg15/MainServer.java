@@ -35,6 +35,7 @@ public class MainServer {
     public static void main(String[] args) throws IOException, AlreadyBoundException {
         ServerGUI serverGUI = new ServerGUI();
         ServerLogger logger = ServerLogger.getServerLogger(serverGUI);
+        logger.hashCode();
         Server serverSocket = new ServerSock();
         Server serverRMI = new ServerRMI();
         Broker broker = Broker.getInstance();

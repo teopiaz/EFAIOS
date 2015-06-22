@@ -20,7 +20,7 @@ public class ServerSock implements Server{
     /**
      * The port for communication.
      */
-    private static final int port = 1337;
+    private static final int PORT = 1337;
     
     /**
      * A variable that says if the server is started or not.
@@ -76,9 +76,9 @@ public class ServerSock implements Server{
     public void startServer() {
         synchronized (lock) {
             if (!isStarted) {
-                ServerLogger.log("Starting Socket Server on port" + port);
+                ServerLogger.log("Starting Socket Server on port" + PORT);
                 try {
-                    serverSocket = new ServerSocket(port);
+                    serverSocket = new ServerSocket(PORT);
                 } catch (IOException e) {
                     Logger.getLogger(ServerSock.class.getName()).log(Level.SEVERE, "Io Exception", e);
                 }

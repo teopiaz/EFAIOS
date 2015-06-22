@@ -21,7 +21,7 @@ public class ServerRMI implements Server {
     /**
      * The port for communication.
      */
-    private static final int port=1099;
+    private static final int PORT=1099;
     
     /**
      * A registry.
@@ -31,7 +31,7 @@ public class ServerRMI implements Server {
     /**
      * A page of the register.
      */
-    private static final String registerName = "gm";
+    private static final String REGISTERNAME = "gm";
     
     /**
      * The RMI server. Here it is created the register.
@@ -39,7 +39,7 @@ public class ServerRMI implements Server {
      * @throws AlreadyBoundException
      */
     public ServerRMI() throws RemoteException{
-        registry = LocateRegistry.createRegistry(port);
+        registry = LocateRegistry.createRegistry(PORT);
     }
     
     /**
@@ -55,7 +55,7 @@ public class ServerRMI implements Server {
         GameManagerRemote gameManagerRemote = (GameManagerRemote) UnicastRemoteObject.exportObject(gm, 0);
         //Associo l'oggetto ad una "pagina" del registro
         try {
-            registry.bind(registerName, gameManagerRemote);
+            registry.bind(REGISTERNAME, gameManagerRemote);
         } catch (AlreadyBoundException e) {
             ServerLogger.log("EXCEPTION"+e.getMessage());
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "AlreadyBoundException in ServerRMI", e);

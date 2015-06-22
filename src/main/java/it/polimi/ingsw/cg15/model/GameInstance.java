@@ -67,10 +67,6 @@ public class GameInstance {
     }
     
     public void removeAllGames(){
-        for (GameState gameState : instanceList) {
-            gameState = null;
-            
-        }
            instanceList.clear();
     }
 
