@@ -78,7 +78,7 @@ public class SubscriberSocketThread extends Observable implements Runnable {
     private void handleMessage(String msg) {
         if (msg != null) {
             setChanged();
-            notifyObservers(NetworkProxy.JSONToEvent(msg));
+            notifyObservers(NetworkProxy.jsonToEvent(msg));
         }
     }
 

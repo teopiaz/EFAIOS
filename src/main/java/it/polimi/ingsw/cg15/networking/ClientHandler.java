@@ -43,7 +43,7 @@ public class ClientHandler implements Runnable{
                 int num = inReader.read(buffer);
                 message = new String(buffer);
                 message = message.substring(0,num);
-              Event request = NetworkProxy.JSONToEvent(message);
+              Event request = NetworkProxy.jsonToEvent(message);
               ServerLogger.log("RICHIESTA: "+request.toString()+"\n");
               Event req1 = new Event(request, "");
               Event response = GameManager.getInstance().eventHandler(req1);

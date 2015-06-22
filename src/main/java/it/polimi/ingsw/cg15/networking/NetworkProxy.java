@@ -25,7 +25,7 @@ public class NetworkProxy {
      * @param s The string to transform.
      * @return The JSON message .
      */
-    public static Event JSONToEvent(String s){
+    public static Event jsonToEvent(String s){
         Event e = null ;
         Map<String, String> retValues=null;
         Map<String, String> args = null;

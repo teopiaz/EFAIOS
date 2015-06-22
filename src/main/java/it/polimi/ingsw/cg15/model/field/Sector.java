@@ -29,7 +29,9 @@ public enum Sector {
     /**
      * @param num The number of the type of sector.
      */
-    private Sector(final int num) { sectorNum = num; }
+    private Sector(final int num) { 
+        sectorNum = num; 
+    }
 
     /**
      * @param the number of the sector type.

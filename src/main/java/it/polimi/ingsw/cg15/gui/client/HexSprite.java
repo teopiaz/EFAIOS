@@ -55,10 +55,30 @@ public class HexSprite {
         cy = new int[] { y, y, y + r, y + r + r, y + r + r, y + r };
         return new Polygon(cx, cy, 6);
     }
+    
+    //                HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],position,selectedPosition);
 
-    public static void fillHex(int i, int j, String label, Graphics2D g2, int n,
-            boolean isSelected, int selectedSectorX, int selectedSectorY, boolean isStarted,
-            int posX, int posY) {
+
+    public static void fillHex(int i, int j, String label, Graphics2D g2, int n,Point position, Point selectedPosition){
+
+            
+        int posX = 0;
+        int posY = 0;
+        boolean isStarted=false;
+        if(position!=null){
+            isStarted=true;
+            posX=position.x;
+            posY=position.y;
+        }
+        boolean isSelected=false;
+        int selectedSectorX = 0;
+        int selectedSectorY =0;
+        if(selectedPosition!=null){
+            isSelected=true;
+            selectedSectorX = selectedPosition.x;
+            selectedSectorY = selectedPosition.y;
+        }
+        
         int x = i * (s + t);
         int y = j * h + (i % 2) * h / 2;
         g2.setFont(CFont.getFont("TopazPlus"));

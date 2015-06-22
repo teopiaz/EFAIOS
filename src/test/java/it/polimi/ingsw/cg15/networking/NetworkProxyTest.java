@@ -23,7 +23,7 @@ public class NetworkProxyTest {
     @Test
     public final void testParseString() {
 
-        Event e = NetworkProxy.JSONToEvent(s);
+        Event e = NetworkProxy.jsonToEvent(s);
         
         for (Entry<String, String> arg : e.getArgs().entrySet()) {
             System.out.println("\""+arg.getKey()+"\" "  + arg.getValue());
@@ -39,7 +39,7 @@ public class NetworkProxyTest {
 
         String json = NetworkProxy.eventToJSON(e);
         
-        e = NetworkProxy.JSONToEvent(json);
+        e = NetworkProxy.jsonToEvent(json);
 
         for (Entry<String, String> arg : e.getArgs().entrySet()) {
             System.out.println("\""+arg.getKey()+"\" "  + arg.getValue());

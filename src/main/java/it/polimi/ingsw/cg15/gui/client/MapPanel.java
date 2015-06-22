@@ -83,10 +83,19 @@ public class MapPanel extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
         g.drawImage(ImageLoader.load("background_map"), 0, 0, null, null);
         g2.setColor(Color.DARK_GRAY);
+        Point position = null;
+        Point selectedPosition =null;
+        if(isStarted){
+         position= new Point(posX, posY);
+        }
+        if(isSelected){
+         selectedPosition = new Point(selectedSectorX,selectedSectorY);
+        }
+        
         for (int i=0;i<23;i++) {
             for (int j=0;j<14;j++) {
                 HexSprite.drawHex(i,j,g2);
-                HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],isSelected,selectedSectorX,selectedSectorY,isStarted,posX,posY);
+                HexSprite.fillHex(i,j,test.getCell(j,i).getLabel(),g2,board[i][j],position,selectedPosition);
             }
         }
     }

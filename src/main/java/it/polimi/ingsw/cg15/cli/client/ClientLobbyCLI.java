@@ -74,30 +74,30 @@ public class ClientLobbyCLI {
                 "1)Create game"+"\n"
                         + "2)List Game"+"\n"
                         + "3)Join Game"+"\n"
-                        + "4)Exit");
+                        );
         while(scanner.hasNextLine() && !exit){
             printToScreen(
                     "1)Create game"+"\n"
                             + "2)List Game"+"\n"
                             + "3)Join Game"+"\n"
-                            + "4)Exit");
+                            );
             action  = scanner.nextLine();
             switch(action){
-            case "1" :{
+            case "1" :
                 actionCreateGame();
                 break;
-            }
-            case "2" :{
+            
+            case "2" :
                 printGameList(networkHelper.getGamesList());
                 break;
-            }
-            case "3": {
+            
+            case "3": 
                 actionJoinGame();
                 break;
-            }
-            case "4" :{
+            
+            default :
                 break;
-            }
+            
             }
         }
         scanner.close();

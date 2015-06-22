@@ -32,7 +32,7 @@ public class SubscriberRMI extends Observable implements SubscriberRMIInterface 
             @Override
             public void run() {
                 setChanged();
-                notifyObservers(NetworkProxy.JSONToEvent(msg));
+                notifyObservers(NetworkProxy.jsonToEvent(msg));
 
             }
 

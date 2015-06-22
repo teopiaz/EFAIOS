@@ -231,7 +231,7 @@ public class NetworkHelper implements Observer {
         server.send(toSend);
         String response = server.receive();
         server.close();
-        return NetworkProxy.JSONToEvent(response);
+        return NetworkProxy.jsonToEvent(response);
     }
 
     /**
