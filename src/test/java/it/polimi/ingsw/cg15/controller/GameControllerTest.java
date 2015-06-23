@@ -83,6 +83,30 @@ public class GameControllerTest {
         
     }
     
+    
+    @Test
+    public void testChat() throws RemoteException {
+        Map<String,String> args = new HashMap<String, String>();
+        args.put(Event.MESSAGE, "prova");
+        args.put(Event.PLAYER, "1");
+        Event chatEvent = new Event(currentPlayerToken, "chat", args);
+        Event response = gm.dispatchMessage(chatEvent);
+        System.out.println(response);
+        assertTrue(response.actionResult());
+        
+        args = new HashMap<String, String>();
+        args.put(Event.PLAYER, "1");
+         chatEvent = new Event(currentPlayerToken, "chat", args);
+         response = gm.dispatchMessage(chatEvent);
+        System.out.println(response);
+        assertFalse(response.actionResult());
+        
+        
+    }
+    
+    
+    
+    
 
   
     
