@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.crypto.spec.GCMParameterSpec;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -119,14 +121,20 @@ public class AttackTest {
         defense.execute();
         assertFalse(currentPlayer.getCardList().contains(ItemCard.ITEM_DEFENSE));
         
-        
-       
-     
         }
     
 
 
+        @Test 
+        public void testEvolve(){
+            currentPlayer = gs.getTurnState().getCurrentPlayer();
 
+            currentPlayer.setPlayerType(PlayerType.ALIEN);
+            GameController gc = new GameController(gb);
+            gc.getPlayerInstance(currentPlayer).evolve();
+            assertEquals(PlayerType.SUPERALIEN, currentPlayer.getPlayerType());
+            
+        }
     
     
     
