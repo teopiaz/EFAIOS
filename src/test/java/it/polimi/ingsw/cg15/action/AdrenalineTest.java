@@ -59,8 +59,6 @@ public class AdrenalineTest {
 
         Map<String, GameBox> list = gm.getGameBoxList();
         gs = list.get(gameToken).getGameState();
-        // assertTrue();
-
 
 
         Event eventoTest = new Event(ctoken1,"getplayerinfo",null);
@@ -96,11 +94,80 @@ public class AdrenalineTest {
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
         response = gm.dispatchMessage(eMove);
-        
-        System.out.println(currentPlayer.getPosition().getLabel());
-        
+                
         assertTrue(currentPlayer.getPosition().getLabel().equals("L08"));
         
     }
+    
+    @Test
+    public final void testAdrenalineForAlienPlayer() throws RemoteException {
+        //solo gli umani possono usare la carta adrenalina.
+        
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+        
+        currentPlayer.addCard(ItemCard.ITEM_ADRENALINE);
+        
+        gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
 
+        
+        args = new HashMap<String, String>();
+        args.put("itemcard", "adrenaline");
+        
+        Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
+        Event result = gm.dispatchMessage(adrenalineEvent);
+        
+        assertTrue(result.getRetValues().containsKey("error"));
+        
+    }
+
+    @Test
+    public final void testAdrenalineCardUsed2Times() throws RemoteException {
+        //Gli umani possono usare la carta solo una volta.
+        
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+        
+        currentPlayer.addCard(ItemCard.ITEM_ADRENALINE);
+        
+        gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
+        
+        args = new HashMap<String, String>();
+        args.put("itemcard", "adrenaline");
+        
+        Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
+        Event result = gm.dispatchMessage(adrenalineEvent);
+        
+        gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
+        args.put("itemcard", "adrenaline");
+        Event adrenalineEvent2 = new Event(currentPlayerToken,"useitem",args);
+        Event result2 = gm.dispatchMessage(adrenalineEvent2);
+        
+        assertTrue(result2.getRetValues().containsKey("error"));
+        
+    }
+    
+    
+    @Test
+    public final void testAdrenalineNoCardOwned() throws RemoteException {
+        //Gli umani non possono usare la carta se non la possiedono.
+        
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+                
+        gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
+        
+        args = new HashMap<String, String>();
+        args.put("itemcard", "adrenaline");
+        
+        Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
+        Event result = gm.dispatchMessage(adrenalineEvent);
+        System.out.println("ciao " + result );
+        assertTrue(result.getRetValues().containsKey("error"));
+
+    }
+    
 }
