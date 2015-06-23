@@ -27,12 +27,10 @@ import it.polimi.ingsw.cg15.utils.TimerTurn;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.logging.Level;
@@ -190,7 +188,7 @@ public class GameController {
         TimerTurn timerTurnTask = new TimerTurn(this);
         gameState.getTurnState().setTurnTimer(timerTurnTask);
         Timer timeout = new Timer();
-        timeout.schedule(timerTurnTask,60*1000);
+        timeout.schedule(timerTurnTask,60*1000L);
          return timerTurnTask;   
     }
 

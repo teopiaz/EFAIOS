@@ -8,7 +8,6 @@ import it.polimi.ingsw.cg15.model.ActionEnum;
 import it.polimi.ingsw.cg15.model.GameInstance;
 import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
-import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
@@ -16,10 +15,7 @@ import it.polimi.ingsw.cg15.networking.Event;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import javax.crypto.spec.GCMParameterSpec;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
