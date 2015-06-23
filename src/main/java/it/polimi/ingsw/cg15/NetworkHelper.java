@@ -37,8 +37,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author MMP - LMR The network helper. Contains method for socket and RMI
- *         communication.
+ * @author MMP - LMR 
+ * The network helper. Contains method for socket and RMI communication.
  */
 public class NetworkHelper implements Observer {
 
@@ -91,6 +91,9 @@ public class NetworkHelper implements Observer {
      */
     private static final int RMI = 2;
 
+    /**
+     * The position.
+     */
     private static String position;
 
     /**
@@ -113,10 +116,8 @@ public class NetworkHelper implements Observer {
     /**
      * The socket constructor.
      * 
-     * @param ip
-     *            The IP for socket communication.
-     * @param port
-     *            The port for socket communication.
+     * @param ip The IP for socket communication.
+     * @param port The port for socket communication.
      */
     private NetworkHelper(String ip, int port) {
         this.ip = ip;
@@ -322,6 +323,10 @@ public class NetworkHelper implements Observer {
         return response;
     }
 
+    /**
+     * Join the RMI communication.
+     * @param gameToken The game token.
+     */
     private void joinRMI(String gameToken) {
 
         SubscriberRMI subRMI = new SubscriberRMI();
@@ -740,15 +745,24 @@ public class NetworkHelper implements Observer {
         return false;
     }
 
+    /**
+     * @return The type.
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * @return The player information (human).
+     */
     public boolean isHuman() {
         getPlayerInfo();
         return isHuman;
     }
 
+    /**
+     * @return The current player position.
+     */
     public String getPlayerPosition() {
         getPlayerInfo();
         return position;

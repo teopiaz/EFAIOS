@@ -33,6 +33,10 @@ public interface ViewClientInterface {
      */
     public void currentPlayer(int currentPlayer);
 
+    /**
+     * End the game.
+     * @param e The event to handle.
+     */
     public void endGame(Event e);
 
 }

@@ -25,6 +25,10 @@ public class ServerLogger {
         ServerLogger.gui=gui;
     }
     
+    /**
+     * @param gui The server Gui.
+     * @return A new server logger.
+     */
     public static ServerLogger getServerLogger(ServerGUI gui){
         return new ServerLogger(gui);
     }

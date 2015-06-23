@@ -24,21 +24,53 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+/**
+ * @author MMP - LMR
+ * The side panel GUI.
+ */
 public class SidePanel extends JPanel {
 
+    /**
+     * The action panel.
+     */
     private static ActionPanel actionPanel;
+    
+    /**
+     * The log panel.
+     */
     private static LogPanel logPanel;
+    
+    /**
+     * The chat panel.
+     */
     private static ChatPanel chatPanel;
+    
+    /**
+     * The card panel.
+     */
     private static CardPanel cardPanel;
     // MP3Player player;
+    
     /**
-     * 
+     * Serial Version UID.
      */
     private static final long serialVersionUID = 1L;
+    
+    /**
+     * Default list.
+     */
     private DefaultListModel<String> selections = new DefaultListModel<>();
+    
+    /**
+     * Client Game Gui.
+     */
     private static ClientGameGUI mainPanel;
 
 
+    /**
+     * Side Panel
+     * @param clientGameGUI The client game GUI.
+     */
     public SidePanel(ClientGameGUI clientGameGUI) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -63,15 +95,25 @@ public class SidePanel extends JPanel {
 
     }
 
+    /**
+     * @author MMP - LMR
+     * The log panel.
+     */
     class LogPanel extends JPanel {
 
         /**
-         * 
+         * Serial Version UID.
          */
         private static final long serialVersionUID = 1L;
 
+        /**
+         * List.
+         */
         JList<String> list;
 
+        /**
+         * The log panel.
+         */
         public LogPanel() {
 
             setPreferredSize(new Dimension(310, 205));
@@ -101,21 +143,39 @@ public class SidePanel extends JPanel {
             setBackground(Color.black);
         }
 
+        /**
+         * @param s The string to add as log.
+         */
         public void addToLog(String s) {
             selections.insertElementAt(s, 0);
 
         }
     }
 
+    /**
+     * @author MMP - LMR
+     * The chat panel.
+     */
     class ChatPanel extends JPanel {
 
         /**
-         * 
+         * Serial Version UID.
          */
         private static final long serialVersionUID = 1L;
+        
+        /**
+         * The network helper.
+         */
         private transient NetworkHelper netHelper;
+        
+        /**
+         * Text area.
+         */
         final JTextArea textArea;
 
+        /**
+         * The chat panel.
+         */
         public ChatPanel() {
             netHelper = NetworkHelper.getInstance();
             textArea = new JTextArea(5, 30);
@@ -152,6 +212,10 @@ public class SidePanel extends JPanel {
 
         }
 
+        /**
+         * Add a message to the chat.
+         * @param msg Message to add as chat.
+         */
         public void addToChat(String msg) {
             char[] msgArray = msg.toCharArray();
             for(int i=0;i<msgArray.length;i++){
@@ -203,24 +267,39 @@ public class SidePanel extends JPanel {
      * }
      */
 
+    /**
+     * @return The action panel.
+     */
     public static ActionPanel getActionPanel() {
         return actionPanel;
 
     }
 
+    /**
+     * @return The log panel.
+     */
     public static LogPanel getLogPanel() {
         return logPanel;
 
     }
 
+    /**
+     * @return The chat panel.
+     */
     public static ChatPanel getChatPanel() {
         return chatPanel;
     }
 
+    /**
+     * @return The card panel.
+     */
     public static CardPanel getCardPanel() {
         return cardPanel;
 
     }
+    /**
+     * @return The main panel of the client game GUI.
+     */
     public static ClientGameGUI getMainPanel() {
         return mainPanel;
 

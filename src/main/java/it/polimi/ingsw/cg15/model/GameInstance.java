@@ -66,6 +66,9 @@ public class GameInstance {
         return false;
     }
     
+    /**
+     * Remove all games.
+     */
     public void removeAllGames(){
            instanceList.clear();
     }

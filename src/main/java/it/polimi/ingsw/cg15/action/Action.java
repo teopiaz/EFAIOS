@@ -47,17 +47,23 @@ public abstract class Action {
      */
     public abstract Event execute();
     
+    /**
+     * Check used card.
+     * @param e The event manager.
+     * @param retValues The turn state.
+     * @return 
+     */
     public Event checkCardUse(Event e, Map<String, String> retValues){
-        
+   
         PlayerController pc = getCurrentPlayerController();
         if(!pc.canUseCard()){
             retValues.put(Event.RETURN, Event.FALSE);
-            retValues.put(Event.ERROR,"solo gli umani possono usare le carte oggetto");
+            retValues.put(Event.ERROR,"Only humans can use the item cards.");
             return new Event(e, retValues);
         }
         if(pc.itemCardUsed()){
             retValues.put(Event.RETURN, Event.FALSE);
-            retValues.put(Event.ERROR,"carta già usata in questo turno");
+            retValues.put(Event.ERROR,"Card already used this turn.");
             return new Event(e, retValues);
         }
         return null;

@@ -8,20 +8,62 @@ import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+/**
+ * @author MMP - LMR
+ * The sprite for the hexagon.
+ */
 public class HexSprite {
+    
+    /**
+     * TODO doc
+     */
     private static int h;
+    
+    /**
+     * TODO doc
+     */
     private static int r;
+    
+    /**
+     * TODO doc
+     */
     private static int s;
+    
+    /**
+     * TODO doc
+     */
     private static int t;
-    private static int BORDERS = 30; // default number of pixels for the border.
+    
+    /**
+     * Default number of pixels for the border.
+     */
+    private static int BORDERS = 30;
+    
+    /**
+     * The alien sector image.
+     */
     private static BufferedImage sectorAlienImage = null;
+    
+    /**
+     * The human sector image.
+     */
     private static BufferedImage sectorHumanImage = null;
+    
+    /**
+     * The hatch sector image.
+     */
     private static BufferedImage sectorHatchImage = null;
 
+    /**
+     * The constructor.
+     */
     private HexSprite(){
         
     }
     
+    /**
+     * @param height The height to set.
+     */
     public static void setHeight(int height) {
         h = height; // h = basic dimension: height (distance between two adj
         // centresr aka size)
@@ -33,6 +75,12 @@ public class HexSprite {
 
     }
 
+    /**
+     * Draw an hex.
+     * @param i Form factor parameter.
+     * @param j Form factor parameter.
+     * @param g2 The 2D graphic.
+     */
     public static void drawHex(int i, int j, Graphics2D g2) {
 
         int x = i * (s + t);
@@ -44,6 +92,12 @@ public class HexSprite {
 
     }
 
+    /**
+     * The polygon hex.
+     * @param x0 Form factor parameter.
+     * @param y0 Form factor parameter.
+     * @return
+     */
     public static Polygon hex(int x0, int y0) {
 
         int y = y0 + BORDERS;
@@ -62,6 +116,16 @@ public class HexSprite {
     
 
 
+    /**
+     * Fill the hex.
+     * @param i Form factor parameter.
+     * @param j Form factor parameter.
+     * @param label The label.
+     * @param g2 The 2D graphics.
+     * @param n Form factor parameter.
+     * @param position Position.
+     * @param selectedPosition Selected position.
+     */
     public static void fillHex(int i, int j, String label, Graphics2D g2, int n,Point position, Point selectedPosition){
 
             
@@ -171,6 +235,12 @@ public class HexSprite {
 
     }
 
+    /**
+     * Pixel to hex.
+     * @param mxArg The x arg.
+     * @param myArg The y arg.
+     * @return The hex pointed out.
+     */
     public static Point pxtoHex(int mxArg, int myArg) {
         Point p = new Point(-1, -1);
         int mx = mxArg;

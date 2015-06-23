@@ -115,6 +115,11 @@ public class Cell {
 
 
 
+    /**
+     * Get a row by a label.
+     * @param strArg The string.
+     * @return The label.
+     */
     public static int getRowByLabel(String strArg) {
         int r = 1;
         String str=strArg;
@@ -133,6 +138,11 @@ public class Cell {
 
     }
 
+    /**
+     * Get a col by a label.
+     * @param strArg The string.
+     * @return Col.
+     */
     public static int getColByLabel(String strArg) {
         int  c = 1;
         String str=strArg;

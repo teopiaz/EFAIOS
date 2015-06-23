@@ -5,6 +5,10 @@ import it.polimi.ingsw.cg15.networking.NetworkProxy;
 
 import java.util.Observable;
 
+/**
+ * @author MMP - LMR
+ * The RMI subscriber.
+ */
 public class SubscriberRMI extends Observable implements SubscriberRMIInterface {
 
     /**
