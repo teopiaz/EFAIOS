@@ -1,26 +1,28 @@
 package it.polimi.ingsw.cg15.action;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import it.polimi.ingsw.cg15.controller.FieldController;
 import it.polimi.ingsw.cg15.controller.GameBox;
 import it.polimi.ingsw.cg15.controller.GameManager;
 import it.polimi.ingsw.cg15.model.GameState;
-import it.polimi.ingsw.cg15.model.cards.ItemCard;
-import it.polimi.ingsw.cg15.model.cards.SectorCard;
+import it.polimi.ingsw.cg15.model.cards.HatchCard;
+import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.player.Player;
 import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class MoveTest {
+public class EscapeTest {
+
 
     static GameManager gm =GameManager.getInstance();
     static Map<String, String> args = new HashMap<String, String>();
@@ -76,107 +78,76 @@ public class MoveTest {
     }
 
 
+
     @Test
-    public void testMovePickCard() throws RemoteException {
-
-        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
-        itemCardDeck.clear();
-        itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
-  
-
-        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
-        sectorCardDeck.clear();
-        sectorCardDeck.add(SectorCard.SECTOR_RED_ITEM);
-
+    public void testExecute() throws RemoteException {
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
-        currentPlayer.setPlayerType(PlayerType.SUPERALIEN);
-        Event response;
-        String destination = "L07";
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+        
+        List<HatchCard> hatchCardDeck = gs.getDeckContainer().getHatchDeck().getHatchDeck();
+        hatchCardDeck.clear();
+        hatchCardDeck.add(HatchCard.HATCH_GREEN);
+        
+        currentPlayer.setPosition(gs.getField().getHumanStartingPosition());
+        
+        gs.getField().getHumanStartingPosition().addPlayer(currentPlayer);
+        
+        String destination = "K06";
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
-        response = gm.dispatchMessage(eMove);
-        String position = null;
-        if(response.actionResult()){
-            position = response.getRetValues().get("destination");
-        }
+        Event response = gm.dispatchMessage(eMove);
 
-        position = currentPlayer.getPosition().getLabel();
-        assertEquals(destination, position);
 
-        System.out.println(currentPlayer.getCardList());
-
-        assertEquals(ItemCard.ITEM_ADRENALINE, currentPlayer.getCardById(0));
+        
+        assertEquals(Player.WIN, currentPlayer.getStatus());
         
         
-        Event getCardEvent = new Event(currentPlayerToken,"getcardlist",null);
-        response = gm.dispatchMessage(getCardEvent);
-
-        System.out.println(response);
-        assertEquals("1",response.getRetValues().get("cardssize"));
-        assertEquals(true,response.getRetValues().containsKey("adrenaline"));
-
-
-
+        
     }
+
+    
 
     @Test
-    public void testMoveAskSector() throws RemoteException{
+    public void testEscapeFail() throws RemoteException {
+        
+        FieldController fc = new FieldController(gs);
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
-
-        currentPlayer.setPlayerType(PlayerType.ALIEN);
-
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
         
-        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
-        sectorCardDeck.clear();
-        sectorCardDeck.add(SectorCard.SECTOR_GREEN);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
+        for (Entry<Coordinate,Boolean> hSector: gs.getField().getHatchSectorsList().entrySet()) {
+            fc.blockHatchSector(hSector.getKey());
         }
-
-
+        
+        
+        List<HatchCard> hatchCardDeck = gs.getDeckContainer().getHatchDeck().getHatchDeck();
+        hatchCardDeck.clear();
+        hatchCardDeck.add(HatchCard.HATCH_GREEN);
+        
+        currentPlayer.setPosition(gs.getField().getHumanStartingPosition());
+        
+        gs.getField().getHumanStartingPosition().addPlayer(currentPlayer);
+        
         Event response;
-        String destination = "L07";
+        String destination = "K06";
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
         response = gm.dispatchMessage(eMove);
-        String position = null;
-        if(response.actionResult()){
-            assertTrue(response.getRetValues().containsKey("asksector"));
-        }
 
-
-        String noiseTarget = "L07";
-        args = new HashMap<String,String>();
-        args.put("position", noiseTarget);
-        Event askEvent = new Event(currentPlayerToken,"asksector",args);
-        
-        
-        response = gm.dispatchMessage(askEvent);
-        
-
-        List<String>actionList = new ArrayList<String>();
-        Event getActionEvent = new Event(currentPlayerToken,"getactionlist",null);
-        Event result;
-        result = gm.dispatchMessage(getActionEvent);
-  
-
-            for (String action : result.getRetValues().keySet()) {
-                if(!action.equals("return")){
-                    actionList.add(action);  
-                }
-            }
-            assertTrue(!actionList.contains("asksector"));
 
         
-
+        assertEquals(Player.INGAME, currentPlayer.getStatus());
+        
+        
+        
+        
+        
+        
     }
-
-
-
 
 }
