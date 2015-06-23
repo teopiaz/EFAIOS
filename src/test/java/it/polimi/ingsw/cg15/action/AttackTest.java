@@ -90,23 +90,13 @@ public class AttackTest {
             int playernumb =    gb.getPlayers().get( tokenPlayer1.getPlayerToken() ).getPlayerNumber();
         System.out.println(tokenPlayer1+" playernumb "+playernumb);
         
-        Event response;
-        String destination = "L07";
-        Map<String,String> args = new HashMap<String,String>();
-        args.put("destination", destination);
-        Event eMove = new Event(currentPlayerToken,"move",args);
-        response = gm.dispatchMessage(eMove);
-        
-        String position;
-        position = currentPlayer.getPosition().getLabel();
-        assertEquals(destination, position);
         
         currentPlayer.setPlayerType(PlayerType.ALIEN);
         gs.getTurnState().getActionList().add(ActionEnum.ATTACK);
         
         currentPlayer = gameState.getTurnState().getCurrentPlayer();
         System.out.println("pre attacco "+currentPlayer.getPlayerNumber());
-        Event attackEvent = new Event(currentPlayerToken,"attack",null);
+        Event attackEvent = new Event(tokenPlayer1,"attack",null);
         Event result = gm.dispatchMessage(attackEvent);
         System.out.println(result);
 
