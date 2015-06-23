@@ -28,7 +28,7 @@ public class MainClientGUI {
      * @throws NotBoundException
      */
     public static void main(String[] args) throws RemoteException, MalformedURLException,  AlreadyBoundException, NotBoundException {
-        boolean intro = true;
+        boolean intro = false;
         NetworkHelper netHelper = NetworkHelper.getClientSocket("localhost", 1337);
         Runnable clientTaskGUI = new ClientGameGUI(netHelper);
         Runnable taskLobby = new ClientLobbyGUI(netHelper, clientTaskGUI);

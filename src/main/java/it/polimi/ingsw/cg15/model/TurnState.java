@@ -1,6 +1,7 @@
 package it.polimi.ingsw.cg15.model;
 
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.utils.TimerTurn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,9 @@ public class TurnState {
      * Boolean that says if the cards have been swapped in the current turn.
      */
     private boolean actionListsSwapped = false;
+
+
+    private TimerTurn timerTurn;
 
     /**
      * The constructor.
@@ -228,5 +232,19 @@ public class TurnState {
     public void addUseOrDiscard(){
         availableActionsList.add(ActionEnum.USEITEM);
         availableActionsList.add(ActionEnum.DISCARD);
+    }
+
+    /**
+     * Set the timer of the turn
+     */
+    public void setTurnTimer(TimerTurn timerTurnTask) {
+        this.timerTurn=timerTurnTask;        
+    }
+    /**
+     * Get the timer of the turn
+     * @return timerTurn
+     */
+    public TimerTurn getTimer(){
+        return this.timerTurn;
     }
 }
