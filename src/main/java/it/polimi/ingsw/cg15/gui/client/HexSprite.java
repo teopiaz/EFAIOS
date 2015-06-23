@@ -15,22 +15,22 @@ import java.awt.image.BufferedImage;
 public class HexSprite {
     
     /**
-     * TODO doc
+     * The height of the hexagon
      */
     private static int h;
     
     /**
-     * TODO doc
+     * The radius of the hexagon
      */
     private static int r;
     
     /**
-     * TODO doc
+     * Costant s = (h/2)/cos(30)= (h/2) / (sqrt(3)/2)
      */
     private static int s;
     
     /**
-     * TODO doc
+     * Constant t = (h/2) tan30 = (h/2) 1/sqrt(3) = h / ( sqrt(3)) = r / sqrt(3)
      */
     private static int t;
     

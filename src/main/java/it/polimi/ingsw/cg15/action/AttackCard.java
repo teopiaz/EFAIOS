@@ -41,7 +41,11 @@ public class AttackCard extends Action {
     public Event execute() {
         Map<String,String> retValues = e.getRetValues();
         PlayerController pc = getCurrentPlayerController();
-        
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+        retValues = e.getRetValues();
+        }
         Event checkCardEvent = checkCardUse(e,retValues);
         if(checkCardEvent!=null){
             return checkCardEvent;
@@ -56,7 +60,7 @@ public class AttackCard extends Action {
             String currentPlayerNumber = Integer.toString( getGameController().getCurrentPlayer().getPlayerNumber() );
             Map<String,String> retPub = new HashMap<String, String>();
             retPub.put("player", currentPlayerNumber);
-            retPub.put("card","spotlight");
+            retPub.put("card","attack");
             Event toPublish = new Event(new ClientToken("", getGameController().getGameToken()),"log",null, retPub);
             Broker.publish(getGameController().getGameToken(), NetworkProxy.eventToJSON(toPublish));
 

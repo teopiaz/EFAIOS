@@ -44,8 +44,8 @@ public class DrawItemCard extends Action {
             e = new Event(e, retValues);
         }
         else{
-            Action useOrDiscard = new UseOrDiscard(getGameController(),e);
-            e= useOrDiscard.execute();
+            retValues.put(Event.ERROR, "you cannot draw more than 3 cards");
+            e = new Event(e, retValues);
         }
         return e;
     }

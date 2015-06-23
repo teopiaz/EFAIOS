@@ -7,6 +7,7 @@ import it.polimi.ingsw.cg15.model.GameState;
 import it.polimi.ingsw.cg15.model.cards.ItemCard;
 import it.polimi.ingsw.cg15.model.cards.SectorCard;
 import it.polimi.ingsw.cg15.model.player.Player;
+import it.polimi.ingsw.cg15.model.player.PlayerType;
 import it.polimi.ingsw.cg15.networking.ClientToken;
 import it.polimi.ingsw.cg15.networking.Event;
 
@@ -90,7 +91,7 @@ public class MoveTest {
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
-
+        currentPlayer.setPlayerType(PlayerType.SUPERALIEN);
         Event response;
         String destination = "L07";
         Map<String,String> args = new HashMap<String,String>();
