@@ -118,8 +118,64 @@ public class MoveTest {
         assertEquals("1",response.getRetValues().get("cardssize"));
         assertEquals(true,response.getRetValues().containsKey("adrenaline"));
 
+    }
+    
+    @Test
+    public void testMovePickCardToDistant() throws RemoteException {
+
+        // Un giocatore non può spostarsi in una cella troppo lontana.
+        
+        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
+        itemCardDeck.clear();
+        itemCardDeck.add(ItemCard.ITEM_SEDATIVES);
 
 
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN_ITEM);
+
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+        Event response;
+        String destination = "L10";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+        
+        assertTrue(response.getRetValues().containsKey("error"));     
+    }
+    
+    @Test
+    public void testMoveSafeSector() throws RemoteException {
+
+        // Un giocatore si sposta in una cella safe.
+        
+        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
+        itemCardDeck.clear();
+        itemCardDeck.add(ItemCard.ITEM_SEDATIVES);
+
+
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN_ITEM);
+
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+        Event response;
+        String destination = "M08";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+        
+        assertTrue(!response.getRetValues().containsKey("error"));     
+
+        
     }
     
     
@@ -151,19 +207,13 @@ public class MoveTest {
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
         response = gm.dispatchMessage(eMove);
-        
-        System.out.println("DIOOOOO: "+response);
-        
+                
         String position = null;
         if(response.actionResult()){
             position = response.getRetValues().get("destination");
         }
-
-
-        //System.out.println(currentPlayer.getCardList());
-
         
-
+        assertTrue(response.getRetValues().containsKey("error"));
 
 
     }
@@ -175,7 +225,6 @@ public class MoveTest {
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
         currentPlayer.setPlayerType(PlayerType.ALIEN);
-
 
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
