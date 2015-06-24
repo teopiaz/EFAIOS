@@ -42,7 +42,7 @@ public class MapEditor implements Runnable {
     /**
      * The frame.
      */
-    private JFrame frame;
+    private JFrame frameEditor;
 
 
     /**
@@ -79,27 +79,29 @@ public class MapEditor implements Runnable {
      */
     @Override
     public void run() {
-        frame.setLocationRelativeTo(null);
+        
+        frameEditor.setLocationRelativeTo(null);
     }
 
     /**
-     * Prepare the frame for the Client GUI.
+     * Prepare the frame for the Editor
      */
     public void prepareFrame() {
-        frame = new JFrame("Escape From Aliens in Outer Space MAP EDITOR");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frameEditor = new JFrame("MAP EDITOR");
+        frameEditor.setLocationRelativeTo(null);
+        frameEditor.setResizable(false);
         JPanel panel = new JPanel(true);
-        panel.setBackground(Color.BLACK);
         panel.setLayout(new BorderLayout());
         map = new MapPanel(true, board);
-        frame.setSize(1280, 720);
-
-
-        frame.add(map, BorderLayout.WEST);
-        frame.add(panel);
         
+
+        frameEditor.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.BLACK);
+
+        frameEditor.add(map, BorderLayout.WEST);
+        frameEditor.add(panel);
+        
+        frameEditor.setSize(1280, 720);
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         JMenuItem saveMenu = new JMenuItem("Save");
@@ -107,7 +109,7 @@ public class MapEditor implements Runnable {
         JMenu debugMenu = new JMenu("Debug");
         JMenuItem editorDebugMenu = new JMenuItem("Send To Server");
         map.setEditorMode(true);
-        frame.setVisible(true);
+        frameEditor.setVisible(true);
         
 
         editorDebugMenu.addActionListener(new ActionListener() {
@@ -120,9 +122,9 @@ public class MapEditor implements Runnable {
 
                 String mapName =JOptionPane.showInputDialog("Insert Map Name");
                 if(netHelper.saveMapToServer(mapName,savedMap)){
-                    JOptionPane.showMessageDialog(frame, "Map Saved");
+                    JOptionPane.showMessageDialog(frameEditor, "Map Saved");
                 }else{
-                    JOptionPane.showMessageDialog(frame, "Error, please retry");
+                    JOptionPane.showMessageDialog(frameEditor, "Error, please retry");
 
                 }
             }
@@ -140,7 +142,7 @@ public class MapEditor implements Runnable {
             public void actionPerformed(ActionEvent e) {
                 board = map.getBoard();
                 FileInputStream fin = null;
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map name to load");
+                String mapName = JOptionPane.showInputDialog(frameEditor, "Insert Map name to load");
                 if (mapName == "") {
                     mapName = "map";
                 }
@@ -183,7 +185,7 @@ public class MapEditor implements Runnable {
                 FileOutputStream fop = null;
                 File file;
                 String content = "";
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name to save");
+                String mapName = JOptionPane.showInputDialog(frameEditor, "Insert Map Name to save");
                 if (mapName == "") {
                     mapName = "map";
                 }
@@ -225,15 +227,15 @@ public class MapEditor implements Runnable {
         menu.add(loadMenu);
         menuBar.add(menu);
         menuBar.add(debugMenu);
-        frame.setJMenuBar(menuBar);
-        frame.pack();
+        frameEditor.setJMenuBar(menuBar);
+        frameEditor.pack();
     }
 
     /**
      * Show the Client GUI.
      */
     public void showGUI() {
-        this.frame.setVisible(true);
+        this.frameEditor.setVisible(true);
     }
 
     

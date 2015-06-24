@@ -800,6 +800,12 @@ public class NetworkHelper implements Observer {
         return false;
     }
 
+    /**
+     * Send to server an Event with the map to save
+     * @param mapName the name of the map
+     * @param savedMap a comma separated integer map created with the map editor
+     * @return
+     */
     public boolean saveMapToServer(String mapName,String savedMap) {
         if (ctoken == null) {
             requestClientToken();
