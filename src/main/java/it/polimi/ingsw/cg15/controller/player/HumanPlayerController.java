@@ -35,7 +35,6 @@ public class HumanPlayerController extends PlayerController {
      */
     @Override
     public boolean moveIsPossible(Coordinate coord) {
-        Logger.getLogger(Field.class.getName()).log(Level.INFO,"Human move is possible");
         if(gameState.getTurnState().hasMoved()){
             return false;
         }
