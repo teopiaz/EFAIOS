@@ -60,17 +60,26 @@ public class GameManagerTest {
 
     @Test
     public void testGetInstance() {
+        
+        // Testo l'istanza del game manager.
+        
         assertEquals(GameManager.getInstance(), gm);
     }
 
     @Test
     public void testDispatchMessage() throws RemoteException {
+        
+        // Testo l'invio di messaggi.
+        
         Event event = new Event(ctoken, "move", args);
         gm.dispatchMessage(event);
     }
 
     @Test
     public void testCreateGameAndGetGameList() throws RemoteException {
+        
+        // Testo la creazione del gioco e la lista di giochi disponibili.
+        
         ClientToken ctoken = new ClientToken("playerToken", "gameToken");
         e = new Event(ctoken, "gamelist",null);        
         Event result = gm.getGameList(e);
@@ -82,6 +91,7 @@ public class GameManagerTest {
     @Test
     public void testGameList() throws RemoteException{
         
+        // Testo la lista dei giochi.
         
         args=new HashMap<String, String>();
         Event gamelistEvent = new Event(ctoken3,"listgame",args);
@@ -98,6 +108,8 @@ public class GameManagerTest {
     
     @Test
     public void testGetGameToken() throws RemoteException{
+        
+        // Testo il token del gioco.
     
         Event e = new Event(new ClientToken(null, null), "requesttoken");
 
@@ -116,6 +128,8 @@ public class GameManagerTest {
     
     @Test
     public void testGetMap() throws RemoteException{
+        
+        // Testo il ritorno corretto della mappa.
         
         Event e = new Event(ctoken1,"getmap",null);
         Event response = gm.eventHandler(e);

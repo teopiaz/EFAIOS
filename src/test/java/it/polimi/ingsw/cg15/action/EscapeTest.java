@@ -80,6 +80,8 @@ public class EscapeTest {
     @Test
     public void testExecute() throws RemoteException {
         
+        // Testo l'esecuzione della escape.
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
         currentPlayer.setPlayerType(PlayerType.HUMAN);

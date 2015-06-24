@@ -72,6 +72,7 @@ public class AttackAlreadyExecutedTest {
 
         @Test
         public final void testAttackAlreadyExecuted() throws RemoteException {
+            
         //Un alieno può eseguire l'attacco solo una volta.
 
         ClientToken tokenPlayer2 = getPlayerToken("1");

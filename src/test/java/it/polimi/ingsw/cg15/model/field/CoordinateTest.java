@@ -23,22 +23,34 @@ public class CoordinateTest {
 
     @Test
     public final void testHashCode() {
+        
+        // Testo hashcode.
+        
         assertEquals(coord.hashCode(),31651);
     }
 
     @Test
     public final void testCoordinateIntIntInt() {
+        
+        // Testo le coordinate siano valide.
+        
         assertEquals( coord.getX()+coord.getY()+coord.getZ(),0);
     }
 
     @Test
     public final void testCoordinateIntInt() {
+        
+        // Altro test sulle coordinate.
+        
         Coordinate coord2 = new Coordinate(1,2,-3);
         assertEquals( coord2.getX()+coord2.getY()+coord2.getZ(),0);
     }
 
     @Test
     public final void testGetByLabel() {
+        
+        // Testo il ritorno di una coordinata a partire dalla sua etichetta.
+        
         Coordinate bylabel = Coordinate.getByLabel("B1");
         assertEquals(bylabel.toString(), "B01");
         Coordinate bylabel2 = Coordinate.getByLabel("F18");
@@ -52,6 +64,9 @@ public class CoordinateTest {
 
     @Test
     public final void testGetCol() {
+        
+        // Testo il ritorno di riga e colonna.
+        
         assertEquals(coord.getCol(), 2);
         assertEquals(coord.getRow(), 1);
 
@@ -61,11 +76,16 @@ public class CoordinateTest {
 
     @Test
     public final void testToString() {
+        
+        // Testo la trasformazione in stringhe.
 
     }
 
     @Test
     public final void testEqualsObject() {
+        
+        // Testo la validità delle coordinat.
+        
         Coordinate c1 = new Coordinate(1,2);
         Coordinate c2 = c1;
         Object c3 = new Object();

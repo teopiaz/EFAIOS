@@ -10,6 +10,9 @@ public class DirectionTest {
 
     @Test
     public final void test() {
+        
+        // Testo l'enumerazione.
+        
         assertEquals(Direction.NE, Direction.valueOf("NE"));
     }
 

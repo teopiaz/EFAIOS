@@ -10,6 +10,9 @@ public class SectorCardTest {
 
     @Test
     public final void test() {
+        
+        // Testo l'enumerazione.
+        
         assertEquals(SectorCard.SECTOR_RED, SectorCard.valueOf("SECTOR_RED"));
     }
 

@@ -71,6 +71,9 @@ public class GameControllerTest {
    
     @Test
     public void testEndTurn() throws RemoteException{
+        
+        // Testo la fine di un turno.
+        
         String currentNumber1 = getCurrentPlayer();
         
         Event e = new Event(currentPlayerToken, "endturn", null);
@@ -82,6 +85,9 @@ public class GameControllerTest {
     
     @Test
     public void testChat() throws RemoteException {
+        
+        // Tesro la chat.
+        
         Map<String,String> args = new HashMap<String, String>();
         args.put(Event.MESSAGE, "prova");
         args.put(Event.PLAYER, "1");
@@ -105,8 +111,7 @@ public class GameControllerTest {
   
     
     private String getCurrentPlayer() throws RemoteException{
-        
-        
+
         String player1number;
         
         Event eventoTest = new Event(ctoken1,"getplayerinfo",null);

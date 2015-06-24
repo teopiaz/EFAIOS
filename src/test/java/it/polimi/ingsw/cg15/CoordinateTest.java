@@ -11,7 +11,7 @@ public class CoordinateTest {
 
     @Test
     public void testGetNeighborsList() {
-
+        // Testo la lista di adiacenza.
         Coordinate coord = new Coordinate(1, 1);
         List<Coordinate> cordList = coord.getNeighborsList();
         assertTrue(cordList.size() == 6);

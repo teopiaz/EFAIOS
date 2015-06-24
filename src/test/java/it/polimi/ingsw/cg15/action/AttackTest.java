@@ -78,6 +78,8 @@ public class AttackTest {
 
     @Test
     public final void testAttack() throws RemoteException {
+        
+        // Testo l'azione attacco.
     
         ClientToken tokenPlayer1 = getPlayerToken("1");
         Map<String,Player> playerMap = gb.getPlayers();
@@ -100,6 +102,8 @@ public class AttackTest {
         
         @Test 
         public void testDefense(){
+            
+            // Testo l'azione difesa.
         
         Event attackEvent = new Event(currentPlayerToken,"attack",null);
         currentPlayer = gs.getTurnState().getCurrentPlayer();
@@ -117,6 +121,9 @@ public class AttackTest {
 
         @Test 
         public void testEvolve(){
+            
+            // Testo l'evoluzione del giocatore da alieno a superalieno.
+            
             currentPlayer = gs.getTurnState().getCurrentPlayer();
 
             currentPlayer.setPlayerType(PlayerType.ALIEN);

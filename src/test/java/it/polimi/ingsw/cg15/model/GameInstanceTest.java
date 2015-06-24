@@ -13,6 +13,9 @@ public class GameInstanceTest {
 
     @Test
     public final void testRemoveGameInstace() {
+        
+        // Testo la rimozione dei game instance.
+        
        GameState gs = gi.addGameInstance();
        gi.removeGameInstace(gs);
        assertEquals(0, gi.getInstanceSize());
@@ -21,6 +24,9 @@ public class GameInstanceTest {
 
     @Test
     public final void testRemoveAllGames() {
+        
+        // Testo la rimozione delle partite.
+        
         gi.addGameInstance();
         gi.addGameInstance();
         gi.addGameInstance();

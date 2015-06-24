@@ -74,7 +74,8 @@ public class SpotlightTest {
 
     @Test
     public final void testSpotlight() throws RemoteException {
-
+        
+        // Testo l'azione della carta oggetto luce.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();

@@ -22,6 +22,9 @@ public class GameStateTest {
 
     @Test
     public final void testAddPlayer() {
+        
+        // Testo l'aggiunta di un nuovo giocatore.
+        
         Player player = new Player();
         Player player2 = gs.addPlayer(player);
         assertEquals(player, player2);
@@ -39,6 +42,9 @@ public class GameStateTest {
     
     @Test
     public final void testSetEnded() {
+        
+        // Testo la fine della partita.
+        
         gs.setEnded();
         assertTrue(gs.isEnded());
     }

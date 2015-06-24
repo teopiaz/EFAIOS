@@ -77,6 +77,8 @@ public class MoveTest {
 
     @Test
     public void testMovePickCard() throws RemoteException {
+        
+        // Mi muovo e pesco una carta.
 
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
@@ -177,6 +179,8 @@ public class MoveTest {
 
     @Test
     public void testMovePick4Card() throws RemoteException {
+        
+        // Mi muovo ma ho già 4 carte oggetto.
 
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
@@ -217,6 +221,9 @@ public class MoveTest {
 
     @Test
     public void testMoveAskSector() throws RemoteException{
+        
+        // Mi muovo in una cella in cui dopo l'estrazione di una carta settore verde mi viene chiesto di inserire un settore
+        // in cui fare rumore.
 
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
@@ -265,7 +272,7 @@ public class MoveTest {
     @Test
     public void testMoveAskSectorFail() throws RemoteException{
 
-        //Cella inesistente
+        // Mi muovo in una cella inesistente.
 
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
@@ -301,4 +308,5 @@ public class MoveTest {
 
     }
 
+    
 }

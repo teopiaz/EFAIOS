@@ -70,7 +70,9 @@ public class TeleportTest {
 
     @Test
     public void testTeleport() throws RemoteException {
-
+        
+        // Testo l'azione della carta oggetto Teleport.
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
         Event response;

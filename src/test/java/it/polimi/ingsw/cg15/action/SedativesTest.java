@@ -75,6 +75,7 @@ public class SedativesTest {
     @Test
     public final void test() throws RemoteException {
         
+        // Testo l'azione della carta oggetto sedativi.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);

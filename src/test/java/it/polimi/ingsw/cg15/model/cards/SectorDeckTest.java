@@ -18,12 +18,18 @@ public class SectorDeckTest {
 
     @Test
     public void testGetSectorDeck() {
+        
+        // Testo il mazzo delle carte settore.
+        
         List<SectorCard> ritornato = sectorDeckTest.getSectorDeck();
         assertTrue(ritornato.isEmpty());
     }
 
     @Test
     public void testGetNumberOfCard() {
+        
+        // Testo il numero dell carte settore.
+        
         assertEquals(0, sectorDeckTest.getNumberOfCard());
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
     }
@@ -32,6 +38,7 @@ public class SectorDeckTest {
     @Test
     public void swapDeck() {
 
+        // Testo lo scambio del mazzo corrente.
 
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
         sectorDeckTest.getSectorDeck();
@@ -43,6 +50,9 @@ public class SectorDeckTest {
 
     @Test
     public void testShuffleDeck() {
+        
+        // Testo il mescolamento delle carte.
+        
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN);
@@ -52,6 +62,9 @@ public class SectorDeckTest {
 
     @Test
     public void testDrawCardFull() {
+        
+        // Testo che se pesco una carta il numero delle carte rimanenti è 0.
+        
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);
         sectorDeckTest.drawCard();
         assertEquals(0, sectorDeckTest.getNumberOfCard());
@@ -60,6 +73,7 @@ public class SectorDeckTest {
     @Test
     public void testDrawCardEmpty() {
         
+        // Testo che non posso pescare se il numero delle carte è 0.
         
         sectorDeckTest.getSectorDeck();
         sectorDeckTest.insertCard(SectorCard.SECTOR_GREEN_ITEM);

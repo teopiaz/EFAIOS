@@ -22,6 +22,8 @@ public class NetworkProxyTest {
 
     @Test
     public final void testParseString() {
+        
+        // Testo le stringhe che passano come messaggi.
 
         Event e = NetworkProxy.jsonToEvent(s);
         assertEquals(e.getToken().getPlayerToken(),"d23d2ed223faf3f3a3");

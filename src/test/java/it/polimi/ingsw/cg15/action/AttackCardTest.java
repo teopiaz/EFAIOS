@@ -75,6 +75,8 @@ public class AttackCardTest {
     @Test
     public final void test() throws RemoteException {
         
+        // Testo la carta attacco.
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);
         gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
