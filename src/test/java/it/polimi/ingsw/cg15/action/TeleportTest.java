@@ -43,8 +43,6 @@ public class TeleportTest {
         ctoken1 = new ClientToken("playertoken1", gameToken);
         ctoken2 = new ClientToken("playertoken2", gameToken);
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1, "joingame", null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -92,7 +90,6 @@ public class TeleportTest {
 
         teleportEvent = new Event(currentPlayerToken, "useitem", args);
         result = gm.dispatchMessage(teleportEvent);
-        System.out.println(result);
         assertTrue(result.getRetValues().containsKey("error"));
 
         currentPlayer.setPlayerType(PlayerType.HUMAN);
@@ -102,7 +99,6 @@ public class TeleportTest {
         args.put("itemcard", "teleport");
         teleportEvent = new Event(currentPlayerToken, "useitem", args);
         result = gm.dispatchMessage(teleportEvent);
-        System.out.println(result);
 
         assertTrue(result.getRetValues().containsKey("error"));
 
@@ -112,8 +108,6 @@ public class TeleportTest {
         args.put("itemcard", "teleport");
         teleportEvent = new Event(currentPlayerToken, "useitem", args);
         result = gm.dispatchMessage(teleportEvent);
-
-        System.out.println(currentPlayer.getPosition().getLabel());
 
         assertTrue(currentPlayer.getPosition().getLabel().equals("K07"));
 

@@ -44,8 +44,6 @@ public class GameControllerTest {
         ctoken1 = new ClientToken("playertoken1", gameToken);
         ctoken2 = new ClientToken("playertoken2", gameToken);
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1, "joingame", null);
         response = gm.joinGame(join1);
 
@@ -75,10 +73,8 @@ public class GameControllerTest {
     public void testEndTurn() throws RemoteException{
         String currentNumber1 = getCurrentPlayer();
         
-        System.out.println(currentPlayerToken);
         Event e = new Event(currentPlayerToken, "endturn", null);
         Event response = gm.dispatchMessage(e);
-        System.out.println(response);
         
         
     }
@@ -91,14 +87,12 @@ public class GameControllerTest {
         args.put(Event.PLAYER, "1");
         Event chatEvent = new Event(currentPlayerToken, "chat", args);
         Event response = gm.dispatchMessage(chatEvent);
-        System.out.println(response);
         assertTrue(response.actionResult());
         
         args = new HashMap<String, String>();
         args.put(Event.PLAYER, "1");
          chatEvent = new Event(currentPlayerToken, "chat", args);
          response = gm.dispatchMessage(chatEvent);
-        System.out.println(response);
         assertFalse(response.actionResult());
         
         
@@ -124,7 +118,6 @@ public class GameControllerTest {
         }else{
             currentPlayerToken = ctoken2;
         }
-        System.out.println(currentPlayerToken);
         currentPlayer = gs.getTurnState().getCurrentPlayer();
         return player1number;
     }

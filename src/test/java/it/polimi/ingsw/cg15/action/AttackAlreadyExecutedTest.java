@@ -51,8 +51,6 @@ public class AttackAlreadyExecutedTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -60,10 +58,6 @@ public class AttackAlreadyExecutedTest {
         response = gm.joinGame(join2);
         assertEquals("joined", response.getRetValues().get("return"));
 
-        System.out.println("CTOK1: "+ctoken1);
-        System.out.println("CTOK2: "+ctoken2);
-
-        
         response = gm.startGame(new Event(ctoken1, "startgame",null));
         assertEquals("game_started", response.getRetValues().get("return"));
 

@@ -43,8 +43,6 @@ public class AdrenalineTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -165,7 +163,6 @@ public class AdrenalineTest {
         
         Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
         Event result = gm.dispatchMessage(adrenalineEvent);
-        System.out.println("ciao " + result );
         assertTrue(result.getRetValues().containsKey("error"));
 
     }
