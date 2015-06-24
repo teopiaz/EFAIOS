@@ -46,7 +46,6 @@ public class MoveTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
 
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
@@ -78,6 +77,8 @@ public class MoveTest {
 
     @Test
     public void testMovePickCard() throws RemoteException {
+        
+        // Mi muovo e pesco una carta.
 
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
@@ -106,25 +107,80 @@ public class MoveTest {
         position = currentPlayer.getPosition().getLabel();
         assertEquals(destination, position);
 
-        System.out.println(currentPlayer.getCardList());
-
         assertEquals(ItemCard.ITEM_ADRENALINE, currentPlayer.getCardById(0));
 
 
         Event getCardEvent = new Event(currentPlayerToken,"getcardlist",null);
         response = gm.dispatchMessage(getCardEvent);
 
-        System.out.println(response);
         assertEquals("1",response.getRetValues().get("cardssize"));
         assertEquals(true,response.getRetValues().containsKey("adrenaline"));
 
+    }
+
+    @Test
+    public void testMovePickCardToDistant() throws RemoteException {
+
+        // Un giocatore non può spostarsi in una cella troppo lontana.
+
+        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
+        itemCardDeck.clear();
+        itemCardDeck.add(ItemCard.ITEM_SEDATIVES);
+
+
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN_ITEM);
+
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+        Event response;
+        String destination = "L10";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+
+        assertTrue(response.getRetValues().containsKey("error"));     
+    }
+
+    @Test
+    public void testMoveSafeSector() throws RemoteException {
+
+        // Un giocatore si sposta in una cella safe.
+
+        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
+        itemCardDeck.clear();
+        itemCardDeck.add(ItemCard.ITEM_SEDATIVES);
+
+
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN_ITEM);
+
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+        Event response;
+        String destination = "M08";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+
+        assertTrue(!response.getRetValues().containsKey("error"));     
 
 
     }
-    
-    
+
+
     @Test
     public void testMovePick4Card() throws RemoteException {
+        
+        // Mi muovo ma ho già 4 carte oggetto.
 
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
@@ -144,26 +200,20 @@ public class MoveTest {
         currentPlayer.addCard(ItemCard.ITEM_DEFENSE);
         currentPlayer.addCard(ItemCard.ITEM_DEFENSE);
         currentPlayer.setPlayerType(PlayerType.HUMAN);
-        
+
         Event response;
         String destination = "L07";
         Map<String,String> args = new HashMap<String,String>();
         args.put("destination", destination);
         Event eMove = new Event(currentPlayerToken,"move",args);
         response = gm.dispatchMessage(eMove);
-        
-        System.out.println("DIOOOOO: "+response);
-        
+
         String position = null;
         if(response.actionResult()){
             position = response.getRetValues().get("destination");
         }
 
-
-        //System.out.println(currentPlayer.getCardList());
-
-        
-
+        assertTrue(response.getRetValues().containsKey("error"));
 
 
     }
@@ -171,19 +221,17 @@ public class MoveTest {
 
     @Test
     public void testMoveAskSector() throws RemoteException{
+        
+        // Mi muovo in una cella in cui dopo l'estrazione di una carta settore verde mi viene chiesto di inserire un settore
+        // in cui fare rumore.
 
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
         currentPlayer.setPlayerType(PlayerType.ALIEN);
 
-
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
         sectorCardDeck.add(SectorCard.SECTOR_GREEN);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
-        }
-
 
         Event response;
         String destination = "L07";
@@ -219,11 +267,12 @@ public class MoveTest {
         }
         assertTrue(!actionList.contains("asksector"));
 
-
     }
 
     @Test
     public void testMoveAskSectorFail() throws RemoteException{
+
+        // Mi muovo in una cella inesistente.
 
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
@@ -233,9 +282,6 @@ public class MoveTest {
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
         sectorCardDeck.add(SectorCard.SECTOR_GREEN);
-        for (SectorCard sectorCard : sectorCardDeck) {
-            System.out.println(sectorCard);
-        }
 
 
         Event response;
@@ -262,7 +308,5 @@ public class MoveTest {
 
     }
 
-
-
-
+    
 }

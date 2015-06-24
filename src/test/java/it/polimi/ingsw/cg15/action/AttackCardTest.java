@@ -43,8 +43,6 @@ public class AttackCardTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -77,6 +75,8 @@ public class AttackCardTest {
     @Test
     public final void test() throws RemoteException {
         
+        // Testo la carta attacco.
+        
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);
         gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
@@ -87,9 +87,7 @@ public class AttackCardTest {
         args = new HashMap<String, String>();
         args.put("itemcard", "attack");
          attackcardEvent = new Event(currentPlayerToken,"useitem",args);
-        System.out.println(attackcardEvent);
          result = gm.dispatchMessage(attackcardEvent);
-        System.out.println(result);
 
         
         currentPlayer.addCard(ItemCard.ITEM_ATTACK);
@@ -103,11 +101,7 @@ public class AttackCardTest {
         args.put("itemcard", "attack");
          attackcardEvent = new Event(currentPlayerToken,"useitem",args);
          result = gm.dispatchMessage(attackcardEvent);
-        System.err.println(result);
-        
-        System.out.println(currentPlayer.getPosition().getLabel());
-        
-       
+
         
     }
 

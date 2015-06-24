@@ -21,11 +21,17 @@ public class PlayerTypeTest {
 
     @Test
     public void testToClassName() {
+        
+        // Testo la trasformazione della stringa del tipo di un giocatore nel nome della sua classe.
+        
         assertEquals("Alien", playerTest.getPlayerType().toClassName());
     }
 
     @Test
     public void testValue(){
+        
+        // Testo il valore del tipo del giocatore.
+        
         assertEquals(PlayerType.SUPERALIEN, PlayerType.valueOf("SUPERALIEN"));
 
     }

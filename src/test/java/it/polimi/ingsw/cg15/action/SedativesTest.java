@@ -43,8 +43,6 @@ public class SedativesTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -77,6 +75,7 @@ public class SedativesTest {
     @Test
     public final void test() throws RemoteException {
         
+        // Testo l'azione della carta oggetto sedativi.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);
@@ -88,7 +87,6 @@ public class SedativesTest {
         args.put("itemcard", "sedatives");
         Event sedativeEvent = new Event(currentPlayerToken,"useitem",args);
         Event result = gm.dispatchMessage(sedativeEvent);
-        System.out.println(result);
         assertTrue(result.getRetValues().containsKey(Event.ERROR));
 
         
@@ -104,11 +102,8 @@ public class SedativesTest {
         args.put("itemcard", "sedatives");
          sedativeEvent = new Event(currentPlayerToken,"useitem",args);
          result = gm.dispatchMessage(sedativeEvent);
-        System.err.println(result);
         assertTrue(result.getRetValues().containsKey(Event.ERROR));
-        
-        System.out.println(currentPlayer.getPosition().getLabel());
-        
+                
         
     }
 

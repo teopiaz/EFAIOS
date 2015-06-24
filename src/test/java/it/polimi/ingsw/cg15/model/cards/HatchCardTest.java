@@ -10,6 +10,9 @@ public class HatchCardTest {
 
     @Test
     public final void test() {
+        
+        // Testo l'enumerazione.
+        
         assertEquals(HatchCard.HATCH_GREEN, HatchCard.valueOf("HATCH_GREEN"));
     }
 

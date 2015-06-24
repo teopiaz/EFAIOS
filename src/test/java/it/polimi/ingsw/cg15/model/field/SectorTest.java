@@ -10,6 +10,9 @@ public class SectorTest {
 
     @Test
     public final void test() {
+        
+        // Testo l'enumerazione.
+        
         assertEquals(Sector.ALIEN, Sector.valueOf("ALIEN"));
     }
 

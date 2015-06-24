@@ -45,8 +45,6 @@ public class SpotlightTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -76,7 +74,8 @@ public class SpotlightTest {
 
     @Test
     public final void testSpotlight() throws RemoteException {
-
+        
+        // Testo l'azione della carta oggetto luce.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
@@ -109,7 +108,6 @@ public class SpotlightTest {
 
         Event spotlightEvent = new Event(currentPlayerToken,"useitem",args);
         Event result = gm.dispatchMessage(spotlightEvent);
-        System.out.println(result);
         assertTrue(result.getRetValues().containsKey("error"));
 
         
@@ -123,7 +121,6 @@ public class SpotlightTest {
 
         spotlightEvent = new Event(currentPlayerToken,"useitem",args);
         result = gm.dispatchMessage(spotlightEvent);
-        System.out.println(result);
         assertTrue(result.getRetValues().containsKey("error"));
         
         currentPlayer.addCard(ItemCard.ITEM_SPOTLIGHT);
@@ -134,7 +131,6 @@ public class SpotlightTest {
 
         spotlightEvent = new Event(currentPlayerToken,"useitem",args);
         result = gm.dispatchMessage(spotlightEvent);
-        System.out.println(result);
         result.getRetValues().remove("return");
         boolean test=false;
         for (Entry<String,String> ret : result.getRetValues().entrySet()) {
@@ -153,17 +149,9 @@ public class SpotlightTest {
 
         spotlightEvent = new Event(currentPlayerToken,"useitem",args);
         result = gm.dispatchMessage(spotlightEvent);
-        System.out.println(result);
         assertTrue(result.getRetValues().containsKey("error"));
 
         currentPlayer.addCard(ItemCard.ITEM_SPOTLIGHT);
-
-
-
-
-
-
-
 
     }
 

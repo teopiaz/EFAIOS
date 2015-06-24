@@ -43,8 +43,6 @@ public class AdrenalineTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -75,6 +73,7 @@ public class AdrenalineTest {
     @Test
     public final void test() throws RemoteException {
         
+        // Testo l'utilizzo della carta adrenalina.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);
@@ -101,6 +100,7 @@ public class AdrenalineTest {
     
     @Test
     public final void testAdrenalineForAlienPlayer() throws RemoteException {
+        
         //solo gli umani possono usare la carta adrenalina.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
@@ -124,6 +124,7 @@ public class AdrenalineTest {
 
     @Test
     public final void testAdrenalineCardUsed2Times() throws RemoteException {
+        
         //Gli umani possono usare la carta solo una volta in un turno.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
@@ -152,6 +153,7 @@ public class AdrenalineTest {
     
     @Test
     public final void testAdrenalineNoCardOwned() throws RemoteException {
+        
         //Gli umani non possono usare la carta se non la possiedono.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
@@ -165,7 +167,6 @@ public class AdrenalineTest {
         
         Event adrenalineEvent = new Event(currentPlayerToken,"useitem",args);
         Event result = gm.dispatchMessage(adrenalineEvent);
-        System.out.println("ciao " + result );
         assertTrue(result.getRetValues().containsKey("error"));
 
     }

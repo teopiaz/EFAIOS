@@ -52,8 +52,6 @@ public class AttackTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -61,10 +59,6 @@ public class AttackTest {
         response = gm.joinGame(join2);
         assertEquals("joined", response.getRetValues().get("return"));
 
-        System.out.println("CTOK1: "+ctoken1);
-        System.out.println("CTOK2: "+ctoken2);
-
-        
         response = gm.startGame(new Event(ctoken1, "startgame",null));
         assertEquals("game_started", response.getRetValues().get("return"));
 
@@ -80,23 +74,21 @@ public class AttackTest {
 
     @Test
     public final void testAttack() throws RemoteException {
+        
+        // Testo l'azione attacco.
     
         ClientToken tokenPlayer1 = getPlayerToken("1");
         Map<String,Player> playerMap = gb.getPlayers();
         GameState gameState = gb.getGameState();
         currentPlayer = gameState.getTurnState().getCurrentPlayer();
-            int playernumb =    gb.getPlayers().get( tokenPlayer1.getPlayerToken() ).getPlayerNumber();
-        System.out.println(tokenPlayer1+" playernumb "+playernumb);
-        
+            int playernumb =    gb.getPlayers().get( tokenPlayer1.getPlayerToken() ).getPlayerNumber(); 
         
         currentPlayer.setPlayerType(PlayerType.ALIEN);
         gs.getTurnState().getActionList().add(ActionEnum.ATTACK);
         
         currentPlayer = gameState.getTurnState().getCurrentPlayer();
-        System.out.println("pre attacco "+currentPlayer.getPlayerNumber());
         Event attackEvent = new Event(tokenPlayer1,"attack",null);
         Event result = gm.dispatchMessage(attackEvent);
-        System.out.println(result);
 
         int killedPlayer =Integer.parseInt(result.getRetValues().get("killcount"));
         assertEquals(0, killedPlayer);
@@ -106,6 +98,8 @@ public class AttackTest {
         
         @Test 
         public void testDefense(){
+            
+            // Testo l'azione difesa.
         
         Event attackEvent = new Event(currentPlayerToken,"attack",null);
         currentPlayer = gs.getTurnState().getCurrentPlayer();
@@ -123,6 +117,9 @@ public class AttackTest {
 
         @Test 
         public void testEvolve(){
+            
+            // Testo l'evoluzione del giocatore da alieno a superalieno.
+            
             currentPlayer = gs.getTurnState().getCurrentPlayer();
 
             currentPlayer.setPlayerType(PlayerType.ALIEN);

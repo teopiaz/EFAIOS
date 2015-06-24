@@ -20,6 +20,8 @@ public class ActionEnumTest {
     @Test
     public final void test() {
         
+        // Testo l'enumerazione.
+        
         assertEquals(ActionEnum.MOVE, ActionEnum.valueOf("MOVE"));
 
     }

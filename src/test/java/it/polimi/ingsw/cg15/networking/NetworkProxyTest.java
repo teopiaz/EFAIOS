@@ -22,14 +22,10 @@ public class NetworkProxyTest {
 
     @Test
     public final void testParseString() {
+        
+        // Testo le stringhe che passano come messaggi.
 
         Event e = NetworkProxy.jsonToEvent(s);
-        
-        for (Entry<String, String> arg : e.getArgs().entrySet()) {
-            System.out.println("\""+arg.getKey()+"\" "  + arg.getValue());
-        }
-        
-        System.out.println(e);
         assertEquals(e.getToken().getPlayerToken(),"d23d2ed223faf3f3a3");
         assertEquals(e.getToken().getGameToken(),"91ca29jd933d2ed2f3f33");
         assertEquals(e.getCommand(),"move");
@@ -41,11 +37,6 @@ public class NetworkProxyTest {
         
         e = NetworkProxy.jsonToEvent(json);
 
-        for (Entry<String, String> arg : e.getArgs().entrySet()) {
-            System.out.println("\""+arg.getKey()+"\" "  + arg.getValue());
-        }
-        
-        System.out.println(e);
         assertEquals(e.getToken().getPlayerToken(),"d23d2ed223faf3f3a3");
         assertEquals(e.getToken().getGameToken(),"91ca29jd933d2ed2f3f33");
         assertEquals(e.getCommand(),"move");

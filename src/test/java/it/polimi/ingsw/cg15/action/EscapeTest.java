@@ -48,8 +48,6 @@ public class EscapeTest {
         ctoken1 = new ClientToken("playertoken1",gameToken );
         ctoken2 = new ClientToken("playertoken2", gameToken);  
 
-        System.out.println(gameToken);
-
         Event join1 = new Event(ctoken1,"joingame",null);
         response = gm.joinGame(join1);
         assertEquals("joined", response.getRetValues().get("return"));
@@ -81,6 +79,8 @@ public class EscapeTest {
 
     @Test
     public void testExecute() throws RemoteException {
+        
+        // Testo l'esecuzione della escape.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();

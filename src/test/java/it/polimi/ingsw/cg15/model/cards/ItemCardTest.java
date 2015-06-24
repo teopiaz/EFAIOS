@@ -18,6 +18,8 @@ public class ItemCardTest {
 
     @Test
     public final void testToString() {
+        
+        // Testo la trasposizione in stringa di una carta oggetto.
 
         ItemCard test = ItemCard.ITEM_TELEPORT;
         assertEquals("teleport", test.toString());
@@ -25,6 +27,8 @@ public class ItemCardTest {
     
     @Test
     public final void testFromString() {
+        
+        // Testo la trasposizione di una carta oggetto in stringa.
 
         ItemCard test = ItemCard.ITEM_TELEPORT;
       
