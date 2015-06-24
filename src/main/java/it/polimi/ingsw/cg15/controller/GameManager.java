@@ -9,6 +9,7 @@ import it.polimi.ingsw.cg15.networking.GameManagerRemote;
 import it.polimi.ingsw.cg15.networking.NetworkProxy;
 import it.polimi.ingsw.cg15.networking.SessionTokenGenerator;
 import it.polimi.ingsw.cg15.networking.pubsub.Broker;
+import it.polimi.ingsw.cg15.utils.MapLoader;
 
 import java.rmi.RemoteException;
 import java.util.HashMap;
@@ -145,6 +146,9 @@ public class GameManager implements GameManagerRemote {
             case "gameinfo":
                 response =getGameInfo(e);
                 break;
+            case "savemap":
+                response = saveMap(e);
+                break;
             default:
                 response=dispatchMessage(e);
                 break;
@@ -155,6 +159,24 @@ public class GameManager implements GameManagerRemote {
             response = getClientToken();
         }
         return response;
+    }
+
+    private Event saveMap(Event e) {
+        Map<String,String> args = e.getArgs();
+        Map<String,String> retValues = new HashMap<String, String>();
+
+        if(args.containsKey("mapname") && args.containsKey("map")){
+        String mapName = e.getArgs().get("mapname");
+        String map = e.getArgs().get("map");
+        MapLoader.saveMapFromString(mapName, map);
+        retValues.put(Event.RETURN, Event.TRUE);
+
+        }else{
+        retValues.put(Event.RETURN, Event.FALSE);
+        }
+        
+        return new Event(e, retValues);
+
     }
 
     /** 

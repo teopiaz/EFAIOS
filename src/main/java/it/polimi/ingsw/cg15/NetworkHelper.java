@@ -154,9 +154,9 @@ public class NetworkHelper implements Observer {
                 instance = new NetworkHelper();
             } catch (RemoteException e) {
                 Logger.getLogger(NetworkHelper.class.getName())
-                        .log(Level.SEVERE,
-                                "Remote Exception | Malformed URL Exception | Already Bound Exception, | Not Bound Exception",
-                                e);
+                .log(Level.SEVERE,
+                        "Remote Exception | Malformed URL Exception | Already Bound Exception, | Not Bound Exception",
+                        e);
             }
         }
         return instance;
@@ -192,7 +192,7 @@ public class NetworkHelper implements Observer {
      * Request the current Client Token.
      */
     public void requestClientToken() {
-       
+
         Event e = new Event(new ClientToken(null, null), "requesttoken");
         Event result = null;
         if (type == SOCKET) {
@@ -208,7 +208,7 @@ public class NetworkHelper implements Observer {
                         "Remote Exception in requestClientToken ", e1);
             }
         }
-         
+
     }
 
     /**
@@ -697,7 +697,7 @@ public class NetworkHelper implements Observer {
                 }
             } catch (IOException e) {
                 Logger.getLogger(NetworkHelper.class.getName())
-                        .log(Level.SEVERE, "IO Exception in saveTokenToFile2", e);
+                .log(Level.SEVERE, "IO Exception in saveTokenToFile2", e);
             }
         }
     }
@@ -708,7 +708,7 @@ public class NetworkHelper implements Observer {
      * @return a Client token.
      */
     private boolean loadTokenFromFile() {
-        
+
         File file = new File("efaios_token"+slot+".txt");
         FileInputStream inputStream = null;
         String gameToken = null;
@@ -731,7 +731,7 @@ public class NetworkHelper implements Observer {
             String[] splitted = line.split(",");
             gameToken = splitted[1];
             playerToken = splitted[0];
-             this.ctoken = new ClientToken(playerToken, gameToken);
+            this.ctoken = new ClientToken(playerToken, gameToken);
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
@@ -744,12 +744,12 @@ public class NetworkHelper implements Observer {
         } catch (IOException e) {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile close", e);
         }
-        
-         if(playerToken !=null && gameToken != null){ 
-             this.ctoken = new ClientToken(playerToken, gameToken); 
-             return true; 
-             }
-         
+
+        if(playerToken !=null && gameToken != null){ 
+            this.ctoken = new ClientToken(playerToken, gameToken); 
+            return true; 
+        }
+
         return false;
     }
 
@@ -783,21 +783,37 @@ public class NetworkHelper implements Observer {
      */
     public boolean loadToken(String string) {
         this.slot=string;
-       if(loadTokenFromFile()){
-           
-           if (type == SOCKET) {
-                   subThread = new Thread(new SubscriberSocketThread(ctoken.getGameToken()));
-                   subThread.start();
-                   saveTokenToFile(ctoken);
-           }
-           if (type == RMI) {
+        if(loadTokenFromFile()){
 
-              joinRMI(ctoken.getGameToken());
-     
-           }
-           return true;
-       }
-       return false;
+            if (type == SOCKET) {
+                subThread = new Thread(new SubscriberSocketThread(ctoken.getGameToken()));
+                subThread.start();
+                saveTokenToFile(ctoken);
+            }
+            if (type == RMI) {
+
+                joinRMI(ctoken.getGameToken());
+
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean saveMapToServer(String mapName,String savedMap) {
+        if (ctoken == null) {
+            requestClientToken();
+        }
+        args = new HashMap<String, String>();
+        args.put("map", savedMap);
+        args.put("mapname", mapName);
+
+        Event e = new Event(ctoken, "savemap", args);
+        System.out.println("RICHIESTA "+e);
+        Event result = eventHandler(e);
+        System.out.println("RISPOSTA "+result);
+        return result.actionResult();
+
     }
 
 }

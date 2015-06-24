@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -50,6 +51,8 @@ public class ClientLobbyGUI implements Runnable{
      * The client game GUI.
      */
     private ClientGameGUI gui;
+    
+    private MapEditor editor;
 
     /**
      * The table wit the games.
@@ -89,15 +92,27 @@ public class ClientLobbyGUI implements Runnable{
         
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Resume Game");
+        JMenu menuEditor = new JMenu("MapEditor");
+        JMenuItem openEditor = new JMenuItem("Open Map Editor");
+
         JRadioButtonMenuItem radioSlot1Load = new JRadioButtonMenuItem("Resume last game");
 
 
-        menu.add(radioSlot1Load);
+        openEditor.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("diocane");
+                editor = new MapEditor(networkHelper);
+                Thread editorThread = new Thread(editor);
+                editorThread.start();
+                editor.showGUI();
+                
+            }
+        });
 
-        menuBar.add(menu);
-        frame.setJMenuBar(menuBar);
-        
-        
+      
+
         radioSlot1Load.addActionListener(new ActionListener() {
             
             /**
@@ -201,6 +216,12 @@ public class ClientLobbyGUI implements Runnable{
             }
 
         });
+        
+        menu.add(radioSlot1Load);
+        menuEditor.add(openEditor);
+        menuBar.add(menu);
+        menuBar.add(menuEditor);
+        frame.setJMenuBar(menuBar);
 
         radioGroup.add(radioSock);
         radioGroup.add(radioRMI);

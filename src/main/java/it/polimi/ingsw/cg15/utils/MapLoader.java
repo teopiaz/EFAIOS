@@ -117,9 +117,49 @@ public class MapLoader {
         }
         
     }
+    
+    
+    /**
+     * Save a map from String.
+     * @param strMapName The name of the map.
+     * @param map a string containing the map as comma separated integer.
+     */
+    public static void saveMapFromString(String strMapName, String map){
+        
+        FileOutputStream fop = null;
+        File file;
+        String mapName = strMapName;
+        if(mapName==""){
+            mapName="map";
+        }
+        try {
+            file = new File("maps/"+mapName+".txt");
+            fop = new FileOutputStream(file);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            String content=map;
+            
+            byte[] contentInBytes = content.getBytes();
+            fop.write(contentInBytes);
+            fop.flush();
+            fop.close();
+        } catch (IOException e) {
+            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave IOException", e);
+        } finally {
+            try {
+                if (fop != null) {
+                    fop.close();
+                }
+            } catch (IOException e) {
+                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave file close IOException", e);
+            }
+        }
+    }
+    
 
     /**
-     * Save a map.
+     * Save a map from a Field.
      * @param field The field.
      * @param mapName The name of the map.
      */
