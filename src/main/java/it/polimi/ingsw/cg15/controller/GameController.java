@@ -354,7 +354,6 @@ public class GameController {
         Map<String, String> retValues = new HashMap<String, String>();
         retValues.put("endturn", Event.TRUE);
         retValues.put(Event.RETURN, Event.TRUE);
-        System.out.println("DIOPORCAMADONNA");
         Event response = new Event(e, retValues);
         Event toPublish = new Event(new ClientToken("", gameToken), "pub", retValues);
         Broker.publish(gameToken, NetworkProxy.eventToJSON(toPublish));
