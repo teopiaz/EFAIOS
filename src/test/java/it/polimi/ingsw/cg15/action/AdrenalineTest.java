@@ -124,7 +124,7 @@ public class AdrenalineTest {
 
     @Test
     public final void testAdrenalineCardUsed2Times() throws RemoteException {
-        //Gli umani possono usare la carta solo una volta.
+        //Gli umani possono usare la carta solo una volta in un turno.
         
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
