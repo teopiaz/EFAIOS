@@ -2,8 +2,6 @@ package it.polimi.ingsw.cg15.networking;
 
 import static org.junit.Assert.*;
 
-import java.util.Map.Entry;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

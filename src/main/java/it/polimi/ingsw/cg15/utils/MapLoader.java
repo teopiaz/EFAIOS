@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.utils;
 
-import it.polimi.ingsw.cg15.model.field.Cell;
 import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.field.Sector;

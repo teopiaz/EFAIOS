@@ -8,18 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JFrame;
 import javax.swing.JLayer;
 import javax.swing.JMenu;
@@ -125,7 +115,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         spotlightLayerUI = new SpotlightLayerUI();
         jlayerSpot = new JLayer<JPanel>(map, spotlightLayerUI);
         frame.add(jlayerSpot);
-        JMenuBar menuBar = new JMenuBar();;
+        JMenuBar menuBar = new JMenuBar();
         JMenu debugMenu = new JMenu("Debug");
         JMenuItem spotDebugMenu = new JMenuItem("Spotlight");
         JMenuItem editorDebugMenu = new JMenuItem("Editor Mode");

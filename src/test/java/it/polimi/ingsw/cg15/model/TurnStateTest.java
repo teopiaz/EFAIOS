@@ -3,9 +3,6 @@ package it.polimi.ingsw.cg15.model;
 import static org.junit.Assert.*;
 import it.polimi.ingsw.cg15.model.player.Player;
 
-import org.hamcrest.core.IsAnything;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TurnStateTest {
