@@ -35,7 +35,13 @@ public class NoiseGreen extends Action {
      */
     @Override
     public Event execute() {
-        Map<String,String> retValues = new HashMap<String, String>();
+        Map<String,String> retValues;
+
+        if(e.getRetValues()==null){
+            retValues = new HashMap<String, String>();
+        }else{
+            retValues = e.getRetValues();
+        }
         if( getGameController().askForSector()){
             retValues.put("asksector",Event.TRUE);
             e = new Event(e, retValues);

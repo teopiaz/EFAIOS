@@ -60,10 +60,7 @@ public class GameInstance {
      * @return a boolean if the game state has been removed.
      */
     public boolean removeGameInstace(GameState gameState){
-        if(instanceList.remove(gameState)){
-            return true;
-        }
-        return false;
+     return instanceList.remove(gameState);
     }
     
     /**

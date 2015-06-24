@@ -126,8 +126,6 @@ public class SpotlightTest {
         System.out.println(result);
         assertTrue(result.getRetValues().containsKey("error"));
         
-        
-
         currentPlayer.addCard(ItemCard.ITEM_SPOTLIGHT);
 
         args = new HashMap<String, String>();
@@ -148,8 +146,6 @@ public class SpotlightTest {
             }
         }
         assertTrue(test);
-
-
 
         args = new HashMap<String, String>();
         args.put("itemcard", "spotlight");

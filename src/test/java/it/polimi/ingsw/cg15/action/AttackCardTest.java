@@ -77,7 +77,6 @@ public class AttackCardTest {
     @Test
     public final void test() throws RemoteException {
         
-        System.out.print("DIO");
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.setPlayerType(PlayerType.HUMAN);
         gs.getTurnState().getActionList().add(ActionEnum.USEITEM);
@@ -91,7 +90,6 @@ public class AttackCardTest {
         System.out.println(attackcardEvent);
          result = gm.dispatchMessage(attackcardEvent);
         System.out.println(result);
-        System.out.println("CANE");
 
         
         currentPlayer.addCard(ItemCard.ITEM_ATTACK);

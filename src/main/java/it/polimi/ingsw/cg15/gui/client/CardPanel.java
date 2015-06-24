@@ -201,6 +201,7 @@ public class CardPanel extends JPanel{
 
                 case SPOT_STATE:
                     spotStateSwitchCase();
+                    break;
                     
                 default:
                     revalidate();
