@@ -187,6 +187,7 @@ public class CardPanel extends JPanel{
 
             @Override
             public void mouseClicked(MouseEvent me) {
+                SidePanel.getActionPanel().printMsg("Select a sector to spot players");
 
                 if(state==WAITING_STATE){ 
                     state=SELECT_STATE;
@@ -195,7 +196,6 @@ public class CardPanel extends JPanel{
                 switch(state){
 
                 case SELECT_STATE:
-                    SidePanel.getActionPanel().printMsg("Select a sector to spot players");
                     SidePanel.getMainPanel().getSpotLayer().enableSpot();
                     state=SPOT_STATE;
                     break;

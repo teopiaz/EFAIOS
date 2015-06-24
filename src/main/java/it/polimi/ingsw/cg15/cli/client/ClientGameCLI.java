@@ -132,7 +132,7 @@ public class ClientGameCLI implements ViewClientInterface {
                 myTurnMenu();
             }
             try {
-                Thread.sleep(100);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 Logger.getLogger(ClientGameCLI.class.getName()).log(Level.SEVERE, "Timer interrupted", e);
             }
@@ -220,7 +220,7 @@ public class ClientGameCLI implements ViewClientInterface {
                 actionUseCard("attack");
                 break;
             case "spotlight":
-                spotlight();
+                spotlight(choice);
                 break;
             default: 
                 printToScreen("No card Selected");
@@ -231,8 +231,9 @@ public class ClientGameCLI implements ViewClientInterface {
     /**
      * The method to perform the item card spotlight.
      */
-    private void spotlight() {
-        if (cardList.contains("spotlight")) {
+    private void spotlight(String spotlight) {
+        
+        if (cardList.contains(spotlight)) {
             printToScreen("Enter a sector where you want to make light:");
             String target = scanner.nextLine();
             Event response = networkHelper.spotlight(target);
@@ -439,10 +440,29 @@ public class ClientGameCLI implements ViewClientInterface {
             printToScreen(PLAYER + player + " has moved in: " + sector);
         }
 
-        if(e.getRetValues().containsKey("message")) {
-            printToScreen(e.getRetValues().get("message"));
+        if(e.getRetValues().containsKey(Event.MESSAGE)) {
+            printToScreen(e.getRetValues().get(Event.MESSAGE));
         }
 
+        logCard(e);
+        logAttack(e);
+        if ( e.getRetValues().containsKey("noise") &&  Event.TRUE.equals(e.getRetValues().get("noise"))   ) {
+            String playerNum = e.getRetValues().get(Event.PLAYER);
+            String position = e.getRetValues().get("position");
+            printToScreen(PLAYER + playerNum + ": noise in the sector " + position);
+        }
+
+        if (e.getRetValues().containsKey("hatch")) {
+            if (e.getRetValues().get("hatch").equals(Event.FALSE)) {
+                printToScreen(e.getRetValues().get(Event.MESSAGE));
+            } else {
+                String player = e.getRetValues().get(Event.PLAYER);
+                printToScreen("Player" + player + " has drawn an hatch card " + e.getRetValues().get("hatchcard"));
+            }
+        }
+    }
+    
+    private void logCard(Event e) {
         if (e.getRetValues().containsKey("card")) {
             String player = e.getRetValues().get(Event.PLAYER);
             String card = e.getRetValues().get("card");
@@ -457,6 +477,10 @@ public class ClientGameCLI implements ViewClientInterface {
                 }
             }
         }
+        
+    }
+
+    private void logAttack(Event e) {
         if (e.getRetValues().containsKey(Event.ATTACK)) {
             String playerNum = e.getRetValues().get(Event.PLAYER);
             String position = e.getRetValues().get(Event.ATTACK);
@@ -471,24 +495,12 @@ public class ClientGameCLI implements ViewClientInterface {
 
             printToScreen(count +" killed.");
         }
-        if ( e.getRetValues().containsKey("noise") &&  Event.TRUE.equals(e.getRetValues().get("noise"))   ) {
-            String playerNum = e.getRetValues().get(Event.PLAYER);
-            String position = e.getRetValues().get("position");
-            printToScreen(PLAYER + playerNum + ": noise in the sector " + position);
-        }
-
-        if (e.getRetValues().containsKey("hatch")) {
-            if (e.getRetValues().get("hatch").equals(Event.FALSE)) {
-                printToScreen(e.getRetValues().get("message"));
-            } else {
-                String player = e.getRetValues().get(Event.PLAYER);
-                printToScreen("Player" + player + " has drawn an hatch card " + e.getRetValues().get("hatchcard"));
-            }
-        }
+        
     }
+
     @Override
     public void chat(Event e) {
-        printToScreen("Chat :" + "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get("message"));
+        printToScreen("Chat :" + "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get(Event.MESSAGE));
     }
 
     /** 

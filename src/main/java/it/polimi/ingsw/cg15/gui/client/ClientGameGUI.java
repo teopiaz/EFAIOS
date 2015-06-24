@@ -336,8 +336,8 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
         }
         
-        if(e.getRetValues().containsKey("message")) {
-            addToLog(e.getRetValues().get("message"));
+        if(e.getRetValues().containsKey(Event.MESSAGE)) {
+            addToLog(e.getRetValues().get(Event.MESSAGE));
         }
 
         if (e.getRetValues().containsKey("card")) {
@@ -382,7 +382,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
         if (e.getRetValues().containsKey("hatch")) {
             if (Event.FALSE.equals(e.getRetValues().get("hatch"))) {
-                addToLog(e.getRetValues().get("message"));
+                addToLog(e.getRetValues().get(Event.MESSAGE));
             } else {
                 String player = e.getRetValues().get(Event.PLAYER);
                 addToLog("Player" + player + " has drawn a hatch card: "
@@ -397,7 +397,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      */
     @Override
     public void chat(Event e) {
-        String message = "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get("message");
+        String message = "[Player " + e.getRetValues().get(Event.PLAYER) + "]" + " "+ e.getRetValues().get(Event.MESSAGE);
         SidePanel.getChatPanel().addToChat(message);
     }
 
