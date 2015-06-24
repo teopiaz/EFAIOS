@@ -119,6 +119,12 @@ public class MapEditor implements Runnable {
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                savedMap="";
+                for (int i = 0; i < 15; i++) {
+                    for (int j = 0; j < 23; j++) {
+                        savedMap = savedMap + (i + 1) + "," + (j + 1) + "," + board[j][i] + "\n";
+                    }
+                }
 
                 String mapName =JOptionPane.showInputDialog("Insert Map Name");
                 if(netHelper.saveMapToServer(mapName,savedMap)){
@@ -203,7 +209,6 @@ public class MapEditor implements Runnable {
                         }
                     }
                     byte[] contentInBytes = content.getBytes();
-                    savedMap = content;
                     fop.write(contentInBytes);
                     fop.flush();
                     fop.close();

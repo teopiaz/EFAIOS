@@ -815,9 +815,9 @@ public class NetworkHelper implements Observer {
         args.put("mapname", mapName);
 
         Event e = new Event(ctoken, "savemap", args);
-        System.out.println("RICHIESTA "+e);
+
         Event result = eventHandler(e);
-        System.out.println("RISPOSTA "+result);
+
         return result.actionResult();
 
     }

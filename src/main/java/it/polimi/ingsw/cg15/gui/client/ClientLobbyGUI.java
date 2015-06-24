@@ -102,7 +102,6 @@ public class ClientLobbyGUI implements Runnable{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("diocane");
                 editor = new MapEditor(networkHelper);
                 Thread editorThread = new Thread(editor);
                 editorThread.start();

@@ -38,7 +38,7 @@ public class ClientHandler implements Runnable{
         try {
             PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
             InputStreamReader inReader = new InputStreamReader(socket.getInputStream());
-                char[] buffer = new char[1024];
+                char[] buffer = new char[8162];
                 String message = "";
                 int num = inReader.read(buffer);
                 message = new String(buffer);
