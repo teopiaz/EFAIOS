@@ -6,8 +6,6 @@ import it.polimi.ingsw.cg15.model.field.Coordinate;
 import it.polimi.ingsw.cg15.model.field.Field;
 import it.polimi.ingsw.cg15.model.player.Player;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author MMP - LMR 

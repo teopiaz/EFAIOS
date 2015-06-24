@@ -140,7 +140,6 @@ public class ClientLobbyGUI implements Runnable{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(networkHelper.getType());
                 updateGameList();
             }
 

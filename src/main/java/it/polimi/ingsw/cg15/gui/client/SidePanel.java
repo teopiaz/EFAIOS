@@ -1,6 +1,5 @@
 package it.polimi.ingsw.cg15.gui.client;
 
-//import jaco.mp3.player.MP3Player;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 
@@ -49,7 +48,6 @@ public class SidePanel extends JPanel {
      * The card panel.
      */
     private static CardPanel cardPanel;
-    // MP3Player player;
     
     /**
      * Serial Version UID.
@@ -84,10 +82,7 @@ public class SidePanel extends JPanel {
         chatPanel = new ChatPanel();
         actionPanel = new ActionPanel();
         cardPanel = new CardPanel();
-        // MusicPlayer musicPlayer = new MusicPlayer();
-        // Thread mp3player = new Thread(musicPlayer);
-        // mp3player.start();
-        // add(musicPlayer);
+
         add(logPanel);
         add(cardPanel);
         add(actionPanel);
@@ -237,36 +232,7 @@ public class SidePanel extends JPanel {
 
     }
 
-    /*
-     * 
-     * private class MusicPlayer extends JPanel implements Runnable{
-     * 
-     * 
-     * public MusicPlayer(){ player = new MP3Player(); player.setRepeat(true);
-     * 
-     * player.addToPlayList(new
-     * File("./music/SnD_-_TuneUp_Utilities_2006_5.xcrk.mp3"));
-     * player.addToPlayList(new
-     * File("./music/BLeH_-_Juiced_cheat_codes_enabler.mp3"));
-     * player.addToPlayList(new File("./music/keygensong.mp3"));
-     * player.addToPlayList(new File("./music/AiR_-_Truepianoskg.mp3"));
-     * player.addToPlayList(new File("./music/AAOCG_-_XnView_1.xxkg.mp3"));
-     * player.addToPlayList(new File("./music/keygensong.mp3"));
-     * player.addToPlayList(new File("./music/SnD_-_Zealot_Productskgs.mp3"));
-     * //player.setShuffle(true);
-     * //player.setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
-     * setPreferredSize(new Dimension(350,30) );
-     * setMaximumSize(getPreferredSize()); setBackground(Color.BLACK);
-     * this.add(player); }
-     * 
-     * @Override public void run() { player.play(); // player.pause(); }
-     * 
-     * 
-     * 
-     * 
-     * }
-     */
-
+    
     /**
      * @return The action panel.
      */

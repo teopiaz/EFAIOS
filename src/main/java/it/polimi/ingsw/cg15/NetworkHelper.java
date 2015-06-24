@@ -745,7 +745,6 @@ public class NetworkHelper implements Observer {
         } catch (IOException e) {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile close", e);
         }
-        // TODO: sistemare il resume del gioco (stesso file)
         
          if(playerToken !=null && gameToken != null){ 
              this.ctoken = new ClientToken(playerToken, gameToken); 
