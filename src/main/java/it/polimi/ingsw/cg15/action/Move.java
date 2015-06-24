@@ -76,8 +76,11 @@ public class Move extends Action {
                 }
                 retValues = response.getRetValues();
                 response = new Event(response, retValues);
+                
+                
                 Action escape = new Escape(getGameController(), response);
                 response = escape.execute();
+                
                 retValues = response.getRetValues();
                 getGameController().removeAction(ActionEnum.MOVE);
                 retValues = response.getRetValues();

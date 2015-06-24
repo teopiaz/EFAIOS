@@ -82,13 +82,13 @@ public class MoveTest {
         List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
         itemCardDeck.clear();
         itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
-  
+
 
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
         sectorCardDeck.add(SectorCard.SECTOR_RED_ITEM);
 
-        
+
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
         currentPlayer.getCardList().clear();
         currentPlayer.setPlayerType(PlayerType.SUPERALIEN);
@@ -109,8 +109,8 @@ public class MoveTest {
         System.out.println(currentPlayer.getCardList());
 
         assertEquals(ItemCard.ITEM_ADRENALINE, currentPlayer.getCardById(0));
-        
-        
+
+
         Event getCardEvent = new Event(currentPlayerToken,"getcardlist",null);
         response = gm.dispatchMessage(getCardEvent);
 
@@ -121,15 +121,62 @@ public class MoveTest {
 
 
     }
+    
+    
+    @Test
+    public void testMovePick4Card() throws RemoteException {
+
+        List<ItemCard> itemCardDeck = gs.getDeckContainer().getItemDeck().getItemDeck();
+        itemCardDeck.clear();
+        itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
+        itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
+        itemCardDeck.add(ItemCard.ITEM_ADRENALINE);
+
+
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN_ITEM);
+
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+        currentPlayer.getCardList().clear();
+        currentPlayer.addCard(ItemCard.ITEM_DEFENSE);
+        currentPlayer.addCard(ItemCard.ITEM_DEFENSE);
+        currentPlayer.addCard(ItemCard.ITEM_DEFENSE);
+        currentPlayer.setPlayerType(PlayerType.HUMAN);
+        
+        Event response;
+        String destination = "L07";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+        
+        System.out.println("DIOOOOO: "+response);
+        
+        String position = null;
+        if(response.actionResult()){
+            position = response.getRetValues().get("destination");
+        }
+
+
+        //System.out.println(currentPlayer.getCardList());
+
+        
+
+
+
+    }
+
 
     @Test
     public void testMoveAskSector() throws RemoteException{
-        
+
         Player currentPlayer = gs.getTurnState().getCurrentPlayer();
 
         currentPlayer.setPlayerType(PlayerType.ALIEN);
 
-        
+
         List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
         sectorCardDeck.clear();
         sectorCardDeck.add(SectorCard.SECTOR_GREEN);
@@ -154,25 +201,64 @@ public class MoveTest {
         args = new HashMap<String,String>();
         args.put("position", noiseTarget);
         Event askEvent = new Event(currentPlayerToken,"asksector",args);
-        
-        
+
+
         response = gm.dispatchMessage(askEvent);
-        
+
 
         List<String>actionList = new ArrayList<String>();
         Event getActionEvent = new Event(currentPlayerToken,"getactionlist",null);
         Event result;
         result = gm.dispatchMessage(getActionEvent);
-  
 
-            for (String action : result.getRetValues().keySet()) {
-                if(!action.equals("return")){
-                    actionList.add(action);  
-                }
+
+        for (String action : result.getRetValues().keySet()) {
+            if(!action.equals("return")){
+                actionList.add(action);  
             }
-            assertTrue(!actionList.contains("asksector"));
+        }
+        assertTrue(!actionList.contains("asksector"));
 
-        
+
+    }
+
+    @Test
+    public void testMoveAskSectorFail() throws RemoteException{
+
+        Player currentPlayer = gs.getTurnState().getCurrentPlayer();
+
+        currentPlayer.setPlayerType(PlayerType.ALIEN);
+
+
+        List<SectorCard> sectorCardDeck = gs.getDeckContainer().getSectorDeck().getSectorDeck();
+        sectorCardDeck.clear();
+        sectorCardDeck.add(SectorCard.SECTOR_GREEN);
+        for (SectorCard sectorCard : sectorCardDeck) {
+            System.out.println(sectorCard);
+        }
+
+
+        Event response;
+        String destination = "L07";
+        Map<String,String> args = new HashMap<String,String>();
+        args.put("destination", destination);
+        Event eMove = new Event(currentPlayerToken,"move",args);
+        response = gm.dispatchMessage(eMove);
+        String position = null;
+        if(response.actionResult()){
+            assertTrue(response.getRetValues().containsKey("asksector"));
+        }
+
+
+        String noiseTarget = "Z99";
+        args = new HashMap<String,String>();
+        args.put("position", noiseTarget);
+        Event askEvent = new Event(currentPlayerToken,"asksector",args);
+
+
+        response = gm.dispatchMessage(askEvent);
+        assertTrue(response.getRetValues().containsKey("error"));
+
 
     }
 
