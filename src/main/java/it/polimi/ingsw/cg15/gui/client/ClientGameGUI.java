@@ -125,10 +125,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         spotlightLayerUI = new SpotlightLayerUI();
         jlayerSpot = new JLayer<JPanel>(map, spotlightLayerUI);
         frame.add(jlayerSpot);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("File");
-        JMenuItem saveMenu = new JMenuItem("Save");
-        JMenuItem loadMenu = new JMenuItem("Load");
+        JMenuBar menuBar = new JMenuBar();;
         JMenu debugMenu = new JMenu("Debug");
         JMenuItem spotDebugMenu = new JMenuItem("Spotlight");
         JMenuItem editorDebugMenu = new JMenuItem("Editor Mode");
@@ -177,99 +174,9 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
 
         });
 
-        loadMenu.addActionListener(new ActionListener() {
-
-            /**
-             * @param e The action event.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                board = map.getBoard();
-                FileInputStream fin = null;
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map name to load");
-                if (mapName == "") {
-                    mapName = "map";
-                }
-                File file = new File("maps/" + mapName + ".txt");
-                try {
-                    fin = new FileInputStream(file);
-                } catch (FileNotFoundException e1) {
-                    Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "File not found exception", e1);
-                }
-                BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
-                String line = null;
-                try {
-                    line = reader.readLine();
-                } catch (IOException e1) {
-                    Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO exception", e1);
-                }
-                while (line != null) {
-                    String[] splitted = line.split(",");
-                    board[Integer.valueOf(splitted[1]) - 1][Integer.valueOf(splitted[0]) - 1] = Integer.valueOf(splitted[2]);
-                    try {
-                        line = reader.readLine();
-                    } catch (IOException e1) {
-                        Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO exception", e1);
-                    }
-                }
-                map.repaint();
-            }
-
-        });
-
-        saveMenu.addActionListener(new ActionListener() {
-
-            /**
-             * @param event The action event.
-             */
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                board = map.getBoard();
-                FileOutputStream fop = null;
-                File file;
-                String content = "";
-                String mapName = JOptionPane.showInputDialog(frame, "Insert Map Name to save");
-                if (mapName == "") {
-                    mapName = "map";
-                }
-                try {
-                    file = new File("maps/" + mapName + ".txt");
-                    fop = new FileOutputStream(file);
-                    // if file doesnt exists, then create it
-                    if (!file.exists()) {
-                        file.createNewFile();
-                    }
-                    // get the content in bytes
-                    for (int i = 0; i < 15; i++) {
-                        for (int j = 0; j < 23; j++) {
-                            content = content + (i + 1) + "," + (j + 1) + "," + board[j][i] + "\n";
-                        }
-                    }
-                    byte[] contentInBytes = content.getBytes();
-                    fop.write(contentInBytes);
-                    fop.flush();
-                    fop.close();
-                } catch (IOException e) {
-                    Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO Exception", e);
-                } finally {
-                    try {
-                        if (fop != null) {
-                            fop.close();
-                        }
-                    } catch (IOException e) {
-                        Logger.getLogger(ClientGameGUI.class.getName()).log(Level.SEVERE, "IO Exception", e);
-                    }
-                }
-            }
-
-        });
-
         debugMenu.add(spotDebugMenu);
         debugMenu.add(editorDebugMenu);
         debugMenu.add(loadmapDebugMenu);
-        menu.add(saveMenu);
-        menu.add(loadMenu);
-        menuBar.add(menu);
         menuBar.add(debugMenu);
         frame.setJMenuBar(menuBar);
         frame.pack();

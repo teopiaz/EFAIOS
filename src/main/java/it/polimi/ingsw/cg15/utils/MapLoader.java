@@ -29,7 +29,7 @@ public class MapLoader {
      * List of maps already created.
      */
     private static final List<String> LOCALMAPLIST = new ArrayList<String>() ;
-    
+    public static final String MAPNAME = "mapname";
 
     /**
      * The constructor.
@@ -158,50 +158,5 @@ public class MapLoader {
     }
     
 
-    /**
-     * Save a map from a Field.
-     * @param field The field.
-     * @param mapName The name of the map.
-     */
-    public static void saveMap(Field field,String strMapName) {
-        FileOutputStream fop = null;
-        File file;
-        String mapName = strMapName;
-        if(mapName==""){
-            mapName="map";
-        }
-        try {
-            file = new File("maps/"+mapName+".txt");
-            fop = new FileOutputStream(file);
-            // if file doesnt exists, then create it
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            String content="";
-            // get the content in bytes
-            for(int r=0;r<15;r++){
-                for(int c=0; c<23; c++){
-                    Cell cell = field.getCell(new Coordinate(c, r));
-                    if(cell!=null){
-                        content=content+(r)+","+(c)+","+ cell.getSectorType().getValue() +"\n"; 
-                    }
-                }
-            }
-            byte[] contentInBytes = content.getBytes();
-            fop.write(contentInBytes);
-            fop.flush();
-            fop.close();
-        } catch (IOException e) {
-            Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave IOException", e);
-        } finally {
-            try {
-                if (fop != null) {
-                    fop.close();
-                }
-            } catch (IOException e) {
-                Logger.getLogger(MapLoader.class.getName()).log(Level.SEVERE, "Mapsave file close IOException", e);
-            }
-        }
-    }
 
 }

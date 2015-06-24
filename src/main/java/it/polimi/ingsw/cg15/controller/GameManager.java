@@ -165,8 +165,8 @@ public class GameManager implements GameManagerRemote {
         Map<String,String> args = e.getArgs();
         Map<String,String> retValues = new HashMap<String, String>();
 
-        if(args.containsKey("mapname") && args.containsKey("map")){
-        String mapName = e.getArgs().get("mapname");
+        if(args.containsKey(MapLoader.MAPNAME) && args.containsKey("map")){
+        String mapName = e.getArgs().get(MapLoader.MAPNAME);
         String map = e.getArgs().get("map");
         MapLoader.saveMapFromString(mapName, map);
         retValues.put(Event.RETURN, Event.TRUE);
