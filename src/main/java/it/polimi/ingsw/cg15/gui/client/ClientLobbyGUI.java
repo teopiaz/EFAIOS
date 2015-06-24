@@ -2,6 +2,7 @@ package it.polimi.ingsw.cg15.gui.client;
 
 import it.polimi.ingsw.cg15.NetworkHelper;
 import it.polimi.ingsw.cg15.networking.Event;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,11 +16,16 @@ import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
@@ -81,6 +87,38 @@ public class ClientLobbyGUI implements Runnable{
         JButton btnCreate = new JButton("Crea Partita");
         JButton btnJoin = new JButton("Entra in una Partita");
         JButton btnRefreshList = new JButton("Aggiorna La Lista");
+        
+        
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu = new JMenu("Resume Game");
+        JRadioButtonMenuItem radioSlot1Load = new JRadioButtonMenuItem("Resume last game");
+
+
+        menu.add(radioSlot1Load);
+
+        menuBar.add(menu);
+        frame.setJMenuBar(menuBar);
+        
+        
+        radioSlot1Load.addActionListener(new ActionListener() {
+            
+            /**
+             * @param e The action event.
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              if(networkHelper.loadToken("1")){
+                  gui.showGUI();
+                  gui.setStarted();
+                  frame.setVisible(false);
+                  frame.dispose();
+                  
+              }
+                
+            }
+        });
+
+
 
         btnCreate.addActionListener(new ActionListener() {
 

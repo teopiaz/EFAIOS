@@ -82,6 +82,11 @@ public class NetworkHelper implements Observer {
     private int port;
 
     /**
+     * Save slot for the token
+     */
+    private String slot = "1";
+
+    /**
      * Socket type.
      */
     private static final int SOCKET = 1;
@@ -187,7 +192,7 @@ public class NetworkHelper implements Observer {
      * Request the current Client Token.
      */
     public void requestClientToken() {
-        // if(!loadTokenFromFile()){
+       
         Event e = new Event(new ClientToken(null, null), "requesttoken");
         Event result = null;
         if (type == SOCKET) {
@@ -203,7 +208,8 @@ public class NetworkHelper implements Observer {
                         "Remote Exception in requestClientToken ", e1);
             }
         }
-        // view.stampa("TOKEN: "+result.getToken().getPlayerToken());
+         view.stampa("TOKEN: "+result.getToken().getPlayerToken());
+         
     }
 
     /**
@@ -279,7 +285,6 @@ public class NetworkHelper implements Observer {
                         "Remote Exception in getGamesList", e1);
             }
         }
-        // loadTokenFromFile();
         return result.getRetValues();
     }
 
@@ -671,7 +676,7 @@ public class NetworkHelper implements Observer {
     private void saveTokenToFile(ClientToken clientToken) {
         FileOutputStream outputStream = null;
         try {
-            File file = new File("efaios_token.txt");
+            File file = new File("efaios_token"+slot+".txt");
             outputStream = new FileOutputStream(file);
             // if file doesnt exists, then create it
             if (!file.exists()) {
@@ -682,6 +687,8 @@ public class NetworkHelper implements Observer {
             outputStream.write(contentInBytes);
             outputStream.flush();
             outputStream.close();
+            Logger.getLogger(NetworkHelper.class.getName()).log(Level.INFO, "Token "+clientToken+" salvato in slot "+slot);
+
         } catch (IOException e) {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in saveTokenToFile", e);
         } finally {
@@ -702,7 +709,8 @@ public class NetworkHelper implements Observer {
      * @return a Client token.
      */
     private boolean loadTokenFromFile() {
-        File file = new File("efaios_token.txt");
+        
+        File file = new File("efaios_token"+slot+".txt");
         FileInputStream inputStream = null;
         String gameToken = null;
         String playerToken = null;
@@ -710,7 +718,7 @@ public class NetworkHelper implements Observer {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e1) {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE,
-                    "File Not Found Exception", e1);
+                    "File Not Found");
             return false;
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -724,7 +732,7 @@ public class NetworkHelper implements Observer {
             String[] splitted = line.split(",");
             gameToken = splitted[1];
             playerToken = splitted[0];
-            // this.ctoken = new ClientToken(playerToken, gameToken);
+             this.ctoken = new ClientToken(playerToken, gameToken);
             try {
                 line = reader.readLine();
             } catch (IOException e1) {
@@ -738,10 +746,12 @@ public class NetworkHelper implements Observer {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE, "IO Exception in loadTokenFromFile close", e);
         }
         // TODO: sistemare il resume del gioco (stesso file)
-        /*
-         * if(playerToken !=null && gameToken != null){ this.ctoken = new
-         * ClientToken(playerToken, gameToken); return true; }
-         */
+        
+         if(playerToken !=null && gameToken != null){ 
+             this.ctoken = new ClientToken(playerToken, gameToken); 
+             return true; 
+             }
+         
         return false;
     }
 
@@ -766,6 +776,25 @@ public class NetworkHelper implements Observer {
     public String getPlayerPosition() {
         getPlayerInfo();
         return position;
+    }
+
+    public boolean loadToken(String string) {
+        this.slot=string;
+       if(loadTokenFromFile()){
+           
+           if (type == SOCKET) {
+                   subThread = new Thread(new SubscriberSocketThread(ctoken.getGameToken()));
+                   subThread.start();
+                   saveTokenToFile(ctoken);
+           }
+           if (type == RMI) {
+
+              joinRMI(ctoken.getGameToken());
+     
+           }
+           return true;
+       }
+       return false;
     }
 
 }

@@ -239,12 +239,14 @@ public class TurnState {
      */
     public void setTurnTimer(TimerTurn timerTurnTask) {
         this.timerTurn=timerTurnTask;        
+
     }
     /**
      * Get the timer of the turn
      * @return timerTurn
      */
     public TimerTurn getTimer(){
+
         return this.timerTurn;
     }
 }

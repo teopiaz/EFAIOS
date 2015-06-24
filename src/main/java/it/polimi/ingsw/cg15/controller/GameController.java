@@ -154,7 +154,7 @@ public class GameController {
             if(timerTurn!=null){
                 timerTurn.interruptTimer();
             }
-            turnTimeout();
+           
             TurnState turnState = null;
             PlayerController pc = new PlayerController(gameState);
             if (turnNumber == 1) {
@@ -162,6 +162,9 @@ public class GameController {
             } else {
                 turnState = gameState.newTurnState(pc.getPlayerById(pc.getNextPlayer().getPlayerNumber()));
             }
+            
+            turnTimeout();
+            
             if (turnState.getCurrentPlayer().isAlive() || !turnState.getCurrentPlayer().isEscaped()) {
                 gameState.setTurnNumber(turnNumber + 1);
             } else {
@@ -182,6 +185,8 @@ public class GameController {
             Broker.publish(gameToken, json);
         }
     }
+    
+    
     
     private TimerTurn turnTimeout(){
         
