@@ -98,10 +98,10 @@ public class ActionPanel extends JPanel {
 
                 Event response = networkHelper.attack();
                 if(response.actionResult()){
-                    actionLabel.setText("Hai attaccato nel settore "+ networkHelper.getCurrentPosition());
+                    actionLabel.setText("You attack in sector "+ networkHelper.getCurrentPosition());
                     getActionsList();
                 }else{
-                    actionLabel.setText("Errore: "+ response.getRetValues().get(Event.ERROR));
+                    actionLabel.setText("Error: "+ response.getRetValues().get(Event.ERROR));
 
                 }
 
@@ -125,6 +125,7 @@ public class ActionPanel extends JPanel {
                     actionAsk();
                     SidePanel.getMainPanel();
                     ClientGameGUI.getMapPanel().setSelected(false);
+                    actionLabel.setText("Select a sector to make noise");
                 }
 
 
@@ -142,14 +143,14 @@ public class ActionPanel extends JPanel {
 
                     response = networkHelper.askSector(target);
                     if (response.actionResult()) {
-                        actionLabel.setText("Hai fatto rumore nel settore "+ target);
+                        actionLabel.setText("Noise in sector "+ target);
                         state=WAITING_STATE;
                     }else{
                         actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
                     }
 
                 }else{
-                    actionLabel.setText("Seleziona un settore");
+                    actionLabel.setText("Select a Sector to make noise");
 
                 }
 
@@ -163,23 +164,23 @@ public class ActionPanel extends JPanel {
                     String target = ClientGameGUI.getMapPanel().getSelectedSectorLabel();
                     response = networkHelper.move(target);
                     if (response.actionResult()) {
-                        actionLabel.setText("Ti sei spostato nel settore "+ networkHelper.getCurrentPosition());
+                        actionLabel.setText("You moved in sector "+ networkHelper.getCurrentPosition());
 
                         SidePanel.getMainPanel();
                         ClientGameGUI.getMapPanel().setSelected(false);
                         if (response.getRetValues().containsKey("asksector")) {
                             state=ASKSECTOR_STATE;
-                            actionLabel.setText("Seleziona un settore dove fare rumore");
+                            actionLabel.setText("Select a sector to make noise");
 
                         }
                     }else{
-                        actionLabel.setText("Errore:"+response.getRetValues().get(Event.ERROR));
+                        actionLabel.setText("Error:"+response.getRetValues().get(Event.ERROR));
 
                     }
 
                 }
                 else{
-                    actionLabel.setText("Seleziona un settore");
+                    actionLabel.setText("Select a sector");
 
                 }
 
@@ -195,9 +196,9 @@ public class ActionPanel extends JPanel {
                     public void run() {
                         Event response = networkHelper.endTurn();
                         if (response.actionResult()) {
-                            actionLabel.setText("Turno Terminato");
+                            actionLabel.setText("End Turn");
                         } else {
-                            actionLabel.setText("Errore");
+                            actionLabel.setText("Error");
                         }
 
 
@@ -248,7 +249,7 @@ public class ActionPanel extends JPanel {
 
         if(networkHelper.isMyTurn()){       
             int player = networkHelper.getTurnInfo();
-            actionLabel.setText("E' il turno del giocatore: " + player);
+            actionLabel.setText("Now is player " + player+" turn");
             actionList = networkHelper.getAvailableActionsList();
 
             for (String action : actionList) {

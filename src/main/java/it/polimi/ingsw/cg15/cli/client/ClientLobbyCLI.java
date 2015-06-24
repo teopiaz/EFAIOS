@@ -76,12 +76,14 @@ public class ClientLobbyCLI {
                 "1)Create game"+"\n"
                         + "2)List Game"+"\n"
                         + "3)Join Game"+"\n"
+                        + "4)Resume last game\n"
                         );
         while(scanner.hasNextLine() && !exit){
             printToScreen(
                     "1)Create game"+"\n"
                             + "2)List Game"+"\n"
                             + "3)Join Game"+"\n"
+                            + "4)Resume last game\n"
                             );
             action  = scanner.nextLine();
             switch(action){
@@ -96,13 +98,25 @@ public class ClientLobbyCLI {
             case "3": 
                 actionJoinGame();
                 break;
-            
+            case "4":
+                resumeGame();
+                break;
             default :
                 break;
             
             }
         }
         scanner.close();
+    }
+
+    private void resumeGame() {
+        if(networkHelper.loadToken("1")){
+            ClientGameCLI gameCLI = new ClientGameCLI(networkHelper);
+            gameCLI.notifyStart();
+            gameCLI.start();
+
+        }
+        
     }
 
     /**
@@ -113,11 +127,16 @@ public class ClientLobbyCLI {
         printToScreen("Insert game name:");
         String gameName = scanner.nextLine();
         String gameToken = gameList.get(gameName);
+        if(gameToken!=null){
         ctoken = new ClientToken(networkHelper.getPlayerToken(), gameToken);
         networkHelper.setToken(ctoken);
         networkHelper.joinGame(gameToken);
+        printToScreen("Waiting for more players");
         ClientGameCLI gameCLI = new ClientGameCLI(networkHelper);
         gameCLI.start();
+        }else{
+            printToScreen("Error invalid game");
+        }
     }
 
     /**
@@ -126,9 +145,10 @@ public class ClientLobbyCLI {
     private void actionCreateGame() {
         printToScreen("Insert game name:");
         String gameName = scanner.nextLine();
-        printToScreen("Insert map name:");
+        printToScreen("Insert map name:\n(galilei/galvani/fermi)");
         String mapName = scanner.nextLine();
         networkHelper.createGame(gameName,mapName.toLowerCase());
+        printToScreen("Game "+gameName+" created");
     }
 
     /**

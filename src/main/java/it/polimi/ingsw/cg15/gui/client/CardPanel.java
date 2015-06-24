@@ -149,7 +149,7 @@ public class CardPanel extends JPanel{
             public void mouseClicked(MouseEvent me) {
 
                 networkHelper.useCard("adrenaline");
-                SidePanel.getActionPanel().printMsg("Hai usato la carta Adrenalina");
+                SidePanel.getActionPanel().printMsg("Used Adrenaline card");
                 revalidate();
 
             }
@@ -161,7 +161,7 @@ public class CardPanel extends JPanel{
             public void mouseClicked(MouseEvent me) {
 
                 networkHelper.useCard("attack");
-                SidePanel.getActionPanel().printMsg("Hai usato la carta Attacco");
+                SidePanel.getActionPanel().printMsg("Used Attack card");
                 revalidate();
 
             }
@@ -173,7 +173,7 @@ public class CardPanel extends JPanel{
             public void mouseClicked(MouseEvent me) {
 
                 networkHelper.useCard("sedatives");
-                SidePanel.getActionPanel().printMsg("Hai usato la carta Sedativi");
+                SidePanel.getActionPanel().printMsg("Used Sedatives card");
 
                 revalidate();
 
@@ -195,6 +195,7 @@ public class CardPanel extends JPanel{
                 switch(state){
 
                 case SELECT_STATE:
+                    SidePanel.getActionPanel().printMsg("Select a sector to spot players");
                     SidePanel.getMainPanel().getSpotLayer().enableSpot();
                     state=SPOT_STATE;
                     break;
@@ -215,12 +216,12 @@ public class CardPanel extends JPanel{
                 if(SidePanel.getMainPanel().getMapPanel().isSelected()){
                     String target = SidePanel.getMainPanel().getMapPanel().getSelectedSectorLabel();
                     networkHelper.spotlight(target);
-                    SidePanel.getActionPanel().printMsg("Hai usato la carta SpotLight nel settore "+target);
+                    SidePanel.getActionPanel().printMsg("Used Spotlight card in sector "+target);
                     state =WAITING_STATE;
                     SidePanel.getMainPanel().getSpotLayer().disableSpot();
 
                 }else{
-                    SidePanel.getActionPanel().printMsg("Seleziona un settore");
+                    SidePanel.getActionPanel().printMsg("Select a sector to spot players");
                 }
                 revalidate();
                 

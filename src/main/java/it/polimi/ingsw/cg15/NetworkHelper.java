@@ -208,7 +208,6 @@ public class NetworkHelper implements Observer {
                         "Remote Exception in requestClientToken ", e1);
             }
         }
-         view.stampa("TOKEN: "+result.getToken().getPlayerToken());
          
     }
 

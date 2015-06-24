@@ -43,7 +43,7 @@ public class MainClientCLI {
         ClientLobbyCLI client=null;
         NetworkHelper netHelper =null;
         Scanner scanner = new Scanner(System.in);
-        System.out.println("1)Socket\n2)RMI");
+        System.out.println("1)Socket\n2)RMI\ndefault:Socket");
         boolean isRunning = true;
         String choice = scanner.nextLine();
         switch(choice){
@@ -54,7 +54,7 @@ public class MainClientCLI {
             netHelper = NetworkHelper.getClientRMI();
             break;
         default:
-           System.exit(0);
+            netHelper = NetworkHelper.getClientSocket("localhost", 1337);
            break;
        }
         client = new ClientLobbyCLI(netHelper);

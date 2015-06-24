@@ -240,24 +240,22 @@ public class GameManager implements GameManagerRemote {
     
     private void joinTimeout(String gameToken){
         if((gameBoxList.get(gameToken).getPlayers().size() >=2) && gameTimer ){
-            Runnable timerThread = new Runnable() {
-                Timer timeout = new Timer();
+            
+            
+            Timer timeout = new Timer();
+
+            timeout.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    timeout.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Event e = new Event(token,STARTGAME,null);
-                            try {
-                                startGame(e);
-                            } catch (RemoteException e1) {
-                                Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "There was an error in the creation of the game", e1);
-                            }
-                        }
-                    }, 1000*5);
+                    Event e = new Event(token,STARTGAME,null);
+                    try {
+                        startGame(e);
+                    } catch (RemoteException e1) {
+                        Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "There was an error in the creation of the game", e1);
+                    }
                 }
-            };
-            timerThread.run();
+            },1000*5);
+ 
         }
     }
 
