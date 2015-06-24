@@ -43,9 +43,6 @@ public class TimerTurn extends TimerTask {
     public void run() {
         if(!interrupted){
         gc.nextTurn();
-        System.out.println("TIMER FINITO per il giocatore: "+gc.getCurrentPlayer().getPlayerNumber());
-        }else{
-        System.out.println("TIMER INTERROTTO per il giocatore: "+gc.getCurrentPlayer().getPlayerNumber());
         }
     }
 

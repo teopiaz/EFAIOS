@@ -76,10 +76,10 @@ public class Player {
     public Player(){
         cards = new ArrayList<ItemCard>(MAX_ITEMCARD);
         
-        /*
-        cards.add(ItemCard.ITEM_ADRENALINE);
+     //il giocatore parte con questa carta di default per la demo 
+     //nella dimostrazione della grafica di gioco
         cards.add(ItemCard.ITEM_SPOTLIGHT);
-        */
+        
         
 }
 

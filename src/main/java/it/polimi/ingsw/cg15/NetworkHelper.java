@@ -718,7 +718,7 @@ public class NetworkHelper implements Observer {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e1) {
             Logger.getLogger(NetworkHelper.class.getName()).log(Level.SEVERE,
-                    "File Not Found");
+                    "File Not Found",e1);
             return false;
         }
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -778,6 +778,11 @@ public class NetworkHelper implements Observer {
         return position;
     }
 
+    /**
+     *  Load the token from previus saved file
+     * @param string slot
+     * @return a boolean for the succesfully 
+     */
     public boolean loadToken(String string) {
         this.slot=string;
        if(loadTokenFromFile()){

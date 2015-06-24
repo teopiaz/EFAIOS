@@ -88,7 +88,7 @@ public class PlayerController {
      * @return a boolean
      */
     public boolean moveIsPossible(Coordinate dest) {
-        Logger.getLogger(PlayerController.class.getName()).log(Level.SEVERE, "Error in function overriding!");
+        Logger.getLogger(PlayerController.class.getName()).log(Level.SEVERE, "Error in function overriding!"+dest);
         return true;
     }
 
