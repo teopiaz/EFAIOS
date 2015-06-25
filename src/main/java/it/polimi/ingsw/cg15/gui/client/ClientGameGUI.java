@@ -115,60 +115,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         spotlightLayerUI = new SpotlightLayerUI();
         jlayerSpot = new JLayer<JPanel>(map, spotlightLayerUI);
         frame.add(jlayerSpot);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu debugMenu = new JMenu("Debug");
-        JMenuItem spotDebugMenu = new JMenuItem("Spotlight");
-        JMenuItem editorDebugMenu = new JMenuItem("Editor Mode");
-        JMenuItem loadmapDebugMenu = new JMenuItem("Load game map");
 
-        loadmapDebugMenu.addActionListener(new ActionListener() {
-
-            /**
-             * @param e The action event.
-             * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadMap();
-            }
-
-        });
-
-        editorDebugMenu.addActionListener(new ActionListener() {
-
-            /**
-             * @param e The action event.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                map.setEditorMode(!map.getEditorMode());
-            }
-
-        });
-
-        spotDebugMenu.addActionListener(new ActionListener() {
-
-            /**
-             * @param e The action event.
-             */
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (spotlightEnable) {
-                    spotlightLayerUI.enableSpot();
-                    spotlightEnable = false;
-                } else {
-                    spotlightLayerUI.disableSpot();
-                    spotlightEnable = true;
-                }
-            }
-
-        });
-
-        debugMenu.add(spotDebugMenu);
-        debugMenu.add(editorDebugMenu);
-        debugMenu.add(loadmapDebugMenu);
-        menuBar.add(debugMenu);
-        frame.setJMenuBar(menuBar);
         frame.pack();
     }
 
