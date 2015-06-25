@@ -283,7 +283,14 @@ public class MapEditor implements Runnable {
         frameEditor.setJMenuBar(menuBar);
         frameEditor.pack();
     }
-
+    /**
+     *  Generate desired sector in map matrix randomly between bounds
+     * @param rRand row bound for random
+     * @param cRand column bound for random
+     * @param rBound row bound
+     * @param cBound column bound
+     * @param sector integer identifying a sector type
+     */
     public void generateRandomCell(int rRand,int cRand,int rBound, int cBound,int sector){
         boolean done=false;
         int timeout=0;
