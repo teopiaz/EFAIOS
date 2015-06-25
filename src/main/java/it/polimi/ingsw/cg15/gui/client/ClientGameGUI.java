@@ -6,15 +6,10 @@ import it.polimi.ingsw.cg15.networking.Event;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 import java.util.Map.Entry;
 import javax.swing.JFrame;
 import javax.swing.JLayer;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -64,12 +59,12 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
      * The Network Helper.
      */
     NetworkHelper netHelper;
-    
+
     /**
      * Player constant string
      */
     public static final String PLAYER = "Player ";
-    
+
     /**
      * the number of the player
      */
@@ -84,7 +79,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
         netHelper.registerGui(this);
         prepareFrame();
     }
-    
+
     /**
      * Run the Client Game GUI.
      */
@@ -179,7 +174,7 @@ public class ClientGameGUI implements Runnable, ViewClientInterface {
             addToLog(PLAYER + player + " has moved in: " + sector);
 
         }
-        
+
         if(e.getRetValues().containsKey(Event.MESSAGE)) {
             addToLog(e.getRetValues().get(Event.MESSAGE));
         }

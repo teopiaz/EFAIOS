@@ -15,7 +15,7 @@ import java.rmi.RemoteException;
  * The main Graphical User Interface Client.
  */
 public class MainClientGUI {
-    
+
     private MainClientGUI() {
     }
 
