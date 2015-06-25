@@ -55,15 +55,16 @@
 
 
 ##NOTE:##
-
-1. è possibile chiudere in qualsiasi momento uno dei client e poi riprendere la partita, giocando sullo stesso computer solo l'ultimo client che entra nella partita ha questa possibilità:
+#### 1 ####
+*  è possibile chiudere in qualsiasi momento uno dei client e poi riprendere la partita, giocando sullo stesso computer solo l'ultimo client che entra nella partita ha questa possibilità:
 *  chiudere il client;
 *  fare partire un nuovo **MainClientGUI**;
 *  una volta aperta la lobby cliccare su *"Resume Game"*
 *  cliccare su *"Resume Last Game"* nel menù a tendina;
 *  analogamente in CLI nella console si può premere **4**.
 
-2. abbiamo creato anche un **editor di mappe** che permette al giocatore di creare la propria mappa personalizzata, per accedere:
+#### 2 ####
+* abbiamo creato anche un **editor di mappe** che permette al giocatore di creare la propria mappa personalizzata, per accedere:
 *  **il server deve essere aperto e attivo**;
 *  aprire **MainClientGUI**;
 *  selezionare dal menù a tendina **"MapEditor"** e poi cliccare su *"Open Map Editor"*;
@@ -74,4 +75,5 @@
 *  inserire un *nome* per la mappa appena creata che sarà selezionabile quando si vuole creare una nuova partita.
 *  è possibile inoltre generare in maniera casuale una mappa potenzialmente giocabile contenete tutti gli elementi negessari selezionando dal menù "File" -> **"Generate a Random Map"** 
 
-3. l'utilizzo della carta *spotlight* ha una piccolo effetto grafico, lo si vede pescando una carta oggetto e usandola. Per la demo abbiamo inserito la carta spotlight ad ogni giocatore umano all'avvio della partita.
+#### 3 ####
+* l'utilizzo della carta *spotlight* ha una piccolo effetto grafico, lo si vede pescando una carta oggetto e usandola. Per la demo abbiamo inserito la carta spotlight ad ogni giocatore umano all'avvio della partita.
