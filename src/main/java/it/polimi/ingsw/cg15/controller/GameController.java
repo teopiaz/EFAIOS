@@ -473,7 +473,7 @@ public class GameController {
         if (allHumansGone()) {
             for (Entry<String, Player> item : players.entrySet()) {
                 Player player = item.getValue();
-                if (player.isAlive() && !(player.getPlayerType() == PlayerType.HUMAN)) {
+                if (player.isAlive() && !(player.getPlayerType() == PlayerType.HUMAN) && players.size()>2) {
                     player.setWin();
                 }
             }
