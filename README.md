@@ -68,5 +68,6 @@ Luca Maria Ritmo
 -  è possibile salvarsi in locale la mappa creata o ricaricarla in un secondo momento dal menù "File";
 -  una volta soddisfatti cliccare su "Server" e poi su "Send To Server";
 -  inserire un nome per la mappa appena creata che sarà selezionabile quando si vuole creare una nuova partita.
+-  è possibile inoltre generare in maniera casuale una mappa potenzialmente giocabile contenete tutti gli elementi negessari selezionando dal menù "File" -> "Generate a Random Map" 
 
 3) l'utilizzo della carta spotlight ha una piccolo effetto grafico, lo si vede pescando una carta oggetto e usandola. Per la demo abbiamo inserito la carta spotlight ad ogni giocatore umano all'avvio della partita.
