@@ -106,7 +106,7 @@ public class MapEditor implements Runnable {
         JMenu menu = new JMenu("File");
         JMenuItem saveMenu = new JMenuItem("Save");
         JMenuItem loadMenu = new JMenuItem("Load");
-        JMenu debugMenu = new JMenu("Debug");
+        JMenu debugMenu = new JMenu("Server");
         JMenuItem editorDebugMenu = new JMenuItem("Send To Server");
         map.setEditorMode(true);
         frameEditor.setVisible(true);

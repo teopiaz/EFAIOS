@@ -276,7 +276,7 @@ public class GameManager implements GameManagerRemote {
                         Logger.getLogger(GameManager.class.getName()).log(Level.SEVERE, "There was an error in the creation of the game", e1);
                     }
                 }
-            },1000*5);
+            },1000*10);
  
         }
     }
